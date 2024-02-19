@@ -1,0 +1,15 @@
+1. Services -> Okay
+2. Restaurent -> Okay
+3. Sales -> oKAY
+4. Company -> Okay
+5. Sales Point -> Okay
+5. Expenses -> Okay
+6. Debts -> Okay
+
+
+Vcx
+7. Testing ->
+8. Upload ->
+9. Mobile Prototype ->
+
+https://chat.openai.com/c/51ff9573-5f46-41d0-9fb5-33d1d2295b00
