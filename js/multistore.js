@@ -1,7 +1,7 @@
 $(document).ready(function () {
     
   var store_id = getParameterByName('store_id'); 
-
+  
   
     View_StoreRecord(); 
     DisableProductID();
@@ -14,9 +14,9 @@ $(document).ready(function () {
       
     
     
-    $("#generateInventoryReport").click(function () {
+    $("#storereport").click(function () {
     
-      View_inventoryRecordPrint();
+      View_inventoryRecordPrint(store_id);
       console.log("print"); 
     });
     
@@ -648,24 +648,24 @@ $("#deleteBtnSales").on("click", function() {
   
   
   
-   function View_inventoryRecordPrint() {
+   function View_inventoryRecordPrint(store_id) {
     // Retrieve values from localStorage
     var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
+    
+    
   
     // Ajax Start!
 
     $.ajax({
-      url:`functions/inventory/getproductsandinventorysptprint.php?company=${company_ID}&spt=${sales_point_id}`,
+      url:`functions/multistore/getallCompanyStoredetailsstock.php?company=${company_ID}&store_id=${store_id}`,
       method: "POST",
       context: document.body,
       success: function (response) {
         if (response) {
           //console.log(response);
-          const inventorydata = response;
-          const inventorytotal = response.length;
-          const typereport = "Inventory Report";
-          printInventoryReport(inventorydata, inventorytotal,typereport);
+          const inventorydata = response.data;
+          const typereport = "Store Report of "+inventorydata[0].storename;
+          printInventoryReport(inventorydata,typereport);
           
         } else {
           //console.log(response);
@@ -782,7 +782,7 @@ function getSalesIDremove(stock_id,raw_material_id,purchase_date){
     
     
     
-function printInventoryReport(inventorydata, inventorytotal,typereport) {
+function printInventoryReport(inventorydata,typereport) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -798,6 +798,9 @@ const c_logo = localStorage.getItem("company_logo");
 const c_color =  localStorage.getItem("company_color");
 const nameManager =  localStorage.getItem("Names");
 const salespoint =  localStorage.getItem("spt_name");
+var address = inventorydata[0].address;
+var phone = inventorydata[0].phone;
+var storekeeper = inventorydata[0].storekeeper;
 
 
 let table = '';
@@ -807,8 +810,8 @@ for (let i = 0; i < inventorydata.length; i++) {
   table += `<tr >
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${i+1}. ${item.name}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.quantity}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.alert_quantity}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.last_updated}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.storename}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.created_at}</td>
   
 </tr>`;
  
@@ -904,14 +907,14 @@ for (let i = 0; i < inventorydata.length; i++) {
   
               <tr>
                   <td style="padding-top:20px; font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Manager, ${nameManager} <br> Tel: ${Phone}
+                  StoreKeeper : ${storekeeper} <br> Tel: ${phone}
                 </td>
                 
                   </tr>
   
                   <tr>
                   <td style="font-size: 12px; color: rgb(6, 6, 61); font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Sales Point Location : ${salespoint}
+                  Address : ${address}
                 </td>
                   </tr>
             </tbody>
@@ -1039,7 +1042,7 @@ for (let i = 0; i < inventorydata.length; i++) {
             
           </td>
           <td style="font-size: 14px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
-            <strong>Total Items : ${inventorytotal} </strong>
+            <strong> </strong>
           </td>
         </tr>
           

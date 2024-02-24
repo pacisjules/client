@@ -57,15 +57,14 @@
                         </svg><span style="margin-left: 5px;">Expenses</span></a>
                         <a class="nav-link" href="profile.php" style="margin-left: 5px;"><i class="fas fa-user" style="margin-left: 5px; color: #ed3705;"></i><span style="margin-left: 5px;">Profile</span></a></li>
                 
-<!--                 <li class="nav-item">-->
-<!--    <a class="nav-link" href="production.php" >-->
-<!--        <i class="fas fa-industry" style="color:#ed3705;"></i><span style="margin-left: 5px;color:white; font-weight:bold">Production</span>-->
-<!--    </a>-->
-<!--</li>-->
-<!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="finishedproduct.php" style="margin-left: 5px;"><i class="fas fa-box product-icon" style="margin-left: 5px; color: #ed3705;"></i>-->
-<!--Finished Product</span></a></li>-->
-<!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="supplier.php" style="margin-left: 5px;"><i class="fas fa-building" style="margin-left: 5px; color: #ed3705;"></i>-->
-<!--Suppliers</span></a></li>-->
+                <li class="nav-item">
+   <a class="nav-link" href="production.php" >
+       <i class="fas fa-industry" style="color:#ed3705;"></i><span style="margin-left: 5px;color:white; font-weight:bold">Production</span>
+  </a>
+</li>
+<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="finishedproduct.php" style="margin-left: 5px;"><i class="fas fa-box product-icon" style="margin-left: 5px; color: #ed3705;"></i>
+Finished Product</span></a></li>
+
 <!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowmaterial.php" style="margin-left: 5px;"><i class="fas fa-cube" style="margin-left: 5px; color: #ed3705;"></i>-->
 <!--<span style="margin-left: 5px;">Row Material</span></a></li>-->
 <!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowinventory.php" style="margin-left: 5px;"><i class="fas fa-boxes" style="margin-left: 5px; color: #ed3705;"></i>-->

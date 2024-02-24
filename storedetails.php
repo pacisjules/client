@@ -59,10 +59,11 @@ include('getuser.php');
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Store Details Information</p>
                             <button class="btn btn-warning" style="font-size: 15px; font-weight: bold;"  id="pickDateButton">Transfer Report</button>
-                            <!--<div>-->
-                            <!--    <button style="font-weight: bold;background-color:#040536; color:white; border-radius:10px;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay In Full</button>-->
-                            <!--    <button style="font-weight: bold;background-color:#040536; color:white; margin-left:2rem; border-radius:10px;" data-bs-target="#paytranche_modal" data-bs-toggle="modal">Pay In Installments</button>-->
-                            <!--</div>-->
+                            <div>
+                                <!--<button style="font-weight: bold;background-color:#040536; color:white; border-radius:10px;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay In Full</button>-->
+                                
+                                <button class="btn btn-primary" style="font-size: 15px; font-weight: bold;"  id="storereport">Transfer Report</button>
+                            </div>
                             
                         </div>
                         
