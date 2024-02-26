@@ -58,7 +58,7 @@ include('getuser.php');
                                             </select>&nbsp;</label></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchInventory"></label></div>
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchdailyCombination"></label></div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -72,8 +72,7 @@ include('getuser.php');
                                             <th style="font-size: 14px;">SOLD Qty</th>
                                             <th style="font-size: 14px;">Unit price</th>
                                             <th style="font-size: 14px;">Total Price</th>
-                                            <th style="font-size: 14px;">Closing Stock</th>
-                                           
+                                            <th style="font-size: 14px;">Closing Stock</th>            
                                         </tr>
                                     </thead>
                                     <tbody id="sells_table">

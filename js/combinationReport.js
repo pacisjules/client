@@ -14,6 +14,64 @@ $(document).ready(function () {
 
 // picking from to date sales records
 
+$("#searchdailyCombination").on("input", function (e) {
+  
+  const currentDate = new Date();
+    const montly = currentDate.getMonth();
+    const date = currentDate.getDate();
+    const year = currentDate.getFullYear();
+    const formattedDate =
+    year +
+    "-" +
+    (montly + 1).toString().padStart(2, "0") +
+    "-" +
+    date.toString().padStart(2, "0");
+
+
+    const formatDate = (myDate) => {
+      const dateParts = myDate.split("-");
+      const year = dateParts[0];
+      const month = dateParts[1];
+      const day = dateParts[2];
+  
+      const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }
+      );
+  
+      return formattedDate;
+    };
+
+  var sales_point_id = localStorage.getItem("SptID");
+
+  // Ajax Start!
+  $.ajax({
+    url: `functions/purchase/searchthroughDailyRepport.php?date=${formattedDate}&spt=${sales_point_id}&name=${e.target.value}`,
+    method: "POST",
+    context: document.body,
+    success: function (response) {
+      if (response) {
+        //console.log(response);
+        $("#sells_table").html(response);
+      } else {
+        //console.log(response);
+        $("#sells_table").html("Not Any result");
+      }
+    },
+    error: function (xhr, status, error) {
+      // console.log("AJAX request failed!");
+      // console.log("Error:", error);
+    },
+  });
+  // Ajax End!   
+});
+
+
+
 
  $(function () {
             // Initialize the date range picker
