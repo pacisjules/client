@@ -1,3 +1,5 @@
+
+
 <?php
 include('getuser.php');
 ?>
@@ -7,7 +9,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Inventory Report Selleasep</title>
+    <title>Full Summary Report Selleasep</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -22,7 +24,8 @@ include('getuser.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="js/inventory.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script src="js/combinationReport.js"></script>
 </head>
 
 
@@ -34,15 +37,11 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Inventory</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Summarized Report</h3>
                     </div>
                     <div class="card shadow">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">Inventory Information</p>
-                            <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;" id="pickDateButton">Adding Report</button>
-                            <button class="btn btn-success" style="font-size: 15px; font-weight: bold;" id="pickeditButton">Editing Report</button>
-                            <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" id="pickdeleteButton">Deleting Report</button>
-                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;" id="generateInventoryReport">Stock Report</button>
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center" id="combinationBtn">
+                          
                         </div>
                         
                         <input type="text" id="datepicker" style="display: none;"> 
@@ -63,35 +62,48 @@ include('getuser.php');
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable">
+                               <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Unit Type</th>
-                                            <th>Container</th>
-                                            <th>Item/Container</th>
-                                            <th>Total Items</th>
-                                            <th>Alert Quantity</th>
-                                            <th>Status</th>
-                                            <th style="font-size: 11px;">Register Date</th>
-                                            <th>Actions</th>
+                                            <th style="font-size: 14px;">Product Name</th>
+                                            <th style="font-size: 14px;">Open</th>
+                                            <th style="font-size: 14px;">Entry</th>
+                                            <th style="font-size: 14px;">Total Qty</th>
+                                            <th style="font-size: 14px;">SOLD Qty</th>
+                                            <th style="font-size: 14px;">Unit price</th>
+                                            <th style="font-size: 14px;">Total Price</th>
+                                            <th style="font-size: 14px;">Closing Stock</th>
+                                            <th style="font-size: 14px;">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="inve_table">
-                                        
+                                    <tbody id="sells_table">
+                                       
                                     </tbody>
-                                    <tfoot>
+                                    <tfoot id="totalam">
+                                        
+                                    </tfoot>
+                                </table>
+                                
+                                <table class="table my-0" id="excelTable"  style="display: none;">
+                                    <thead>
                                         <tr>
-                                            <td><strong>Name</strong></td>
-                                            <td><strong>Unit Type</strong></td>
-                                            <td><strong>Container</strong></td>
-                                            <td><strong>Item/Container</strong></td>
-                                            <td><strong>Total Items</strong></td>
-                                            <td><strong>Alert Quantity</strong></td>
-                                            <td><strong>Status</strong></td>
-                                            <td><strong style="font-size: 11px;">Register Date</strong></td>
-                                            <td><strong>Actions</strong></td>
+                                            <th style="font-size: 14px;">N/O</th>
+                                            <th style="font-size: 14px;">Product Name</th>
+                                            <th style="font-size: 14px;">Open Stock</th>
+                                            <th style="font-size: 14px;">Entry Stock</th>
+                                            <th style="font-size: 14px;">Total Qty</th>
+                                            <th style="font-size: 14px;">SOLD Qty</th>
+                                            <th style="font-size: 14px;">Unit price</th>
+                                            <th style="font-size: 14px;">Total Price</th>
+                                            <th style="font-size: 14px;">Closing Stock</th>
+                                            
                                         </tr>
+                                    </thead>
+                                    <tbody id="excel_table">
+                                       
+                                    </tbody>
+                                    <tfoot id="totalexcel">
+                                        
                                     </tfoot>
                                 </table>
                             </div>

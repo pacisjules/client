@@ -11,7 +11,7 @@ $comID = $_GET['company'];
 $spt = $_GET['spt'];
 
 // Retrieve all products and inventory for the given company and sales point
-$sql = "SELECT INVE.id, INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt GROUP BY PRO.id ORDER BY INVE.last_updated DESC;";
+$sql = "SELECT INVE.id,(SELECT `abbreviation` FROM `unittype` WHERE unit_id=INVE.unit_id) AS unit,INVE.container,INVE.item_per_container,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt GROUP BY PRO.id ORDER BY INVE.last_updated DESC;";
 
 
 $value = "";
@@ -33,11 +33,11 @@ while ($row = $result->fetch_assoc()) {
 
     if($row['status']==1){
         $sts="Active";
-        $endis="btn btn-danger";
+        $color="green";
         $icon="bi bi-x-circle";
     }else{
         $sts="Not Active";
-        $endis="btn btn-success";
+        $color="red";
         $icon="fa fa-check-square text-white";
     }
 
@@ -45,10 +45,12 @@ while ($row = $result->fetch_assoc()) {
 
         <tr>
         <td>'.$num.'. '.$row['name'].'</td>
+        <td>'.$row['unit'].'</td>
+        <td>'.$row['container'].'</td>
+        <td>'.$row['item_per_container'].'</td>
         <td>'.$row['quantity'].'</td>
         <td>'.$row['alert_quantity'].'</td>
-        <td>'.$sts.'</td>
-        <td>'.$row['description'].'</td>
+        <td style="color:'.$color.';font-weight:bold;">'.$sts.'</td>
         <td>'.$row['last_updated'].'</td>
         <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditInventory(`'.$row['product_id'].'`, `'.$row['quantity'].'`, `'.$row['alert_quantity'].'`, `'.$row['name'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectDeleteInventory(`'.$row['product_id'].'`, `'.$row['name'].'`)"><i class="fa fa-trash"></i></button></td>  
         </tr>

@@ -11,6 +11,8 @@ $company_ID = $_GET['company'];
 $sql = "
     SELECT DISTINCT
     SL.id,
+    (SELECT unitname FROM unittype WHERE unit_id =SL.unit_id) AS unit,
+    SL.container,
     SL.quantity,
     SL.price_per_unity,
     SL.total_price,
@@ -54,6 +56,8 @@ while ($row = $result->fetch_assoc()) {
         'id' => $row['id'],
         'name' => $row['name'],
         'product_id' => $row['product_id'],
+        'unit' => $row['unit'],
+        'container' => $row['container'],
         'quantity' => $row['quantity'],
         'price_per_unity' => $row['price_per_unity'],
         'total_price' => $row['total_price'],

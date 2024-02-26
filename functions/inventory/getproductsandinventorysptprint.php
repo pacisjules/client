@@ -11,7 +11,7 @@ $comID = $_GET['company'];
 $spt = $_GET['spt'];
 
 // Retrieve all products and inventory for the given company and sales point
-$sql = "SELECT INVE.id, INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.price, PRO.benefit,PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt GROUP BY PRO.id ORDER BY INVE.last_updated DESC;";
+$sql = "SELECT INVE.id, (SELECT `abbreviation` FROM `unittype` WHERE unit_id=INVE.unit_id) AS unit,INVE.container,INVE.item_per_container,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.price, PRO.benefit,PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt GROUP BY PRO.id ORDER BY INVE.last_updated DESC;";
 
 
 $value = "";
@@ -26,6 +26,9 @@ $data = array();
 while ($row = $result->fetch_assoc()) {
     $item = array(
         'name' => $row['name'],
+        'unit' => $row['unit'],
+        'container' => $row['container'],
+        'item_per_container' => $row['item_per_container'],
         'quantity' => $row['quantity'],
         'alert_quantity' => $row['alert_quantity'],
         'last_updated' => $row['last_updated'],

@@ -49,9 +49,11 @@ $(document).ready(function () {
           
         html += '<tr>';
         html += '<td>'+num+'. ' + item.name + '</td>';
+        html += '<td>' + item.unit + '</td>';
+        html += '<td>' + item.box_or_carton + '</td>';
         html += '<td>' + item.quantity + '</td>';
         html += '<td>' + item.created_at + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.detail_id}','${item.product_id}','${item.quantity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.detail_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button> <button class="btn btn-primary getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#transfer_modal" data-bs-toggle="modal" onclick="getProductTransfer('${store_id}','${item.product_id}')" "><i class="fa fa-exchange" style="margin-right: 10px;"></i>Transfer</button>
+        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.detail_id}','${item.product_id}','${item.box_or_carton}','${item.quantity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.detail_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button> <button class="btn btn-primary getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#transfer_modal" data-bs-toggle="modal" onclick="getProductTransfer('${store_id}','${item.product_id}')" "><i class="fa fa-exchange" style="margin-right: 10px;"></i>Transfer</button>
         
                <a class="nav-link active" href="purchasedetails.php?store_id=${store_id}&product_id=${item.product_id}">
                 <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:15px; margin-left:15px;" type="button">
@@ -737,27 +739,27 @@ $("#deleteBtnSales").on("click", function() {
   
     
     
-   function getSalesID(stock_id,raw_material_id,purchase_date,quantity,price_per_unity){
-     localStorage.setItem("stock_id", stock_id);
-        localStorage.setItem("raw_material_id", raw_material_id);
-        localStorage.setItem("purchase_date", purchase_date);
+   function getSalesID(detail_id,product_id,box_or_carton,quantity){
+     localStorage.setItem("detail_id", detail_id);
+        localStorage.setItem("product_id", product_id);
+     
+        $("#editbox_or_carton").val(box_or_carton);
         $("#editquantity").val(quantity);
-        $("#editprice").val(price_per_unity);
         
-        console.log("stock_id ", stock_id);
-        console.log("raw_material_id ", raw_material_id);
-        console.log("purchase_date ", purchase_date);
+        console.log("detail_id", detail_id);
+        console.log("product_id", product_id);
+        console.log("box_or_cartone ", box_or_carton);
      console.log("quantity ", quantity);
-        console.log("quantity ", quantity);
+        
 }
 
-function getSalesIDremove(stock_id,raw_material_id,purchase_date){
-   localStorage.setItem("stock_id", stock_id);
-        localStorage.setItem("raw_material_id", raw_material_id);
-        localStorage.setItem("purchase_date", purchase_date);
-        console.log("stock_id ", stock_id);
-        console.log("raw_material_id ", raw_material_id);
-        console.log("purchase_date ", purchase_date);
+function getSalesIDremove(detail_id,product_id,){
+   localStorage.setItem("detail_id", detail_id);
+        localStorage.setItem("product_id", product_id);
+      
+        console.log("detail_id ", detail_id);
+        console.log("product_id", product_id);
+        
 }
 
 
@@ -809,8 +811,10 @@ for (let i = 0; i < inventorydata.length; i++) {
   const item = inventorydata[i];
   table += `<tr >
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${i+1}. ${item.name}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.unit}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.box_or_carton}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.quantity}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.storename}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.totalitem}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.created_at}</td>
   
 </tr>`;
@@ -980,13 +984,16 @@ for (let i = 0; i < inventorydata.length; i++) {
             Product
             </th>
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
-          Quantity
+          Unit
           </th>
-  
-           
-  
+          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
+           Container
+          </th>
+          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
+          Item/Container
+          </th>
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
-            Alert Quantity
+            Total Items
             </th> 
             
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">

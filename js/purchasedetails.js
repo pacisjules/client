@@ -47,6 +47,8 @@ $(document).ready(function () {
           
         html += '<tr>';
         html += '<td>'+num+'. ' + item.name + '</td>';
+         html += '<td> ' + item.unit + '</td>';
+          html += '<td>' + item.container + '</td>';
         html += '<td>' + item.quantity + '</td>';
         html += '<td>' + new Intl.NumberFormat("en-US", {
                                   style: "currency",

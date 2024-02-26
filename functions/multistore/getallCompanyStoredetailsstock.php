@@ -12,8 +12,10 @@ $store_id = $_GET['store_id'];
 // Retrieve all users from the database
 $sql = "SELECT SD.detail_id,
                ST.store_id, ST.storename,ST.phone,ST.address,ST.storekeeper,
-               SD.product_id,PD.name, 
-               SD.quantity, 
+               SD.product_id,PD.name,
+               (SELECT abbreviation FROM unittype WHERE unit_id =SD.unit_id) AS unit,
+               SD.box_or_carton,
+               SD.quantity_per_box, 
                SD.created_at, 
                SD.user_id
        FROM storedetails SD,
@@ -35,6 +37,11 @@ $num=0;
 $comp = array();
 
 while ($row = $result->fetch_assoc()) {
+    
+    $box = $row['box_or_carton'];
+    $qtyper = $row['quantity_per_box'];
+    
+    $totalitem = $box * $qtyper;  
 
      $item = array(
         'detail_id'=> $row['detail_id'],
@@ -45,7 +52,10 @@ while ($row = $result->fetch_assoc()) {
         'address' => $row['address'],
         'name' => $row['name'],
         'product_id' => $row['product_id'],
-        'quantity' => $row['quantity'],
+        'unit' => $row['unit'],
+        'box_or_carton' => $row['box_or_carton'],
+        'quantity' => $row['quantity_per_box'],
+        'totalitem' => $totalitem,
         'created_at' => $row['created_at'],
         'user_id' => $row['user_id'],
        

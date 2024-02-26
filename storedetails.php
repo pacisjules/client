@@ -62,7 +62,7 @@ include('getuser.php');
                             <div>
                                 <!--<button style="font-weight: bold;background-color:#040536; color:white; border-radius:10px;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay In Full</button>-->
                                 
-                                <button class="btn btn-primary" style="font-size: 15px; font-weight: bold;"  id="storereport">Transfer Report</button>
+                                <button class="btn btn-primary" style="font-size: 15px; font-weight: bold;"  id="storereport">Store Report</button>
                             </div>
                             
                         </div>
@@ -89,7 +89,9 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th>Product Names</th>
-                                            <th>Quantity</th>
+                                            <th>Unit</th>
+                                            <th>Container</th>
+                                             <th>Item/Container</th>
                                             <th>Purchase date</th>
                                             <th>Actions</th>
                                         </tr>
@@ -100,7 +102,9 @@ include('getuser.php');
                                     <tfoot>
                                         <tr>
                                             <td><strong>Product Names</strong></td>
-                                            <td><strong>Quantity</strong></td>
+                                            <td><strong>Unit</strong></td>
+                                            <td><strong>Container</strong></td>
+                                            <td><strong>Item/Container</strong></td>
                                             <td><strong>Purchase Date</strong></td>
                                             <td><strong>Actions</strong></td>
                                         </tr>
