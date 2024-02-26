@@ -993,14 +993,6 @@ error: function (xhr, status, error) {
                             <td style="font-size: 14px;">${item.entry_stock}</td>
                             <td style="font-size: 14px;">${item.totalstock}</td>
                             <td style="font-size: 14px;">${item.sold_stock}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.unit_price))}</td>
-                          <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.totalprice))}</td>
                           <td style="font-size: 14px;">${item.closing_stock}</td>
                            
                         </tr>
@@ -1015,8 +1007,6 @@ error: function (xhr, status, error) {
                             <td style="font-size: 14px;"> ${item.entry_stock}</td>
                             <td style="font-size: 14px;">${item.totalstock}</td>
                             <td style="font-size: 14px;"> ${item.sold_stock}</td>
-                            <td style="font-size: 14px;">${parseFloat(item.unit_price)}</td>
-                            <td style="font-size: 14px;">${parseFloat(item.totalprice)}</td>
                              <td style="font-size: 14px;"> ${item.closing_stock}</td>
                             
                         </tr>
@@ -1754,14 +1744,6 @@ for (let i = 0; i < salesdata.length; i++) {
     <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.entry_stock}</td>
       <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.totalstock}</td>
       <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.sold_stock}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "RWF",
-}).format(parseFloat(item.unit_price))}</td>
-<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "RWF",
-}).format(parseFloat(item.totalprice))}</td>
 <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.closing_stock}</td>
 </tr>`;
  
@@ -1944,14 +1926,6 @@ for (let i = 0; i < salesdata.length; i++) {
             
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
             SOLD
-            </th>
-            
-            <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
-            Unit/price
-            </th>
-  
-            <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
-            Total/Amount
             </th>
   
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">

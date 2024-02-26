@@ -38,6 +38,10 @@ include('getuser.php');
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Summarized Report</h3>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectMonthModal" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-month" viewBox="0 0 16 16">
+  <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5V13a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1.5zm1.5-.5a.5.5 0 0 0-.5.5V13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V1a.5.5 0 0 0-.5-.5h-13zM8 12a1 1 0 0 0 0-2 1 1 0 0 0 0 2zm1-3a1 1 0 0 0-2 0v2a1 1 0 1 0 2 0v-2zm-2-6h4V2H7v1z"/>
+</svg>
+&nbsp;Monthly Inventory Report</button> 
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center" id="combinationBtn">
@@ -70,8 +74,6 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Entry Stock</th>
                                             <th style="font-size: 14px;">Total Qty</th>
                                             <th style="font-size: 14px;">SOLD Qty</th>
-                                            <th style="font-size: 14px;">Unit price</th>
-                                            <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Closing Stock</th>            
                                         </tr>
                                     </thead>
@@ -92,8 +94,6 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Entry Stock</th>
                                             <th style="font-size: 14px;">Total Qty</th>
                                             <th style="font-size: 14px;">SOLD Qty</th>
-                                            <th style="font-size: 14px;">Unit price</th>
-                                            <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Closing Stock</th>
                                             
                                         </tr>
@@ -134,7 +134,31 @@ include('getuser.php');
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
     
-    
+    <div class="modal fade" id="selectMonthModal" tabindex="-1" aria-labelledby="selectMonthModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectMonthModalLabel">Select Month</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="selectMonthForm">
+                    <div class="mb-3">
+                        <label for="monthSelect" class="form-label">Select a Month:</label>
+                        <select class="form-select" id="monthSelect" required>
+                            
+                        </select>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="retrieveMonthlyData">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
     
     <div class="modal fade" role="dialog" tabindex="-1" id="add_product_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">

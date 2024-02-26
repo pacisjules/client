@@ -76,8 +76,6 @@ while ($row = $result->fetch_assoc()) {
     <td>' . $row['entry_stock'] . '</td>
     <td>' . $totalStock . '</td>
     <td>' . $row['sold_stock'] . '</td>
-    <td>' . $row['unit_price'] . '</td>
-    <td>' . $totalprice . '</td>
     <td>' . $row['closing_stock'] . '</td>
     
 </tr>

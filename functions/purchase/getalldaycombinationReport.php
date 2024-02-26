@@ -14,7 +14,6 @@ $sql = "
     products.name AS product_name,
     (SELECT COALESCE(SUM(purchase.quantity * purchase.container), 0) AS entry FROM purchase WHERE purchase.product_id=products.id AND purchase.purchase_date LIKE '$date%' AND purchase.spt_id=$spt) AS entry_stock,
     (SELECT COALESCE(SUM(sales.quantity), 0) AS sold FROM sales WHERE sales.product_id=products.id AND sales.created_time LIKE '$date%' AND sales.sales_point_id=$spt) AS sold_stock,
-    sales.sales_price AS unit_price,
     inventory.quantity AS closing_stock,
     sales.created_time
 FROM
@@ -44,8 +43,6 @@ while ($row = $result->fetch_assoc()) {
     $openingStock = 0;
     $totalStock = 0;
     $soldStock = $row['sold_stock'];
-    $unit_price = $row['unit_price'];
-    $totalprice = $unit_price * $soldStock;
     $closing_stock = $row['closing_stock'];
     $entry_stock = $row['entry_stock'];
     
@@ -66,8 +63,6 @@ while ($row = $result->fetch_assoc()) {
         'entry_stock' => $row['entry_stock'],
         'totalstock' =>  $totalStock,
         'sold_stock' => $row['sold_stock'],
-        'unit_price' => $row['unit_price'],
-        'totalprice' => $totalprice,
         'closing_stock' => $row['closing_stock'],
         'created_time' => $row['created_time'],
     );
