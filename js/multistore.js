@@ -53,7 +53,7 @@ $(document).ready(function () {
         html += '<td>' + item.box_or_carton + '</td>';
         html += '<td>' + item.quantity + '</td>';
         html += '<td>' + item.created_at + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.detail_id}','${item.product_id}','${item.box_or_carton}','${item.quantity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.detail_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button> <button class="btn btn-primary getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#transfer_modal" data-bs-toggle="modal" onclick="getProductTransfer('${store_id}','${item.product_id}')" "><i class="fa fa-exchange" style="margin-right: 10px;"></i>Transfer</button>
+        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.detail_id}','${item.product_id}','${item.box_or_carton}','${item.quantity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.detail_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button> <button class="btn btn-primary getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#transfer_modal" data-bs-toggle="modal" onclick="getProductTransfer('${store_id}','${item.product_id}','${item.unit_id}','${item.box_or_carton}','${item.quantity}')" "><i class="fa fa-exchange" style="margin-right: 10px;"></i>Transfer</button>
         
                <a class="nav-link active" href="purchasedetails.php?store_id=${store_id}&product_id=${item.product_id}">
                 <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:15px; margin-left:15px;" type="button">
@@ -334,7 +334,9 @@ $(document).ready(function () {
                   var sales_point_id = parseInt($("#salespointSelect").val());
                   var product_id = parseInt(localStorage.getItem("tras_id"));
                   var store_id = parseInt(localStorage.getItem("store_id"));
-                 var quantity = $("#qty").val();
+                 var box_or_carton = $("#qty").val();
+                 var quantity = localStorage.getItem("item");
+                 var unit = localStorage.getItem("unit");
                  var user_id = parseInt(localStorage.getItem("UserID"));
   
                   // Start AJAX request
@@ -346,6 +348,8 @@ $(document).ready(function () {
                       spt: sales_point_id,
                       product_id: product_id,
                       store_id:store_id,
+                      unit:unit,
+                      box_or_carton:box_or_carton,
                       quantity:quantity,
                       user_id:user_id,
                     },
@@ -722,12 +726,17 @@ $("#deleteBtnSales").on("click", function() {
     localStorage.setItem("co_id", id);
 
   }
-  function getProductTransfer(store_id,id) {
+  function getProductTransfer(store_id,id,unit,box,qty) {
     console.log("store id "+ store_id);
     console.log("transfer id "+id);
+    console.log("Unit type "+unit);
+    console.log("box quantity "+box);
+    console.log("item per box "+qty);
 
     localStorage.setItem("tras_id", id);
     localStorage.setItem("store_id", store_id);
+    localStorage.setItem("item", qty);
+    localStorage.setItem("unit", unit);
 
   }
   

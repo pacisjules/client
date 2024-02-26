@@ -180,11 +180,11 @@ include('getuser.php');
                     <h4 class="modal-title">Transfer Stock</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; Transfer Product.</p>
+                    <p>Here&nbsp; Transfer Stock Product.</p>
                     <form>
                         <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Sales Point:&nbsp;</label>
                         <select class="form-control" id="salespointSelect"></select>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Quantity:&nbsp;</label>
+                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Container(Box or Carton):&nbsp;</label>
                         <input class="form-control" type="number" id="qty" min="1">
                     </form>
                 </div>
