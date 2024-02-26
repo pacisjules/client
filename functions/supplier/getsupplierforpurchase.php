@@ -30,19 +30,7 @@ while ($row = $result->fetch_assoc()) {
     $myid = $row['supplier_id'];
     $num+=1;
 
-    $sts="";
-    $endis="";
-    $icon="";
-
-    if($row['status']==1){
-        $sts="Active";
-        $endis="btn btn-danger";
-        $icon="bi bi-x-circle";
-    }else{
-        $sts="Not Active";
-        $endis="btn btn-success";
-        $icon="fa fa-check-square text-white";
-    }
+  
 
     $value .= '
 

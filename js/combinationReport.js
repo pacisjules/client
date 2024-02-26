@@ -944,7 +944,7 @@ error: function (xhr, status, error) {
                               currency: "RWF",
                           }).format(parseFloat(item.totalprice))}</td>
                           <td style="font-size: 14px;">${item.closing_stock}</td>
-                            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                           
                         </tr>
                     `;
                     

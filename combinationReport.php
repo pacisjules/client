@@ -66,14 +66,14 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th style="font-size: 14px;">Product Name</th>
-                                            <th style="font-size: 14px;">Open</th>
-                                            <th style="font-size: 14px;">Entry</th>
+                                            <th style="font-size: 14px;">Opening Stock</th>
+                                            <th style="font-size: 14px;">Entry Stock</th>
                                             <th style="font-size: 14px;">Total Qty</th>
                                             <th style="font-size: 14px;">SOLD Qty</th>
                                             <th style="font-size: 14px;">Unit price</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Closing Stock</th>
-                                            <th style="font-size: 14px;">Actions</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody id="sells_table">
