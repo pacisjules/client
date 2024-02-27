@@ -33,9 +33,9 @@ while ($row = $result->fetch_assoc()) {
                         <h4 style="text-align: center;color:rgb(0,26,53);">'.$row['storename'].'</h4>
                         <h5 style="text-align: center;color:rgb(0,26,53);">'.$row['storekeeper'].'</h5>
                         <p style="text-align: center;color:rgb(0,26,53);">'.$row['address'].'</p>
-                     <div style="display:flex;flex-direction:column;">
-                     <a class="nav-link active" href="storedetails.php?store_id=' . $myid . '">  <button style="background-color: rgb(0,26,53); color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;">Current Stock</button></a>
-                        <a class="nav-link active" href="combinationMonthlyReport.php?store_id=' . $myid . '">  <button style="background-color: rgb(0,26,53); color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;">View Report</button></a>
+                     <div style="display:flex; flex-direction: row;">
+                     <a class="nav-link active" href="storedetails.php?store_id=' . $myid . '">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Current Stock</button></a>
+                        <a class="nav-link active" href="combinationMonthlyReport.php?store_id=' . $myid . '">  <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">View Report</button></a>
                      </div>
                         
                     </div>

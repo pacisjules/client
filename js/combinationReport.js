@@ -16,423 +16,24 @@ $(document).ready(function () {
 
 // picking from to date sales records
 
-
-     // Function to get URL query parameters
-     function getParameterByName(name, url) {
-      if (!url) url = window.location.href;
-      name = name.replace(/[\[\]]/g, '\\$&');
-      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-          results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-
-$("#searchdailyCombination").on("input", function (e) {
+$('#searchDaily').on('keyup', filterTableRows);
   
-  const currentDate = new Date();
-    const montly = currentDate.getMonth();
-    const date = currentDate.getDate();
-    const year = currentDate.getFullYear();
-    const formattedDate =
-    year +
-    "-" +
-    (montly + 1).toString().padStart(2, "0") +
-    "-" +
-    date.toString().padStart(2, "0");
+     function filterTableRows() {
+      const searchValue = $('#searchDaily').val().toLowerCase();
+      $('#stock_table tr').filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
+      });
+  }
 
 
-    const formatDate = (myDate) => {
-      const dateParts = myDate.split("-");
-      const year = dateParts[0];
-      const month = dateParts[1];
-      const day = dateParts[2];
+  $('#searchdailyCombination').on('keyup', filterTableRow);
   
-      const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
-        "en-US",
-        {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }
-      );
-  
-      return formattedDate;
-    };
-
-  var sales_point_id = localStorage.getItem("SptID");
-
-  // Ajax Start!
-  $.ajax({
-    url: `functions/purchase/searchthroughDailyRepport.php?date=${formattedDate}&spt=${sales_point_id}&name=${e.target.value}`,
-    method: "POST",
-    context: document.body,
-    success: function (response) {
-      if (response) {
-        //console.log(response);
-        $("#sells_table").html(response);
-      } else {
-        //console.log(response);
-        $("#sells_table").html("Not Any result");
-      }
-    },
-    error: function (xhr, status, error) {
-      // console.log("AJAX request failed!");
-      // console.log("Error:", error);
-    },
-  });
-  // Ajax End!   
-});
-
-
-
-
-//  $(function () {
-//             // Initialize the date range picker
-//             $('#daterange').daterangepicker({
-//                 opens: 'left',
-//                 locale: {
-//                     format: 'MM/DD/YYYY'
-//                 }
-//             });
-
-//             // Handle the date range selection
-//             $('#daterange').on('apply.daterangepicker', function (ev, picker) {
-//                 const startDate = picker.startDate.format('YYYY-MM-DD');
-//                 const endDate = picker.endDate.format('YYYY-MM-DD');
-//                 console.log("from "+startDate);
-//                  console.log("to "+endDate);
-                 
-//             var company_ID = parseInt(localStorage.getItem("CoID"));
-
-
-//             // Make the AJAX request
-//     $.ajax({
-//         url: `functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${startDate}&endDate=${endDate}`,
-//         method: "POST",
-//         context: document.body,
-//         success: function(response) {
-//             try {
-//                 console.log("Success Response: ", response);
-
-//                 if (response.data && response.data.length > 0) {
-//                     let html = ""; // Initialize an empty string to store the HTML
-//                     let tot = "";
-//                     let btntype = "";
-//                     let excel = "";
-//                     let totexcel = "";
-//                     const sumtotal = response.sumtotal; // Access sumtotal
-                 
-
-//                     // Display sumtotal and sumbenefit as needed
-//                     console.log("Sum Total Amount: ", sumtotal);
-                    
-                    
-//                     btntype += `<p class="text-primary m-0 fw-bold" style="font-size: 13px;"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span> Purchase</p>
-//                     <div>
-//                 <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdaterangesalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-//                 <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelfromtoTable', 'FromToPurchase_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
-//                 </div>
-//                 `;
-                
-//                 $("#btnsalesType").html(btntype);
-
-  
-//                      tot += `<tr>
-//                     <td style="font-size: 14px;"><strong></strong></td>
-//                     <td style="font-size: 14px;"><strong></strong></td>
-//                     <td style="font-size: 14px;"><strong></strong></td>
-//                     <td style="font-size: 14px;"><strong>Total Purchase Amount: ${new Intl.NumberFormat("en-US", {
-//                       style: "currency",
-//                       currency: "RWF",
-//                     }).format(parseFloat(sumtotal))}</strong></td>
-//                               <td style="font-size: 14px;"></td>
-//                               <td style="font-size: 14px;"><strong>/strong></td>
-//                               <td style="font-size: 14px;"></td>
-//                            </tr>`;
-//                     $("#totalam").html(tot);
-                    
-//                     totexcel += `
-                
-//                  <tr>
-//                      <td style="font-size: 14px;"><strong></strong></td>
-//                      <td style="font-size: 14px;"><strong></strong></td>
-//                      <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
-//                      <td style="font-size: 14px;"></td>
-//                      <td style="font-size: 14px;"><strong></strong></td>
-//                      <td style="font-size: 14px;"><strong></strong> </td>
-//                      <td style="font-size: 14px;"><strong></strong></td>
-//                  </tr>
-                
-//                  `;
-//                  $("#totalfromtoexcel").html(totexcel);
-                        
-                   
-                           
-
-//                     for (let i = 0; i < response.data.length; i++) {
-//                         const item = response.data[i];
-
-//                  console.log("item.id:", item.id);
-//                       console.log("item.product_id:", item.product_id);
-
-                    
-
-//                     html += `
-//                         <tr>
-//                             <td style="font-size: 14px;">${i+1}. ${item.name}</td>
-//                             <td style="font-size: 14px;">${item.quantity}</td>
-//                             <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-//                               style: "currency",
-//                               currency: "RWF",
-//                           }).format(parseFloat(item.price_per_unity))}</td>
-//                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-//                               style: "currency",
-//                               currency: "RWF",
-//                           }).format(parseFloat(item.total_price))}</td>
-//                           <td style="font-size: 14px;">${item.storename}</td>
-//                           <td style="font-size: 14px;">${item.supplierNames}</td>
-//                           <td style="font-size: 14px;">${item.supplierPhone}</td>
-//                             <td style="font-size: 14px;">${item.purchase_date}</td>
-//                             <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.product_id}','${item.purchase_date}','${item.quantity}','${item.price_per_unity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.product_id}','${item.purchase_date}')" "><i class="fa fa-trash"></i></button></td>
-//                         </tr>
-//                     `;
-                    
-                    
-//                     excel += `
-//                         <tr>
-//                             <td style="font-size: 14px;">${i+1}</td>
-//                             <td style="font-size: 14px;">${item.name}</td>
-//                             <td style="font-size: 14px;"> ${parseFloat(item.price_per_unity)}</td>
-//                             <td style="font-size: 14px;"> ${parseFloat(item.total_price)}</td>
-//                             <td style="font-size: 14px;"> ${item.storename}</td>
-//                             <td style="font-size: 14px;">${item.quantity}</td>
-//                             <td style="font-size: 14px;"> ${item.supplierNames}</td>
-//                             <td style="font-size: 14px;"> ${item.supplierPhone}</td>
-//                             <td style="font-size: 14px;">${item.purchase_date}</td>
-                            
-//                         </tr>
-//                     `;
-//                     }
-
-//                     $("#sells_table").html(html); // Set the HTML content of the table
-                    
-//                 $("#excel_fromto").html(excel); 
-                    
-                    
-//                 } else {
-//                     $("#sells_table").html("No results");
-//                      $("#excel_fromto").html("No results"); 
-//                 }
-//             } catch (e) {
-//                 console.error("Error handling response: ", e);
-//                 // Handle the error or display an error message to the user
-//             }
-//         },
-//         error: function(xhr, status, error) {
-//             console.error("ERROR Response: ", error);
-//             // Handle the error or display an error message to the user
-//         },
-//     });
-
-
-//         localStorage.setItem("fromdate",startDate);   
-//         localStorage.setItem("todate",endDate);   
-
-//             });
-
-//             // Handle the button click event to open the date range picker
-//             $('#Pickdaterangebtn').on('click', function () {
-//                 $('#daterange').click();
-//             });
-            
-            
-            
-//         });
-
-//picking date  sales record
-
-  $(function () {
-        // Initialize the datepicker
-        $("#datepicker").datepicker({
-            onSelect: function (dateText) {
-                
-               function convertDateFormat(dateText) {
-                const dateParts = dateText.split("/");
-                const month = dateParts[0];
-                const day = dateParts[1];
-                const year = dateParts[2];
-            
-                const formattedDate =
-                    year +
-                    "-" +
-                    month.toString().padStart(2, "0") +
-                    "-" +
-                    day.toString().padStart(2, "0");
-            
-                return formattedDate;
-            }
-                
-            var formattedDate = convertDateFormat(dateText);    
-                // Retrieve values from localStorage
-    var company_ID = parseInt(localStorage.getItem("CoID"));
-  
-    // Ajax Start!
-
-    $.ajax({
-      url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&company=${company_ID}`,
-      method: "POST",
-      context: document.body,
-      success: function(response) {
-        try {
-            console.log("Success Response: ", response);
-
-            if (response.data && response.data.length > 0) {
-                let html = ""; // Initialize an empty string to store the HTML
-                let tot = "";
-                let btntype = "";
-                let excel = "";
-                let totexcel = "";
-                const sumtotal = response.sumtotal; // Access sumtotal
-                
-               
-                           
-
-                // Display sumtotal and sumbenefit as needed
-                console.log("Sum Total Amount: ", sumtotal);
-               
-                
-                
-                 btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Purchase ,At <span>${formattedDate}</span></p>
-                 <div>
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchpickeddatesalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelPickedTable', 'PickedDatePurchase_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>  </div>
-                `;
-                
-                $("#btnsalesType").html(btntype);
-                
-                 tot += `
-                <tr>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong>Total Purchase Amount: ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "RWF",
-                    }).format(parseFloat(sumtotal))}</strong></td>
-                    <td style="font-size: 14px;"></td>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"></td>
-                </tr>`;
-                $("#totalam").html(tot);
-                
-                 totexcel += `
-                
-                <tr>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</td>
-                    <td style="font-size: 14px;"></td>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong></strong> </td>
-                    <td style="font-size: 14px;"><strong></strong></td>
-                </tr>
-                
-                `;
-                $("#totalpickexcel").html(totexcel);
-                
-               
-               
-                
-                
-
-                for (let i = 0; i < response.data.length; i++) {
-                    const item = response.data[i];
-                    
-                console.log("item.id:", item.id);
-                      console.log("item.product_id:", item.product_id);
-
-                    
-
-                    html += `
-                        <tr>
-                            <td style="font-size: 14px;">${i+1}. ${item.name}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.price_per_unity))}</td>
-                          <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_price))}</td>
-                          <td style="font-size: 14px;">${item.storename}</td>
-                          <td style="font-size: 14px;">${item.supplierNames}</td>
-                          <td style="font-size: 14px;">${item.supplierPhone}</td>
-                            <td style="font-size: 14px;">${item.purchase_date}</td>
-                            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.product_id}','${item.purchase_date}','${item.quantity}','${item.price_per_unity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.product_id}','${item.purchase_date}')" "><i class="fa fa-trash"></i></button></td>
-                        </tr>
-                    `;
-                    
-                    
-                    excel += `
-                        <tr>
-                            <td style="font-size: 14px;">${i+1}</td>
-                            <td style="font-size: 14px;">${item.name}</td>
-                            <td style="font-size: 14px;"> ${parseFloat(item.price_per_unity)}</td>
-                            <td style="font-size: 14px;"> ${parseFloat(item.total_price)}</td>
-                            <td style="font-size: 14px;"> ${item.storename}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${item.supplierNames}</td>
-                            <td style="font-size: 14px;"> ${item.supplierPhone}</td>
-                            <td style="font-size: 14px;">${item.purchase_date}</td>
-                            
-                        </tr>
-                    `;
-                }
-
-                $("#sells_table").html(html); // Set the HTML content of the table
-                 $("#excel_picked").html(excel); // Set the HTML content of the table
-            } else {
-                $("#sells_table").html("No results");
-                $("#excel_picked").html("No results"); 
-            }
-        } catch (e) {
-            console.error("Error handling response: ", e);
-            // Handle the error or display an error message to the user
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("ERROR Response: ", error);
-        // Handle the error or display an error message to the user
-    },
-    });
-                
-                
-        localStorage.setItem("datepicked",formattedDate); 
-      
-                
-                
-            }
-        });
-
-        // Open the datepicker when the button is clicked
-        $("#pickDateButton").on("click", function () {
-            $("#datepicker").focus();
-        });
-        
-        
-        
-    });
-
-
-
-
-
-
-
-
-
+     function filterTableRow() {
+      const searchValue = $('#searchdailyCombination').val().toLowerCase();
+      $('#sells_table tr').filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
+      });
+  }
 
 
 
@@ -464,6 +65,7 @@ $("#searchdailyCombination").on("input", function (e) {
     
     console.log("Start Date: " + formattedStartDate);
     console.log("End Date: " + formattedEndDate);
+    console.log("Store Id: " + store_id);
     
     // Make the AJAX request
     $.ajax({
@@ -481,7 +83,7 @@ $("#searchdailyCombination").on("input", function (e) {
                     let excel = "";
                     let totexcel = "";
                     const sumtotal = response.sumtotal; // Access sumtotal
-                    const sumbenefit = response.sumbenefit; // Access sumbenefit
+          // Access sumbenefit
                     
                     // Display sumtotal and sumbenefit as needed
                     console.log("Sum Total Amount: ", sumtotal);
@@ -489,24 +91,24 @@ $("#searchdailyCombination").on("input", function (e) {
                     
                     btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Montly Inventory Report From ,<span>${formattedStartDate}</span> - <span>${formattedEndDate}</span></p>
                 <div>    
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchmonthlysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelMonthTable', 'MonthyPurchase_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button></div>  `;
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchmonthlysalesReport(${store_id})"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelMonthTable', 'MonthyInventory_Report')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button></div>  `;
                 
-                $("#btnsalesType").html(btntype);
+                $("#combinationBtnMonth").html(btntype);
+
+
+                
 
                      tot += `<tr>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong>Total Items: ${new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                    }).format(parseFloat(sumtotal))}</strong></td>
+                    <td style="font-size: 14px;"><strong>Total Items: ${parseFloat(sumtotal)}</strong></td>
                               <td style="font-size: 14px;"></td>
                               <td style="font-size: 14px;"><strong></strong></td>
                               <td style="font-size: 14px;"></td>
                            </tr>`;
-                    $("#totalam").html(tot);
+                    $("#totalams").html(tot);
                     
                     totexcel += `
                 
@@ -583,153 +185,18 @@ $("#selectMonthModal").modal("hide");
 });
 
 
-$("#retrieveYearlyData").on("click", function () {
-  const selectedYear = $("#yearSelect").val();
-   var company_ID = parseInt(localStorage.getItem("CoID"));
-  localStorage.removeItem("yearSelect");
 
-  console.log("Selected Year: " + selectedYear);
- 
 
-  // Check if any of these values is undefined or empty
-  if (!selectedYear || !company_ID) {
-      console.error("One or more required values are missing. Unable to make the AJAX request.");
-      return; // Exit the function to prevent the AJAX request
-  }
 
-  // Calculate the start and end dates for the selected year
-  const startDate = selectedYear + "-01-01"; // Start of the year
-  const endDate = selectedYear + "-12-31";   // End of the year
-
-  console.log("Start Date: " + startDate);
-  console.log("End Date: " + endDate);
-
-  // Make the AJAX request
-  $.ajax({
-      url: `functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${startDate}&endDate=${endDate}`,
-      method: "POST",
-      context: document.body,
-      success: function(response) {
-          try {
-              console.log("Success Response: ", response);
-
-              if (response.data && response.data.length > 0) {
-                  let html = ""; // Initialize an empty string to store the HTML
-                  let tot = "";
-                  let totexcel= "";
-                  let excel = "";
-                  let btntype = "";
-                  const sumtotal = response.sumtotal; // Access sumtotal
-                  
-                    // Display sumtotal and sumbenefit as needed
-                    console.log("Sum Total Amount: ", sumtotal);
-                    
-                    
-                    
-                     btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yearly Purchase, <span>${startDate}</span> - <span>${endDate}</span></p>
-                <div>         
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchyearlysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelYearTable', 'YearlyPurchase_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button> </div>`;
-                
-                $("#btnsalesType").html(btntype);
-                
-                 
-                  tot += `<tr>
-                      <td style="font-size: 14px;"><strong></strong></td>
-                      <td style="font-size: 14px;"><strong></strong></td>
-                      <td style="font-size: 14px;"><strong></strong></td>
-                      <td style="font-size: 14px;"><strong>Total Purchase Amount: ${new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "RWF",
-                      }).format(parseFloat(sumtotal))}</strong></td>
-                      <td style="font-size: 14px;"></td>
-                      <td style="font-size: 14px;"><strong></strong></td>
-                      <td style="font-size: 14px;"></td>
-                  </tr>`;
-                  
-                   totexcel += `
-                
-                   <tr>
-                       <td style="font-size: 14px;"><strong></strong></td>
-                       <td style="font-size: 14px;"><strong></strong></td>
-                       <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
-                       <td style="font-size: 14px;"></td>
-                       <td style="font-size: 14px;"><strong></td>
-                       <td style="font-size: 14px;"><strong></strong> </td>
-                       <td style="font-size: 14px;"><strong></strong></td>
-                   </tr>
-                
-                   `;
-                  
-                  $("#totalam").html(tot);
-                   $("#totalyearexcel").html(totexcel);
-                 
-
-                  for (let i = 0; i < response.data.length; i++) {
-                      const item = response.data[i];
-                   console.log("item.id:", item.id);
-                      console.log("item.product_id:", item.product_id);
-
-                    
-
-                    html += `
-                        <tr>
-                            <td style="font-size: 14px;">${i+1}. ${item.name}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.price_per_unity))}</td>
-                          <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_price))}</td>
-                          <td style="font-size: 14px;">${item.storename}</td>
-                          <td style="font-size: 14px;">${item.supplierNames}</td>
-                          <td style="font-size: 14px;">${item.supplierPhone}</td>
-                            <td style="font-size: 14px;">${item.purchase_date}</td>
-                            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.product_id}','${item.purchase_date}','${item.quantity}','${item.price_per_unity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.product_id}','${item.purchase_date}')" "><i class="fa fa-trash"></i></button></td>
-                        </tr>
-                    `;
-                    
-                    
-                    excel += `
-                        <tr>
-                            <td style="font-size: 14px;">${i+1}</td>
-                            <td style="font-size: 14px;">${item.name}</td>
-                            <td style="font-size: 14px;"> ${parseFloat(item.price_per_unity)}</td>
-                            <td style="font-size: 14px;"> ${parseFloat(item.total_price)}</td>
-                            <td style="font-size: 14px;"> ${item.storename}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${item.supplierNames}</td>
-                            <td style="font-size: 14px;"> ${item.supplierPhone}</td>
-                            <td style="font-size: 14px;">${item.purchase_date}</td>
-                            
-                        </tr>
-                    `;
-                  }
-
-                  $("#sells_table").html(html); // Set the HTML content of the table
-
-                $("#excel_year").html(excel);
-              } else {
-                  $("#sells_table").html("No results");
-                   $("#excel_year").html("No results");
-              }
-          } catch (e) {
-              console.error("Error handling response: ", e);
-              // Handle the error or display an error message to the user
-          }
-      },
-      error: function(xhr, status, error) {
-          console.error("ERROR Response: ", error);
-          // Handle the error or display an error message to the user
-      },
-  });
-  localStorage.setItem("yearSelect",selectedYear);
-  $("#selectYearModal").modal("hide");
-});
-// Ajax End!
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 
 
@@ -1082,6 +549,8 @@ error: function (xhr, status, error) {
                 let btntype = "";
                 let excel = "";
                 let totexcel = "";
+              
+
                 const sumtotal = response.sumtotal; // Access sumtotal
                 
                 var usertype = localStorage.getItem("UserType");
@@ -1090,12 +559,15 @@ error: function (xhr, status, error) {
                 // Display sumtotal and sumbenefit as needed
                 console.log("Sum Total Amount: ", sumtotal);
 
-                 btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Summary Report ,At <span>${formattedDate}</span></p>
+                 btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Inventory Report ,At <span>${formattedDate}</span></p>
                  <div>
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailyPurchase_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button></div>`;
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailyBigReport(${store_id})"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailyInventory_Report');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button></div>`;
                 
-                $("#combinationBtn").html(btntype);
+                $("#combinationBtnMonth").html(btntype);
+
+               
+
                 
                  tot += `
                 <tr>
@@ -1655,6 +1127,37 @@ function fetchpickeddatesalesReport() {
 
 
 
+function fetchdailyBigReport(store_id) {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+
+  
+    // Ajax Start!
+
+    $.ajax({
+      url:`functions/purchase/getalldayBigstock.php?store_id=${store_id}&date=${formattedDate}`,
+    method: 'GET',
+    dataType: 'json',
+    success: function (data) {
+      if (data && data.data && data.data.length > 0) {
+        const salesdata = data.data;
+        const sumtotal = data.sumtotal;
+        
+        const typereport = "Daily Inventory Report on "+ formattedDate;
+        printDailySalesReport(salesdata, sumtotal,typereport);
+      } else {
+        console.error('Empty or invalid data received from the server.');
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error('Error fetching daily sales data:', error);
+    }
+  });
+}
+
 
 function fetchdailysalesReport() {
   const currentDate = new Date();
@@ -1768,19 +1271,18 @@ function fetchyesterdaysalesReport() {
 }
 
 
-function fetchmonthlysalesReport() {
+function fetchmonthlysalesReport(store_id) {
 
   var selectedMonth = localStorage.getItem("monthSelect");
   
- var company_ID = parseInt(localStorage.getItem("CoID"));company_ID
 
 
   console.log("Selected Month: " + selectedMonth);
   
-  console.log("Sales Point ID (from localStorage): " + company_ID);
+
 
   // Check if any of these values is undefined or empty
-  if (!selectedMonth || !company_ID) {
+  if (!selectedMonth) {
       console.error("One or more required values are missing. Unable to make the AJAX request.");
       return; // Exit the function to prevent the AJAX request
   }
@@ -1801,14 +1303,14 @@ function fetchmonthlysalesReport() {
 
       // Ajax Start!
       $.ajax({
-          url:`functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
+        url: `functions/purchase/getalldaycombinationReportMonth.php?store_id=${store_id}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
           method: 'GET',
           dataType: 'json',
           success: function (data) {
             if (data && data.data && data.data.length > 0) {
               const salesdata = data.data;
               const sumtotal = data.sumtotal;
-              const typereport = "Monthly Purchase Report";
+              const typereport = "Monthly Inventory Report";
               printDailySalesReport(salesdata, sumtotal,typereport);
             } else {
               console.error('Empty or invalid data received from the server.');
@@ -2161,10 +1663,7 @@ for (let i = 0; i < salesdata.length; i++) {
             
           </td>
           <td style="font-size: 14px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
-            <strong>Total Purchase Amount :   ${new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "RWF",
-          }).format(parseFloat(sumtotal))}</strong>
+            <strong>Total Items :   ${(parseFloat(sumtotal))}</strong>
           </td>
           <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
             

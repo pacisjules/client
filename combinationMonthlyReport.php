@@ -45,7 +45,7 @@ include('getuser.php');
 &nbsp;Select Month Report</button> 
                     </div>
                     <div class="card shadow">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center" id="combinationBtn">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center" id="combinationBtnMonth">
                           
                         </div>
                         
@@ -63,7 +63,7 @@ include('getuser.php');
                                             </select>&nbsp;</label></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchdailyCombination"></label></div>
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchDaily"></label></div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -102,7 +102,7 @@ include('getuser.php');
                                     <tbody id="excel_stock">
                                        
                                     </tbody>
-                                    <tfoot id="totalexcel">
+                                    <tfoot id="totalmonthexcel">
                                         
                                     </tfoot>
                                 </table>
