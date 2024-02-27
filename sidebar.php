@@ -59,7 +59,8 @@
 
                         <li class="nav-item"><a class="nav-link" href="combinationReport.php" style="margin-left: 1px;font-weight:bold;color:white;"><i class="fas fa-chart-bar" style="margin-left: 5px; color: #007bff;"></i>
 
-<span style="margin-left: 5px;">Summarized Report</span></a></li>                 
+<span style="margin-left: 5px;">Summarized Report</span></a></li>  
+                 
                 
                 <li class="nav-item">
    <a class="nav-link" href="production.php" >

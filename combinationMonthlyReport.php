@@ -9,7 +9,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Full Summary Report Selleasep</title>
+    <title>Monthly Inventory Report - Selleasep</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -37,11 +37,12 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Summarized Report</h3>
+                    <a class="nav-link active" href="multistore.php">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
+                     &nbsp;Back</button></a> 
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectMonthModal" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-month" viewBox="0 0 16 16">
   <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5V13a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1.5zm1.5-.5a.5.5 0 0 0-.5.5V13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V1a.5.5 0 0 0-.5-.5h-13zM8 12a1 1 0 0 0 0-2 1 1 0 0 0 0 2zm1-3a1 1 0 0 0-2 0v2a1 1 0 1 0 2 0v-2zm-2-6h4V2H7v1z"/>
 </svg>
-&nbsp;Monthly Inventory Report</button> 
+&nbsp;Select Month Report</button> 
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center" id="combinationBtn">
@@ -77,10 +78,10 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Closing Stock</th>            
                                         </tr>
                                     </thead>
-                                    <tbody id="sells_table">
+                                    <tbody id="stock_table">
                                        
                                     </tbody>
-                                    <tfoot id="totalam">
+                                    <tfoot id="totalams">
                                         
                                     </tfoot>
                                 </table>
@@ -98,7 +99,7 @@ include('getuser.php');
                                             
                                         </tr>
                                     </thead>
-                                    <tbody id="excel_table">
+                                    <tbody id="excel_stock">
                                        
                                     </tbody>
                                     <tfoot id="totalexcel">
