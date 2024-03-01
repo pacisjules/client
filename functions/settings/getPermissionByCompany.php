@@ -9,11 +9,11 @@ $company_id = $_GET['coid'];
 $sql = "SELECT PA.perm_id,
 PA.name, 
 PA.cat_id,UC.category_name,
-PA.page_id, PE.name AS pagename,
+PA.page_id, PE.page_name AS pagename,
 PA.company_id, 
 PA.created_at 
-FROM permissions PA,users_category UC, pages PE
-WHERE PA.company_id=$company_id AND PA.cat_id= UC.cat_id AND PA.page_id=PE.page_id ORDER BY PA.created_at DESC";
+FROM permissions PA,users_category UC, page_allowance PE
+WHERE PA.company_id=$company_id AND PA.cat_id= UC.cat_id AND PA.page_id=PE.id ORDER BY PA.created_at DESC";
 
 $value = '';
 $result = mysqli_query($conn, $sql);

@@ -54,6 +54,7 @@ $(document).ready(function () {
             company_id: company_id,
         },
         success: function (response) {
+          View_company_permission();
             console.log(response);
           $("#permission").val("");
           var toast = new bootstrap.Toast($("#myToastPerm"));

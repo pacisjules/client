@@ -23,6 +23,18 @@ include('getuser.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/css/jquery.Jcrop.min.css" />
+    <style>
+        #preview-container {
+            max-width: 500px;
+            margin-top: 20px;
+        }
+
+        #preview {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
     
     
     
@@ -258,6 +270,38 @@ include('getuser.php');
     </div>
 
 
+    <div class="modal fade" role="dialog" tabindex="-1" id="image_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Upload image</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form id="image-form" enctype="multipart/form-data">
+    <input type="file" id="image-input" name="image" accept="image/*">
+    <div id="preview-container">
+        <img id="preview" src="#" alt="Preview">
+    </div>
+
+    <!-- Add a new button for applying crop -->
+<button type="button" id="apply-crop-button">Apply Crop</button>
+
+<!-- Add a canvas element to display the cropped image -->
+<canvas id="cropped-preview" style="display: none;"></canvas>
+
+<!-- Modify the existing button to upload the cropped image -->
+<button type="button" id="upload-button">Upload Cropped Image</button>
+
+    <!-- <button type="button" id="upload-button">Upload Image</button> -->
+</form>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="edit_product_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -350,6 +394,10 @@ include('getuser.php');
 
 
 
+        
+
+
+
 
 
         <!-- Bootstrap Toast Container -->
@@ -373,6 +421,9 @@ include('getuser.php');
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/js/jquery.Jcrop.min.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

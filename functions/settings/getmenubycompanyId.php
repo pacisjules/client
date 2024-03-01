@@ -3,14 +3,14 @@
 require_once '../connection.php';
 
 //Set master path
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 
 $comID = $_GET['company'];
 
 
 // Retrieve all users from the database
 $sql = "SELECT * FROM page_allowance WHERE `company_id` = $comID
-        ORDER BY `created_at` ASC
+        ORDER BY `prefix` ASC
         ";
 
 
@@ -30,7 +30,9 @@ while ($row = $result->fetch_assoc()) {
 
      $value .= '
 
-        <option value = '.$row['id'].'>'.$num.'. '.$row['page_name'].'</option>
+        <li class="nav-item">
+                <a class="nav-link" href="'.$row['path_name'].'" style="margin-left: 5px;"><i class="'.$row['menu_icon'].'" style="margin-left: 5px; color: #ed3705;"></i> '.$row['page_name'].'</a>
+        </li>
  
         ';
 }
