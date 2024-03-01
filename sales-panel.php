@@ -98,7 +98,6 @@ include('getuser.php');
 <div class="top">
     <div>
         <h1>Selleasep POS</h1>
-        
     </div>
     <div>
         <div class="searcher">
