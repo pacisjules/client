@@ -121,16 +121,16 @@ include('getuser.php');
 <div class="down">
     <div class='LeftSide'>
        <div class="clbtns">
-       <img src="styles/icons/home.png" alt="" srcset="">
-        <p>Home</p>
+       <a href="index.php"><img src="styles/icons/home.png" alt="" srcset="">
+        <p>Home</p></a>
        </div>
        <div class="clbtns">
-       <img src="styles/icons/features.png" alt="" srcset="">
-        <p>Product</p>
+       <a href="product.php"><img src="styles/icons/features.png" alt="" srcset="">
+        <p>Products</p></a>
        </div>
        <div class="clbtns">
-       <img src="styles/icons/direct-marketing.png" alt="" srcset="">
-        <p>Sales</p>
+       <a href="sales.php"><img src="styles/icons/direct-marketing.png" alt="" srcset="">
+        <p>Sales</p></a>
        </div> 
     </div>
     <div class='MiddleSide'>
