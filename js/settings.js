@@ -4,6 +4,51 @@ $(document).ready(function () {
 
   View_company_pages_forselect();
   View_company_permission();
+  View_company_users();
+
+
+  //Update User
+  $("#EditUser").click(function () {
+    $("#EditUser").html("Please wait..");
+
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var phone = $("#phone").val();
+    var email = $("#email").val();
+    var username = $("#username").val();
+    var user_category = $("#user_category").val();
+
+    var company_id = localStorage.getItem("CoID");
+    var user_id = parseInt(localStorage.getItem("select_user_id"));
+
+    //Ajax Start!
+    $.ajax({
+      url: "functions/settings/updateusers.php",
+      method: "POST",
+
+      data: {
+        first_name: first_name,
+        last_name: last_name,
+        phone: phone,
+        email: email,
+        username: username,
+        user_category: user_category,
+        company_id: company_id,
+        user_id: user_id,
+      },
+
+      success: function (response) {
+        View_company_users();
+        $("#EditUser").html("Edit User");
+        $("#modal_user").modal("hide");
+        localStorage.removeItem("select_user_id");
+      },
+      error: function (error) {
+        $("#EditUser").html("Update");
+        console.log(error.responseText);
+      },
+    });
+  });
 
   $("#addCategory").click(function () {
     // Retrieve values from input fields
@@ -135,6 +180,66 @@ function View_company_permission() {
     });
     // Ajax End!
   }
+
+
+
+  function View_company_users() {
+    // Retrieve values from localStorage
+    var company_id = localStorage.getItem("CoID");
+  
+    // Ajax Start!
+  
+    $.ajax({
+      url: `functions/settings/getusersByCompany.php?coid=${company_id}`,
+      method: "POST",
+      context: document.body,
+      success: function (response) {
+        if (response) {
+          console.log(response);
+          $("#users_table").html(response);
+        } else {
+          console.log(response);
+          $("#users_table").html("Not Any result");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("AJAX request failed!");
+        console.log("Error:", error);
+      },
+    });
+    // Ajax End!
+  }
+
+
+
+  function SelectEditUsers(user_id, first_name, last_name, username, email, phone, user_category) {
+    console.log(user_id);
+    console.log(first_name);
+    console.log(last_name);
+    console.log(phone);
+    console.log(email);
+    console.log(username);
+    console.log(user_category);
+
+    $("#first_name").val(first_name);
+    $("#last_name").val(last_name);
+    $("#phone").val(phone);
+    $("#email").val(email);
+    $("#username").val(username);
+    $("#user_category").val(user_category);
+
+   localStorage.setItem("select_user_id", user_id);
+}
+
+
+     
+
+
+// function SelectDeleteUser(e, names) {
+//   console.log(e);
+//   $("#delnames").html(names);
+//   localStorage.setItem("cust_id", e);
+//   }
   
 
 
@@ -153,9 +258,11 @@ function View_company_category_forselect() {
         if (response) {
           console.log(response);
           $("#categories").html(response);
+          $("#user_category").html(response);
         } else {
           console.log(response);
           $("#categories").html("Not Any result");
+          $("#user_category").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {
@@ -165,6 +272,10 @@ function View_company_category_forselect() {
     });
     // Ajax End!
   }
+
+
+
+ 
 
 
   function View_company_pages_forselect() {

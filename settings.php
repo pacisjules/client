@@ -169,6 +169,67 @@ include('getuser.php');
                             </div>
                         </div>
                     </div>
+
+                    <div class="row mb-1">
+                        
+                        <div class="col-lg-12">
+                            
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 fw-bold">My users</p>
+                                        </div>
+                                        
+                                        
+                                        <div class="card-body">
+                                            
+                                                <div class="row">
+                                                    <div class="col" >
+                                                        <div class="mb-3">
+                                                        <div class="mb-3">
+                                                    </div>
+
+                                                        <div class="mb-3"></div>
+                                               
+                                                    </div>
+
+
+
+                                                    <div class="col" >
+                                                        <div class="mb-3"><label class="text-primary fw-bold" for="email" style="font-size: 18px; font-weight:700;" >All users</label><br/>
+                                                        <table class="table table-striped">
+                                                        <thead>
+                                                                <tr>
+                                                                <th scope="col">Status</th>
+                                                                <th scope="col">Names</th>
+                                                                <th scope="col">Username</th>
+                                                                <th scope="col">Email</th>
+                                                                <th scope="col">Phone</th>
+                                                                <th scope="col">User category</th>
+                                                                <th scope="col">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="users_table">
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    
+                                    
+                                    
+                                  
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                    
                 </div>
             </div>
@@ -211,6 +272,57 @@ include('getuser.php');
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" role="dialog" tabindex="-1" id="modal_user">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Edit Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                     <form>
+                        <label class="form-label" style="margin-top: 10px;">First name</label>
+                        <input class="form-control" type="text" id="first_name">
+
+                        <label class="form-label" style="margin-top: 10px;">Last name</label>
+                        <input class="form-control" type="text" id="last_name">
+
+                        <label class="form-label" style="margin-top: 10px;">Username</label>
+                        <input class="form-control" type="text" id="username">
+
+                        <label class="form-label" style="margin-top: 10px;">Email</label>
+                        <input class="form-control" type="text" id="email"> 
+
+                        <label class="form-label" style="margin-top: 10px;">Phone</label>
+                        <input class="form-control" type="text" id="phone"> 
+
+                        <label class="form-label" style="margin-top: 10px;">Category</label>
+                        <select class="form-control" id="user_category"></select>
+
+                    </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button" id="EditUser">Edit User</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="user-delete-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Remove This User</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are sure you need to delete the user <span id="delnames"></span> </p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeCustomer"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Remove Customer</button></div>
+            </div>
+        </div>
+    </div>
 
 
 <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">

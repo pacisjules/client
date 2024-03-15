@@ -58,12 +58,12 @@ while ($row = $result->fetch_assoc()) {
 
     $value .= '
     <tr>
-    <td>'.$num.'. ' . $row['name'] . '</td>
-    <td>' . number_format($row['price']) . '</td>
-    <td>' . number_format($row['benefit']) . '</td>
-    <td>' . number_format($row['invquantity']) . '</td>
-    <td>' . $sts . '</td>
-    <td>' . $row['created_at'] . '</td>
+    <td style="font-size: 12px;">'.$num.'. ' . $row['name'] . '</td>
+    <td style="font-size: 12px;">' . number_format($row['price']) . '</td>
+    <td style="font-size: 12px;">' . number_format($row['benefit']) . '</td>
+    <td style="font-size: 12px;">' . number_format($row['invquantity']) . '</td>
+    <td style="font-size: 12px;">' . $sts . '</td>
+    <td style="font-size: 12px;">' . $row['created_at'] . '</td>
     <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setUpdates(`'.$row['name'].'`,`'.$row['price'].'`, `'.$row['benefit'].'`, `'.$row['description'].'`, `'.$row['id'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="RemoveProductID(`'.$row['id'].'`)"><i class="fa fa-trash"></i></button><button class="'.$endis.'" type="button" style="margin-left: 20px;" data-bs-target="#disable-product" data-bs-toggle="modal" onclick="DisableProductID(`'.$row['id'].'`, `'.$row['status'].'`)"><i class="'.$icon.'"></i></button><button class="btn btn-primary" type="button" style="margin-left: 18px;min-width: 128px;" data-bs-target="#purchaseSalespoint_modal" data-bs-toggle="modal" onclick="SetSPProductID(`'.$row['id'].'`)"=><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-house-fill">
                 <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"></path>
                 <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"></path>

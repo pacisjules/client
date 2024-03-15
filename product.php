@@ -23,17 +23,24 @@ include('getuser.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/css/jquery.Jcrop.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
     <style>
-        #preview-container {
-            max-width: 500px;
-            margin-top: 20px;
-        }
-
-        #preview {
-            max-width: 100%;
-            height: auto;
-        }
+       #preview-container {
+    max-width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+  }
+  #preview {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    max-height: 400px;
+  }
+  #cropped-preview {
+    display: none;
+    max-width: 100%;
+    max-height: 400px;
+  }
     </style>
     
     
@@ -113,13 +120,13 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Price</th>
-                                            <th>Benefit</th>
-                                            <th>Quantity</th>
-                                            <th>Status</th>
-                                            <th style="font-size: 11px;">Register Date</th>
-                                            <th>Actions</th>
+                                            <th style="font-size: 12px;">Name</th>
+                                            <th style="font-size: 12px;">Price</th>
+                                            <th style="font-size: 12px;">Benefit</th>
+                                            <th style="font-size: 12px;">Quantity</th>
+                                            <th style="font-size: 12px;">Status</th>
+                                            <th style="font-size: 12px;">Register Date</th>
+                                            <th style="font-size: 12px;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="spt_table">
@@ -270,33 +277,23 @@ include('getuser.php');
     </div>
 
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="image_modal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
+    <div class="modal fade" role="dialog" tabindex="-1" id="image_modal" >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
+            <div class="modal-content" >
                 <div class="modal-header">
                     <h4 class="modal-title" style="color:green;">Upload image</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form id="image-form" enctype="multipart/form-data">
-    <input type="file" id="image-input" name="image" accept="image/*">
-    <div id="preview-container">
-        <img id="preview" src="#" alt="Preview">
-    </div>
-
-    <!-- Add a new button for applying crop -->
-<button type="button" id="apply-crop-button">Apply Crop</button>
-
-<!-- Add a canvas element to display the cropped image -->
-<canvas id="cropped-preview" style="display: none;"></canvas>
-
-<!-- Modify the existing button to upload the cropped image -->
-<button type="button" id="upload-button">Upload Cropped Image</button>
-
-    <!-- <button type="button" id="upload-button">Upload Image</button> -->
-</form>
-                    
+<center>
+                <input type="file" id="image-input">
+<br>
+<img  scr="uploads/default.jpg" id="preview" alt="Preview">
+<br>
+<canvas id="cropped-preview"></canvas>
+<button id="upload-button" class="btn btn-primary" type="button" data-bs-dismiss="modal">Upload</button>
+                    </center>
                 </div>
-                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
+                <div class="modal-footer"></div>
             </div>
         </div>
     </div>
@@ -422,7 +419,7 @@ include('getuser.php');
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/js/jquery.Jcrop.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
     <script src="script.js"></script>
 </body>
 
