@@ -70,12 +70,12 @@
 <li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="finishedproduct.php" style="margin-left: 5px;"><i class="fas fa-box product-icon" style="margin-left: 5px; color: #ed3705;"></i>
 Finished Product</span></a></li>
 
-<!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowmaterial.php" style="margin-left: 5px;"><i class="fas fa-cube" style="margin-left: 5px; color: #ed3705;"></i>-->
-<!--<span style="margin-left: 5px;">Row Material</span></a></li>-->
-<!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowinventory.php" style="margin-left: 5px;"><i class="fas fa-boxes" style="margin-left: 5px; color: #ed3705;"></i>-->
-<!--<span style="margin-left: 5px;">Row Inventory</span></a></li>-->
+<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowmaterial.php" style="margin-left: 5px;"><i class="fas fa-cube" style="margin-left: 5px; color: #ed3705;"></i>
+<span style="margin-left: 5px;">Row Material</span></a></li>
+<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowinventory.php" style="margin-left: 5px;"><i class="fas fa-boxes" style="margin-left: 5px; color: #ed3705;"></i>
+<span style="margin-left: 5px;">Row Inventory</span></a></li>
 <!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="purchase.php" style="margin-left: 5px;"><i class="fas fa-shopping-bag" style="margin-left: 5px; color: #ed3705;"></i>
-<!--<span style="margin-left: 5px;">Purchase</span></a></li>-->
+<span style="margin-left: 5px;">Purchase</span></a></li>-->
 
 
 

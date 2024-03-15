@@ -4,13 +4,13 @@ require_once '../connection.php';
 header('Content-Type: application/json');
 
 
-$spt = $_GET['spt'];
+$company_id = $_GET['company_id'];
 
 // Retrieve all users from the database
-$sql = "SELECT  PD.raw_material_id, PD.raw_material_name, PD.unit_of_measure, PD.purchase_date,
+$sql = "SELECT  PD.raw_material_id, PD.status, PD.raw_material_name, PD.unit_of_measure, PD.purchase_date,
         (SELECT IFNULL( SUM(quantity_in_stock),0.00) as stockqty FROM rawstock WHERE raw_material_id = PD.raw_material_id) as stock
         FROM rawmaterials PD
-        WHERE PD.sales_point_id = $spt
+        WHERE PD.company_id = $company_id
         ORDER BY PD.purchase_date DESC
         ";
 
@@ -34,11 +34,11 @@ while ($row = $result->fetch_assoc()) {
 
     if($row['status']==1){
         $sts="Active";
-        $endis="btn btn-danger";
+        $endis="btn btn-success";
         $icon="bi bi-x-circle";
     }else{
         $sts="Not Active";
-        $endis="btn btn-success";
+        $endis="btn btn-danger";
         $icon="fa fa-check-square text-white";
     }
 
@@ -49,7 +49,7 @@ while ($row = $result->fetch_assoc()) {
                                             <td>'.$num.'. ' . $row['raw_material_name'] . '</td>
                                             <td>' . $row['stock'] . '</td>
                                             <td>' . $row['unit_of_measure'] . '</td>
-                                            <td><button class="'.$endis.'" type="button" style="margin-left: 20px;" data-bs-target="#disable-product" data-bs-toggle="modal" onclick="DisableProductID(`'.$row['raw_material_id'].'`, `'.$row['status'].'`)"><i class="'.$icon.'"></i></button></td>
+                                            <td><button class="'.$endis.'" type="button" style="margin-left: 20px;" data-bs-target="#disable-product" data-bs-toggle="modal" onclick="DisableProductID(`'.$row['raw_material_id'].'`, `'.$row['status'].'`)"><i class="'.$icon.'"></i>'.$sts.'</button></td>
                                             <td>' . $row['purchase_date'] . '</td>
                                             <td class="d-flex flex-row justify-content-start align-items-center">
                                             <button class="btn btn-success" type="button" data-bs-target="#edit_rowmaterial_modal" data-bs-toggle="modal" onclick="setUpdates(`'.$row['raw_material_name'].'`,`'.$row['unit_of_measure'].'`, `'.$row['raw_material_id'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>

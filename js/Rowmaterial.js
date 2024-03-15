@@ -12,11 +12,11 @@ $(document).ready(function () {
   
   function View_RowRecord() {
   // Retrieve values from localStorage
-  var sales_point_id = localStorage.getItem("SptID");
+  var company_id = localStorage.getItem("CoID");
 
   // Ajax Start!
   $.ajax({
-    url: `functions/rowmaterial/getallrowmaterialsbyspt.php?spt=${sales_point_id}`,
+    url: `functions/rowmaterial/getallrowmaterialsbyspt.php?company_id=${company_id}`,
     method: "POST",
     context: document.body,
     success: function (response) {
@@ -112,7 +112,7 @@ $("#purchaserowmaterial").click(function () {
 
     // Retrieve values from localStorage
     var use_id = parseInt(localStorage.getItem("UserID"));
-    var sales_point_id = localStorage.getItem("SptID");
+    var company_id = localStorage.getItem("CoID");
     var row_id = parseInt(localStorage.getItem("rowid"));
     $.ajax({
         type: "POST",
@@ -565,12 +565,12 @@ function SetProductID(e, name, price, benefit, c_qty) {
 
 
 function populateSupplier() {
-    var sales_point_id = parseInt(localStorage.getItem("SptID"));
+    var company_id = parseInt(localStorage.getItem("CoID"));
 
     $.ajax({
         url: "functions/supplier/getsupplierforpurchase.php",
         method: "GET", // Change to GET method
-        data: { spt: sales_point_id },
+        data: { company: company_id },
         success: function (response) {
             console.log(response);
             $("#supplierSelect").html(response);
