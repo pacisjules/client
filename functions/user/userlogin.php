@@ -25,10 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         
         
-        $ids=$row['id'];
-        $id = $row['id'];
+       $ids=$row['id'];
+       $id = $row['id'];
        $comp =  $row['company_ID'];
        $sal =  $row['salepoint_id'];
+       $usercategory =  $row['user_category'];
         
         header('HTTP/1.1 201 Login Successful');
         //Get others users information
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'Logged_on'=>$date_time,
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],
+            'user_category'=>$usercategory,
             'spt_name'=>$rowsa['location'],
             'Message'=> 'Account passed'
         );

@@ -5,8 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <script src="js/menu.js"></script>
 </head>
 
+<style>
+    #all_menu{
+        display:flex; 
+        flex-direction:column;
+        justify-content:flex-start;
+    }
+</style>
 <body>
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(0,26,53);">
         <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#"> <img src="assets/img/icon.jpg" width="69" height="61" style="width: 50px;height: 50px;">
@@ -70,12 +78,12 @@
 <li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="finishedproduct.php" style="margin-left: 5px;"><i class="fas fa-box product-icon" style="margin-left: 5px; color: #ed3705;"></i>
 Finished Product</span></a></li>
 
-<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowmaterial.php" style="margin-left: 5px;"><i class="fas fa-cube" style="margin-left: 5px; color: #ed3705;"></i>
-<span style="margin-left: 5px;">Row Material</span></a></li>
-<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowinventory.php" style="margin-left: 5px;"><i class="fas fa-boxes" style="margin-left: 5px; color: #ed3705;"></i>
-<span style="margin-left: 5px;">Row Inventory</span></a></li>
+<!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowmaterial.php" style="margin-left: 5px;"><i class="fas fa-cube" style="margin-left: 5px; color: #ed3705;"></i>-->
+<!--<span style="margin-left: 5px;">Row Material</span></a></li>-->
+<!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="rowinventory.php" style="margin-left: 5px;"><i class="fas fa-boxes" style="margin-left: 5px; color: #ed3705;"></i>-->
+<!--<span style="margin-left: 5px;">Row Inventory</span></a></li>-->
 <!--<li class="nav-item" style="margin-left: 5px;"><a class="nav-link" href="purchase.php" style="margin-left: 5px;"><i class="fas fa-shopping-bag" style="margin-left: 5px; color: #ed3705;"></i>
-<span style="margin-left: 5px;">Purchase</span></a></li>-->
+<!--<span style="margin-left: 5px;">Purchase</span></a></li>-->
 
 
 
