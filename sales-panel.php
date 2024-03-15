@@ -143,9 +143,9 @@ include('getuser.php');
             <li>Cooked Food</li>
         </ul>
         </div>
-        <div class="products">
+        <div class="products" id="productslist">
             
-        <div class="pro">
+        <!-- <div class="pro">
                 <div class="header">
                 <img src="styles/icons/fanta.jpg" alt="" srcset="">
                 </div>
@@ -153,8 +153,8 @@ include('getuser.php');
                     <h2>Fanta Orange</h2>
                     <p>1,200 Rwf</p>
                 </div>
-        </div>
-
+        </div> -->
+<!-- 
         <div class="pro">
                 <div class="header">
                 <img src="styles/icons/mirinda.jpg" alt="" srcset="">
@@ -273,7 +273,7 @@ include('getuser.php');
                     <h2>Boulette</h2>
                     <p>400 Rwf</p>
                 </div>
-        </div>
+        </div> -->
 
         </div>
     </div>

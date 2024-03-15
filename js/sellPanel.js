@@ -5,6 +5,7 @@ $(document).ready(function () {
   View_DaySalesRecord();
   getSelected();
   View_LastSalesRecord();
+  View_ProductsRecord();
   
   
   
@@ -534,6 +535,54 @@ function calculateTotalAmount(items) {
   });
   return totalAmount;
 }
+
+
+
+
+
+
+
+function View_ProductsRecord() {
+  // Retrieve values from localStorage
+  var company_ID = localStorage.getItem("CoID");
+  var sales_point_id = localStorage.getItem("SptID");
+
+  // Ajax Start!
+  $.ajax({
+    url: `functions/product/getallproductsbyspttablet.php?company=${company_ID}&spt=${sales_point_id}`,
+    method: "POST",
+    context: document.body,
+    success: function (response) {
+      if (response) {
+        //console.log(response);
+        $("#productslist").html(response);
+      } else {
+        //console.log(response);
+        $("#productslist").html("Not Any result");
+      }
+    },
+    error: function (xhr, status, error) {
+      // console.log("AJAX request failed!");
+      // console.log("Error:", error);
+    },
+  });
+  // Ajax End!
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function View_LastSalesRecord() {
   const currentDate = new Date();
   const montly = currentDate.getMonth();

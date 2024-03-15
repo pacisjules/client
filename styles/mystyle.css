@@ -330,7 +330,8 @@
 #tablet .down .MiddleSide .products .pro img {
     width: 120px;
     height: 120px;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     border-radius: 100%;
 }
 
