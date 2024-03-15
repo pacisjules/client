@@ -22,7 +22,7 @@ include('getuser.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="js/rowinventory.js"></script>
+    <script src="js/rowninventory.js"></script>
 </head>
 
 
@@ -67,7 +67,9 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th>Row Material Name</th>
-                                            <th>Total Quantity</th>
+                                            <th>Box/Carton</th>
+                                            <th>Qty/Item</th>
+                                            <th>Total QTY</th>
                                             <th>Unity Type</th>
                                             <th>Status</th>
                                             <th style="font-size: 11px;">Register Date</th>
@@ -80,7 +82,9 @@ include('getuser.php');
                                     <tfoot>
                                         <tr>
                                             <td><strong>Row Material Name</strong></td>
-                                            <td><strong>Total Quantity</strong></td>
+                                            <td><strong>Box/Carton</strong></td>
+                                            <td><strong>Qty/Item</strong></td>
+                                            <td><strong>Total QTY</strong></td>
                                             <td><strong>Unity Type</strong></td>
                                             <td><strong>Status</strong></td>
                                             <td><strong style="font-size: 11px;">Register Date</strong></td>
@@ -164,11 +168,11 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Edit Inventory</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;">Edit Stock of That Row Material</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Edit inventory of <span id="product_name"></span></p>
-                    <form><label class="form-label" style="margin-top: 10px;">Quantity</label><input class="form-control" type="number" id="quantity"><label class="form-label" style="margin-top: 10px;">Alert Quantity</label><input class="form-control" type="number" id="alert_quantity"></form>
+                    <form><label class="form-label" style="margin-top: 10px;">Box/Carton</label><input class="form-control" type="number" id="quantity"><label class="form-label" style="margin-top: 10px;">Quantity/Item</label><input class="form-control" type="number" id="alert_quantity"></form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button" id="EditInventory">Edit Inventory</button></div>
             </div>

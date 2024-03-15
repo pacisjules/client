@@ -9,7 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Get the form data
     $raw_material_id  = $_POST['raw_material_id'];
-    $spt = $_POST['spt'];
+    $company_ID= $_POST['company_ID'];
+    $container = $_POST['container'];
     $quantity = $_POST['quantity'];
     $priceper_unity = $_POST['price_per_unity'];
     $supplier_id = $_POST['supplier_id'];
@@ -18,10 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if raw_material_id exists in rawstock
     $checkExistingQuery = "SELECT * FROM rawstock WHERE raw_material_id = '$raw_material_id'";
     $checkExistingResult = $conn->query($checkExistingQuery);
+    $row = $checkExistingResult->fetch_assoc();
+
+    $box = $row['box_container'];
+    $totqty = $row['quantity_in_stock'];
 
     if ($checkExistingResult->num_rows > 0) {
         // Update quantity_in_stock if the raw_material_id exists
-        $updateQuery = "UPDATE rawstock SET quantity_in_stock = quantity_in_stock + '$quantity' WHERE raw_material_id = '$raw_material_id'";
+        $newbox =  $box + $container; 
+        $newtot =  $container * $quantity; 
+
+        $updateQuery = "UPDATE rawstock SET
+         box_container ='$newbox',
+         qty_per_box='$quantity',
+         quantity_in_stock = quantity_in_stock + '$newtot' WHERE raw_material_id = '$raw_material_id'";
         if ($conn->query($updateQuery) === TRUE) {
             echo "Quantity updated in rawstock successfully.";
         } else {
@@ -30,8 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         // Insert a new row in rawstock if raw_material_id doesn't exist
-        $insertQuery = "INSERT INTO `rawstock` (`raw_material_id`, `quantity_in_stock`, `sales_point_id`, `user_id`)
-                        VALUES ('$raw_material_id', '$quantity', '$spt', '$user_id')";
+        $newtot =  $container * $quantity; 
+
+        $insertQuery = "INSERT INTO `rawstock` (`raw_material_id`,`box_container`,`qty_per_box`, `quantity_in_stock`, `company_ID`, `user_id`)
+                        VALUES ('$raw_material_id',$container,'$quantity' ,'$newtot', '$company_ID', '$user_id')";
         if ($conn->query($insertQuery) === TRUE) {
             echo "New row added to rawstock successfully.";
         } else {
@@ -41,8 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert the purchase record
-    $purchaseQuery = "INSERT INTO `purchase` (`raw_material_id`, `quantity`, `price_per_unity`, `supplier_id`, `spt`, `user_id`)
-                        VALUES ('$raw_material_id', '$quantity', '$priceper_unity', '$supplier_id', '$spt', '$user_id')";
+    $total = $priceper_unity * $container;
+    $purchaseQuery = "INSERT INTO `purchase` (`raw_material_id`, `container`,`quantity`, `price_per_unity`, `total_price`,`supplier_id`, `company_ID`, `user_id`)
+                        VALUES ('$raw_material_id', '$container','$quantity', '$priceper_unity', '$total','$supplier_id', '$company_ID', '$user_id')";
 
     if ($conn->query($purchaseQuery) === TRUE) {
         // Return a success message
@@ -58,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $getpro_name = $rowName['raw_material_name'];
 
             // Add history
-            AddHistory($user_id, "Added Quantity: $quantity of $getpro_name", $spt, "RowStockIn");
+            AddHistory($user_id, "Added box: $container of $getpro_name", $spt, "RowStockIn");
         } else {
             header('HTTP/1.1 500 Internal Server Error');
             echo "Error retrieving product name: " . $conn->error;

@@ -13,31 +13,34 @@ $endDate = $_GET['endDate'];
 // Last day of the current month
 
 $sql = "
- SELECT DISTINCT
-    SL.id,
-    (SELECT unitname FROM unittype WHERE unit_id =SL.unit_id) AS unit,
-    SL.container,
-    SL.quantity,
-    SL.price_per_unity,
-    SL.total_price,
-    SL.product_id,
-    SL.store_id,
-    SL.spt_id,
-    IF(SL.store_id = 0, SP.location, ST.storename) AS stores_name,
-    RW.name,
-    SL.purchase_date,
-    SU.names,
-    SU.phone
+SELECT DISTINCT
+SL.id,
+(SELECT unitname FROM unittype WHERE unit_id = SL.unit_id) AS unit,
+SL.container,
+SL.quantity,
+SL.price_per_unity,
+SL.total_price,
+SL.product_id,
+SL.raw_material_id,
+SL.store_id,
+SL.spt_id,
+IF(SL.store_id = 0, SP.location, ST.storename) AS stores_name,
+IF(SL.product_id = 0, IG.raw_material_name, RW.name) AS name, 
+SL.purchase_date,
+SU.names,
+SU.phone
 FROM
-    purchase SL
-JOIN products RW ON
-    SL.product_id = RW.id
+purchase SL
 JOIN supplier SU ON
-    SL.supplier_id = SU.supplier_id
+SL.supplier_id = SU.supplier_id    
+LEFT JOIN products RW ON
+SL.product_id = RW.id
+LEFT JOIN rawmaterials IG ON
+SL.raw_material_id = IG.raw_material_id 
 LEFT JOIN store ST ON
-    SL.store_id = ST.store_id
+SL.store_id = ST.store_id
 LEFT JOIN salespoint SP ON
-    SL.spt_id = SP.sales_point_id
+SL.spt_id = SP.sales_point_id
 WHERE
     SL.purchase_date >= '$startDate 00:00:00' 
     AND SL.purchase_date <= '$endDate 23:59:59' 

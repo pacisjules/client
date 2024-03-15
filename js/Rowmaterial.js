@@ -106,6 +106,7 @@ $(document).ready(function () {
 
 
 $("#purchaserowmaterial").click(function () {
+  var box = $("#box").val();
     var qty = $("#qty").val();
     var priceunity = $("#priceunity").val();
     var supplier_id = $("#supplierSelect").val();
@@ -119,7 +120,8 @@ $("#purchaserowmaterial").click(function () {
         url: "functions/purchase/addnewpurchase.php",
         data: {
             raw_material_id: row_id,
-            spt: sales_point_id,
+            company_ID: company_id,
+            container:box,
             quantity: qty,
             price_per_unity: priceunity,
             supplier_id: supplier_id,

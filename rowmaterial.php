@@ -300,7 +300,9 @@ include('getuser.php');
                     <form>
                         <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Supplier:&nbsp;</label>
                         <select class="form-control" id="supplierSelect"></select>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Quantity:&nbsp;</label>
+                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Box/carton:&nbsp;</label>
+                        <input class="form-control" type="number" id="box" min="1">
+                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Quantity/box:&nbsp;</label>
                         <input class="form-control" type="number" id="qty" min="1">
                         <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Price Per Unit:&nbsp;</label>
                         <input class="form-control" type="number" id="priceunity" min="1">
