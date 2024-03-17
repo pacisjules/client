@@ -2,6 +2,7 @@ $(document).ready(function () {
     
   //   updateSptandcompany();  
     RemoveProductID();
+    RemoveCategoryID();
     getProductid();
   
     setUpdates();
@@ -15,6 +16,8 @@ $(document).ready(function () {
     populateUnittypesSales();
     populateSuppliers();
     SetSPProductID();
+    populateProducts();
+    populateProductCategory();
     
      
       $("#generateproductReport").click(function () {
@@ -337,6 +340,35 @@ $(document).ready(function () {
         }
       }
     });
+
+
+
+    $("#savecategory").click(function () {
+      $("#savecategory").html("Please wait..");
+      // Retrieve values from input fields
+      var name = $("#categoryname").val();
+  
+      // Retrieve values from localStorage
+      var company_id = localStorage.getItem("CoID");
+  
+      // Start AJAX request
+      $.ajax({
+        url: "functions/product/addnewcategory.php",
+        method: "POST",
+        data: {
+          name: name,
+          company_id: company_id,
+        },
+        success: function (response) {
+          $("#categoryname").val("");
+          populateProductCategory();
+          populateProducts();
+        },
+        error: function (error) {},
+      });
+      $("#savecategory").html("Save category");
+       // Update another element's text (saveNewUser)
+    });
   
     
     
@@ -590,6 +622,79 @@ $(document).ready(function () {
         },
       });
     });
+
+
+
+    //Update Category
+    $("#updatecategory").click(function () {
+      $("#updatecategory").html("Please wait..");
+  
+      var name = $("#cat_name").val();
+      var category_id = parseInt(localStorage.getItem("category_id"));
+  
+      //Ajax Start!
+      $.ajax({
+        url: "functions/product/updatecategory.php",
+        method: "POST",
+  
+        data: {
+          category_id: category_id,
+          name: name,
+        },
+  
+        success: function (response) {
+          View_ProductsRecord();
+          $("#updatecategory").html("Update");
+          $("#edit_category_modal").modal("hide");
+          $("#add_category_modal").modal("show");
+          populateProducts();
+          populateProductCategory();
+
+          localStorage.removeItem("category_id");
+        },
+        error: function (error) {
+          $("#updatecategory").html("Update");
+          //console.log(error.responseText);
+        },
+      });
+    });
+
+    
+    //Delete Category
+    $("#removeCategory").click(function () {
+      $("#removeCategory").html("Please wait..");
+      var category_id = parseInt(localStorage.getItem("category_id"));
+  
+      //Ajax Start!
+      $.ajax({
+        url: "functions/product/deletecategory.php",
+        method: "POST",
+  
+        data: {
+          category_id: category_id,
+        },
+  
+        success: function (response) {
+          console.log(response);
+          populateProductCategory();
+          populateProducts();
+          $("#removeCategory").html("Delete");
+          $("#delete-modal-category").modal("hide");
+          $("#add_category_modal").modal("show");
+          var toast = new bootstrap.Toast($("#myToast"));
+          toast.show();
+        },
+        error: function (error) {
+          console.log(error);
+          var toast = new bootstrap.Toast($("#myToast"));
+          toast.show();
+          $("#removeCategory").html("Delete");
+        },
+      });
+    });
+
+
+
   
     //Delete Product
     $("#removeProduct").click(function () {
@@ -874,12 +979,53 @@ $(document).ready(function () {
           }
       });
   }
+
+
+  function populateProducts() {
+    var company_ID = parseInt(localStorage.getItem("CoID"));
+
+    $.ajax({
+        url: `functions/product/getallCompanyCategories.php`,
+        method: "GET", // Change to GET method
+        data: { company: company_ID },
+        success: function (response) {
+            console.log(response);
+            $("#categorySelect").html(response);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function populateProductCategory() {
+  var company_ID = parseInt(localStorage.getItem("CoID"));
+
+  $.ajax({
+      url: `functions/product/getallCompanyCategorieslist.php`,
+      method: "GET", // Change to GET method
+      data: { company: company_ID },
+      success: function (response) {
+          console.log(response);
+          $("#ct_table").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
   
   
   
   function RemoveProductID(e) {
     console.log(e);
     localStorage.setItem("co_id", e);
+  }
+
+
+  function RemoveCategoryID(e) {
+    console.log(e);
+    localStorage.setItem("category_id", e);
   }
   
   function getProductid(id){
@@ -917,6 +1063,12 @@ $(document).ready(function () {
     $("#Up_desc").html(description);
   
     localStorage.setItem("co_id", id);
+  }
+
+  function setUpdateCategory(name, id) {
+    console.log(name);
+    $("#cat_name").val(name);
+    localStorage.setItem("category_id", id);
   }
   
   function SetProductID(e, name, price, benefit, c_qty) {

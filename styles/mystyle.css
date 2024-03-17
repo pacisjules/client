@@ -31,7 +31,7 @@
     position: fixed;
     z-index: 999;
     background-color: white;
-    display: none;
+    display: flex;
     overflow: hidden;
     justify-content: flex-start;
     flex-direction: column;
@@ -236,7 +236,7 @@
 
 #tablet .down .MiddleSide {
     background-color: #f2f2f2;
-    width: 80%;
+    width: 55%;
     padding: 10px;
     overflow: auto;
 }
@@ -286,8 +286,8 @@
 
 #tablet .down .MiddleSide .products .pro {
     background-color: white;
-    width: 170px;
-    height: 220px;
+    width: 130px;
+    height: auto;
     padding: 10px;
     border-radius: 10px;
     text-align: center;
@@ -328,8 +328,8 @@
 }
 
 #tablet .down .MiddleSide .products .pro img {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     object-position: center;
     border-radius: 100%;
@@ -338,7 +338,7 @@
 
 #tablet .down .RightSide {
     background-color: white;
-    width: 40%;
+    width: 60%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -363,8 +363,19 @@
     padding-left: 10px;
     padding-bottom: 10px;
     position: fixed;
-    background-color: white;
     width: 100%;
+    font-size: 12pt;
+    margin-bottom: 20px;
+    background-color: white;
+    color: black;
+    padding: 5px;
+}
+
+#unhold{
+color: #ff8800;
+font-weight: bold;
+text-decoration: underline;
+cursor: pointer;
 }
 
 
@@ -397,7 +408,6 @@ th {
 .actBtn {
     display: flex;
     justify-content: space-between;
-
 }
 
 .actBtn .actBtnIn img {
@@ -417,7 +427,7 @@ th {
 }
 
 .actBtn .actBtnIn {
-    background-color: #c86b00;
+    background-color: red;
     width: 32px;
     height: 32px;
     display: flex;
@@ -428,8 +438,23 @@ th {
     cursor: pointer;
 }
 
+.actBtn .actBtnInTotal {
+    width: 75px;
+    height: 32px;
+    display: flex;
+    border-radius: 100px;
+    margin-left: 15px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+
+.actBtn .actBtnInTotal p{
+    margin-top: 20px;
+}
+
 .actBtn .actBtnIn:nth-child(1) {
-    background-color: orange;
+    background-color: orangered;
 }
 
 .actBtn .actBtnIn:nth-child(2) {
@@ -437,7 +462,7 @@ th {
 }
 
 .actBtn .actBtnIn:nth-child(3) {
-    background-color: red;
+    background-color: green;
 }
 
 /* Responsive Styles */

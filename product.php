@@ -83,7 +83,11 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Products</h3><button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_product_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New Product</button>
+                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Products</h3>
+                        <div class="d-flex flex-row justify-content-between align-items-center gap-3">
+                        <button class="btn btn-success" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase; color: white" data-bs-toggle="modal" data-bs-target="#add_category_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New category</button>
+                        <button class="btn btn-primary" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase;" data-bs-toggle="modal" data-bs-target="#add_product_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New Product</button></div>
+                        
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -183,9 +187,57 @@ include('getuser.php');
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Add new Product.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text" id="name"><label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="number" id="price"><label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="number" id="benefit"><label class="form-label" style="margin-top: 12px;">Description</label><textarea class="form-control" id="description"></textarea></form>
+                    <form><label class="form-label" style="margin-top: 12px;">Name</label>
+                    <input class="form-control" type="text" id="name">
+                    <label class="form-label" style="margin-top: 12px;">Category:&nbsp;</label>
+                    <select class="form-control" id="categorySelect"></select>
+
+                    <label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="number" id="price">
+                    <label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="number" id="benefit">
+                    <label class="form-label" style="margin-top: 12px;">Description</label>
+                    <textarea class="form-control" id="description"></textarea></form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit" id="saveproduct">Save</button></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="add_category_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase;">Add New category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; Add new category.</p>
+                    <label class="form-label" style="margin-top: 12px;">Name</label>
+                    <input class="form-control" type="text" id="categoryname">
+
+    </br>
+    <button class="btn btn-primary" type="submit" id="savecategory">Save category</button>
+               
+
+
+<hr>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 12px;">Name</th>
+                                            <th style="font-size: 12px;">Register Date</th>
+                                            <th style="font-size: 12px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ct_table">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
             </div>
         </div>
     </div>
@@ -313,6 +365,24 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="edit_category_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit This Category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp;are for Edit Category.</p>
+                    <label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text" id="cat_name">
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="updatecategory">Update</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="delete-modal">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -320,12 +390,28 @@ include('getuser.php');
                     <h4 class="modal-title" style="font-weight: bold;">Remove Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are sure you need to delete this product AMATA</p>
+                    <p>Are sure you need to delete this product</p>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeProduct"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="delete-modal-category">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Remove Category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are sure you need to delete this category</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeCategory"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="disable-product">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">

@@ -135,228 +135,55 @@ include('getuser.php');
     </div>
     <div class='MiddleSide'>
         <div class="category">
-        <ul>
-            <li>All</li>
+        <ul id="categorylist">
+            <!-- <li>All</li>
+
             <li>Soft Drinks</li>
             <li>Juice Drinks</li>
             <li>Snacks Food</li>
-            <li>Cooked Food</li>
+            <li>Cooked Food</li> -->
         </ul>
         </div>
         <div class="products" id="productslist">
-            
-        <!-- <div class="pro">
-                <div class="header">
-                <img src="styles/icons/fanta.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Fanta Orange</h2>
-                    <p>1,200 Rwf</p>
-                </div>
-        </div> -->
-<!-- 
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/mirinda.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Mirinda</h2>
-                    <p>1,000 Rwf</p>
-                </div>
-        </div>
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/agashya.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Agashya Juice 1 Litre</h2>
-                    <p>7,500 Rwf</p>
-                </div>
-        </div>
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/andazi.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Amandazi</h2>
-                    <p>200 Rwf</p>
-                </div>
-        </div>
-
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/bread.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Bread</h2>
-                    <p>700 Rwf</p>
-                </div>
-        </div>
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/inyangewater.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Inyange amazi</h2>
-                    <p>1,200 Rwf</p>
-                </div>
-        </div>
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/redbull.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Red bull</h2>
-                    <p>1,200 Rwf</p>
-                </div>
-        </div>
-
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/fantaall.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Fanta Icupa</h2>
-                    <p>1,200 Rwf</p>
-                </div>
-        </div>
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/nescafe.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Nescafe</h2>
-                    <p>1,500 Rwf</p>
-                </div>
-        </div>
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/nido.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Nido</h2>
-                    <p>12,000 Rwf</p>
-                </div>
-        </div>
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/sambusa.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Sambusa</h2>
-                    <p>400 Rwf</p>
-                </div>
-        </div>
-
-
-
-        <div class="pro">
-                <div class="header">
-                <img src="styles/icons/boulette.jpg" alt="" srcset="">
-                </div>
-                <div class="whole_body">
-                    <h2>Boulette</h2>
-                    <p>400 Rwf</p>
-                </div>
-        </div> -->
-
         </div>
     </div>
     <div class='RightSide'>
         <div class="bodyTable">
-            <h1 class="Title">15 Items Listed in basket</h1>
-        <table>
+            <div class="Title"><span id="items_number">15</span> Items Listed in basket, Holders(<span>10</span>) <span id="unhold" onclick="holded_carts()">UNHOLD</span></div>
+<div>     
+<table>
 <thead>
 <tr>
 <th>Item</th>
 <th>Price</th>
+<th>Total</th>
 <th>Actions</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td>2.  Fanta Orange</td>
-<td>2500 Rwf</td>
-<td class="actBtn">
-    <div class="actBtnIn">
-    <img src="styles/icons/minus-sign.png" alt="" srcset="">
-    </div>
-    <div class="actBtnIn">
-    <img src="styles/icons/plus.png" alt="" srcset="">
-    </div>
-    <div class="actBtnIn">
-    <img src="styles/icons/remove.png" alt="" srcset="">
-    </div>
-</td>
-</tr>
-<tr>
-<td>3. Mirinda</td>
-<td>1000 Rwf</td>
-<td class="actBtn">
-    <div class="actBtnIn">
-    <img src="styles/icons/minus-sign.png" alt="" srcset="">
-    </div>
-    <div class="actBtnIn">
-    <img src="styles/icons/plus.png" alt="" srcset="">
-    </div>
-    <div class="actBtnIn">
-    <img src="styles/icons/remove.png" alt="" srcset="">
-    </div>
-</td>
-</tr>
-<tr>
-<td>1. Nido</td>
-<td>12,000 Rwf</td>
-<td class="actBtn">
-    <div class="actBtnIn">
-    <img src="styles/icons/minus-sign.png" alt="" srcset="">
-    </div>
-    <div class="actBtnIn">
-    <img src="styles/icons/plus.png" alt="" srcset="">
-    </div>
-    <div class="actBtnIn">
-    <img src="styles/icons/remove.png" alt="" srcset="">
-    </div>
-</td>
-</tr>
+<tbody id="cartItemTableTablet">
 
-<!-- Add more rows as needed -->
 </tbody>
-</table>
+</table></div>   
         </div>
         <div class="payment">
             <div class="calc">
                 
-            <h2>Subtotal</h2>
-            <h3>2000 Rwf</h3>
+            <h2>Payable Amount</h2>
+            <h3 id="subtotal">0 Rwf</h3>
         
         </div>
             <div class="calc">
             <h2>Tax</h2>
-            <h3>150 Rwf</h3>
+            <h3>0 Rwf</h3>
             </div>
             <div class="calc">
             <h2>Payable Amount</h2>
-            <h3>12000 Rwf</h3>
+            <h3 id="subtotalPayable">0 Rwf</h3>
             </div>
+
             <div class="calcBtns">
-                <button>Hold Order</button>
-                <button>Proceed</button>
+                <button id="holdp_sell_tablet" onclick="hold_tablet_sales()">Hold Order</button>
+                <button id="savep_sell_tablet" onclick="proceed_tablet_sales()">Proceed</button>
             </div>
         </div>
     </div>
@@ -760,7 +587,7 @@ include('getuser.php');
     </div>
 
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="finishModal">
+<div class="modal fade" role="dialog" tabindex="-1" id="finishModal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -783,9 +610,40 @@ include('getuser.php');
   <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
   <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
 </svg> Print</button>
+</div>
 
+
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="holdermodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Holded carts</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cart id</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="holdercarts">
+
+                        </tbody>
+                    </table>
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
                 </div>
