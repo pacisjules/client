@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rowIds = $_POST['row_id'];
         $product_id = $_POST['product_id'];
         $NeeddedQty = $_POST['needdedQty'];
-        $sales_point_id = $_POST['sales_point_id'];
+        $company_id = $_POST['company_id'];
         $quantities = $_POST['quantity'];
         $units = $_POST['unit'];
         $user_id = $_POST['user_id'];
@@ -52,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         PD.raw_material_name,
                         PD.unit_of_measure,
                         INVE.quantity_in_stock,
+                        INVE.box_container,
+                        INVE.qty_per_box,
                         INVE.stock_id 
                     FROM
                         rawmaterials PD
@@ -64,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $result = $conn->query($sqlcurrent);
                 $rowInfos = $result->fetch_assoc();
 
+                $boxquantity = $rowInfos['box_container'];
+                $quantity_perbox = $rowInfos['qty_per_box'];
                 $current_inventory_quantity = $rowInfos['quantity_in_stock'];
                 $raw_material_name = $rowInfos['raw_material_name'];
                 $unit_of_measure = $rowInfos['unit_of_measure'];
@@ -76,22 +80,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                     
                     // Perform calculations
+                    $ibivuyemwo = $quantity/$quantity_perbox;
+                    $remainbox = $boxquantity - $ibivuyemwo;
                     $remain_quantity = $current_inventory_quantity - $quantity;
 
-                    $gresult [] ="ID: $row_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id  QTY: $quantity UNIT: $unit";
+                    $gresult [] ="ID: $row_id SESSION: $Session_sale_ID USER: $user_id COMPANY_ID: $company_id  QTY: $quantity UNIT: $unit";
                     
                     
                     // Insert sales record
-                    $sql = "INSERT INTO `production`( `session_id`, `raw_material_id`, `product_id`, `unit`, `quantity`, `sales_point_id`, `user_id`)
-                    VALUES ('$Session_sale_ID','$row_id','$product_id','$unit','$quantity','$sales_point_id','$user_id')";
+                    $sql = "INSERT INTO `production`( `session_id`, `raw_material_id`, `product_id`, `unit`, `quantity`, `company_id`, `user_id`)
+                    VALUES ('$Session_sale_ID','$row_id','$product_id','$unit','$quantity','$company_id','$user_id')";
 
 
 
                     if ($conn->query($sql)) {
                         $successCount++;
+                        
 
                         // Update inventory quantity
-                        $sqlInventory = "UPDATE rawstock SET quantity_in_stock = $remain_quantity WHERE stock_id = $stockiD";
+                        $sqlInventory = "UPDATE rawstock SET
+                         box_container= $remainbox,
+                         quantity_in_stock = $remain_quantity WHERE stock_id = $stockiD";
                         
                         
                         if($conn->query($sqlInventory)){
@@ -107,8 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             if ($successCount === count($rowIds)) {
-                $sqlsaveSession = "INSERT INTO `FinishedProduct`(`session_id`, `quantity`, `product_id`, `spt`, `user_id`,`status`) 
-                VALUES ('$Session_sale_ID', '$NeeddedQty', '$product_id', '$sales_point_id','$user_id','$status')";
+                $sqlsaveSession = "INSERT INTO `FinishedProduct`(`session_id`, `quantity`, `product_id`, `company_id`, `user_id`,`status`) 
+                VALUES ('$Session_sale_ID', '$NeeddedQty', '$product_id', '$company_id','$user_id','$status')";
 
                 $conn->query($sqlsaveSession);
                 

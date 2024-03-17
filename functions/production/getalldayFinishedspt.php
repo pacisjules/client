@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 
 //Get all sales by date
 // $date = $_GET['date'];     FI.created_at LIKE '$date %' AND 
-$spt = $_GET['spt'];
+$company_ID = $_GET['company_ID'];
 
 
 
@@ -30,7 +30,7 @@ FROM
 JOIN products PD ON
     FI.product_id = PD.id
 WHERE
-    FI.spt = $spt
+    FI.company_id = $company_ID
 ORDER BY
     FI.created_at DESC
 ";
@@ -79,9 +79,11 @@ while ($row = $result->fetch_assoc()) {
         <td style="font-size: 14px;">'.$row['created_at'].'</td>
          <td style="font-size: 16px;font-weight:bold; color:'.$style.';">'.$sts.'</td>
          <td >
-         <button class="btn btn-success"    type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setFinishedProduct(`'.$prod_id.'`,`'.$prod_session.'`, `'.$row['quantity'].'`,`'.$row['Product_Name'].'`)">
-          <i class="fa fa-exclamation-circle" style="color: white;"></i> Transfer
-         </button>
+         <a class="nav-link active" href="packingproducts.php?session_id=' . $prod_session . '&product_id='.$prod_id.'">
+            <button class="btn btn-success"    type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setFinishedProduct(`'.$prod_id.'`,`'.$prod_session.'`, `'.$row['quantity'].'`,`'.$row['Product_Name'].'`)">
+            <i class="fa fa-exclamation-circle" style="color: white;"></i> Packing
+            </button>
+         </a>
          </td>
          <td class="d-flex flex-row justify-content-start align-items-center">
             <a class="nav-link active" href="productiondetails.php?session_id=' . $prod_session . '&product_id='.$prod_id.'">

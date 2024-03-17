@@ -126,15 +126,28 @@ $("#purchaserowmaterial").click(function () {
             price_per_unity: priceunity,
             supplier_id: supplier_id,
             user_id: use_id,
-        }
-    })
-    $("#qty").val("");
+        },
+        success: function (response) {
+           $("#qty").val("");
     $("#priceunity").val("");
     localStorage.removeItem("rowid");
     
     View_RowRecord();
     $("#purchasemodal").modal("hide");
-    location.reload();
+    location.reload(); 
+        },
+        error: function (error) {
+          console.log(error);
+          $("#qty").val("");
+          $("#priceunity").val("");
+          localStorage.removeItem("rowid");
+          
+          View_RowRecord();
+          $("#purchasemodal").modal("hide");
+          location.reload();
+      }
+    })
+    
 
 });
   

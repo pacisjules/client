@@ -112,7 +112,7 @@ include('getuser.php');
                                         <thead>
                                             <tr>
                                                 <th>Row Material</th>
-                                                <th>Quantity</th>
+                                                <th>box</th>
                                                 <th>Unit</th>
                                                 <th>Actions</th>
                                             </tr>

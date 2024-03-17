@@ -10,6 +10,7 @@ header('Content-Type: application/json');
 $session_id = $_GET['session_id'];
 $product_id = $_GET['product_id'];
 $spt = $_GET['spt'];
+$company_id = $_GET['company_id'];
 
 
 
@@ -26,7 +27,7 @@ FROM
     production PR
 JOIN rawmaterials RW ON
     PR.raw_material_id = RW.raw_material_id
-WHERE PR.session_id='$session_id' AND PR.sales_point_id =$spt
+WHERE PR.session_id='$session_id' AND PR.company_id=$company_id
 ";
 
 $result = mysqli_query($conn, $sql);

@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 
 //Get all sales by date
 // $date = $_GET['date'];      FI.created_at LIKE '$date %' AND
-$spt = $_GET['spt'];
+$company_ID = $_GET['company_ID'];
 
 
 
@@ -27,7 +27,7 @@ FROM
 JOIN products PD ON
     FI.product_id = PD.id
 WHERE
-    FI.spt = $spt
+    FI.company_id = $company_ID
 ORDER BY
     FI.created_at DESC
 LIMIT 5";
@@ -45,7 +45,7 @@ $result = mysqli_query($conn, $sql);
 
 $num = 0;
 while ($row = $result->fetch_assoc()) {
-    $myid = $row['sales_id'];
+    $myid = $row['id'];
     $num += 1;
 
 

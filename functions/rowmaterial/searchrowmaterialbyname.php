@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 //Get employees by company_ID and sales Point
 
 
-$spt = $_GET['spt'];
+$company_id = $_GET['company_id'];
 $name = $_GET['name'];
 
 
@@ -20,7 +20,7 @@ $name = $_GET['name'];
 $sql = "SELECT  PD.raw_material_id , PD.raw_material_name, PD.unit_of_measure,PD.purchase_date ,IFNULL(INV.quantity_in_stock, 0) AS invquantity
         FROM rawmaterials PD
         LEFT JOIN rawstock INV ON PD.raw_material_id = INV.raw_material_id
-        WHERE  PD.sales_point_id = $spt AND raw_material_name LIKE '%$name%'";
+        WHERE  PD.company_id = $company_id AND raw_material_name LIKE '%$name%'";
 
 $value = "";
 $result = mysqli_query($conn, $sql);

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   var session_id = getParameterByName('session_id'); 
    var product_id = getParameterByName('product_id'); 
+  //  var product_id = getParameterByName('product_id'); 
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
   View_DayFinishedRecord();
@@ -24,10 +25,11 @@ $(document).ready(function () {
    
    
     var sales_point_id = localStorage.getItem("SptID");
+    var company_id = localStorage.getItem("CoID");
 
   // Make an AJAX request to fetch data by customer_id
   $.ajax({
-    url: `functions/production/getallProductionbySession.php?session_id=${session_id}&product_id=${product_id}&spt=${sales_point_id}`,
+    url: `functions/production/getallProductionbySession.php?session_id=${session_id}&product_id=${product_id}&spt=${sales_point_id}&company_id=${company_id}`,
     method: 'GET',
     success: function(data) {
       // Handle the data received from the AJAX request and display it in the table
@@ -50,7 +52,7 @@ $(document).ready(function () {
       
     },
     error: function() {
-      alert('An error occurred while fetching debt details.');
+      console.log('An error occurred while fetching debt details.');
     }
   });
    
@@ -75,66 +77,66 @@ $(document).ready(function () {
   
   
   
-      $(function () {
-    // Open the datepicker when the button is clicked
-    $("#generateFinishedStockedRecord").on("click", function () {
-        $("#datepickerTransfer").datepicker("show");
-    });
+//       $(function () {
+//     // Open the datepicker when the button is clicked
+//     $("#generateFinishedStockedRecord").on("click", function () {
+//         $("#datepickerTransfer").datepicker("show");
+//     });
 
-    // Initialize the datepicker
-    $("#datepickerTransfer").datepicker({
-        onSelect: function (dateText) {
-            function convertDateFormat(dateText) {
-                const dateParts = dateText.split("/");
-                const month = dateParts[0];
-                const day = dateParts[1];
-                const year = dateParts[2];
+//     // Initialize the datepicker
+//     $("#datepickerTransfer").datepicker({
+//         onSelect: function (dateText) {
+//             function convertDateFormat(dateText) {
+//                 const dateParts = dateText.split("/");
+//                 const month = dateParts[0];
+//                 const day = dateParts[1];
+//                 const year = dateParts[2];
 
-                const formattedDate =
-                    year +
-                    "-" +
-                    month.toString().padStart(2, "0") +
-                    "-" +
-                    day.toString().padStart(2, "0");
+//                 const formattedDate =
+//                     year +
+//                     "-" +
+//                     month.toString().padStart(2, "0") +
+//                     "-" +
+//                     day.toString().padStart(2, "0");
 
-                return formattedDate;
-            }
+//                 return formattedDate;
+//             }
 
-            var formattedDate = convertDateFormat(dateText);
-            console.log("picking date: " + formattedDate);
+//             var formattedDate = convertDateFormat(dateText);
+//             console.log("picking date: " + formattedDate);
 
-             var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
+//              var company_ID = localStorage.getItem("CoID");
+//     var sales_point_id = localStorage.getItem("SptID");
   
-    // Ajax Start!
+//     // Ajax Start!
 
-    $.ajax({
-      url:`functions/production/getalldayFinishedsptStocked.php?date=${formattedDate}&spt=${sales_point_id}`,
-      method: "POST",
-      context: document.body,
-      success: function(response) {
-         try {
-            console.log("Success Response: ", response);
+//     $.ajax({
+//       url:`functions/production/getalldayFinishedsptStocked.php?date=${formattedDate}&spt=${sales_point_id}`,
+//       method: "POST",
+//       context: document.body,
+//       success: function(response) {
+//          try {
+//             console.log("Success Response: ", response);
 
-            if (response.data && response.data.length > 0) {
-                 const historydata = response.data;
-                 console.log(historydata);
-                 const typereport =  "Transferred Finished Product Report On "+formattedDate;
-                 printFinishedReport(historydata,typereport);
-             }
-        } catch (e) {
-            console.error("Error handling response: ", e);
-            // Handle the error or display an error message to the user
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("ERROR Response: ", error);
-        // Handle the error or display an error message to the user
-    },
-    });
-        }
-    });
-});
+//             if (response.data && response.data.length > 0) {
+//                  const historydata = response.data;
+//                  console.log(historydata);
+//                  const typereport =  "Transferred Finished Product Report On "+formattedDate;
+//                  printFinishedReport(historydata,typereport);
+//              }
+//         } catch (e) {
+//             console.error("Error handling response: ", e);
+//             // Handle the error or display an error message to the user
+//         }
+//     },
+//     error: function(xhr, status, error) {
+//         console.error("ERROR Response: ", error);
+//         // Handle the error or display an error message to the user
+//     },
+//     });
+//         }
+//     });
+// });
 
   
   
@@ -390,7 +392,8 @@ $('#clearItemBtn').click(function () {
 
   // Retrieve values from localStorage
   var NeeddedQty = $("#quantityExpected").val();
-  var sales_point_id = localStorage.getItem("SptID");
+  
+  var company_id = localStorage.getItem("CoID");
   var use_id = parseInt(localStorage.getItem("UserID"));
   var product_id = parseInt(localStorage.getItem("product_id"));
 
@@ -404,7 +407,8 @@ $('#clearItemBtn').click(function () {
       row_id: rowIds,
       product_id: product_id,
       needdedQty:NeeddedQty,
-      sales_point_id: sales_point_id,
+      
+      company_id: company_id,
       quantity: quantities,
       unit:units,
       user_id: use_id,
@@ -433,11 +437,11 @@ $('#clearItemBtn').click(function () {
 
  $("#searcProductNow").on("input", function (e) {
 
-    var sales_point_id = localStorage.getItem("SptID");
+    var company_id = localStorage.getItem("CoID");
   
     // Ajax Start!
     $.ajax({
-      url: `functions/rowmaterial/searchrowmaterialbyname.php?spt=${sales_point_id}&name=${e.target.value}`,
+      url: `functions/rowmaterial/searchrowmaterialbyname.php?company_id=${company_id}&name=${e.target.value}`,
       method: "POST",
       context: document.body,
       success: function (response) {
@@ -604,12 +608,12 @@ function View_DayFinishedRecord() {
 
 //   $("#dateShow").html(formatDate(formattedDate));
 
-  var sales_point_id = localStorage.getItem("SptID");
+var company_ID = localStorage.getItem("CoID");
 
   // Ajax Start!
 
   $.ajax({
-    url: `functions/production/getalldayFinishedspt.php?spt=${sales_point_id}`,
+    url: `functions/production/getalldayFinishedspt.php?company_ID=${company_ID}`,
     method: "POST",
     context: document.body,
     success: function (response) {
@@ -764,12 +768,12 @@ function View_LastFinishedRecord() {
 
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
-  var sales_point_id = localStorage.getItem("SptID");
+  
 
   // Ajax Start!
 
   $.ajax({
-    url: `functions/production/getalldayFinishedsptLast5.php?spt=${sales_point_id}`,
+    url: `functions/production/getalldayFinishedsptLast5.php?company_ID=${company_ID}`,
     method: "POST",
     context: document.body,
     success: function (response) {
