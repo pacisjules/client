@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Get the form data
   $raw_material_name = $_POST['raw_material_name'];
   $unit_of_measure = $_POST['unit_of_measure'];
-  $sales_point_id = $_POST['sales_point_id'];
+  $company_id = $_POST['company_id'];
   $status = $_POST['status'];
   $user_id=$_POST['user_id'];
 
 
   // Insert the  products
-  $sql = "INSERT INTO rawmaterials (raw_material_name, unit_of_measure,sales_point_id,status, user_id)
-  VALUES ('$raw_material_name', '$unit_of_measure', '$sales_point_id','$status','$user_id')";
+  $sql = "INSERT INTO rawmaterials (raw_material_name, unit_of_measure,company_id,status, user_id)
+  VALUES ('$raw_material_name', '$unit_of_measure', '$company_id','$status','$user_id')";
 
   if ($conn->query($sql) === TRUE) {
       // Return a success message

@@ -5,14 +5,14 @@ require_once '../connection.php';
 //Set master path
 header('Content-Type: application/json');
 
-$spt = $_GET['spt'];
+$company_ID = $_GET['company_id'];
 $name=$_GET['name'];
 
 // Retrieve all users from the database
 $sql = "SELECT  PD.raw_material_id, PD.raw_material_name, PD.unit_of_measure, PD.purchase_date,IFNULL(INV.quantity_in_stock, 0) AS stock
         FROM rawmaterials PD
         LEFT JOIN rawstock INV ON PD.raw_material_id = INV.raw_material_id
-        WHERE PD.sales_point_id = $spt
+        WHERE PD.company_id = $company_ID
         AND raw_material_name LIKE '%$name%'";
 
 

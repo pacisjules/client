@@ -55,73 +55,7 @@ include('getuser.php');
                         </div>
                     </div>
 
-                    <div style="display: flex;flex-wrap: wrap;justify-content: space-between;padding: 10px;margin-top:20px;" id="storeboxes">
-                   
-                    <div style="border-radius: 5px; padding: 10px; margin-top: 20px; margin-bottom: 20px; margin-left: -8px; margin-left: -8px; width: calc(33.33% - 20px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-webkit-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-moz-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);">
-                        <h4 style="text-align: center;color:rgb(0,26,53);">1 liter Package</h4>
-                        <h5 style="text-align: center;color:rgb(0,26,53);">qty:10</h5>
-                        <p style="text-align: center;color:rgb(0,26,53);font-size:12px;">Each package contains 1 liter of yogurt.</p>
-                     <div style="display:flex; flex-direction: row;">
-                       <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Packing</button>
-                       <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">Transfer</button>
-                     </div>
-                        
-                    </div>
-
-                    <div style="border-radius: 5px; padding: 10px; margin-top: 20px; margin-bottom: 20px; margin-left: -8px; margin-left: -8px; width: calc(33.33% - 20px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-webkit-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-moz-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);">
-                        <h4 style="text-align: center;color:rgb(0,26,53);">1 liter Package</h4>
-                        <h5 style="text-align: center;color:rgb(0,26,53);">qty:10</h5>
-                        <p style="text-align: center;color:rgb(0,26,53);font-size:12px;">Each package contains 1 liter of yogurt.</p>
-                     <div style="display:flex; flex-direction: row;">
-                       <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Packing</button>
-                       <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">Transfer</button>
-                     </div>
-                        
-                    </div>
-
-                    <div style="border-radius: 5px; padding: 10px; margin-top: 20px; margin-bottom: 20px; margin-left: -8px; margin-left: -8px; width: calc(33.33% - 20px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-webkit-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-moz-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);">
-                        <h4 style="text-align: center;color:rgb(0,26,53);">1 liter Package</h4>
-                        <h5 style="text-align: center;color:rgb(0,26,53);">qty:10</h5>
-                        <p style="text-align: center;color:rgb(0,26,53);font-size:12px;">Each package contains 1 liter of yogurt.</p>
-                     <div style="display:flex; flex-direction: row;">
-                       <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Packing</button>
-                       <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">Transfer</button>
-                     </div>
-                        
-                    </div>
-
-                    <div style="border-radius: 5px; padding: 10px; margin-top: 20px; margin-bottom: 20px; margin-left: -8px; margin-left: -8px; width: calc(33.33% - 20px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-webkit-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-moz-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);">
-                        <h4 style="text-align: center;color:rgb(0,26,53);">1 liter Packaging</h4>
-                        <h5 style="text-align: center;color:rgb(0,26,53);">qty:10</h5>
-                        <p style="text-align: center;color:rgb(0,26,53);font-size:12px;">Each package contains 1 liter of yogurt.</p>
-                     <div style="display:flex; flex-direction: row;">
-                       <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Packing</button>
-                       <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">Transfer</button>
-                     </div>
-                        
-                    </div>
-
-                    <div style="border-radius: 5px; padding: 10px; margin-top: 20px; margin-bottom: 20px; margin-left: -8px; margin-left: -8px; width: calc(33.33% - 20px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-webkit-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-moz-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);">
-                        <h4 style="text-align: center;color:rgb(0,26,53);">1 liter Packaging</h4>
-                        <h5 style="text-align: center;color:rgb(0,26,53);">qty:10</h5>
-                        <p style="text-align: center;color:rgb(0,26,53);font-size:12px;">Each package contains 1 liter of yogurt.</p>
-                     <div style="display:flex; flex-direction: row;">
-                       <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Packing</button>
-                       <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">Transfer</button>
-                     </div>
-                        
-                    </div>
-
-                    <div style="border-radius: 5px; padding: 10px; margin-top: 20px; margin-bottom: 20px; margin-left: -8px; margin-left: -8px; width: calc(33.33% - 20px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-webkit-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);-moz-box-shadow: -3px 0px 46px 2px rgba(99,101,148,0.75);">
-                        <h4 style="text-align: center;color:rgb(0,26,53);">1 liter Packaging</h4>
-                        <h5 style="text-align: center;color:rgb(0,26,53);">qty:10</h5>
-                        <p style="text-align: center;color:rgb(0,26,53);font-size:12px;">Each package contains 1 liter of yogurt.</p>
-                     <div style="display:flex; flex-direction: row;">
-                       <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">Packing</button>
-                       <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;">Transfer</button>
-                     </div>
-                        
-                    </div>
+                    <div style="display: flex;flex-wrap: wrap;justify-content: space-between;padding: 10px;margin-top:20px;" id="Packegesboxes">
 
                    </div>
                 </div>
@@ -133,37 +67,55 @@ include('getuser.php');
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="payfull_modal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="transfer_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Pay In full all debts of <span id="custn"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">transfer All Packed Items </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; you can pay all debts.</p>
+                    <p>Here&nbsp; you can Tansfer the All packed Items in stock.</p>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="payalldebt">Finish</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="transferInStock">Finish</button></div>
             </div>
         </div>
     </div>
     
-    <div class="modal fade" role="dialog" tabindex="-1" id="paytranche_modal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Pay debts of <span id="custne"></span> in Installments</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Here&nbsp; you can pay debts in Installments.</p>
-                    <form>
-                        <label class="form-label" style="margin-top: 12px;">Enter Amount</label>
-                        <input class="form-control" type="number" id="amountpaid">
-                    </form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="paytranchedebt">Finish</button></div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="packaging_modal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Packaging  <span id="custne"></span></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Here you can pack.</p>
+                <form>
+                    <label class="form-label" style="margin-top: 12px;">Select Package Standards</label>
+                    <select class="form-control" id="ibipimo" name="ibipimo">
+                        <option value="5">5L</option><br>
+                        <option value="3">3L</option>
+                        <option value="2">2L</option>
+                        <option value="1">1L</option>
+                        <option value="0.5">500ML</option>
+                        <option value="0.25">250ML</option>
+                        <option value="0.15">150ML</option>
+                        <option value="0.02">20ML</option>
+                    </select>
+                    <label class="form-label" style="margin-top: 12px;">Enter Items packed</label>
+                    <input class="form-control" type="number" id="amountpack">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary" type="button" id="packagingbtn">Finish</button>
             </div>
         </div>
     </div>
+</div>
+
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -186,7 +138,7 @@ include('getuser.php');
                     <h4 class="modal-title" style="color:red;">Error!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p style="color:black;" > Something went wrong in paying debts in Installments.!!</p>
+                    <p style="color:black;" > Something went wrong .!!</p>
                     
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>

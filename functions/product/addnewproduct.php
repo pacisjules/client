@@ -12,14 +12,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $benefit = $_POST['benefit'];
   $company_ID = $_POST['company_ID'];
   $sales_id = $_POST['sales_point_id'];
+  $category_id = $_POST['category_id'];
   $status = $_POST['status'];
   $description=$_POST['description'];
   $barcode=$_POST['barcode'];
 
 
   // Insert the  products
-  $sql = "INSERT INTO products (name, price, benefit,company_ID,sales_point_id,status,description,barcode)
-  VALUES ('$name', '$price','$benefit', '$company_ID', '$sales_id', '$status','$description','$barcode')";
+  $sql = "INSERT INTO products (name, price, benefit,category_id,company_ID,sales_point_id,status,description,barcode)
+  VALUES ('$name', '$price','$benefit', '$category_id','$company_ID', '$sales_id', '$status','$description','$barcode')";
 
   if ($conn->query($sql) === TRUE) {
       // Return a success message

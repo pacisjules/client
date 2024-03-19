@@ -379,7 +379,7 @@ $(document).ready(function () {
       var price = $("#price").val();
       var benefit = $("#benefit").val();
       var description = $("#description").val();
-  
+      var category_id = $("#categorySelect").val();
       // Retrieve values from localStorage
       var company_ID = localStorage.getItem("CoID");
       var sales_point_id = localStorage.getItem("SptID");
@@ -395,6 +395,7 @@ $(document).ready(function () {
           benefit: benefit,
           company_ID: company_ID,
           sales_point_id: sales_point_id,
+          category_id:category_id,
           status: 1,
           description: description,
           barcode: 12345,

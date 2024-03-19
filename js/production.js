@@ -1,7 +1,7 @@
 $(document).ready(function () {
   var session_id = getParameterByName('session_id'); 
    var product_id = getParameterByName('product_id'); 
-  //  var product_id = getParameterByName('product_id'); 
+   var category_id = getParameterByName('category_id'); 
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
   View_DayFinishedRecord();
@@ -29,32 +29,51 @@ $(document).ready(function () {
 
   // Make an AJAX request to fetch data by customer_id
   $.ajax({
-    url: `functions/production/getallProductionbySession.php?session_id=${session_id}&product_id=${product_id}&spt=${sales_point_id}&company_id=${company_id}`,
+    url: `functions/production/getpackagedproductCatgory.php?category_id=${category_id}&company_ID=${company_id}&spt=${sales_point_id}`,
     method: 'GET',
-    success: function(data) {
-      // Handle the data received from the AJAX request and display it in the table
-      var html = '';
-      var product_name = data.name;
-                              
-      $.each(data.data, function(index, item) {
-          
-        html += '<tr>';
-        html += '<td>' + item.raw_material_name + '</td>';
-        html += '<td>' + item.quantity + '</td>';
-        html += '<td> Frw ' + item.unit + '</td>';
-        html += '<td>' + item.created_at + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.raw_material_name}','${item.quantity}','${item.unit}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.stock_id}','${item.id}','${item.raw_material_name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
-        html += '</tr>';
-      });
-      $('#detail_table').html(html);
-      $('#product_name').html(product_name);
-      $('#custn').html(product_name);
-      
+    success: function (response) {
+      if (response) {
+        //console.log(response);
+        $("#Packegesboxes").html(response);
+      } else {
+        //console.log(response);
+        $("#Packegesboxes").html("Not Any result");
+      }
     },
-    error: function() {
-      console.log('An error occurred while fetching debt details.');
-    }
+    error: function (error) {
+      console.log(error);
+    },
   });
+
+
+    // Make an AJAX request to fetch data by customer_id
+    $.ajax({
+      url: `functions/production/getallProductionbySession.php?session_id=${session_id}&product_id=${product_id}&spt=${sales_point_id}&company_id=${company_id}`,
+      method: 'GET',
+      success: function(data) {
+        // Handle the data received from the AJAX request and display it in the table
+        var html = '';
+        var product_name = data.name;
+                                
+        $.each(data.data, function(index, item) {
+            
+          html += '<tr>';
+          html += '<td>' + item.raw_material_name + '</td>';
+          html += '<td>' + item.quantity + '</td>';
+          html += '<td> Frw ' + item.unit + '</td>';
+          html += '<td>' + item.created_at + '</td>';
+          html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.raw_material_name}','${item.quantity}','${item.unit}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.stock_id}','${item.id}','${item.raw_material_name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
+          html += '</tr>';
+        });
+        $('#detail_table').html(html);
+        $('#product_name').html(product_name);
+        $('#custn').html(product_name);
+        
+      },
+      error: function() {
+        console.log('An error occurred while fetching debt details.');
+      }
+    });
    
    
    
@@ -529,12 +548,10 @@ $('#clearItemBtn').click(function () {
    $("#transferInStock").click(function () {
     $("#transferInStock").html("Please wait..");
     
-
+    var company_id = localStorage.getItem("CoID");
     var sales_point_id = localStorage.getItem("SptID");
-    var UserID = localStorage.getItem("UserID");
-    var product_id = parseInt(localStorage.getItem("product_id"));
-    var quantity = localStorage.getItem("quantity");
-    var prod_session = localStorage.getItem("prod_session");
+    var product_id = parseInt(localStorage.getItem("pro_id"));
+    var quantity = localStorage.getItem("qty");
 
     //Ajax Start!
     $.ajax({
@@ -543,19 +560,22 @@ $('#clearItemBtn').click(function () {
 
       data: {
         product_id: product_id,
+        company_id:company_id,
         salespt_id: sales_point_id,
-        user_id: UserID,
         quantity:quantity,
-        prod_session:prod_session,
       },
 
       success: function (response) {
-        View_DayFinishedRecord();
-        $("#edit_product_modal").modal("hide");
-        localStorage.removeItem("co_id");
+        $("#transfer_modal").modal("hide");
+        $("#successmodal").modal("show");
+        setTimeout(function() {
+          location.reload();
+      }, 1000);
       },
       error: function (error) {
-        //console.log(error.responseText);
+        console.log(error);
+        $("#transfer_modal").modal("hide");
+        $("#errormodal").modal("show");
       },
     });
   });
@@ -563,7 +583,63 @@ $('#clearItemBtn').click(function () {
  
  
  
- 
+  
+  $("#packagingbtn").click(function () {
+    // Change button text to indicate loading
+    $(this).html("Please wait..");
+
+    // Store reference to 'this' to use inside AJAX callbacks
+    var $button = $(this);
+
+    // Your existing AJAX code...
+    var campany = localStorage.getItem("CoID");
+    var product_id = parseInt(localStorage.getItem("production_id"));
+    var quantitypro = parseFloat(localStorage.getItem("quantitypro"));
+    var prod_session = localStorage.getItem("prod_session");
+    var ibipimo  = parseFloat($("#ibipimo").val());
+    var itempacked = parseFloat($("#amountpack").val());
+
+    // console.log(campany);
+    // console.log(product_id);
+    // console.log(prod_session);
+    // console.log(quantitypro);
+    // console.log(ibipimo);
+    // console.log(itempacked);
+    
+
+    //Ajax Start!
+    $.ajax({
+        url: "functions/production/packing.php",
+        method: "POST",
+        data: {
+            product_id: product_id,
+            company_id: campany,
+            quantitypro: quantitypro,
+            prod_session: prod_session,
+            ibipimo: ibipimo,
+            itempacked: itempacked,
+        },
+        success: function (response) {
+            // Restore button text after AJAX request completes
+            $button.html("Finish");
+
+            $("#packaging_modal").modal("hide");
+            $("#successmodal").modal("show");
+            setTimeout(function() {
+              location.reload();
+          }, 1000);
+        },
+        error: function (error) {
+            // Restore button text after AJAX request completes
+            $button.html("Finish");
+
+            console.log(error);
+            $("#packaging_modal").modal("hide");
+            $("#errormodal").modal("show");
+        },
+    });
+});
+
  
  
  
@@ -978,13 +1054,23 @@ function setFinishedProduct(product_id, prod_session,quantity,Product_Name){
     $("#finishedPro").html(Product_Name);
     $("#quantity").html(quantity);
     localStorage.setItem("product_id", product_id);   
-    localStorage.setItem("quantity", quantity); 
+    localStorage.setItem("quantitypro", quantity); 
     localStorage.setItem("prod_session", prod_session); 
     
     
 }
 
+function setpackingdata(product_id){
+  console.log(product_id);
+  localStorage.setItem("production_id", product_id);
+}
 
+function settransferdata(id,qty){
+  console.log(id);
+  localStorage.setItem("pro_id", id);
+  console.log(qty);
+  localStorage.setItem("qty", qty);
+}
 
 
 

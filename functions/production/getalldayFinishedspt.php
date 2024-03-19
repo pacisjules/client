@@ -18,6 +18,7 @@ $sql = "
 SELECT DISTINCT
     FI.id,
     PD.name AS Product_Name,
+    PD.category_id,
     FI.quantity,
     FI.created_at,
     FI.user_id,
@@ -51,6 +52,7 @@ while ($row = $result->fetch_assoc()) {
     $myid = $row['id'];
     $prod_session = $row['session_id'];
     $prod_id = $row['product_id'];
+    $category =  $row['category_id'];
     $num += 1;
 
     $sts="";
@@ -79,8 +81,8 @@ while ($row = $result->fetch_assoc()) {
         <td style="font-size: 14px;">'.$row['created_at'].'</td>
          <td style="font-size: 16px;font-weight:bold; color:'.$style.';">'.$sts.'</td>
          <td >
-         <a class="nav-link active" href="packingproducts.php?session_id=' . $prod_session . '&product_id='.$prod_id.'">
-            <button class="btn btn-success"    type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setFinishedProduct(`'.$prod_id.'`,`'.$prod_session.'`, `'.$row['quantity'].'`,`'.$row['Product_Name'].'`)">
+         <a class="nav-link active" href="packingproducts.php?session_id=' . $prod_session . '&product_id='.$prod_id.'&category_id='.$category.'">
+            <button class="btn btn-success"    type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setFinishedProduct(`'.$myid.'`,`'.$prod_session.'`, `'.$row['quantity'].'`,`'.$row['Product_Name'].'`)">
             <i class="fa fa-exclamation-circle" style="color: white;"></i> Packing
             </button>
          </a>

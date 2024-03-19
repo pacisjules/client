@@ -6,11 +6,11 @@ require '../systemhistory.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $product_id = $_POST["product_id"];
-    $added_quantity = $_POST["quantity"];
+    $company_id = $_POST["company_id"];
     $salespt_id = $_POST["salespt_id"];
-    $UserID = $_POST["user_id"];
-    $prod_session = $_POST["prod_session"];
-    $alert_quantity=5;
+    $quantity = $_POST["quantity"];
+    $alert_quantity =5;
+
 
     
     //Get if is in Inventory
@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if($ckeckNumber<1){
         // Insert the  products
-  $sql = "INSERT INTO inventory (product_id, quantity, alert_quantity)
-  VALUES ('$product_id', '$added_quantity','$alert_quantity')";
+  $sql = "INSERT INTO inventory (product_id, quantity, alert_quantity,company_ID,spt_id)
+  VALUES ('$product_id', '$quantity','$alert_quantity','$company_id','$salespt_id')";
 
   if ($conn->query($sql) === TRUE) {
       $sqlget_product = "SELECT name FROM products WHERE id=$product_id";
@@ -36,12 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // Return a success message
       header('HTTP/1.1 201 Created');
       echo "Product Inventory successfully.";
-      AddHistory($UserID,"Added Quantity: ".$added_quantity." of " . $getpro_name,$salespt_id,"inventoryIn");
+      AddHistory($UserID,"Added Quantity: ".$quantity." of " . $getpro_name,$salespt_id,"inventoryIn");
     
      $sqlFinish = "UPDATE 
-             FinishedProduct 
-            SET status=2
-        WHERE session_id='$prod_session' AND product_id=$product_id";
+             packaging 
+            SET qty=0
+        WHERE product_id=$product_id";
         
   if ($conn->query($sqlFinish) === TRUE) {
 
@@ -71,13 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $current_quantity = $rowInfos['quantity'];
     $current_Aquantity = $rowInfos['alert_quantity'];
 
-    $remain_quantity = $current_quantity + $added_quantity;
-    $remain_Aquantity = $current_Aquantity + $alert_quantity;
+    $remain_quantity = $current_quantity + $quantity;
 
     // Update the employee data into the database
     $sql = "UPDATE 
              inventory 
-            SET quantity='$remain_quantity', alert_quantity='$remain_Aquantity'
+            SET quantity='$remain_quantity'
         WHERE product_id=$product_id";
 
 
@@ -96,16 +95,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         
          $sqlFinish = "UPDATE 
-             FinishedProduct 
-            SET status=2
-        WHERE session_id='$prod_session' AND product_id=$product_id";
+         packaging 
+        SET qty=0
+    WHERE product_id=$product_id";
         
     if ($conn->query($sqlFinish) === TRUE) {
      
       // Return a success message
       header('HTTP/1.1 201 Created');
       echo "Product Inventory successfully.";
-      AddHistory($UserID,"Transferred Quantity: ".$added_quantity." of " . $getpro_name,$salespt_id,"TransferStock");
+      AddHistory($UserID,"Transferred Quantity: ".$quantity." of " . $getpro_name,$salespt_id,"TransferStock");
       
 }
     } else {

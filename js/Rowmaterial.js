@@ -297,11 +297,11 @@ $("#purchaserowmaterial").click(function () {
   $("#searcRowMaterialtNow").on("input", function (e) {
 
     var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
+   
   
     // Ajax Start!
     $.ajax({
-      url: `functions/rowmaterial/getallrowmaterialsbysearch.php?spt=${sales_point_id}&name=${e.target.value}`,
+      url: `functions/rowmaterial/getallrowmaterialsbysearch.php?company_id=${company_ID}&name=${e.target.value}`,
       method: "POST",
       context: document.body,
       success: function (response) {
@@ -336,7 +336,7 @@ $("#purchaserowmaterial").click(function () {
     var unitytype = $("#unitytype").val();
 
     // Retrieve values from localStorage
-    var sales_point_id = localStorage.getItem("SptID");
+    var company_id = localStorage.getItem("CoID");
     var use_id= parseInt(localStorage.getItem("UserID"));
 
     // Start AJAX request
@@ -346,7 +346,7 @@ $("#purchaserowmaterial").click(function () {
       data: {
         raw_material_name: name,
         unit_of_measure: unitytype,
-        sales_point_id: sales_point_id,
+        company_id: company_id,
         status: 1,
         user_id:use_id,
       },
