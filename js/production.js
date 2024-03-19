@@ -550,6 +550,7 @@ $('#clearItemBtn').click(function () {
     
     var company_id = localStorage.getItem("CoID");
     var sales_point_id = localStorage.getItem("SptID");
+    var user_id = localStorage.getItem("UserID");
     var product_id = parseInt(localStorage.getItem("pro_id"));
     var quantity = localStorage.getItem("qty");
 
@@ -563,6 +564,7 @@ $('#clearItemBtn').click(function () {
         company_id:company_id,
         salespt_id: sales_point_id,
         quantity:quantity,
+        user_id:user_id,
       },
 
       success: function (response) {

@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $company_id = $_POST["company_id"];
     $salespt_id = $_POST["salespt_id"];
     $quantity = $_POST["quantity"];
+    $UserID = $_POST["user_id"];
     $alert_quantity =5;
 
 
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // Return a success message
       header('HTTP/1.1 201 Created');
       echo "Product Inventory successfully.";
-      AddHistory($UserID,"Transferred Quantity: ".$added_quantity." of " . $getpro_name,$salespt_id,"TransferStock");
+      AddHistory($UserID,"Transferred Quantity: ".$quantity." of " . $getpro_name,$salespt_id,"TransferStock");
       
 }
       
