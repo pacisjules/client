@@ -412,7 +412,6 @@ $(document).ready(function () {
         error: function (error) {},
       });
   
-      $("#saveNewUser").html("Please wait.."); // Update another element's text (saveNewUser)
     });
     
       $("#purchaseBtn").click(function () {

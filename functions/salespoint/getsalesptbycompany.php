@@ -1,50 +1,46 @@
 <?php
 // Include the database connection file
 require_once '../connection.php';
-
-
-
-//Set master path
-$masterHome = "/functions/salespoint/getsalesptbycompany.php";
 header('Content-Type: application/json');
 
+$company_ID = $_GET['company'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+// Retrieve all products and inventory for the given company and sales point
+$sql = "SELECT * FROM salespoint SA, companies CO WHERE SA.company_ID=CO.id AND SA.company_ID=$company_ID";
 
+$result = mysqli_query($conn, $sql);
 
-    $com_id = $_GET['com_id'];
+$rows = array(); // Initialize an empty array to store the data
 
-    //Sales points Get
-    if ($_SERVER['REQUEST_URI'] === $masterHome . "/all_sales_point?com_id=" . $com_id) {
-
-        // Retrieve all users from the database
-        $sql = "SELECT * FROM salespoint WHERE company_ID=$com_id";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // Convert the results to an array of objects
-            $comp = array();
-            while ($row = $result->fetch_assoc()) {
-
-                $com = new stdClass();
-
-                $com->sales_point_id  = $row['sales_point_id'];
-                $com->manager_name = $row['manager_name'];
-                $com->location = $row['location'];
-                $com->phone_number = $row['phone_number'];
-                $com->company_ID = $row['company_ID'];
-                $com->email = $row['email'];
-
-                $comp[] = $com;
-            }
-
-            // Return the users as JSON
-            header('Content-Type: application/json');
-            echo json_encode($comp);
-        } else {
-            // Return an error message if no users were found
-            header('HTTP/1.0 404 Not Found');
-            echo "No List found.";
-        }
-    }
+while ($row = $result->fetch_assoc()) {
+    $rows[] = array(
+        'location' => $row['location'],
+        'manager_name' => $row['manager_name'],
+        'phone_number' => $row['phone_number'],
+        'name' => $row['name'],
+        'sales_point_id' => $row['sales_point_id']
+    );
 }
+
+// Now, let's construct the HTML markup
+$html = ''; // Start the table
+
+foreach ($rows as $index => $row) {
+    $html .= '
+        <tr>
+            <td>' . ($index + 1) . '. ' . $row['location'] . '</td>
+            <td>' . $row['manager_name'] . '</td>
+            <td>' . $row['phone_number'] . '</td>
+            <td>' . $row['name'] . '</td>
+            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#visitsalespoint_modal" data-bs-toggle="modal" onclick="SelectEdisalespoint(' . $row['sales_point_id'] . ')"><i class="fa fa-map-marker" style="color: rgb(255,255,255);margin-right:5px;"></i>Visit</button></td>  
+        </tr>';
+}
+
+; // Close the table
+
+// Encode the HTML into JSON
+$jsonData = json_encode($html);
+
+// Send the JSON response
+echo $jsonData;
+?>

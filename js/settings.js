@@ -5,6 +5,30 @@ $(document).ready(function () {
   View_company_pages_forselect();
   View_company_permission();
   View_company_users();
+  View_salespointRecord();
+  SelectEdisalespoint();
+
+
+  $("#VisitSalesPointBtn").click(function () {
+    $("#VisitSalesPointBtn").html("Please wait..");
+    localStorage.removeItem("SptID");
+    
+    var newsalepoint = localStorage.getItem("salespointid");
+    localStorage.setItem("SptID", newsalepoint);
+    localStorage.removeItem("salespointid");
+
+    // Navigate to index.php after a short delay (e.g., 1 second)
+    setTimeout(function() {
+        window.location.href = "index.php";
+    }, 1000); // Adjust the delay time as needed
+});
+
+
+
+
+
+
+
 
 
   //Update User
@@ -275,6 +299,34 @@ function View_company_category_forselect() {
 
 
 
+  function View_salespointRecord() {
+    // Retrieve values from localStorage
+    var company_ID = parseInt(localStorage.getItem("CoID"));
+  
+    // Ajax Start!
+    $.ajax({
+        url: `functions/salespoint/getsalesptbycompany.php?company=${company_ID}`,
+        method: "GET", // Change method to GET
+        dataType: "json", // Expect JSON response
+        success: function (response) {
+            if (response) {
+                $("#salespoint_table").html(response); // Set the HTML content of salespoint_table element
+            } else {
+                $("#salespoint_table").html("Not Any result");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("AJAX request failed!");
+            console.log("Error:", error);
+        },
+    });
+    // Ajax End!
+}
+
+
+
+
+
  
 
 
@@ -303,4 +355,9 @@ function View_company_category_forselect() {
       },
     });
     // Ajax End!
+  }
+
+  function SelectEdisalespoint(id){
+    console.log(id);
+    localStorage.setItem("salespointid",id);
   }
