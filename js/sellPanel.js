@@ -1,5 +1,21 @@
 $(document).ready(function () {
 
+
+  function checkInternetConnection() {
+    fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
+        .then(response => {
+          $('#wifi_status').attr('src', 'styles/icons/wifiOn.png');
+            //console.log('Internet is connected');
+        })
+        .catch(error => {
+            $('#wifi_status').attr('src', 'styles/icons/wifiOff.png');
+            //console.log('Internet is not connected');
+        });
+}
+
+// Check internet connection every second
+setInterval(checkInternetConnection, 500);
+
   
   // localStorage.setItem("temporary_hold",[]);
   localStorage.setItem("is_paid","Paid");
@@ -9,11 +25,9 @@ $(document).ready(function () {
   View_LastSalesRecord();
   View_ProductsRecord();
   addCartTablet(e);
-  
-  
-  
-  
-  
+  holded_carts();  
+
+
   
     $("#addcustomer").click(function () {
       // Retrieve values from input fields
@@ -648,6 +662,42 @@ function setSelect(e) {
 
 
 
+function setSearch(e) {
+  console.log(e);
+  
+  // Retrieve values from localStorage
+  var company_ID = localStorage.getItem("CoID");
+  var sales_point_id = localStorage.getItem("SptID");
+
+
+  // Ajax Start!
+  $.ajax({
+    url: `functions/product/tabletsearch.php?company=${company_ID}&spt=${sales_point_id}&name=${e}`,
+    method: "POST",
+    context: document.body,
+    success: function (response) {
+      if (response) {
+        //console.log(response);
+        $("#productslist").html(response);
+      } else {
+        //console.log(response);
+        $("#productslist").html("Not Any result");
+      }
+    },
+    error: function (xhr, status, error) {
+      // console.log("AJAX request failed!");
+      // console.log("Error:", error);
+    },
+
+    
+  });
+
+  // Ajax End!
+}
+
+
+
+
 
 
 
@@ -949,6 +999,7 @@ function AddToCartTablet(id,namepro,realprice, benefits, qty) {
    
  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
  
+ 
 
 
    var product = {
@@ -961,6 +1012,8 @@ function AddToCartTablet(id,namepro,realprice, benefits, qty) {
    cart.items.push(product);
 
  localStorage.setItem("cart", JSON.stringify(cart));
+
+ $('#items_number').html(cart.items.length);
 
  // Create a new table row with the product data
  var newRow = $('<tr></tr>');
@@ -1058,6 +1111,7 @@ function updateCartDisplaytablet(cart) {
   $('#cartItemTableTablet').empty();
   // var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: 0.00 };
   console.log(cart);
+  $('#items_number').html(cart.items.length);
 
   
 
@@ -1112,6 +1166,7 @@ function updateCartDisplaytablet(cart) {
 
 function addCartTablet(id, namepro, p_c_qty, p_price, p_benefit) {
 
+$('#unhold').css('opacity', 0);
 console.log(id)
 var qty = 1;
 var negoPrice = $("#NegoPrice").val();
@@ -1251,7 +1306,7 @@ function removeItemshow(e) {
 
 
 function proceed_tablet_sales () {
-
+  $('#unhold').css('opacity', 1);
   
   if (localStorage.getItem("cart") === null || localStorage.getItem("cart") == '{}' || localStorage.getItem("cart") == undefined) {
     alert("Your cart is empty! Please add some products.");
@@ -1348,7 +1403,9 @@ function proceed_tablet_sales () {
 };
 
 function hold_tablet_sales () {
-
+  
+  
+  $('#unhold').css('opacity', 1);
   if (localStorage.getItem("cart") === null || localStorage.getItem("cart") == '{}' || localStorage.getItem("cart") == undefined) {
     alert("Your cart is empty! Please add some products.");
     return;
@@ -1382,8 +1439,23 @@ function hold_tablet_sales () {
     }
     old_hold_data.push(data); // Append new data to the existing array
     console.log(old_hold_data);
-    localStorage.setItem("temporary_hold", JSON.stringify(old_hold_data));
+    localStorage.setItem("temporary_hold", [JSON.stringify(old_hold_data)]);
     localStorage.removeItem('cart');
+    $('#items_number').html('0');
+
+    var check_holds=localStorage.getItem("temporary_hold");
+    var check_holds_nums=null;
+    
+    if(check_holds.length === undefined){
+      check_holds_nums=[JSON.parse(localStorage.getItem("temporary_hold"))];
+    }else{
+      check_holds_nums=JSON.parse(localStorage.getItem("temporary_hold"));
+    }
+    console.log()
+    $('#holds_number').html(`${check_holds.length === undefined?'1':check_holds_nums.length} ${check_holds_nums.length>1?'Holds':'Hold'}`);
+    
+
+
     $('#cartItemTableTablet').empty();
     $("#holdp_sell_tablet").html("HOLD ORDER");
     $('#subtotalPayable').html("0 Rwf");
@@ -1392,67 +1464,43 @@ function hold_tablet_sales () {
 };
 
 
-function holded_carts() {
-  $("#holdermodal").modal('show');
-  
-  // Retrieve cart data from localStorage
-  var cart = JSON.parse(localStorage.getItem("temporary_hold"));
-  
-  // Loop through each item and append to the table
-  cart.forEach((cartItem) => {
-    var newRow = $(`<tr></tr>`);
-    newRow.append(`<td>` + cartItem.cart_id + `</td>`);
-    var ls=cartItem.cart_body;
-    var my_array=[];
-    my_array.push(ls.items);
-    var totalAmount = 0;
-    var cart_id = cartItem.cart_id;
-    // Initialize total amount for each cart item
-    
-    // Check if cart body is an array before iterating over it
-    if (Array.isArray(my_array)) {
-      // Loop through each item in the cart body to calculate total amount
-      my_array.forEach((item) => {
-        //totalAmount += item.price;
-        item.forEach((t)=>{
-          totalAmount += t.price;
-          console.log(t.price)
-        })
-        //console.log(item) // Add each item's price to the total amount
-      });
-    } else {
-      // Handle the case where cart body is not an array
-      console.error("Cart body is not an array for cart item:", cartItem);
-    }
-    
-    newRow.append(`<td>` + totalAmount + `</td>`);
-    newRow.append(`<td><button class="btn btn-success btn-sm" onclick="setHoldedArrayToOtherStorage('${cart_id}')"> Set </button></td>`);
-    
-    // Append the new row to the table
-    $('#holdercarts').append(newRow);
-  });
-}
 
 
 function setHoldedArrayToOtherStorage(cartId) {
+  $('#unhold').css('opacity', 0);
+  $('#cartItemTableTablet').html('');
+  localStorage.removeItem("cart");
+  
+
   console.log(cartId);
   
   // Retrieve holded carts from localStorage
   var holdedCarts = JSON.parse(localStorage.getItem("temporary_hold"));
   console.log(holdedCarts);
+
+
+  var newHoldedCarts = null;
+
+  if (holdedCarts.length === undefined) 
+  {
+    console.log('is empty', holdedCarts.length);
+    newHoldedCarts=[JSON.parse(localStorage.getItem("temporary_hold"))];
+  }else{
+    newHoldedCarts=JSON.parse(localStorage.getItem("temporary_hold"));
+  }
   
   
   // Filter out the cart we want to set into cart localStorage
-  var cartToSet = holdedCarts.filter(cart => cart.cart_id == cartId)[0];
-  console.log(cartToSet);
+  var cartToSet = newHoldedCarts.filter(cart => cart.cart_id == cartId)[0];
+  console.log('setted unhold cart',cartToSet);
   
   // Remove the cart from holdedCarts array
-  holdedCarts = holdedCarts.filter(cart => cart.cart_id != cartId);
-  console.log(holdedCarts);
+  newHoldedCarts = newHoldedCarts.filter(cart => cart.cart_id != cartId);
+  console.log('hold last cart',newHoldedCarts);
   
   // Set the modified array back to localStorage
-  localStorage.setItem("temporary_hold", JSON.stringify(holdedCarts));
-  
+  localStorage.removeItem("temporary_hold");
+  localStorage.setItem("temporary_hold", JSON.stringify(newHoldedCarts));
   
   // Get the cart data from localStorage
   var cart = JSON.parse(localStorage.getItem("cart"));
@@ -1463,15 +1511,198 @@ function setHoldedArrayToOtherStorage(cartId) {
     cart.push(cartToSet);
   } else {
     // If cart is not an array, make it an array and then push the cart to set
-    cart = [cartToSet];
-  }
-  
+    cart = cartToSet.cart_body;
+
+
   // Set the modified array back to localStorage
   localStorage.setItem("cart", JSON.stringify(cart));
   console.log(cart);
+
+
+var newcart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+// Loop through the cart items and update the table
+for (const product of newcart.items) {
+  const {id, name, qty, price} = product;
+  var newRow = $('<tr></tr>');
+ newRow.append('<td>' + name + '</td>');
+ newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+ }).format(price) + '</td>');
+ newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+ }).format(price * qty) + '</td>');
+ newRow.append(`<td class="actBtn">
+ <div class="actBtnIn"  onclick="decreaseQtyshow(${id})">
+ <img src="styles/icons/minus-sign.png" alt="" srcset="">
+ </div>
+ <div class="actBtnInTotal">
+     <p>${qty}</p>
+ </div> 
+ <div class="actBtnIn"  onclick="increaseQtyshow(${id})">
+ <img src="styles/icons/plus.png" alt="" srcset="">
+ </div>
+ <div class="actBtnIn" onclick="removeItemshow(${id})">
+ <img src="styles/icons/remove.png" alt="" srcset="">
+ </div>
+</td>`)
+
+ // Append the new row to the table
+ $('#cartItemTableTablet').append(newRow);
+}}
+holded_carts();
+$("#holdermodal").modal('hide');
+
+// Calculate total amount
+var totalAmount = 0;
+for (var i = 0; i < newcart.items.length; i++) {
+  var item = newcart.items[i];
+  var itemTotal = item.price * item.qty;
+  totalAmount += itemTotal;
+}
+
+// Display the total amount
+$("#subtotal").text(new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "RWF",
+}).format(totalAmount));
+
+$("#subtotalPayable").text(new Intl.NumberFormat("en-US", {
+ style: "currency",
+ currency: "RWF",
+}).format(totalAmount));
+
+
+var check_holds=localStorage.getItem("temporary_hold");
+var check_holds_nums=null;
+
+if(check_holds.length === undefined){
+  check_holds_nums=[JSON.parse(localStorage.getItem("temporary_hold"))];
+}else{
+  check_holds_nums=JSON.parse(localStorage.getItem("temporary_hold"));
+}
+console.log()
+$('#holds_number').html(`${check_holds.length === undefined?'1':check_holds_nums.length} ${check_holds_nums.length>1?'Holds':'Hold'}`);
+$('#items_number').html(newcart.items.length);
+}
+
+
+
+function holded_carts() {
+
+  $("#holdermodal").modal('show');
+  $('#holdercarts').html('');
   
+  // Retrieve cart data from localStorage
+  var cart = JSON.parse(localStorage.getItem("temporary_hold"));
+
+  console.log('cart',cart);
+  console.log('cart size',cart.length);
+
+  var useArray=null;
+
+  if (cart.length === undefined) {
+    console.log('is empty', cart.length);
+    useArray=[JSON.parse(localStorage.getItem("temporary_hold"))];
+
+
+    useArray.forEach((cartItem) => {
+      var newRow = $(`<tr></tr>`);
+      newRow.append(`<td>` + cartItem.cart_id + `</td>`);
+      var ls=cartItem.cart_body;
+      var my_array=[];
+      my_array.push(ls.items);
+      var totalAmount = 0;
+      var num_items=0;
+      var cart_id = cartItem.cart_id;
+      // Initialize total amount for each cart item
+      
+      // Check if cart body is an array before iterating over it
+      if (Array.isArray(my_array)) {
+        // Loop through each item in the cart body to calculate total amount
+        my_array.forEach((item) => {
+          //totalAmount += item.price;
+          item.forEach((t)=>{
+            totalAmount += t.price;
+            num_items+=1;
+            console.log(t.price)
+          })
+          //console.log(item) // Add each item's price to the total amount
+        });
+      } else {
+        // Handle the case where cart body is not an array
+        console.error("Cart body is not an array for cart item:", cartItem);
+      }
+      
+      newRow.append(`<td>` + new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "RWF",
+        minimumFractionDigits: 0
+      }).format(totalAmount) + ` - `+num_items+` items</td>`);
+      newRow.append(`<td><button class="btn btn-success btn-sm" onclick="setHoldedArrayToOtherStorage('${cart_id}')"> Set </button></td>`);
+      
+      // Append the new row to the table
+      $('#holdercarts').append(newRow);
+    });
+
+  }else{
+    console.log('is not empty', cart.length);
+    useArray=JSON.parse(localStorage.getItem("temporary_hold"));
+
+    useArray.forEach((cartItem) => {
+      var newRow = $(`<tr></tr>`);
+      newRow.append(`<td>` + cartItem.cart_id + `</td>`);
+      var ls=cartItem.cart_body;
+      var my_array=[];
+      my_array.push(ls.items);
+      var totalAmount = 0;
+      var num_items=0;
+      var cart_id = cartItem.cart_id;
+      // Initialize total amount for each cart item
+      
+      // Check if cart body is an array before iterating over it
+      if (Array.isArray(my_array)) {
+        // Loop through each item in the cart body to calculate total amount
+        my_array.forEach((item) => {
+          //totalAmount += item.price;
+          item.forEach((t)=>{
+            totalAmount += t.price;
+            num_items+=1;
+            console.log(t.price)
+          })
+          //console.log(item) // Add each item's price to the total amount
+        });
+      } else {
+        // Handle the case where cart body is not an array
+        console.error("Cart body is not an array for cart item:", cartItem);
+      }
+      
+      newRow.append(`<td>` + new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "RWF",
+        minimumFractionDigits: 0
+      }).format(totalAmount) + ` - `+num_items+` items</td>`);
+      newRow.append(`<td><button class="btn btn-success btn-sm" onclick="setHoldedArrayToOtherStorage('${cart_id}')"> Set </button></td>`);
+      
+      // Append the new row to the table
+      $('#holdercarts').append(newRow);
+      
+    });
+
+  }
+
+  
+  // Loop through each item and append to the table
   
 }
+
+
+
+function refreshPage(){
+    location.reload();
+}
+
 
 
 

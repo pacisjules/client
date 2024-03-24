@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $comID = $_GET['company'];
 $spt = $_GET['spt'];
-$category = $_GET['category'];
+$name = $_GET['name'];
 
 
 // Retrieve all users from the database
@@ -15,7 +15,7 @@ $sql = "SELECT DISTINCT PD.id, PD.name, PD.price,PD.image, PD.benefit, PD.status
         FROM products PD
         LEFT JOIN inventory INV ON PD.id = INV.product_id
         WHERE PD.company_ID = $comID
-        AND PD.category_id = $category
+        AND PD.name LIKE '%$name%'
         AND PD.sales_point_id = $spt 
        ORDER BY PD.created_at DESC
         ";

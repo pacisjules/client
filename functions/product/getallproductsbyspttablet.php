@@ -60,11 +60,19 @@ while ($row = $result->fetch_assoc()) {
 
     $num+=1;
     $formatted_money = number_format($row['price']);
+    $pro_image="uploads/noimage.jpg";
+
+    if(!empty($row['image'])){
+        $pro_image = "uploads/".$row['image'];
+    }else{
+        $pro_image = "uploads/noimage.jpg";
+    }
+    
 
     $value .= '
                 <div class="pro" onclick="addCartTablet(`'.$row['id'].'`, `'.$row['name'].'`,`'.$current_quantity.'`, `'.$row['price'].'`,`'.$row['benefit'].'`)">
                 <div class="header">
-                <img src="uploads/'.$row['image'].'" alt="" srcset="">
+                <img src="'.$pro_image.'" alt="" srcset="">
                 </div>
                 <div class="whole_body">
                     <h2>'.$row['name'].' <span style="color:'.$qtycolor.'">('.$current_quantity.')</span></h2>

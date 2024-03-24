@@ -101,16 +101,16 @@ include('getuser.php');
     </div>
     <div>
         <div class="searcher">
-            <input type="text" placeholder="Search products.......">
+            <input type="text" oninput="setSearch(this.value)" placeholder="Search products......." >
             <img src="styles/icons/search.png" alt="" srcset="">
         </div>
     </div>
     <div class="infos">
         <div class="btns">
-            <img src="styles/icons/refresh.png" alt="" srcset="">
+            <img src="styles/icons/refresh.png" alt="" srcset="" onclick="refreshPage()">
         </div>
         <div class="btns">
-            <img src="styles/icons/wifiOn.png" alt="" srcset="">
+            <img id="wifi_status" src="styles/icons/wifiOn.png" alt="" srcset="">
         </div>
         <div class="rightExit" id="Exit">
             <img src="styles/icons/switch.png" alt="" srcset="">
@@ -149,7 +149,7 @@ include('getuser.php');
     </div>
     <div class='RightSide'>
         <div class="bodyTable">
-            <div class="Title"><span id="items_number">15</span> Items Listed in basket, Holders(<span>10</span>) <span id="unhold" onclick="holded_carts()">UNHOLD</span></div>
+            <div class="Title"><span id="items_number">0</span> Item(s) Listed in basket, <span id="holds_number">0 Hold</span> <span id="unhold" onclick="holded_carts()">UNHOLD</span></div>
 <div>     
 <table>
 <thead>
@@ -634,8 +634,8 @@ include('getuser.php');
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Cart id</th>
-                                <th>Total</th>
+                                <th>Customer id</th>
+                                <th>Total&Item</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
