@@ -107,7 +107,8 @@ include('getuser.php');
     </div>
     <div class="infos">
         <div class="btns">
-            <img src="styles/icons/refresh.png" alt="" srcset="" onclick="refreshPage()">
+            <img src="styles/icons/refresh.png" alt="" srcset="" onclick="setOldCart()">
+            <!-- <img src="styles/icons/refresh.png" alt="" srcset="" onclick="refreshPage()"> -->
         </div>
         <div class="btns">
             <img id="wifi_status" src="styles/icons/wifiOn.png" alt="" srcset="">

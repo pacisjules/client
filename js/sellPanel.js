@@ -16,16 +16,21 @@ $(document).ready(function () {
 // Check internet connection every second
 setInterval(checkInternetConnection, 500);
 
+
+
   
   // localStorage.setItem("temporary_hold",[]);
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
+  
   View_DaySalesRecord();
   getSelected();
   View_LastSalesRecord();
   View_ProductsRecord();
-  addCartTablet(e);
-  holded_carts();  
+  addCartTablet();
+  //holded_carts();
+  setOldCart();
+  
 
 
   
@@ -1702,6 +1707,67 @@ function holded_carts() {
 function refreshPage(){
     location.reload();
 }
+
+
+function setOldCart(){
+  $('#unhold').css('opacity', 1);
+
+  var newcart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+  // Loop through the cart items and update the table
+  for (const product of newcart.items) {
+    const {id, name, qty, price} = product;
+    var newRow = $('<tr></tr>');
+   newRow.append('<td>' + name + '</td>');
+   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+     style: "currency",
+     currency: "RWF",
+   }).format(price) + '</td>');
+   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+     style: "currency",
+     currency: "RWF",
+   }).format(price * qty) + '</td>');
+   newRow.append(`<td class="actBtn">
+   <div class="actBtnIn"  onclick="decreaseQtyshow(${id})">
+   <img src="styles/icons/minus-sign.png" alt="" srcset="">
+   </div>
+   <div class="actBtnInTotal">
+       <p>${qty}</p>
+   </div> 
+   <div class="actBtnIn"  onclick="increaseQtyshow(${id})">
+   <img src="styles/icons/plus.png" alt="" srcset="">
+   </div>
+   <div class="actBtnIn" onclick="removeItemshow(${id})">
+   <img src="styles/icons/remove.png" alt="" srcset="">
+   </div>
+  </td>`)
+  
+   // Append the new row to the table
+   $('#cartItemTableTablet').append(newRow);
+  }
+
+  
+  // Calculate total amount
+  var totalAmount = 0;
+  for (var i = 0; i < newcart.items.length; i++) {
+    var item = newcart.items[i];
+    var itemTotal = item.price * item.qty;
+    totalAmount += itemTotal;
+  }
+  
+  // Display the total amount
+  $("#subtotal").text(new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "RWF",
+  }).format(totalAmount));
+  
+  $("#subtotalPayable").text(new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+  }).format(totalAmount));
+  $('#items_number').html(newcart.items.length);
+}
+
+
 
 
 
