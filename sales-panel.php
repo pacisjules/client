@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Table - SellEASP</title>
+    <title>POS - SellEASP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -22,8 +22,7 @@ include('getuser.php');
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
-    <script src="js/sellPanel.js"></script>
-    <script src="js/Mytablet.js"></script>
+
 
     <script>
         function showAmadenis() {
@@ -89,15 +88,16 @@ include('getuser.php');
         }
         
     </style>
-<link rel="stylesheet" type="text/css" href="styles/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="styles/mystyle.css">
+
 </head>
 
 <body id="page-top">
-    
 <div id="tablet">
 <div class="top">
     <div>
-        <h1>Selleasep POS</h1>
+        <h1 style="margin-top:8pt;">Selleasep POS</h1>
+        <p style="font-size:10pt; margin-top:-10pt;">Please use View menu then Reload when no data found</p>
     </div>
     <div>
         <div class="searcher">
@@ -191,10 +191,6 @@ include('getuser.php');
 </div>
 </div>
 
-
-
-
-
     <div id="wrapper">
         <?php include('sidebar.php'); ?>
         <div class="d-flex flex-column" id="content-wrapper">
@@ -203,7 +199,6 @@ include('getuser.php');
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Sales Panel</h3>
-                        
                     </div>
                     <div class="d-flex">
                         
@@ -588,7 +583,7 @@ include('getuser.php');
     </div>
 
 
-<div class="modal fade" role="dialog" tabindex="-1" id="finishModal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="finishModal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -611,10 +606,8 @@ include('getuser.php');
   <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
   <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
 </svg> Print</button>
-</div>
 
-
-
+                </div>
 
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
@@ -623,6 +616,7 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
 
 
     <div class="modal fade" role="dialog" tabindex="-1" id="holdermodal">
@@ -653,6 +647,10 @@ include('getuser.php');
         </div>
     </div>
 
+
+
+    <script src="js/sellPanel.js"></script>
+    <script src="js/Mytablet.js"></script>
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

@@ -1,20 +1,20 @@
 $(document).ready(function () {
 
 
-  function checkInternetConnection() {
-    fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
-        .then(response => {
-          $('#wifi_status').attr('src', 'styles/icons/wifiOn.png');
-            //console.log('Internet is connected');
-        })
-        .catch(error => {
-            $('#wifi_status').attr('src', 'styles/icons/wifiOff.png');
-            //console.log('Internet is not connected');
-        });
-}
+//   function checkInternetConnection() {
+//     fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
+//         .then(response => {
+//           $('#wifi_status').attr('src', 'styles/icons/wifiOn.png');
+//             //console.log('Internet is connected');
+//         })
+//         .catch(error => {
+//             $('#wifi_status').attr('src', 'styles/icons/wifiOff.png');
+//             //console.log('Internet is not connected');
+//         });
+// }
 
-// Check internet connection every second
-setInterval(checkInternetConnection, 500);
+// // Check internet connection every second
+// setInterval(checkInternetConnection, 500);
 
 
 
