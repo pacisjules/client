@@ -136,7 +136,7 @@ include('getuser.php');
 
 
                                                     <div class="col" >
-                                                        <div class="mb-3"><label class="text-primary fw-bold" for="email" style="font-size: 18px; font-weight:700;" >All user categories</label><br/>
+                                                        <div class="mb-3"><label class="text-primary fw-bold" for="email" style="font-size: 18px; font-weight:700;" >All user Permissions</label><br/>
                                                         <table class="table table-striped">
                                                         <thead>
                                                                 <tr>
@@ -274,11 +274,132 @@ include('getuser.php');
 </div>
 
 
+
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">
+  <!-- Bootstrap Toast -->
+  <div id="myToastcatedelete" class="toast text-danger" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+    <div class="toast-header">
+      <strong class="me-auto">Notification</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+    <i class="bi bi-exclamation-triangle-fill"></i> Category has been Deleted !
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">
+  <!-- Bootstrap Toast -->
+  <div id="myToastcateedit" class="toast text-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+    <div class="toast-header">
+      <strong class="me-auto">Notification</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+    <i class="bi bi-exclamation-triangle-fill"></i> Category has been Updated !
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" role="dialog" tabindex="-1" id="modal_category">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Edit Category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                     <form>
+
+                        <label class="form-label" style="margin-top: 10px;">Category Name</label>
+                        <input class="form-control" type="text" id="category_name"> 
+                        <label class="form-label" style="margin-top: 10px;">Category Status</label>
+                        <input class="form-control" type="number" id="statuscategory"> 
+
+                        
+
+                    </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button" id="EditCategory">Edit Category</button></div>
+            </div>
+        </div>
+    </div>
+
+
+ <div class="modal fade" role="dialog" tabindex="-1" id="categorydelete-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Remove This category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are sure you need to delete this category </p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeCategory"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Remove category</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+<div class="modal fade" role="dialog" tabindex="-1" id="modal_permission">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Edit Permission</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                     <form>
+
+                        <label class="form-label" style="margin-top: 10px;">Permission Name</label>
+                        <input class="form-control" type="text" id="namepermi"> 
+
+                        <label class="form-label" style="margin-top: 10px;">User Category</label>
+                        <select class="form-control" id="cat_id"></select>
+                        <label class="form-label" style="margin-top: 10px;">Page Name</label>
+                        <select class="form-control" id="page_id"></select>
+
+                    </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button" id="EditPermission">Edit Permission</button></div>
+            </div>
+        </div>
+    </div>
+
+
+  <div class="modal fade" role="dialog" tabindex="-1" id="permissiondelete-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Remove This Permission</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are sure you need to delete this Permission </p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removePermission"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Remove Permission</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 <div class="modal fade" role="dialog" tabindex="-1" id="modal_user">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Edit Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;">Edit User</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     
@@ -337,6 +458,40 @@ include('getuser.php');
     </div>
   </div>
 </div>
+
+
+
+
+
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">
+  <!-- Bootstrap Toast -->
+  <div id="myToastPermdelete" class="toast text-danger" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+    <div class="toast-header">
+      <strong class="me-auto">Notification</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+    <i class="bi bi-exclamation-triangle-fill"></i> Permission has been Deleted!!!
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">
+  <!-- Bootstrap Toast -->
+  <div id="myToastPermedit" class="toast text-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+    <div class="toast-header">
+      <strong class="me-auto">Notification</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+    <i class="bi bi-exclamation-triangle-fill"></i> Permission has been Updated!!!
+    </div>
+  </div>
+</div>
+
+
+
+
 </body>
 
 </html>

@@ -73,6 +73,47 @@ $(document).ready(function () {
       },
     });
   });
+  
+  
+  
+  
+    $("#EditPermission").click(function () {
+    $("#EditPermission").html("Please wait..");
+
+    var namepermi = $("#namepermi").val();
+    var cat_id = $("#cat_id").val();
+    var page_id = $("#page_id").val();
+    var permid = parseInt(localStorage.getItem("permid"));
+
+    //Ajax Start!
+    $.ajax({
+      url: "functions/settings/updatepermission.php",
+      method: "POST",
+
+      data: {
+        permid: permid,
+        namepermi: namepermi,
+        cat_id: cat_id,
+        page_id: page_id,
+      },
+
+      success: function (response) {
+        View_company_permission();
+        $("#EditPermission").html("Edit");
+        $("#modal_permission").modal("hide");
+        localStorage.removeItem("permid");
+        var toast = new bootstrap.Toast($("#myToastPermedit"));
+          toast.show();
+      },
+      error: function (error) {
+        $("#EditPermission").html("error");
+        console.log(error.responseText);
+      },
+    });
+  });
+  
+  
+  
 
   $("#addCategory").click(function () {
     // Retrieve values from input fields
@@ -134,6 +175,98 @@ $(document).ready(function () {
         },
       });
     }
+  });
+  
+  
+  
+  
+  
+  $("#removePermission").click(function () {
+    // Retrieve values from input fields
+    var perm_id = localStorage.getItem("permid");
+
+      // Start AJAX request
+      $.ajax({
+        url: "functions/settings/deletepermission.php",
+        method: "POST",
+        data: {
+            perm_id: perm_id,
+        },
+        success: function (response) {
+        $("#permissiondelete-modal").modal("hide");
+          View_company_permission();
+            console.log(response);
+          var toast = new bootstrap.Toast($("#myToastPermdelete"));
+          toast.show();
+        },
+        error: function (error) {
+            console.log(error);
+        },
+      });
+    
+  });
+  
+  
+  
+    $("#removeCategory").click(function () {
+    // Retrieve values from input fields
+    var cat_id = localStorage.getItem("cat_id");
+    
+
+      // Start AJAX request
+      $.ajax({
+        url: "functions/settings/deletecategory.php",
+        method: "POST",
+        data: {
+            cat_id: cat_id,
+        },
+        success: function (response) {
+        $("#categorydelete-modal").modal("hide");
+          View_company_category();
+            console.log(response);
+          var toast = new bootstrap.Toast($("#myToastcatedelete"));
+          toast.show();
+        },
+        error: function (error) {
+            console.log(error);
+        },
+      });
+    
+  });
+  
+  
+  
+      $("#EditCategory").click(function () {
+    $("#EditCategory").html("Please wait..");
+
+    var category_name = $("#category_name").val();
+    var statuscategory = $("#statuscategory").val();
+    var cat_id = parseInt(localStorage.getItem("cat_id"));
+
+    //Ajax Start!
+    $.ajax({
+      url: "functions/settings/updatecategory.php",
+      method: "POST",
+
+      data: {
+        cat_id: cat_id,
+        category_name: category_name,
+        status: statuscategory,
+      },
+
+      success: function (response) {
+        View_company_category();
+        $("#EditCategory").html("Edit");
+        $("#modal_category").modal("hide");
+        localStorage.removeItem("cat_id");
+        var toast = new bootstrap.Toast($("#myToastcateedit"));
+          toast.show();
+      },
+      error: function (error) {
+        $("#EditCategory").html("error");
+        console.log(error.responseText);
+      },
+    });
   });
 
 
@@ -283,10 +416,12 @@ function View_company_category_forselect() {
           console.log(response);
           $("#categories").html(response);
           $("#user_category").html(response);
+          $("#cat_id").html(response);
         } else {
           console.log(response);
           $("#categories").html("Not Any result");
           $("#user_category").html("Not Any result");
+          $("#cat_id").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {
@@ -344,9 +479,11 @@ function View_company_category_forselect() {
         if (response) {
           console.log(response);
           $("#pages").html(response);
+          $("#page_id").html(response);
         } else {
           console.log(response);
           $("#pages").html("Not Any result");
+          $("#page_id").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {
@@ -360,4 +497,39 @@ function View_company_category_forselect() {
   function SelectEdisalespoint(id){
     console.log(id);
     localStorage.setItem("salespointid",id);
+  }
+  
+  function SelectEditCustomer(id,name,cat_id,page_id){
+     
+    localStorage.setItem("permid",id);
+
+   
+    $("#namepermi").val(name);
+    $("#cat_id").val(cat_id);
+    $("#page_id").val(page_id);  
+  }
+  
+   function SelectDeleteCustomer(id,name){
+      
+    localStorage.setItem("permid",id);
+    
+   
+      
+  }
+  
+  function SelectEditCategory(cat_id, category_name,status){
+       
+    localStorage.setItem("cat_id",cat_id);
+    
+
+   
+    $("#category_name").val(category_name);
+    $("#statuscategory").val(status);
+  }
+  
+  function SelectdeleteCategory(cat_id, category_name){
+       console.log("cat_id ",cat_id);
+    localStorage.setItem("cat_id",cat_id);
+    
+
   }

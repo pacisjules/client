@@ -24,7 +24,7 @@ $comp = array();
 
 
 while ($row = $result->fetch_assoc()) {
-    $myid = $row['sales_point_id'];
+    $myid = $row['store_id'];
    
     $num+=1;
 

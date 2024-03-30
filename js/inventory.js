@@ -462,11 +462,11 @@ $(function () {
                         var html = `
                           <tr>
                             <td>${index + 1}. ${row.name}</td>
+                            <td>${row.unit}</td>
+                            <td>${row.container}</td>
+                            <td>${row.item_per_container}</td>
                             <td>${row.quantity}</td>
                             <td>${row.alert_quantity}</td>
-                            <td>${sts}</td>
-                            <td>${row.description}</td>
-                            <td>${row.last_updated}</td>
                             <td class="d-flex flex-row justify-content-start align-items-center">
                               <button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditInventory('${row.id}', '${row.quantity}', '${row.alert_quantity}', '${row.name}')">
                                 <i class="fa fa-edit" style="color: rgb(255,255,255);"></i>
@@ -474,6 +474,9 @@ $(function () {
                               <button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectDeleteInventory('${row.id}', '${row.name}')">
                                 <i class="bi bi-trash"></i>
                               </button>
+                              <a class="nav-link active" href="purchaseshophistory.php?product_id=${row.product_id}">  <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;font-weight:bold;font-size:10pt;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
+  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+</svg>&nbsp;P.HISTORY</button></a>
                             </td>  
                           </tr>
                         `;

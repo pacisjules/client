@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             if ($successCount === count($rowIds)) {
-                $sqlsaveSession = "INSERT INTO `FinishedProduct`(`session_id`, `quantity`, `product_id`, `company_id`, `user_id`,`status`) 
+                $sqlsaveSession = "INSERT INTO `finishedproduct`(`session_id`, `quantity`, `product_id`, `company_id`, `user_id`,`status`) 
                 VALUES ('$Session_sale_ID', '$NeeddedQty', '$product_id', '$company_id','$user_id','$status')";
 
                 $conn->query($sqlsaveSession);

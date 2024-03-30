@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     PD.id=$product_id
   ";
   $result = $conn->query($sqlcurrent);
+  
 
   $rowInfos = $result->fetch_assoc();
   $current_inventory_quantity = $rowInfos['quantity'];

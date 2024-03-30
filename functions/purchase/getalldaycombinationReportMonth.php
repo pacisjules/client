@@ -15,13 +15,13 @@ SELECT DISTINCT
 products.id AS product_id,
 products.name AS product_name,
 (SELECT COALESCE(SUM( purchase.container), 0) AS entry FROM purchase WHERE purchase.product_id=products.id AND purchase.purchase_date >= '$startDate%' AND purchase.purchase_date <='$endDate%'AND purchase.store_id=$store_id) AS entry_stock,
-(SELECT COALESCE(SUM(transferhistory.box_or_carton), 0) AS sold FROM transferhistory WHERE transferhistory.product_id=products.id AND transferhistory.created_at >= '$startDate%' AND transferhistory.created_at <='$endDate%' AND transferhistory.store_id=$store_id ) AS sold_stock,
+(SELECT COALESCE(SUM(transferHistory.box_or_carton), 0) AS sold FROM transferHistory WHERE transferHistory.product_id=products.id AND transferHistory.created_at >= '$startDate%' AND transferHistory.created_at <='$endDate%' AND transferHistory.store_id=$store_id ) AS sold_stock,
 storedetails.box_or_carton AS closing_stock
 
 FROM
 storedetails
 JOIN products ON storedetails.product_id= products.id
-LEFT JOIN transferhistory ON transferhistory.store_id=storedetails.store_id
+LEFT JOIN transferHistory ON transferHistory.store_id=storedetails.store_id
 LEFT JOIN purchase ON storedetails.store_id=purchase.store_id
 WHERE storedetails.store_id=$store_id;
 

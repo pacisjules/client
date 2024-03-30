@@ -72,8 +72,6 @@ include('getuser.php');
                                             <th>Item/Container</th>
                                             <th>Total Items</th>
                                             <th>Alert Quantity</th>
-                                            <th>Status</th>
-                                            <th style="font-size: 11px;">Register Date</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -88,8 +86,6 @@ include('getuser.php');
                                             <td><strong>Item/Container</strong></td>
                                             <td><strong>Total Items</strong></td>
                                             <td><strong>Alert Quantity</strong></td>
-                                            <td><strong>Status</strong></td>
-                                            <td><strong style="font-size: 11px;">Register Date</strong></td>
                                             <td><strong>Actions</strong></td>
                                         </tr>
                                     </tfoot>

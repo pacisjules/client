@@ -18,6 +18,21 @@ include('getuser.php');
 
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
     <script src="js/production.js"></script>
+     <script>
+       function convertAndSetDate() {
+    // Get the value of the date input
+    var selectedDate = document.getElementById('duedate').value;
+
+    // Check if a valid date is selected
+    if (selectedDate) {
+        // Convert the selected date to the desired format (YYYY-MM-DD)
+        var formattedDate = convertDateFormat(selectedDate);
+
+        // Set the formatted date back to the input field
+        document.getElementById('duedate').value = formattedDate;
+    }
+}
+   </script>
 
     <style>
         body {
@@ -76,6 +91,10 @@ include('getuser.php');
                 <div class="modal-body">
                     <p>Here&nbsp; you can Tansfer the All packed Items in stock.</p>
                 </div>
+                <div class="col-md-6">
+                        <label class="form-label" style="margin-top: 12px;">Transfer Date</label>
+                         <input class="form-control" type="date" id="duedate" onchange="convertAndSetDate()">
+                    </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="transferInStock">Finish</button></div>
             </div>
         </div>

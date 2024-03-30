@@ -15,12 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $total_debt_result = $conn->query($sql_total_debt);
     $total_debt_row = $total_debt_result->fetch_assoc();
     $total_debt = $total_debt_row['total_debt'];
+    $balance = $total_debt - $amount;
 
     if ($amount > $total_debt) {
         header('HTTP/1.1 400 Bad Request');
         echo "Paid amount exceeds total debt.";
         return;
     }
+    
+    
+    debtHistory($user_id, $id, "Pay in Installment", $amount, $balance, $spt);
+    
     
     // Fetch all debts for the customer ordered by lowest remaining amount first
     $sql_query = "SELECT * FROM debts WHERE customer_id = $id AND status = 1 ORDER BY (amount - amount_paid) ASC";
@@ -67,11 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Calculate the remaining balance
-    $balance = $total_debt - $amount;
+    
     
     // Add a new entry to the debt history
-    debtHistory($user_id, $id, "Pay in Installment", $amount, $balance, $spt);
-    
+   
     // Respond with success message and updated debt records
     header('HTTP/1.1 201 Created');
     echo json_encode(['message' => 'Debt paid successfully.', 'balance' => $balance]);

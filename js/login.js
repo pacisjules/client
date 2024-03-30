@@ -58,11 +58,11 @@ $(document).ready(function () {
                 localStorage.setItem("phone", response.phone); 
                 localStorage.setItem("Email", response.email);
                 localStorage.setItem("Username", response.username);  
-                localStorage.setItem("Names", response.names);
-                localStorage.setItem("company_logo", response.company_logo);
-                localStorage.setItem("company_color", response.company_color);
-                localStorage.setItem("spt_name", response.spt_name);
-                localStorage.setItem("user_category", response.user_category);
+                 localStorage.setItem("Names", response.names);
+                 localStorage.setItem("company_logo", response.company_logo);
+                 localStorage.setItem("company_color", response.company_color);
+                 localStorage.setItem("spt_name", response.spt_name);
+                 localStorage.setItem("user_category", response.user_category);
                 window.location.href = "/client";
                 $('#lgnbtn').html('Login');
 

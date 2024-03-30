@@ -548,11 +548,30 @@ $('#clearItemBtn').click(function () {
    $("#transferInStock").click(function () {
     $("#transferInStock").html("Please wait..");
     
+    
+    function convertDateFormat(duedate) {
+    // Create a new Date object with the selected date
+        var dateObject = new Date(duedate);
+    
+        // Extract the year, month, and day
+        var year = dateObject.getFullYear();
+        var month = ('0' + (dateObject.getMonth() + 1)).slice(-2); // Add 1 because months are zero-based
+        var day = ('0' + dateObject.getDate()).slice(-2);
+    
+        // Combine the parts into the desired format
+        var formattedDate = year + '-' + month + '-' + day;
+    
+        return formattedDate;
+    }
+      
+    
     var company_id = localStorage.getItem("CoID");
     var sales_point_id = localStorage.getItem("SptID");
     var user_id = localStorage.getItem("UserID");
     var product_id = parseInt(localStorage.getItem("pro_id"));
     var quantity = localStorage.getItem("qty");
+    var duedate = $("#duedate").val(); 
+    var convertedDate = convertDateFormat(duedate);
 
     //Ajax Start!
     $.ajax({
@@ -564,15 +583,16 @@ $('#clearItemBtn').click(function () {
         company_id:company_id,
         salespt_id: sales_point_id,
         quantity:quantity,
+        created_at:convertedDate,
         user_id:user_id,
       },
 
       success: function (response) {
         $("#transfer_modal").modal("hide");
         $("#successmodal").modal("show");
-        setTimeout(function() {
-          location.reload();
-      }, 1000);
+    //     setTimeout(function() {
+    //       location.reload();
+    //   }, 1000);
       },
       error: function (error) {
         console.log(error);

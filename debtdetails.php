@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Debts Details - SellEASEP</title>
+    <title>Loans Details - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -33,7 +33,7 @@ include('getuser.php');
                          <a class="nav-link active" href="debts.php">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a> 
                      
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Debts Details of <span id="customer_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Loans Details of <span id="customer_name"></span></h3>
                         </div>
                         
                    <div>
@@ -48,7 +48,7 @@ include('getuser.php');
                             <p class="text-primary m-0 fw-bold">Customer Information</p>
                             <div>
                              <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button>
-                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Debts Report</button>   
+                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Loans Report</button>   
                             </div>
                             
                             <div>
@@ -92,7 +92,7 @@ include('getuser.php');
                                         <tr>
                                             <td><strong>Product Names</strong></td>
                                             <td><strong>Quantity</strong></td>
-                                            <td><strong>Debts Amount</strong></td>
+                                            <td><strong>Amount Due</strong></td>
                                             <td><strong>Paid Amount</strong></td>
                                             <td><strong>Balance</strong></td>
                                             <td><strong>Status</strong></td>

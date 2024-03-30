@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         
         
-       $ids=$row['id'];
-       $id = $row['id'];
+        $ids=$row['id'];
+        $id = $row['id'];
        $comp =  $row['company_ID'];
        $sal =  $row['salepoint_id'];
        $usercategory =  $row['user_category'];
@@ -59,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'names'=>$rowInfos['first_name']." ".$rowInfos['last_name'],
             'salepoint_id'=>$rowInfos['sales_point_id'],
             'userType'=>$row['userType'],
+            'user_category'=>$usercategory,
             'Logged_on'=>$date_time,
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],
-            'user_category'=>$usercategory,
             'spt_name'=>$rowsa['location'],
             'Message'=> 'Account passed'
         );

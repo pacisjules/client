@@ -44,9 +44,9 @@ while ($row = $result->fetch_assoc()) {
 
         <tr>
         <td>'.$num.'. '.$row['category_name'].'</td>
-        <td><button class='.$endis.' type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditCustomer(`'.$row['cat_id'].'`, `'.$row['category_name'].'`)"><i class='.$icon.' style="color: rgb(255,255,255);"></i> '.$sts.'</button></td>
+        <td><button class='.$endis.' type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditCustomer(`'.$row['cat_id'].'`, `'.$row['category_name'].'`)"><i class="'.$icon.'" style="color: rgb(255,255,255);"></i> '.$sts.'</button></td>
         <td>'.$row['created_at'].'</td>
-        <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditCustomer(`'.$row['cat_id'].'`, `'.$row['category_name'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectDeleteCustomer(`'.$row['cat_id'].'`, `'.$row['category_name'].'`)"><i class="fa fa-trash"></i></button></td>  
+        <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#modal_category" data-bs-toggle="modal" onclick="SelectEditCategory(`'.$row['cat_id'].'`, `'.$row['category_name'].'`, `'.$row['status'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#categorydelete-modal" data-bs-toggle="modal" onclick="SelectdeleteCategory(`'.$row['cat_id'].'`, `'.$row['category_name'].'`)"><i class="fa fa-trash"></i></button></td>  
         </tr>
 
         ';

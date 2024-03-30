@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $product_id = $_POST['product_id'];
 
         // Your upload directory path
-        $uploadDirectory = 'uploads/';
+        $uploadDirectory = '../uploads/';
 
 
 

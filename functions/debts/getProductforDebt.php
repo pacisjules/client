@@ -14,7 +14,7 @@ $sql = "SELECT
         WHERE CUST.company_ID = $company
         AND CUST.sales_point_id = $spt 
         GROUP BY CUST.id
-        ORDER BY CUST.created_at DESC";
+        ORDER BY CUST.name ASC";
 
 $value = "";
 $result = mysqli_query($conn, $sql);

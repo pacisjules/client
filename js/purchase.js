@@ -392,17 +392,18 @@ $(function () {
   }
   const [year, month] = selectedMonth.split('-');
 
-  // Calculate the start and end dates for the selected month
-  const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make it zero-based
-  const endDate = new Date(year, month, 0); // Setting day to 0 gets the last day of the previous month
+ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make it zero-based
+   const endDate = new Date(year, month, 0);// Set the day to the last day of the selected month
 
-  // Format the dates as YYYY-MM-DD
-  const formattedStartDate = startDate.toISOString().slice(0, 10);
-  const formattedEndDate = endDate.toISOString().slice(0, 10);
+   endDate.setHours(23, 59, 59, 999); // Set time to end of the day
 
-  console.log("Start Date: " + formattedStartDate);
-  console.log("End Date: " + formattedEndDate);
-  
+    // Format the dates as YYYY-MM-DD
+    const formattedStartDate = startDate.toISOString().slice(0, 10);
+    const formattedEndDate = endDate.toISOString().slice(0, 10);
+    
+    console.log("Start Date: " + formattedStartDate);
+    console.log("End Date: " + formattedEndDate);
+
   // Make the AJAX request
   $.ajax({
       url: `functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,

@@ -10,7 +10,14 @@ $(document).ready(function () {
     SelectDeleteInventory();
     
       
-    
+    $('#searchPurchaseDetail').on('keyup', filterTableRowsStore);
+  
+     function filterTableRowsStore() {
+      const searchValue = $('#searchPurchaseDetail').val().toLowerCase();
+      $('#purchasedetail_table tr').filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -5);
+      });
+  }
     
     $("#generateInventoryReport").click(function () {
     
@@ -35,6 +42,7 @@ $(document).ready(function () {
     success: function(data) {
       // Handle the data received from the AJAX request and display it in the table
       var html = '';
+      var priceperitem = 0;
       var productname = data.data[0].name;
       var totalpurchase = new Intl.NumberFormat("en-US", {
                                   style: "currency",
@@ -43,13 +51,22 @@ $(document).ready(function () {
      
        var num = 0;                       
       $.each(data.data, function(index, item) {
+          
         num += 1; 
+        var qty = item.quantity;
+        var boxprice = item.price_per_unity;
+        priceperitem = boxprice /qty;
+          
           
         html += '<tr>';
         html += '<td>'+num+'. ' + item.name + '</td>';
          html += '<td> ' + item.unit + '</td>';
           html += '<td>' + item.container + '</td>';
         html += '<td>' + item.quantity + '</td>';
+        html += '<td>' + new Intl.NumberFormat("en-US", {
+                                  style: "currency",
+                                  currency: "RWF",
+                              }).format(parseFloat(priceperitem)) + '</td>';
         html += '<td>' + new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "RWF",
@@ -76,6 +93,75 @@ $(document).ready(function () {
     }
   });
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    var spt = localStorage.getItem("CoID");
+    
+     // Make an AJAX request to fetch data by customer_id
+  $.ajax({
+    url: `functions/multistore/getPurchaseProductDetailsspt.php?spt=${spt}&product_id=${product_id}`,
+    method: 'GET',
+    success: function(data) {
+      // Handle the data received from the AJAX request and display it in the table
+      var html = '';
+      var priceperitem = 0;
+      var productname = data.data[0].name;
+      var totalpurchase = new Intl.NumberFormat("en-US", {
+                                  style: "currency",
+                                  currency: "RWF",
+                              }).format(parseFloat(data.data[0].totalpurchase));
+     
+       var num = 0;                       
+      $.each(data.data, function(index, item) {
+          
+        num += 1; 
+        var qty = item.quantity;
+        var boxprice = item.price_per_unity;
+        priceperitem = boxprice /qty;
+          
+          
+        html += '<tr>';
+        html += '<td>'+num+'. ' + item.name + '</td>';
+         html += '<td> ' + item.unit + '</td>';
+          html += '<td>' + item.container + '</td>';
+        html += '<td>' + item.quantity + '</td>';
+        html += '<td>' + new Intl.NumberFormat("en-US", {
+                                  style: "currency",
+                                  currency: "RWF",
+                              }).format(parseFloat(priceperitem)) + '</td>';
+        html += '<td>' + new Intl.NumberFormat("en-US", {
+                                  style: "currency",
+                                  currency: "RWF",
+                              }).format(parseFloat(item.price_per_unity)) + '</td>';
+        html += '<td>' + new Intl.NumberFormat("en-US", {
+                                  style: "currency",
+                                  currency: "RWF",
+                              }).format(parseFloat(item.total_price)) + '</td>';
+        html += '<td>' + item.names + '</td>';
+        html += '<td>' + item.phone + '</td>';
+        html += '<td>' + item.purchase_date + '</td>';
+        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.product_id}','${item.quantity}','${item.price_per_unity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.product_id}')" "><i class="fa fa-trash"></i></button>
+         </td> `; 
+        html += '</tr>';
+      });
+      $('#purchasedetail_table').html(html);
+      $('#productname').html(productname);
+      $('#totalpurchase').html(totalpurchase);
+     
+      
+    },
+    error: function() {
+      alert('An error occurred while fetching debt details.');
+    }
+  });
     
     
     

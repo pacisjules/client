@@ -71,7 +71,7 @@ include('getuser.php');
                                             </select>&nbsp;</label></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchCustomer"></label></div>
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchPurchaseDetail"></label></div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -82,8 +82,9 @@ include('getuser.php');
                                             <th>Unit</th>
                                             <th>Container</th>
                                             <th>Item/Container</th>
-                                            <th>Unity Price</th>
-                                            <th>Total Price</th>
+                                             <th>Price/Item</th>
+                                            <th>Price/Box</th>
+                                            <th>Total</th>
                                             <th>Supplied By</th>
                                             <th>Phone </th>
                                             <th>Purchase Date </th>
@@ -99,8 +100,9 @@ include('getuser.php');
                                             <td><strong>Unit</strong></td>
                                             <td><strong>Container</strong></td>
                                             <td><strong>Item/Container</strong></td>
-                                            <td><strong>Unity Price</strong></td>
-                                            <td><strong>Total Price</strong></td>
+                                            <td><strong>Price/Item</strong></td>
+                                            <td><strong>Price/Box</strong></td>
+                                            <td><strong>Total</strong></td>
                                             <td><strong>Supplied By</strong></td>
                                             <td><strong>Phone</strong></td>
                                             <td><strong>Purchase Date </strong></td>

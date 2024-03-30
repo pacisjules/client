@@ -22,7 +22,28 @@ include('getuser.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
     <script src="js/multistore.js"></script>
+    
+    
+    <script>
+       function convertAndSetDate() {
+    // Get the value of the date input
+    var selectedDate = document.getElementById('duedate').value;
+
+    // Check if a valid date is selected
+    if (selectedDate) {
+        // Convert the selected date to the desired format (YYYY-MM-DD)
+        var formattedDate = convertDateFormat(selectedDate);
+
+        // Set the formatted date back to the input field
+        document.getElementById('duedate').value = formattedDate;
+    }
+}
+   </script>
+    
+    
 
 </head>
 
@@ -58,7 +79,22 @@ include('getuser.php');
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Store Details Information</p>
-                            <button class="btn btn-warning" style="font-size: 15px; font-weight: bold;"  id="pickDateButton">Transfer Report</button>
+                            <button class="btn btn-warning" style="font-size: 15px; font-weight: bold;"  id="pickDateButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+  <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm15-1V3h-2V1h-2v2H6V1H4v2H2V0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V0h-1zM7 15v-2h2v2H7zm5-10H4V3h8v2z"/>
+  <path d="M11.354 6.354a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 0 .708L9 9.707l1.354 1.353a.5.5 0 0 0 .708-.708L9.707 10l1.353-1.354a.5.5 0 0 0 0-.708z"/>
+</svg>
+&nbsp;Pick Date Transfer Report</button>
+                            <button class="btn btn-success" style="font-size: 15px; font-weight: bold;"  id="Pickdaterangebtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-range" viewBox="0 0 16 16">
+  <path d="M1 3.5a.5.5 0 0 1 1 0V13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V3.5a.5.5 0 0 1 1 0V13a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3.5zM14 3a2 2 0 0 1 2 2V13a.5.5 0 0 1-1 0V5a1 1 0 0 0-1-1H5a.5.5 0 0 1 0-1H13z"/>
+  <path d="M7.5 11.5a.5.5 0 0 1 1 0V13a.5.5 0 0 1-1 0v-1.5zM9.5 11.5a.5.5 0 0 1 1 0V13a.5.5 0 0 1-1 0v-1.5z"/>
+  <path d="M3 1h1V0H3a2 2 0 0 0-2 2v1h1V2a1 1 0 0 1 1-1z"/>
+  <path d="M3 5h1V4H3a2 2 0 0 0-2 2v1h1V6a1 1 0 0 1 1-1z"/>
+  <path d="M3 9h1V8H3a2 2 0 0 0-2 2v1h1v-1a1 1 0 0 1 1-1z"/>
+  <path d="M12 1h1V0h-1a2 2 0 0 0-2 2v1h1V2a1 1 0 0 1 1-1z"/>
+  <path d="M12 5h1V4h-1a2 2 0 0 0-2 2v1h1V6a1 1 0 0 1 1-1z"/>
+  <path d="M12 9h1V8h-1a2 2 0 0 0-2 2v1h1v-1a1 1 0 0 1 1-1z"/>
+</svg>
+&nbsp;From To Transfer Report</button>
                             <div>
                                 <!--<button style="font-weight: bold;background-color:#040536; color:white; border-radius:10px;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay In Full</button>-->
                                 
@@ -68,6 +104,7 @@ include('getuser.php');
                         </div>
                         
                         <input type="text" id="datepicker" style="display: none;"> 
+                        <input type="text" id="daterange" style="display: none;"> 
                         
                         
                         <div class="card-body">
@@ -81,7 +118,7 @@ include('getuser.php');
                                             </select>&nbsp;</label></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchCustomer"></label></div>
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchstoredetail"></label></div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -151,10 +188,10 @@ include('getuser.php');
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp;are for Edit Purchase.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Quantity</label><input class="form-control" type="text" id="editquantity"></form>
-                     <form><label class="form-label" style="margin-top: 12px;">Price per Unity</label><input class="form-control" type="text" id="editprice"></form>
+                    <form><label class="form-label" style="margin-top: 12px;">Container/Box</label><input class="form-control" type="text" id="editbox_or_carton"></form>
+                     <form><label class="form-label" style="margin-top: 12px;">Item/Box</label><input class="form-control" type="text" id="editquantity"></form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="editBtnSales">Edit</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="editBtnStock">Edit</button></div>
             </div>
         </div>
     </div>
@@ -180,12 +217,14 @@ include('getuser.php');
                     <h4 class="modal-title">Transfer Stock</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; Transfer Stock Product.</p>
+                    <p>Here&nbsp; Transfer Product.</p>
                     <form>
                         <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Sales Point:&nbsp;</label>
                         <select class="form-control" id="salespointSelect"></select>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Container(Box or Carton):&nbsp;</label>
+                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Quantity:&nbsp;</label>
                         <input class="form-control" type="number" id="qty" min="1">
+                        <label class="form-label" style="margin-top: 12px;">Due Date</label>
+                         <input class="form-control" type="date" id="duedate" onchange="convertAndSetDate()">
                     </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit" id="transferBtn">Transfer</button></div>

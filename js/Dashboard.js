@@ -125,6 +125,33 @@ function getWeekNumber(year, month, day) {
 }
 
 
+function getsalespoint() {
+ 
+  // Retrieve values from localStorage
+  var sales_point_id = localStorage.getItem("SptID");
+
+  $.ajax({
+    url: `functions/salespoint/getsalesptbyID.php?id=${sales_point_id}`,
+    method: "GET", // Change method to GET
+    success: function (response) {
+        if (response && response.location) {
+            console.log(response.location);
+            $("#salespointlocation").html(response.location);
+        } else {
+            $("#salespointlocation").html("No location available");
+        }
+    },
+    error: function (xhr, status, error) {
+        console.log("Error:", error);
+    }
+});
+
+
+}
+
+
+
+
 function GetYearlyTotal() {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
@@ -292,32 +319,6 @@ function GetInventoryAlert() {
         console.log("Error:", error);
     },
 });
-
-}
-
-
-
-function getsalespoint() {
- 
-  // Retrieve values from localStorage
-  var sales_point_id = localStorage.getItem("SptID");
-
-  $.ajax({
-    url: `functions/salespoint/getsalesptbyID.php?id=${sales_point_id}`,
-    method: "GET", // Change method to GET
-    success: function (response) {
-        if (response && response.location) {
-            console.log(response.location);
-            $("#salespointlocation").html(response.location);
-        } else {
-            $("#salespointlocation").html("No location available");
-        }
-    },
-    error: function (xhr, status, error) {
-        console.log("Error:", error);
-    }
-});
-
 
 }
 

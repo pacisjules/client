@@ -54,12 +54,12 @@ while ($row = $result->fetch_assoc()) {
         'name' => $row['name'],
         'product_id' => $row['product_id'],
         'unit' => $row['unit'],
-        'unit_id' => $row['unit_id'],
         'box_or_carton' => $row['box_or_carton'],
         'quantity' => $row['quantity_per_box'],
         'totalitem' => $totalitem,
         'created_at' => $row['created_at'],
         'user_id' => $row['user_id'],
+        'unit_id' => $row['unit_id'],
        
     );
 

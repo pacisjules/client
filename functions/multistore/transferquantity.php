@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $quantity = $_POST["quantity"];
     $UserID = $_POST["user_id"];
     $alert_quantity = 5;
+    $created_at = $_POST["created_at"];
     
     
     
@@ -23,9 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $resultInfosstore = $conn->query($sqlstore);
     $rowInfostore = $resultInfosstore->fetch_assoc();
 
-    $current_store = $rowInfostore['box_or_carton'];
+    $current_store = $rowInfostore['quantity'];
+    $container= $rowInfostore['box_or_carton'];
     
-    if($current_store<$box_or_carton){
+    if($container<$box_or_carton){
          // Return an error message if the insert failed
       header('HTTP/1.1 500 Internal Server Error THE QUANTITY IS GREATER THAN STOCK');
       echo "Error: " . $sql . "<br>" . $conn->error;
@@ -33,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         
        
-    $remain_quantity = $current_store - $box_or_carton;
+    $remain_quantity = $container - $box_or_carton;
     
     $sqlupdateBigStock = "UPDATE 
              storedetails 
@@ -43,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if ($conn->query($sqlupdateBigStock) === TRUE) {
         
-        $sqltransfer = "INSERT INTO `transferHistory`( `store_id`, `product_id`,`unit_id`,`box_or_carton` ,`quantity`, `company_ID`, `spt_id`, `user_id`) 
-        VALUES ('$store_id','$product_id','$unit','$box_or_carton','$quantity','$company','$spt','$UserID')";
+        $sqltransfer = "INSERT INTO `transferHistory`( `store_id`, `product_id`, `unit_id`,`box_or_carton`,`quantity_per_box`, `company_ID`, `spt_id`, `user_id`,`created_at`) 
+        VALUES ('$store_id','$product_id','$unit','$box_or_carton','$quantity','$company','$spt','$UserID','$created_at')";
         
         if ($conn->query($sqltransfer) === TRUE) {
           header('HTTP/1.1 201 Created');
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //Get if is in Inventory
 
-    $sqlCHECKin = "SELECT COUNT(*) AS NUMBER FROM inventory WHERE product_id=$product_id";
+    $sqlCHECKin = "SELECT COUNT(*) AS NUMBER FROM inventory WHERE product_id=$product_id AND spt_id=$spt";
     
     $resultIn = $conn->query($sqlCHECKin);
 
@@ -71,10 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ckeckNumber = $rowInfosIN['NUMBER'];
 
     if($ckeckNumber<1){
-        $totalqty = $box_or_carton * $quantity;
+        
+        $newqty = $box_or_carton * $quantity;
+        
         // Insert the  products
   $sqlup = "INSERT INTO inventory (product_id,unit_id,container,item_per_container, quantity, alert_quantity,company_ID,spt_id)
-  VALUES ('$product_id','$unit,'$box_or_carton','$quantity','$totalqty','$alert_quantity','$company','$spt')";
+  VALUES ('$product_id','$unit','$box_or_carton','$quantity','$newqty','$alert_quantity','$company','$spt')";
 
   if ($conn->query($sqlup) === TRUE) {
     $sqlproduct = "SELECT 
@@ -90,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo "Product Inventory Transfer uPDATE successfully.";
 
         //Set History
-        AddHistory($UserID,"Added Quantity: ".$totalqty." of " . $getpro_name,$spt,"inventoryIn");
+        AddHistory($UserID,"Added Quantity: ".$newqty." of " . $getpro_name,$spt,"inventoryIn");
         
          
   } else {
@@ -102,18 +106,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   
     }else{
     //Get current Quantity
-    $sqlcurrent = "SELECT * FROM inventory WHERE product_id=$product_id";
+    $sqlcurrent = "SELECT * FROM inventory WHERE product_id=$product_id AND spt_id=$spt";
     $resultInfos = $conn->query($sqlcurrent);
     $rowInfos = $resultInfos->fetch_assoc();
 
-    $container = $rowInfos['container'];
+    $current_container = $rowInfos['container'];
+    $current_item_per_container = $rowInfos['item_per_container'];
     $current_quantity = $rowInfos['quantity'];
     
-
-    $remain = $box_or_carton + $container;
-    $totaqty = $box_or_carton * $quantity;
-
-    $tot = $current_quantity + $totaqty;
+   $rem = $current_container * $current_item_per_container;
+    $remain = $current_quantity + $rem;
    
 
     // Update the employee data into the database
@@ -121,11 +123,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              inventory 
             SET 
             unit_id='$unit',
-            container='$remain',
+            container='$box_or_carton',
             item_per_container='$quantity',
-            quantity='$tot'
-
-        WHERE product_id=$product_id";
+            quantity='$remain'
+        WHERE product_id=$product_id AND spt_id=$spt";
 
 
     if ($conn->query($sqlup) === TRUE) {
@@ -142,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo "Product Inventory Transfer uPDATE successfully.";
 
         //Set History
-        AddHistory($UserID,"Added Quantity: ".$tot." of " . $getpro_name,$spt,"inventoryIn");
+        AddHistory($UserID,"Added Quantity: ".$remain." of " . $getpro_name,$spt,"inventoryIn");
         
     } else {
         // Return an error message if the insert failed

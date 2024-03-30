@@ -9,8 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $company_id = $_POST["company_id"];
     $salespt_id = $_POST["salespt_id"];
     $quantity = $_POST["quantity"];
+    $created_at = $_POST["created_at"];
     $UserID = $_POST["user_id"];
     $alert_quantity =5;
+    $box =1;
 
 
     
@@ -45,12 +47,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         WHERE product_id=$product_id";
         
   if ($conn->query($sqlFinish) === TRUE) {
-
+    $sqltrsns = "INSERT INTO transferHistory (product_id, box_or_carton, quantity_per_box,company_ID,spt_id,created_at)
+  VALUES ('$product_id','$box','$quantity','$company_id','$salespt_id','$created_at')";
   
-      // Return a success message
+  if ($conn->query($sqltrsns) === TRUE) {
+      
+       // Return a success message
       header('HTTP/1.1 201 Created');
       echo "Product Inventory successfully.";
       AddHistory($UserID,"Transferred Quantity: ".$quantity." of " . $getpro_name,$salespt_id,"TransferStock");
+      
+      
+  }else {
+      // Return an error message if the insert failed
+      header('HTTP/1.1 500 Internal Server Error');
+      echo "Error: " . $sqltrsns . "<br>" . $conn->error;
+  }
+  
+     
       
 }
       
@@ -100,12 +114,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         SET qty=0
     WHERE product_id=$product_id";
         
-    if ($conn->query($sqlFinish) === TRUE) {
-     
-      // Return a success message
+     if ($conn->query($sqlFinish) === TRUE) {
+    $sqltrsns = "INSERT INTO transferHistory (product_id, box_or_carton, quantity_per_box,company_ID,spt_id,created_at)
+  VALUES ('$product_id','$box','$quantity','$company_id','$salespt_id','$created_at')";
+  
+  if ($conn->query($sqltrsns) === TRUE) {
+      
+       // Return a success message
       header('HTTP/1.1 201 Created');
       echo "Product Inventory successfully.";
       AddHistory($UserID,"Transferred Quantity: ".$quantity." of " . $getpro_name,$salespt_id,"TransferStock");
+      
+      
+  }else {
+      // Return an error message if the insert failed
+      header('HTTP/1.1 500 Internal Server Error');
+      echo "Error: " . $sqltrsns . "<br>" . $conn->error;
+  }
+  
+  
+     
       
 }
     } else {

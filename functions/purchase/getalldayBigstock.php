@@ -14,15 +14,16 @@ SELECT DISTINCT
 products.id AS product_id,
 products.name AS product_name,
 (SELECT COALESCE(SUM(purchase.container), 0) AS entry FROM purchase WHERE purchase.purchase_date LIKE '$date%' AND purchase.store_id =$store_id AND purchase.product_id=products.id) AS entry_stock,
-(SELECT COALESCE(SUM(transferhistory.box_or_carton), 0) AS sold FROM transferhistory WHERE transferhistory.created_at LIKE '$date%' AND transferhistory.store_id =$store_id AND transferhistory.product_id= products.id) AS sold_stock,
+(SELECT COALESCE(SUM(transferHistory.box_or_carton), 0) AS sold FROM transferHistory WHERE transferHistory.created_at LIKE '$date%' AND transferHistory.store_id =$store_id 
+AND transferHistory.product_id= products.id) AS sold_stock,
 storedetails.box_or_carton AS closing_stock
 FROM
 
 storedetails
 JOIN products ON storedetails.product_id= products.id
-LEFT JOIN transferhistory ON transferhistory.store_id=storedetails.store_id
+LEFT JOIN transferHistory ON transferHistory.store_id=storedetails.store_id
 LEFT JOIN purchase ON storedetails.store_id=purchase.store_id
-WHERE storedetails.store_id=$store_id;
+WHERE storedetails.store_id=$store_id
 
 ";
 
@@ -42,7 +43,7 @@ while ($row = $result->fetch_assoc()) {
     
     
     
-    if($row['entry_stock']===0){
+    if($row['entry_stock']==0){
       $openingStock = $soldStock + $closing_stock;  
       $totalStock = $soldStock + $closing_stock;
     }else{

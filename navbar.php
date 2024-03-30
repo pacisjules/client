@@ -46,6 +46,26 @@
     box-shadow: -2px 5px 36px -16px rgb(255, 136, 0);
 }
     </style>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var userType = localStorage.getItem("UserType");
+        if (userType !== "BOSS") {
+            var settingsLink = document.getElementById("settingsLink");
+            if (settingsLink) {
+                settingsLink.style.display = "none";
+            }
+            var salespointLink = document.getElementById("salespointLink");
+            if (salespointLink) {
+                salespointLink.style.display = "none";
+            }
+        }
+    });
+</script>
+    
+    
+    
+    
 </head>
 <body>
 
@@ -66,7 +86,7 @@
                                 </div>
                             </li>
                             <div class="show_tblt">
-                              <button type="button" id="ShowTablet"><img src="styles/icons/tap.png" alt="" srcset=""> <span>Tablet</span></button>  
+                            <a href="sales-panel.php"> <button type="button" id="ShowTablet"><img src="styles/icons/tap.png" alt="" srcset=""> <span>Tablet</span></button>  </a> 
                             </div>
                             
                             
@@ -140,9 +160,14 @@
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo $names;?></span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="profile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="settings.php"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="salespoint.php"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Sales Point Settings</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo $names;?></span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in" id="dropdownpages">
+                                        <a class="dropdown-item" href="profile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <a class="dropdown-item" href="settings.php" id="settingsLink"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
+                                        <a class="dropdown-item" href="salespoint.php" id="salespointLink"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Sales Point Settings</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>

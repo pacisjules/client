@@ -74,7 +74,7 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Opening Stock</th>
                                             <th style="font-size: 14px;">Entry Stock</th>
                                             <th style="font-size: 14px;">Total Qty</th>
-                                            <th style="font-size: 14px;">SOLD Qty</th>
+                                            <th style="font-size: 14px;">Out Qty</th>
                                             <th style="font-size: 14px;">Closing Stock</th>            
                                         </tr>
                                     </thead>
@@ -94,7 +94,7 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Open Stock</th>
                                             <th style="font-size: 14px;">Entry Stock</th>
                                             <th style="font-size: 14px;">Total Qty</th>
-                                            <th style="font-size: 14px;">SOLD Qty</th>
+                                            <th style="font-size: 14px;">Out Qty</th>
                                             <th style="font-size: 14px;">Closing Stock</th>
                                             
                                         </tr>
@@ -114,7 +114,7 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Open Stock</th>
                                             <th style="font-size: 14px;">Entry Stock</th>
                                             <th style="font-size: 14px;">Total Qty</th>
-                                            <th style="font-size: 14px;">SOLD Qty</th>
+                                            <th style="font-size: 14px;">Out Qty</th>
                                             <th style="font-size: 14px;">Closing Stock</th>
                                             
                                         </tr>

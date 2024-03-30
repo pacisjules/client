@@ -12,7 +12,14 @@ $(document).ready(function () {
     getProductTransfer();
     
       
-    
+    $('#searchstoredetail').on('keyup', filterTableRowsStore);
+  
+     function filterTableRowsStore() {
+      const searchValue = $('#searchstoredetail').val().toLowerCase();
+      $('#stockdetail_table tr').filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
+      });
+  }
     
     $("#storereport").click(function () {
     
@@ -53,11 +60,22 @@ $(document).ready(function () {
         html += '<td>' + item.box_or_carton + '</td>';
         html += '<td>' + item.quantity + '</td>';
         html += '<td>' + item.created_at + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.detail_id}','${item.product_id}','${item.box_or_carton}','${item.quantity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.detail_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button> <button class="btn btn-primary getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#transfer_modal" data-bs-toggle="modal" onclick="getProductTransfer('${store_id}','${item.product_id}','${item.unit_id}','${item.box_or_carton}','${item.quantity}')" "><i class="fa fa-exchange" style="margin-right: 10px;"></i>Transfer</button>
+        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.detail_id}','${item.product_id}','${item.box_or_carton}','${item.quantity}','${store_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.detail_id}','${item.product_id}','${store_id}')" "><i class="fa fa-trash"></i></button> 
+           <button class="btn btn-primary getremoveSales" type="button" style="margin-left: 18px;min-width: 128px;" data-bs-target="#transfer_modal" data-bs-toggle="modal" onclick="getProductTransfer('${store_id}','${item.product_id}','${item.unit_id}','${item.box_or_carton}','${item.quantity}')" "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-contract" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707M15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707"/>
+</svg>&nbsp;Transfer</button>
         
                <a class="nav-link active" href="purchasedetails.php?store_id=${store_id}&product_id=${item.product_id}">
-                <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:15px; margin-left:15px;" type="button">
-                    <i class="fas fa-eye" style="font-size:20px; color: white; margin-top:3px;"></i><span style="color:white;font-weight:bold;margin-left:5px;"> Purchase Details</span>
+                <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:10px; margin-left: 18px;min-width: 120px;color:white;font-weight:bold;" type="button">
+                    <i class="fas fa-eye"></i>&nbsp; Purchase
+                </button>
+            </a>
+            <a class="nav-link active" href="transferdetails.php?store_id=${store_id}&product_id=${item.product_id}">
+                <button class="btn btn-success"  rounded-circle" style="background-color:#ebdbff; border-radius:10px; margin-left: 18px;min-width:120px;color:#4A5699;font-weight:bold;" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed" viewBox="0 0 16 16">
+  <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M5 7a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2z"/>
+  <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6zM1.5 4a.5.5 0 0 0-.5.5v1.05a2.5 2.5 0 0 1 0 4.9v1.05a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-1.05a2.5 2.5 0 0 1 0-4.9V4.5a.5.5 0 0 0-.5-.5z"/>
+</svg>&nbsp; Details
                 </button>
             </a>
          </td> `; 
@@ -153,138 +171,68 @@ $(document).ready(function () {
     });
 });
 
-// pick date for editing
-
-
-//   $(function () {
-//     // Open the datepicker when the button is clicked
-//     $("#pickeditButton").on("click", function () {
-//         $("#datepickeredit").datepicker("show");
-//     });
-
-//     // Initialize the datepicker
-//     $("#datepickeredit").datepicker({
-//         onSelect: function (dateText) {
-//             function convertDateFormat(dateText) {
-//                 const dateParts = dateText.split("/");
-//                 const month = dateParts[0];
-//                 const day = dateParts[1];
-//                 const year = dateParts[2];
-
-//                 const formattedDate =
-//                     year +
-//                     "-" +
-//                     month.toString().padStart(2, "0") +
-//                     "-" +
-//                     day.toString().padStart(2, "0");
-
-//                 return formattedDate;
-//             }
-
-//             var formattedDate = convertDateFormat(dateText);
-//             console.log("picking date: " + formattedDate);
-
-//              var company_ID = localStorage.getItem("CoID");
-//     var sales_point_id = localStorage.getItem("SptID");
-  
-//     // Ajax Start!
-
-//     $.ajax({
-//       url:`functions/inventory/geteditinghistory.php?date=${formattedDate}&spt=${sales_point_id}`,
-//       method: "POST",
-//       context: document.body,
-//       success: function(response) {
-//         try {
-//             console.log("Success Response: ", response);
-
-//             if (response.data && response.data.length > 0) {
-//                  const historydata = response.data;
-//                  console.log(historydata);
-//                  const typereport =  "Editing History Report";
-//                  printInventoryhistory(historydata,typereport);
-//              }
-//         } catch (e) {
-//             console.error("Error handling response: ", e);
-//             // Handle the error or display an error message to the user
-//         }
-//     },
-//     error: function(xhr, status, error) {
-//         console.error("ERROR Response: ", error);
-//         // Handle the error or display an error message to the user
-//     },
-//     });
-//         }
-//     });
-// });
-
-
-
-//  $(function () {
-//     // Open the datepicker when the button is clicked
-//     $("#pickdeleteButton").on("click", function () {
-//         $("#datepickerdelete").datepicker("show");
-//     });
-
-//     // Initialize the datepicker
-//     $("#datepickerdelete").datepicker({
-//         onSelect: function (dateText) {
-//             function convertDateFormat(dateText) {
-//                 const dateParts = dateText.split("/");
-//                 const month = dateParts[0];
-//                 const day = dateParts[1];
-//                 const year = dateParts[2];
-
-//                 const formattedDate =
-//                     year +
-//                     "-" +
-//                     month.toString().padStart(2, "0") +
-//                     "-" +
-//                     day.toString().padStart(2, "0");
-
-//                 return formattedDate;
-//             }
-
-//             var formattedDate = convertDateFormat(dateText);
-//             console.log("picking date: " + formattedDate);
-
-//              var company_ID = localStorage.getItem("CoID");
-//     var sales_point_id = localStorage.getItem("SptID");
-  
-//     // Ajax Start!
-
-//     $.ajax({
-//       url:`functions/inventory/getdeletinghistory.php?date=${formattedDate}&spt=${sales_point_id}`,
-//       method: "POST",
-//       context: document.body,
-//       success: function(response) {
-//         try {
-//             console.log("Success Response: ", response);
-
-//             if (response.data && response.data.length > 0) {
-//                  const historydata = response.data;
-//                  console.log(historydata);
-//                  const typereport =  "Deleting History Report";
-//                  printInventoryhistory(historydata,typereport);
-//              }
-//         } catch (e) {
-//             console.error("Error handling response: ", e);
-//             // Handle the error or display an error message to the user
-//         }
-//     },
-//     error: function(xhr, status, error) {
-//         console.error("ERROR Response: ", error);
-//         // Handle the error or display an error message to the user
-//     },
-//     });
-//         }
-//     });
-// });
-
 
     
     
     
     
+    $(function () {
+          // Initialize the date range picker
+          $('#daterange').daterangepicker({
+              opens: 'left',
+              locale: {
+                  format: 'MM/DD/YYYY'
+              }
+          });
+
+          // Handle the date range selection
+          $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+              const startDate = picker.startDate.format('YYYY-MM-DD');
+              const endDate = picker.endDate.format('YYYY-MM-DD');
+              console.log("from "+startDate);
+               console.log("to "+endDate);
+               
+          var company_ID = parseInt(localStorage.getItem("CoID"));
+
+
+          // Make the AJAX request
+$.ajax({
+      url:`functions/multistore/getTransferReportFromTo.php?startDate=${startDate}&endDate=${endDate}&company=${company_ID}`,
+      method: "POST",
+      context: document.body,
+      success: function(response) {
+        try {
+            console.log("Success Response: ", response);
+
+            if (response.data && response.data.length > 0) {
+                 const historydata = response.data;
+                 console.log(historydata);
+                 const typereport =  "Transfer History Report From "+startDate+" To "+endDate;
+                 printInventoryhistory(historydata,typereport);
+             }
+        } catch (e) {
+            console.error("Error handling response: ", e);
+            // Handle the error or display an error message to the user
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error("ERROR Response: ", error);
+        // Handle the error or display an error message to the user
+    },
+    });
+        
+
+
+          });
+
+          // Handle the button click event to open the date range picker
+          $('#Pickdaterangebtn').on('click', function () {
+              $('#daterange').click();
+          });
+          
+          
+          
+      });
     
     
     
@@ -329,15 +277,36 @@ $(document).ready(function () {
   
   
   $("#transferBtn").click(function () {
+    
+       function convertDateFormat(duedate) {
+    // Create a new Date object with the selected date
+        var dateObject = new Date(duedate);
+    
+        // Extract the year, month, and day
+        var year = dateObject.getFullYear();
+        var month = ('0' + (dateObject.getMonth() + 1)).slice(-2); // Add 1 because months are zero-based
+        var day = ('0' + dateObject.getDate()).slice(-2);
+    
+        // Combine the parts into the desired format
+        var formattedDate = year + '-' + month + '-' + day;
+    
+        return formattedDate;
+    }
+  
+    
                   // Retrieve values from input fields
-                  var compnay_id = localStorage.getItem("CoID");
-                  var sales_point_id = parseInt($("#salespointSelect").val());
-                  var product_id = parseInt(localStorage.getItem("tras_id"));
-                  var store_id = parseInt(localStorage.getItem("store_id"));
-                 var box_or_carton = $("#qty").val();
-                 var quantity = localStorage.getItem("item");
-                 var unit = localStorage.getItem("unit");
-                 var user_id = parseInt(localStorage.getItem("UserID"));
+      var compnay_id = localStorage.getItem("CoID");
+      var sales_point_id = parseInt($("#salespointSelect").val());
+      var product_id = parseInt(localStorage.getItem("tras_id"));
+      var store_id = parseInt(localStorage.getItem("store_id"));
+      var box_or_carton = $("#qty").val();
+      var quantity = localStorage.getItem("item");
+      var unit = localStorage.getItem("unit");
+      var user_id = parseInt(localStorage.getItem("UserID"));
+     var duedate = $("#duedate").val(); 
+     var convertedDate = convertDateFormat(duedate);
+                 
+                 console.log(convertedDate);
   
                   // Start AJAX request
                   $.ajax({
@@ -352,6 +321,7 @@ $(document).ready(function () {
                       box_or_carton:box_or_carton,
                       quantity:quantity,
                       user_id:user_id,
+                      created_at:convertedDate,
                     },
                     success: function (response) {
                       $("#transfer_modal").modal("hide");
@@ -369,27 +339,25 @@ $(document).ready(function () {
   
   
     
- $("#editBtnSales").on("click", function() {
-        var stock_id = localStorage.getItem("stock_id");
-        var raw_material_id = localStorage.getItem("raw_material_id");
-        var purchase_date = localStorage.getItem("purchase_date");
-        var quantity = $("#editquantity").val();
-        var prices = $("#editprice").val();
-        var sales_point_id = localStorage.getItem("SptID");
-        var use_id= parseInt(localStorage.getItem("UserID"));
+ $("#editBtnStock").on("click", function() {
+        var detail_id = localStorage.getItem("detail_id");
+        var product_id = localStorage.getItem("product_id");
+        var store_id = localStorage.getItem("store_id");
+        var quantitybox = $("#editquantity").val();
+        var box = $("#editbox_or_carton").val();
+        var company_id = localStorage.getItem("CoID");
         
 
         $.ajax({
             type: "POST",
-            url: "functions/rowinventory/updateinventory.php", // Update this with the actual path to your PHP script
+            url: "functions/multistore/updatebigstock.php", // Update this with the actual path to your PHP script
             data: {
-                stock_id: stock_id,
-                raw_material_id: raw_material_id,
-                quantity: quantity,
-                purchase_date: purchase_date,
-                price_per_unity:prices,
-                spt: sales_point_id,
-                user_id: use_id,
+                detail_id: detail_id,
+                product_id: product_id,
+                store_id:store_id,
+                quantity_per_box:quantitybox,
+                box_or_carton: box,
+                company_ID: company_id,
             },
             success: function(response) {
                 if (response.message) {
@@ -398,10 +366,10 @@ $(document).ready(function () {
                 console.log("Sale purchase  updated successfully.");
                 }
                 $("#edit_sales_modal").modal("hide");
-                localStorage.removeItem("raw_material_id");
-                localStorage.removeItem("purchase_date");
+                localStorage.removeItem("detail_id");
+                localStorage.removeItem("product_id");
                 $("#editquantity").val("");
-                $("#editprice").val("");
+                $("#editbox_or_carton").val("");
                 setTimeout(function() {
                 location.reload();
             }, 1000);
@@ -729,7 +697,7 @@ $("#deleteBtnSales").on("click", function() {
   function getProductTransfer(store_id,id,unit,box,qty) {
     console.log("store id "+ store_id);
     console.log("transfer id "+id);
-    console.log("Unit type "+unit);
+    console.log("Unit type "+ unit);
     console.log("box quantity "+box);
     console.log("item per box "+qty);
 
@@ -748,9 +716,10 @@ $("#deleteBtnSales").on("click", function() {
   
     
     
-   function getSalesID(detail_id,product_id,box_or_carton,quantity){
+   function getSalesID(detail_id,product_id,box_or_carton,quantity,store_id){
      localStorage.setItem("detail_id", detail_id);
         localStorage.setItem("product_id", product_id);
+        localStorage.setItem("store_id", store_id);
      
         $("#editbox_or_carton").val(box_or_carton);
         $("#editquantity").val(quantity);
@@ -1222,7 +1191,8 @@ for (let i = 0; i < historydata.length; i++) {
   table += `<tr >
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${i+1}. ${item.full_name}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150"> ${item.product_name}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.quantity}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.box_or_carton}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.quantity_per_box}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150"> ${item.storename}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.sales_point_location}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.created_at}</td>
@@ -1397,7 +1367,10 @@ for (let i = 0; i < historydata.length; i++) {
             Product
             </th>
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
-            QTY
+                BOX/CARTON
+            </th>
+             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
+                ITEM/BOX
             </th>
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
             From

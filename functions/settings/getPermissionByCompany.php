@@ -38,7 +38,7 @@ while ($row = $result->fetch_assoc()) {
         <td> '.$row['category_name'].'</td>
         <td> '.$row['pagename'].'</td>
         <td>'.$row['created_at'].'</td>
-        <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditCustomer(`'.$row['perm_id'].'`, `'.$row['name'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectDeleteCustomer(`'.$row['perm_id'].'`, `'.$row['name'].'`)"><i class="fa fa-trash"></i></button></td>  
+        <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#modal_permission" data-bs-toggle="modal" onclick="SelectEditCustomer(`'.$row['perm_id'].'`, `'.$row['name'].'`, `'.$row['cat_id'].'`, `'.$row['page_id'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#permissiondelete-modal" data-bs-toggle="modal" onclick="SelectDeleteCustomer(`'.$row['perm_id'].'`, `'.$row['name'].'`)"><i class="fa fa-trash"></i></button></td>  
         </tr>
 
         ';

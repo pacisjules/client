@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql = "INSERT INTO packaging (product_id, qty, company_id) VALUES ('$product_id', '$itempacked', '$company_id')";
 
             if ($conn->query($sql) === TRUE) {
-                $sqlFinish = "UPDATE FinishedProduct SET quantity='$remainliter' WHERE session_id='$prod_session'";
+                $sqlFinish = "UPDATE finishedproduct SET quantity='$remainliter' WHERE session_id='$prod_session'";
                 
                 if ($conn->query($sqlFinish) === TRUE) {
                     // Return a success message
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql = "UPDATE packaging SET qty='$remain_quantity' WHERE product_id=$product_id";
 
             if ($conn->query($sql) === TRUE) {
-                $sqlFinish = "UPDATE FinishedProduct SET quantity='$remainliter' WHERE session_id='$prod_session'";
+                $sqlFinish = "UPDATE finishedproduct SET quantity='$remainliter' WHERE session_id='$prod_session'";
                 
                 if ($conn->query($sqlFinish) === TRUE) {
                     // Return a success message

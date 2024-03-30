@@ -1,2 +1,0 @@
-# selleasep
- POS Web

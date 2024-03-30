@@ -27,7 +27,7 @@ SELECT DISTINCT
     FI.status,
     (SELECT CONCAT(first_name, ' ', last_name) AS names FROM employee WHERE user_id = FI.user_id) AS usernames
 FROM
-    FinishedProduct FI
+    finishedproduct FI
 JOIN products PD ON
     FI.product_id = PD.id
 WHERE
@@ -82,7 +82,7 @@ while ($row = $result->fetch_assoc()) {
          <td style="font-size: 16px;font-weight:bold; color:'.$style.';">'.$sts.'</td>
          <td >
          <a class="nav-link active" href="packingproducts.php?session_id=' . $prod_session . '&product_id='.$prod_id.'&category_id='.$category.'">
-            <button class="btn btn-success"    type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setFinishedProduct(`'.$myid.'`,`'.$prod_session.'`, `'.$row['quantity'].'`,`'.$row['Product_Name'].'`)">
+            <button class="btn btn-success"    type="button" onclick="setFinishedProduct(`'.$myid.'`,`'.$prod_session.'`, `'.$row['quantity'].'`,`'.$row['Product_Name'].'`)">
             <i class="fa fa-exclamation-circle" style="color: white;"></i> Packing
             </button>
          </a>

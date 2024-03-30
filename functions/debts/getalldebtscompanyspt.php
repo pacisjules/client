@@ -29,7 +29,7 @@ while ($row = $result->fetch_assoc()) {
     $icon = "";
 
     if ($row['paid_status'] == 1) {
-        $sts = "Debts";
+        $sts = "Loan";
         $endis = "red";
         $icon = "bi bi-x-circle";
     } else {
@@ -59,12 +59,15 @@ while ($row = $result->fetch_assoc()) {
     ';
 }
 
-$sqltot = "SELECT DISTINCT
-        SUM(total_amount) as total_debt
-    FROM
-        debtscustomer
-    WHERE
-        spt_id=$spt";
+$sqltot = "
+        SELECT 
+            SUM(amount - amount_paid) as total_debt
+                 
+FROM debts
+     
+     WHERE 
+sales_point_id=$spt 
+";
         
 $sumResult = $conn->query($sqltot);
 $sumRow = $sumResult->fetch_assoc();

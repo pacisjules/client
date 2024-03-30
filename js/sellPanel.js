@@ -1,6 +1,5 @@
 $(document).ready(function () {
-
-
+  
 //   function checkInternetConnection() {
 //     fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
 //         .then(response => {
@@ -31,8 +30,11 @@ $(document).ready(function () {
   //holded_carts();
   setOldCart();
   
-
-
+  
+  
+  
+  
+  
   
     $("#addcustomer").click(function () {
       // Retrieve values from input fields
@@ -99,7 +101,6 @@ $(document).ready(function () {
     console.log(cart);
     // Update the cart display
     updateCartDisplay(cart);
-
 
 
 $("#addCart").click(function() {
@@ -245,40 +246,6 @@ $(document).on('click', '.decreaseQtyBtn', function() {
 
 
 
-// $("#decreaseQtyBtntablet").click(function() {
-//   var itemId = $(this).data('item-id');
-//   console.log("decresacee: "+itemId);
-  
-  
-// //   // Find the item in the cart by itemId
-// //   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
-// //   var itemToUpdate = cart.items.find(item => parseInt(item.id) == parseInt(itemId));
-  
-// //  console.log(itemToUpdate);
-  
-
-// //       if (itemToUpdate && parseFloat(itemToUpdate.qty) > 1) {
-// //    // Decrease the quantity of the item
-// //    itemToUpdate.qty -= 1;
-
-// //     // Update the total amount (assuming you also need to update it)
-// //     var totalAmount = calculateTotalAmount(cart.items);
-// //     cart.total = totalAmount;
-
-// //     // Update the cart in local storage
-// //     localStorage.setItem("cart", JSON.stringify(cart));
-
-// //     // Update the cart display
-// //     updateCartDisplaytablet(cart);
-// //   }
-
-  
-// });
-
-
-
-
-
 // Attach click events to buttons for each item in the cart
 $(document).on('click', '.increaseQtyBtn', function() {
   var itemId = $(this).data('item-id');
@@ -369,9 +336,6 @@ $("#flexSwitchPriceChecked").change(function () {
 $("#NegoPrice").on("input", function () {
     updateCalcResult();
 });
-
-
-
 
 
 
@@ -597,11 +561,6 @@ function calculateTotalAmount(items) {
 }
 
 
-
-
-
-
-
 function View_ProductsRecord() {
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
@@ -699,10 +658,6 @@ function setSearch(e) {
 
   // Ajax End!
 }
-
-
-
-
 
 
 
@@ -993,6 +948,7 @@ function AddToCart(realprice, benefit, qty) {
   console.log(cart);
 }
 
+
 function AddToCartTablet(id,namepro,realprice, benefits, qty) {
     
   
@@ -1110,7 +1066,6 @@ function updateCartDisplay(cart) {
 
 
 
-
 function updateCartDisplaytablet(cart) {
   // Clear the existing cart table
   $('#cartItemTableTablet').empty();
@@ -1169,6 +1124,7 @@ function updateCartDisplaytablet(cart) {
 }
 
 
+
 function addCartTablet(id, namepro, p_c_qty, p_price, p_benefit) {
 
 $('#unhold').css('opacity', 0);
@@ -1223,9 +1179,6 @@ if (isNaN(qty) || qty <= 0) {
 
   }
 }
-
-
-
 
 function decreaseQtyshow(e) {
   var itemId = e;
@@ -1406,6 +1359,13 @@ function proceed_tablet_sales () {
 
   
 };
+
+
+
+
+
+
+
 
 function hold_tablet_sales () {
   
@@ -1709,6 +1669,7 @@ function refreshPage(){
 }
 
 
+
 function setOldCart(){
   $('#unhold').css('opacity', 1);
 
@@ -1766,6 +1727,7 @@ function setOldCart(){
   }).format(totalAmount));
   $('#items_number').html(newcart.items.length);
 }
+
 
 
 

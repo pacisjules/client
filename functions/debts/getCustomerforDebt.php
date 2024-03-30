@@ -15,7 +15,7 @@ $sql = "SELECT
         FROM customer CUST 
         WHERE CUST.spt = $spt 
         GROUP BY CUST.customer_id
-        ORDER BY CUST.created_at DESC";
+        ORDER BY CUST.names ASC";
 
 $value = "";
 $result = mysqli_query($conn, $sql);

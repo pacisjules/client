@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    $total_price= $priceper_unity * $container;
+    $total_pricepurchase= $priceper_unity * $container;
 
     // Insert the purchase record
     $purchaseQuery = "INSERT INTO `purchase` ( `store_id`, `product_id`, `unit_id`, `container`, `quantity`, `price_per_unity`, `total_price`, `supplier_id`, `company_ID`,`user_id`)

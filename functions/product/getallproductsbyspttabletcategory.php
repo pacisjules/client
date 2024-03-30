@@ -63,9 +63,9 @@ while ($row = $result->fetch_assoc()) {
     $num+=1;
     $formatted_money = number_format($row['price']);
     if(!empty($row['image'])){
-        $pro_image = "uploads/".$row['image'];
+        $pro_image = "../uploads/".$row['image'];
     }else{
-        $pro_image = "uploads/noimage.jpg";
+        $pro_image = "../uploads/noimage.jpg";
     }
 
     $value .= '

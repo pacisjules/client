@@ -23,7 +23,7 @@ SELECT DISTINCT
     FI.user_id,
     (SELECT CONCAT(first_name, ' ', last_name) AS names FROM employee WHERE user_id = FI.user_id) AS usernames
 FROM
-    FinishedProduct FI
+    finishedproduct FI
 JOIN products PD ON
     FI.product_id = PD.id
 WHERE
