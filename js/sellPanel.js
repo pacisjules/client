@@ -1325,6 +1325,7 @@ function proceed_tablet_sales () {
     
     success: function (response) {
       console.log("response:", response);
+      View_ProductsRecord();
       initializeCart();
       View_LastSalesRecord();
       $("#savep_sell_tablet").html("Sell Done");

@@ -15,7 +15,7 @@ $dbname = "u774778522_selleasep_db";
 // $dbname = "newdb";
 
 // Create connection
-$conn = new mysqli($host, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
