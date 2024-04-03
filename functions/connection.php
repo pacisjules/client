@@ -1,8 +1,7 @@
 <?php
 
 //Server Connection
-//$servername = "86.38.202.52";
-$servername = "localhost";
+$servername = "86.38.202.52";
 $username = "u774778522_sell_user_db";
 $password = "Ishimuko@123";
 $dbname = "u774778522_selleasep_db";
