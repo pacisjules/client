@@ -112,34 +112,31 @@ $(document).ready(function () {
   
   
   
-   $("#searchDebt").on("input", function (e) {
-                  
+  $("#searchDebt").on("input", function (e) {
     var sales_point_id = localStorage.getItem("SptID");
-                
-                  // Clear the table before making the AJAX request
-     $("#debt_table").empty();
-                
-                  // Ajax Start!
-        $.ajax({
-         url: `functions/debts/getbysearchname.php?spt=${sales_point_id}&names=${e.target.value}`,
-         method: "GET", // Change method to GET to match your PHP code
-         context: document.body,
-         success: function (response) {
-          if (response) {
-              $("#debt_table").html(response.debts);
-              // Update the totaldebt element
-          } else {
-              //console.log(response);
-              $("#debt_table").html("Not Any result");
-          }
-      },
-      error: function (xhr, status, error) {
-          // console.log("AJAX request failed!");
-          console.log("Error:", error);
-      },
+    
+    // Clear the table before making the AJAX request
+    $("#debt_table").empty();
+    
+    // Ajax Start!
+    $.ajax({
+        url: `functions/debts/getbysearchname.php?spt=${sales_point_id}&names=${e.target.value}`,
+        method: "GET", // Change method to GET to match your PHP code
+        context: document.body,
+        success: function (response) {
+            if (response && response.debts) {
+                $("#debt_table").html(response.debts);
+            } else {
+                $("#debt_table").html("No results found");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("Error:", error);
+        },
     });
-                  // Ajax End!   
- });
+    // Ajax End!
+});
+
  
  
  
