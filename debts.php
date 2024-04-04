@@ -97,7 +97,7 @@ include('getuser.php');
                                             <th><strong>Full Names</strong></th>
                                             <th><strong>Phone Number</strong></th>
                                             <th><strong>Address</strong></th>
-                                            <th><strong>Amount Due</strong></th>
+                                            <th><strong>Balance</strong></th>
                                             <th><strong>Status</strong></th>
                                             <th><strong>Due date</strong></th>
                                             <th><strong>Action</strong></th>

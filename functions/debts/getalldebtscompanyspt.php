@@ -7,11 +7,16 @@ $spt = $_GET['spt'];
 
 // Retrieve all products and inventory for the given company and sales point
 $sql = "SELECT DISTINCT
-        *
-    FROM
-        debtscustomer
-    WHERE
-        spt_id=$spt";
+SUM(DE.amount - DE.amount_paid) as custamount,
+CU.names,
+CU.phone,
+CU.address,
+DE.due_date,
+DE.status,
+DE.customer_id,
+
+FROM debts DE,customer CU WHERE DE.sales_point_id = $spt AND CU.customer_id = DE.customer_id 
+        ";
 
 $value = "";
 $result = mysqli_query($conn, $sql);
@@ -28,7 +33,7 @@ while ($row = $result->fetch_assoc()) {
     $endis = "";
     $icon = "";
 
-    if ($row['paid_status'] == 1) {
+    if ($row['status'] == 1) {
         $sts = "Loan";
         $endis = "red";
         $icon = "bi bi-x-circle";
@@ -38,7 +43,7 @@ while ($row = $result->fetch_assoc()) {
         $icon = "fa fa-check-square text-white";
     }
     
-     $formattedTotalAmount = number_format($row['total_amount']); 
+     $formattedTotalAmount = number_format($row['custamount']); 
 
     $value .= '
         <tr>
