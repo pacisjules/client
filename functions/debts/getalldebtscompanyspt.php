@@ -13,13 +13,13 @@ CU.address,
 DE.due_date,
 DE.status,
 DE.customer_id,
-(SELECT SUM(amount - amount_paid) FROM debts WHERE customer_id = DE.customer_id) AS Amount
+(SELECT SUM(amount - amount_paid) FROM debts WHERE customer_id = DE.customer_id AND sales_point_id= $spt ) AS Amount
 FROM
 debts DE
 JOIN
 customer CU ON DE.customer_id = CU.customer_id
 WHERE
-DE.sales_point_id = $spt
+DE.sales_point_id = $spt;
 ";
 
 $value = "";
@@ -47,7 +47,7 @@ while ($row = $result->fetch_assoc()) {
         $icon = "fa fa-check-square text-white";
     }
     
-     $formattedTotalAmount = number_format($row['custamount']); 
+     $formattedTotalAmount = number_format($row['Amount']); 
 
     $value .= '
         <tr>
