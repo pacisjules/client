@@ -7,16 +7,20 @@ $spt = $_GET['spt'];
 
 // Retrieve all products and inventory for the given company and sales point
 $sql = "SELECT DISTINCT
-SUM(DE.amount - DE.amount_paid) as custamount,
 CU.names,
 CU.phone,
 CU.address,
 DE.due_date,
 DE.status,
 DE.customer_id,
-
-FROM debts DE,customer CU WHERE DE.sales_point_id = $spt AND CU.customer_id = DE.customer_id 
-        ";
+(SELECT SUM(amount - amount_paid) FROM debts WHERE customer_id = DE.customer_id) AS Amount
+FROM
+debts DE
+JOIN
+customer CU ON DE.customer_id = CU.customer_id
+WHERE
+DE.sales_point_id = $spt
+";
 
 $value = "";
 $result = mysqli_query($conn, $sql);
