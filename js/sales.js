@@ -1029,6 +1029,73 @@ Debts Sales </button>
     });
 
 
+    $("#approvebtn").on("click", function() {
+      var storeapproval = localStorage.getItem("storeapproval");
+      var s_id = localStorage.getItem("sale_id");
+      
+      
+
+      $.ajax({
+          type: "POST",
+          url: "functions/sales/approvedbyStorekeeper.php", // Update this with the actual path to your PHP script
+          data: {
+              s_id: s_id,
+              storeapproval:storeapproval,
+          },
+          success: function(response) {
+              
+              console.log(response);
+            
+              $("#aprovalmodal").modal("hide");
+              localStorage.removeItem("storeapproval");
+              localStorage.removeItem("sale_id");
+              View_DaySalesRecord();
+           
+              
+              
+          },
+          error: function(xhr, status, error) {
+              console.log("Error: " + error);
+              
+          }
+      });
+  });
+
+
+  $("#managerapprovebtn").on("click", function() {
+    var managerapproval = localStorage.getItem("managerapproval");
+    var s_id = localStorage.getItem("sale_id");
+    
+    
+
+    $.ajax({
+        type: "POST",
+        url: "functions/sales/approvedbyManager.php", // Update this with the actual path to your PHP script
+        data: {
+            s_id: s_id,
+            managerapproval:managerapproval,
+        },
+        success: function(response) {
+            
+            console.log(response);
+          
+            $("#aprovalmanagermodal").modal("hide");
+            localStorage.removeItem("managerapproval");
+            localStorage.removeItem("sale_id");
+            View_DaySalesRecord();
+         
+            
+            
+        },
+        error: function(xhr, status, error) {
+            console.log("Error: " + error);
+            
+        }
+    });
+});
+
+
+
 
 $("#deleteBtnSales").on("click", function() {
     var product_id = localStorage.getItem("productID");
@@ -1305,6 +1372,14 @@ Export in Excel </button>  </div>`;
                     let endis = "";
                     let icon = "";
                     let msg = "";
+                    let stsstore = "";
+                    let endistore = "";
+                    let iconstore = "";
+                    let msgstore = "";
+                    let stsmanager = "";
+                    let endimanager = "";
+                    let iconmanager = "";
+                    let msgmanager = "";
 
                     if (item.paid_status === "Paid") {
                         sts = "Active";
@@ -1317,26 +1392,49 @@ Export in Excel </button>  </div>`;
                         icon = "bi bi-x-circle";
                         msg = "Debt";
                     }
+
                     
+
+                    if (item.storekeeperaproval == 0) {
+                        stsstore = "Active";
+                        endistore = "btn btn-warning";
+                        iconstore = "bi bi-x-circle";
+                        msgstore = "Pending";
+                    } else {
+                        stsstore = "Not Active";
+                        endistore = "btn btn-primary";
+                        iconstore = "fa fa-check-square text-white";
+                        msgstore = "Approved";
+                    }
+                    
+                    if (item.manageraproval == 0) {
+                      stsmanager = "Active";
+                      endimanager = "btn btn-warning";
+                      iconmanager = "bi bi-x-circle";
+                      msgmanager = "Pending";
+                  } else {
+                      stsmanager = "Not Active";
+                      endimanager = "btn btn-primary";
+                      iconmanager = "fa fa-check-square text-white";
+                      msgmanager = "Approved";
+                  }
 
                     html += `
                         <tr>
-                            <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
+                            <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                            <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
                               style: "currency",
                               currency: "RWF",
                           }).format(parseFloat(item.sales_price))}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
+                            <td style="font-size: 12px;">${item.quantity}</td>
+                            <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
                               style: "currency",
                               currency: "RWF",
                           }).format(parseFloat(item.total_amount))}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_benefit))}</td>
-                            <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                            <td style="font-size: 14px;">${item.created_time}</td>
+                            <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                            <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                            <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                            <td style="font-size: 12px;">${item.created_time}</td>
                             <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
                         </tr>
                     `;
@@ -1627,9 +1725,38 @@ Export in Excel </button></div>`;
   
   
   
-  
+  function getrightstoremodal(storekeeper,sale_id){
+    console.log("Store keeper", storekeeper);
 
-  
+    if(storekeeper== 0){
+      $("#aprovalmodal").modal("show");
+      localStorage.setItem("storeapproval",storekeeper);
+      localStorage.setItem("sale_id",sale_id);
+    }else{
+      $("#alreadyaproved").modal("show");
+    }
+
+  }
+
+  function getrightmanagermodal(manager,sale_id){
+    console.log("manager appreoval", manager);
+
+    var usertype = localStorage.getItem("UserType");
+
+    if(usertype === "BOSS"){
+     if(manager== 0){
+      $("#aprovalmanagermodal").modal("show");
+      localStorage.setItem("managerapproval",manager);
+      localStorage.setItem("sale_id",sale_id);
+    }else{
+      $("#alreadyaprovedbymanager").modal("show");
+    } 
+    }else{
+      $("#notallowedmodal").modal("show");
+    }
+
+    
+  }
    function exportTableToExcel(tableID, filename = '') {
         var table = document.getElementById(tableID);
         var ws = XLSX.utils.table_to_sheet(table);

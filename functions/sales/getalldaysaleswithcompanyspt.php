@@ -26,6 +26,8 @@ $sql = "
         SL.paid_status,
         SL.created_time,
         SL.sales_type,
+        SL.storekeeperaproval,
+        SL.manageraproval,
         INV.alert_quantity,
         INV.quantity AS remain_stock
     FROM
@@ -70,6 +72,8 @@ while ($row = $result->fetch_assoc()) {
         'total_benefit' => $row['total_benefit'],
         'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
+        'storekeeperaproval' => $row['storekeeperaproval'],
+        'manageraproval' => $row['manageraproval'],
     );
 
     $data[] = $item;

@@ -62,8 +62,9 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Price</th>
                                             <th style="font-size: 14px;">Quantity</th>
                                             <th style="font-size: 14px;">Total amount</th>
-                                            <th style="font-size: 14px;">Benefit</th>
-                                            <th style="font-size: 14px; text-align:center">Status</th>
+                                            <th style="font-size: 14px;">Status</th>
+                                            <th style="font-size: 14px; text-align:center">Store Keeper</th>
+                                            <th style="font-size: 14px; text-align:center">Manager</th>
                                             <th style="font-size: 14px;">Sold time</th>
                                             <th style="font-size: 14px;">Actions</th>
                                         </tr>
@@ -318,6 +319,76 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="aprovalmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Are you sure to Approve this sales??</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can approve this sales.</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="approvebtn">Approve</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="alreadyaproved">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">This sales is already approved by Store keeper!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="aprovalmanagermodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Are you sure to Approve this sales??</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can approve this sales.</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="managerapprovebtn">Approve</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="alreadyaprovedbymanager">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">This sales is already approved by Manager!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="notallowedmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">You are not allowed to perform this task!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="inventory">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
