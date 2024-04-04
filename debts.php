@@ -98,7 +98,7 @@ include('getuser.php');
                                             <th><strong>Phone Number</strong></th>
                                             <th><strong>Address</strong></th>
                                             <th><strong>Balance</strong></th>
-                                            <th><strong>Status</strong></th>
+                                            <!-- <th><strong>Status</strong></th> -->
                                             <th><strong>Due date</strong></th>
                                             <th><strong>Action</strong></th>
                                         </tr>
@@ -111,8 +111,8 @@ include('getuser.php');
                                             <td><strong>Full Names</strong></td>
                                             <td><strong>Phone Number</strong></td>
                                             <td><strong>Address</strong></td>
-                                            <td><strong>Amount Due</strong></td>
-                                            <td><strong>Status</strong></td>
+                                            <td><strong>Balance</strong></td>
+                                            <!-- <td><strong>Status</strong></td> -->
                                             <td><strong >Due date</strong></td>
                                             <td><strong>Actions</strong></td>
                                         </tr>
