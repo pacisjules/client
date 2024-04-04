@@ -2,20 +2,7 @@ $(document).ready(function () {
     populateCustomer(); 
     populateProduct();
     
-    
-    $('#searchDebt').on('keyup', filterTableRowsStore);
-  
-    function filterTableRowsStore() {
-        const searchValue = $('#searchDebt').val().toLowerCase();
-        $('#debt_table tr').filter(function() {
-            // Use find or children to target specific columns
-            // Adjust column indexes according to your table structure
-            return $(this).find('td').filter(function() {
-                return $(this).text().toLowerCase().indexOf(searchValue) > -1;
-            }).length > 0; // Check if any column contains the search value
-        }).toggle(); // Toggle rows based on the search result
-    }
-    
+ 
     
    var customer_id = getParameterByName('customer_id');
    localStorage.setItem("customer_id", customer_id);
@@ -125,69 +112,34 @@ $(document).ready(function () {
   
   
   
-//    $("#searchDebt").on("input", function (e) {
+   $("#searchDebt").on("input", function (e) {
                   
-//     var sales_point_id = localStorage.getItem("SptID");
+    var sales_point_id = localStorage.getItem("SptID");
                 
-//                   // Clear the table before making the AJAX request
-//      $("#debt_table").empty();
+                  // Clear the table before making the AJAX request
+     $("#debt_table").empty();
                 
-//                   // Ajax Start!
-//         $.ajax({
-//          url: `functions/debts/getbysearchname.php?spt=${sales_point_id}&names=${e.target.value}`,
-//          method: "GET", // Change method to GET to match your PHP code
-//          context: document.body,
-//          success: function (response) {
-//          if (response && response.length > 0) {
-//                         // Iterate through the response data and build table rows
-//          $.each(response, function (index, row) {
-             
-//              var mes = "";
-//           var color = "";
-//           if (row.paid_status == 1) {
-//             mes = "Debt";
-//             color = "red";
-//           } else {
-//             mes = "Full paid";
-//             color = "green";
-//           }
-             
-             
-//          var html = `
-//              <tr>
-//               <td>${index + 1}. ${row.names}</td>
-//               <td>${row.phone}</td>
-//               <td>${row.address}</td>
-//               <td>${new Intl.NumberFormat("en-US", {
-//                                   style: "currency",
-//                                   currency: "RWF",
-//                               }).format(parseFloat(row.total_amount))}</td>
-//               <td style="color:${color}; font-weight:bold;">${mes}</td>
-//               <td>${row.due_date}</td>
-//               <td class="d-flex flex-row justify-content-start align-items-center">
-//                <a class="nav-link active" href="debtdetails.php?customer_id=${row.customer_id}">
-//                 <button class="btn btn-success rounded-circle" type="button">
-//                     <i class="fas fa-eye" style="margin-left: 5px; color: white"></i>
-//                 </button>
-//             </a>
-//             </td>  
-//              </tr>
-//          `;
-                
-//          $("#debt_table").append(html);
-//      });
-//          } else {
-//                         // No results found
-//           $("#debt_table").html("<tr><td colspan='7'>Not Any result</td></tr>");
-//         }
-//     },
-//     error: function (xhr, status, error) {
-//                       // Handle AJAX request errors here
-//      console.error("AJAX request failed: " + error);
-//      },
-//     });
-//                   // Ajax End!   
-//  });
+                  // Ajax Start!
+        $.ajax({
+         url: `functions/debts/getbysearchname.php?spt=${sales_point_id}&names=${e.target.value}`,
+         method: "GET", // Change method to GET to match your PHP code
+         context: document.body,
+         success: function (response) {
+          if (response) {
+              $("#debt_table").html(response.debts);
+              // Update the totaldebt element
+          } else {
+              //console.log(response);
+              $("#debt_table").html("Not Any result");
+          }
+      },
+      error: function (xhr, status, error) {
+          // console.log("AJAX request failed!");
+          console.log("Error:", error);
+      },
+    });
+                  // Ajax End!   
+ });
  
  
  
