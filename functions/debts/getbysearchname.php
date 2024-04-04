@@ -76,12 +76,12 @@ while ($row = $result->fetch_assoc()) {
 
 
 
-$response = array(
-    'debts' => $value
-);
+// $response = array(
+//     'debts' => $value
+// );
 
 // Convert data to JSON
-$jsonData = json_encode($response);
+$jsonData = json_encode($value);
 
 // Set the response header to indicate JSON content
 header('Content-Type: application/json');
