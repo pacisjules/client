@@ -159,44 +159,77 @@ Debts Sales </button>
                         const item = response.data[i];
 
                         let sts = "";
-                        let endis = "";
-                        let icon = "";
-                        let msg = "";
+                      let endis = "";
+                      let icon = "";
+                      let msg = "";
+                      let stsstore = "";
+                      let endistore = "";
+                      let iconstore = "";
+                      let msgstore = "";
+                      let stsmanager = "";
+                      let endimanager = "";
+                      let iconmanager = "";
+                      let msgmanager = "";
+  
+                      if (item.paid_status === "Paid") {
+                          sts = "Active";
+                          endis = "btn btn-success";
+                          icon = "fa fa-check-square text-white";
+                          msg = "Paid";
+                      } else {
+                          sts = "Not Active";
+                          endis = "btn btn-danger";
+                          icon = "bi bi-x-circle";
+                          msg = "Debt";
+                      }
+  
+                      
+  
+                      if (item.storekeeperaproval == 0) {
+                          stsstore = "Active";
+                          endistore = "btn btn-warning";
+                          iconstore = "bi bi-x-circle";
+                          msgstore = "Pending";
+                      } else {
+                          stsstore = "Not Active";
+                          endistore = "btn btn-primary";
+                          iconstore = "fa fa-check-square text-white";
+                          msgstore = "Approved";
+                      }
+                      
+                      if (item.manageraproval == 0) {
+                        stsmanager = "Active";
+                        endimanager = "btn btn-warning";
+                        iconmanager = "bi bi-x-circle";
+                        msgmanager = "Pending";
+                    } else {
+                        stsmanager = "Not Active";
+                        endimanager = "btn btn-primary";
+                        iconmanager = "fa fa-check-square text-white";
+                        msgmanager = "Approved";
+                    }
+                    
 
-                        if (item.paid_status === "Paid") {
-                            sts = "Active";
-                            endis = "btn btn-success";
-                            icon = "fa fa-check-square text-white";
-                            msg = "Paid";
-                        } else {
-                            sts = "Not Active";
-                            endis = "btn btn-danger";
-                            icon = "bi bi-x-circle";
-                            msg = "Debt";
-                        }
-
-                        html += `
-                            <tr>
-                                <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                                <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.sales_price))}</td>
-                                <td style="font-size: 14px;">${item.quantity}</td>
-                                <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.total_amount))}</td>
-                                <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.total_benefit))}</td>
-                                <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                                <td style="font-size: 14px;">${item.created_time}</td>
-                                <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-trash"></i></button></td>
-                            </tr>
-                        `;
-                        
+                    html += `
+                    <tr>
+                    <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.sales_price))}</td>
+                    <td style="font-size: 12px;">${item.quantity}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.total_amount))}</td>
+                    <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                    <td style="font-size: 12px;">${item.created_time}</td>
+                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                </tr>
+                    `;
+                    
                         
                         excel += `
                         <tr>
@@ -411,45 +444,78 @@ Debts Sales </button>
                       console.log("item.sales_id:", item.sale_id);
                       console.log("item.product_id:", item.product_id);
 
-                    let sts = "";
-                    let endis = "";
-                    let icon = "";
-                    let msg = "";
-
-                    if (item.paid_status === "Paid") {
-                        sts = "Active";
-                        endis = "btn btn-success";
-                        icon = "fa fa-check-square text-white";
-                        msg = "Paid";
+                      let sts = "";
+                      let endis = "";
+                      let icon = "";
+                      let msg = "";
+                      let stsstore = "";
+                      let endistore = "";
+                      let iconstore = "";
+                      let msgstore = "";
+                      let stsmanager = "";
+                      let endimanager = "";
+                      let iconmanager = "";
+                      let msgmanager = "";
+  
+                      if (item.paid_status === "Paid") {
+                          sts = "Active";
+                          endis = "btn btn-success";
+                          icon = "fa fa-check-square text-white";
+                          msg = "Paid";
+                      } else {
+                          sts = "Not Active";
+                          endis = "btn btn-danger";
+                          icon = "bi bi-x-circle";
+                          msg = "Debt";
+                      }
+  
+                      
+  
+                      if (item.storekeeperaproval == 0) {
+                          stsstore = "Active";
+                          endistore = "btn btn-warning";
+                          iconstore = "bi bi-x-circle";
+                          msgstore = "Pending";
+                      } else {
+                          stsstore = "Not Active";
+                          endistore = "btn btn-primary";
+                          iconstore = "fa fa-check-square text-white";
+                          msgstore = "Approved";
+                      }
+                      
+                      if (item.manageraproval == 0) {
+                        stsmanager = "Active";
+                        endimanager = "btn btn-warning";
+                        iconmanager = "bi bi-x-circle";
+                        msgmanager = "Pending";
                     } else {
-                        sts = "Not Active";
-                        endis = "btn btn-danger";
-                        icon = "bi bi-x-circle";
-                        msg = "Debt";
+                        stsmanager = "Not Active";
+                        endimanager = "btn btn-primary";
+                        iconmanager = "fa fa-check-square text-white";
+                        msgmanager = "Approved";
                     }
                     
 
                     html += `
-                        <tr>
-                            <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.sales_price))}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_amount))}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_benefit))}</td>
-                            <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                            <td style="font-size: 14px;">${item.created_time}</td>
-                            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
-                        </tr>
+                    <tr>
+                    <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.sales_price))}</td>
+                    <td style="font-size: 12px;">${item.quantity}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.total_amount))}</td>
+                    <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                    <td style="font-size: 12px;">${item.created_time}</td>
+                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                </tr>
                     `;
+                    
                     
                     
                     excel += `
@@ -673,7 +739,15 @@ Debts Sales </button>
                         let endis = "";
                         let icon = "";
                         let msg = "";
-
+                        let stsstore = "";
+                        let endistore = "";
+                        let iconstore = "";
+                        let msgstore = "";
+                        let stsmanager = "";
+                        let endimanager = "";
+                        let iconmanager = "";
+                        let msgmanager = "";
+    
                         if (item.paid_status === "Paid") {
                             sts = "Active";
                             endis = "btn btn-success";
@@ -685,28 +759,54 @@ Debts Sales </button>
                             icon = "bi bi-x-circle";
                             msg = "Debt";
                         }
-
-                        html += `
-                            <tr>
-                                <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                                <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.sales_price))}</td>
-                                <td style="font-size: 14px;">${item.quantity}</td>
-                                <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.total_amount))}</td>
-                                <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.total_benefit))}</td>
-                                <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                                <td style="font-size: 14px;">${item.created_time}</td>
-                                <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-trash"></i></button></td>
-                            </tr>
-                        `;
+    
+                        
+    
+                        if (item.storekeeperaproval == 0) {
+                            stsstore = "Active";
+                            endistore = "btn btn-warning";
+                            iconstore = "bi bi-x-circle";
+                            msgstore = "Pending";
+                        } else {
+                            stsstore = "Not Active";
+                            endistore = "btn btn-primary";
+                            iconstore = "fa fa-check-square text-white";
+                            msgstore = "Approved";
+                        }
+                        
+                        if (item.manageraproval == 0) {
+                          stsmanager = "Active";
+                          endimanager = "btn btn-warning";
+                          iconmanager = "bi bi-x-circle";
+                          msgmanager = "Pending";
+                      } else {
+                          stsmanager = "Not Active";
+                          endimanager = "btn btn-primary";
+                          iconmanager = "fa fa-check-square text-white";
+                          msgmanager = "Approved";
+                      }
+                      
+  
+                      html += `
+                      <tr>
+                      <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                      <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "RWF",
+                    }).format(parseFloat(item.sales_price))}</td>
+                      <td style="font-size: 12px;">${item.quantity}</td>
+                      <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "RWF",
+                    }).format(parseFloat(item.total_amount))}</td>
+                      <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                      <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                      <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                      <td style="font-size: 12px;">${item.created_time}</td>
+                      <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                  </tr>
+                      `;
+                      
                         
                         
                         excel += `
@@ -904,7 +1004,15 @@ Debts Sales </button>
                       let endis = "";
                       let icon = "";
                       let msg = "";
-
+                      let stsstore = "";
+                      let endistore = "";
+                      let iconstore = "";
+                      let msgstore = "";
+                      let stsmanager = "";
+                      let endimanager = "";
+                      let iconmanager = "";
+                      let msgmanager = "";
+  
                       if (item.paid_status === "Paid") {
                           sts = "Active";
                           endis = "btn btn-success";
@@ -916,29 +1024,54 @@ Debts Sales </button>
                           icon = "bi bi-x-circle";
                           msg = "Debt";
                       }
-
-                      html += `
-                          <tr>
-                              <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                              <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "RWF",
-                            }).format(parseFloat(item.sales_price))}</td>
-                              <td style="font-size: 14px;">${item.quantity}</td>
-                              <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "RWF",
-                            }).format(parseFloat(item.total_amount))}</td>
-                              <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "RWF",
-                            }).format(parseFloat(item.total_benefit))}</td>
-                              <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                              <td style="font-size: 14px;">${item.created_time}</td>
-                              <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-trash"></i></button></td>
-                          </tr>
-                      `;
+  
                       
+  
+                      if (item.storekeeperaproval == 0) {
+                          stsstore = "Active";
+                          endistore = "btn btn-warning";
+                          iconstore = "bi bi-x-circle";
+                          msgstore = "Pending";
+                      } else {
+                          stsstore = "Not Active";
+                          endistore = "btn btn-primary";
+                          iconstore = "fa fa-check-square text-white";
+                          msgstore = "Approved";
+                      }
+                      
+                      if (item.manageraproval == 0) {
+                        stsmanager = "Active";
+                        endimanager = "btn btn-warning";
+                        iconmanager = "bi bi-x-circle";
+                        msgmanager = "Pending";
+                    } else {
+                        stsmanager = "Not Active";
+                        endimanager = "btn btn-primary";
+                        iconmanager = "fa fa-check-square text-white";
+                        msgmanager = "Approved";
+                    }
+                    
+
+                    html += `
+                    <tr>
+                    <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.sales_price))}</td>
+                    <td style="font-size: 12px;">${item.quantity}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.total_amount))}</td>
+                    <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                    <td style="font-size: 12px;">${item.created_time}</td>
+                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                </tr>
+                    `;
+                             
                        excel += `
                         <tr>
                             <td style="font-size: 14px;">${i+1}</td>
@@ -1049,7 +1182,8 @@ Debts Sales </button>
               $("#aprovalmodal").modal("hide");
               localStorage.removeItem("storeapproval");
               localStorage.removeItem("sale_id");
-              View_DaySalesRecord();
+               View_DaySalesRecord();
+            
            
               
               
@@ -1060,7 +1194,71 @@ Debts Sales </button>
           }
       });
   });
+  $("#approvebtnyest").on("click", function() {
+    var storeapproval = localStorage.getItem("storeapproval");
+    var s_id = localStorage.getItem("sale_id");
+    
+    
 
+    $.ajax({
+        type: "POST",
+        url: "functions/sales/approvedbyStorekeeper.php", // Update this with the actual path to your PHP script
+        data: {
+            s_id: s_id,
+            storeapproval:storeapproval,
+        },
+        success: function(response) {
+            
+            console.log(response);
+          
+            $("#aprovalmodalyest").modal("hide");
+            localStorage.removeItem("storeapproval");
+            localStorage.removeItem("sale_id");
+       
+          View_YesterdaySalesRecord();
+         
+            
+            
+        },
+        error: function(xhr, status, error) {
+            console.log("Error: " + error);
+            
+        }
+    });
+});
+
+$("#approvebtnweek").on("click", function() {
+  var storeapproval = localStorage.getItem("storeapproval");
+  var s_id = localStorage.getItem("sale_id");
+  
+  
+
+  $.ajax({
+      type: "POST",
+      url: "functions/sales/approvedbyStorekeeper.php", // Update this with the actual path to your PHP script
+      data: {
+          s_id: s_id,
+          storeapproval:storeapproval,
+      },
+      success: function(response) {
+          
+          console.log(response);
+        
+          $("#aprovalmodalweek").modal("hide");
+          localStorage.removeItem("storeapproval");
+          localStorage.removeItem("sale_id");
+     
+        View_WeekSalesRecord();
+       
+          
+          
+      },
+      error: function(xhr, status, error) {
+          console.log("Error: " + error);
+          
+      }
+  });
+});
 
   $("#managerapprovebtn").on("click", function() {
     var managerapproval = localStorage.getItem("managerapproval");
@@ -1082,7 +1280,8 @@ Debts Sales </button>
             $("#aprovalmanagermodal").modal("hide");
             localStorage.removeItem("managerapproval");
             localStorage.removeItem("sale_id");
-            View_DaySalesRecord();
+           View_DaySalesRecord();
+            
          
             
             
@@ -1094,6 +1293,67 @@ Debts Sales </button>
     });
 });
 
+$("#managerapprovebtnyest").on("click", function() {
+  var managerapproval = localStorage.getItem("managerapproval");
+  var s_id = localStorage.getItem("sale_id");
+  
+  
+
+  $.ajax({
+      type: "POST",
+      url: "functions/sales/approvedbyManager.php", // Update this with the actual path to your PHP script
+      data: {
+          s_id: s_id,
+          managerapproval:managerapproval,
+      },
+      success: function(response) {
+          
+          console.log(response);
+        
+          $("#aprovalmanagermodalyest").modal("hide");
+          localStorage.removeItem("managerapproval");
+          localStorage.removeItem("sale_id");
+          
+          View_YesterdaySalesRecord();
+           
+      },
+      error: function(xhr, status, error) {
+          console.log("Error: " + error);
+          
+      }
+  });
+});
+
+$("#managerapprovebtnweek").on("click", function() {
+  // var managerapproval = localStorage.getItem("managerapproval");
+  var s_id = localStorage.getItem("sale_id");
+  console.log("sales_id " ,s_id);
+  
+
+  $.ajax({
+      type: "POST",
+      url: "functions/sales/approvedbyManager.php", // Update this with the actual path to your PHP script
+      data: {
+          s_id: s_id,
+          managerapproval:managerapproval,
+      },
+      success: function(response) {
+          
+          console.log(response);
+        
+          $("#aprovalmanagermodalweek").modal("hide");
+          localStorage.removeItem("managerapproval");
+          localStorage.removeItem("sale_id");
+          
+          View_WeekSalesRecord();
+           
+      },
+      error: function(xhr, status, error) {
+          console.log("Error: " + error);
+          
+      }
+  });
+});
 
 
 
@@ -1159,13 +1419,27 @@ $("#deleteBtnSales").on("click", function() {
 
 // Function to calculate week number
 function getWeekNumber(year, month, day) {
-var date = new Date(year, month - 1, day);
-date.setHours(0, 0, 0);
-date.setDate(date.getDate() + 4 - (date.getDay() || 7));
-var yearStart = new Date(date.getFullYear(), 0, 1);
-var weekNo = Math.ceil(((date - yearStart) / 86400000 + 1) / 7);
-return weekNo;
+  // Create a new Date object with the provided year, month, and day
+  var date = new Date(year, month - 1, day);
+
+  // Set hours to avoid timezone discrepancies
+  date.setHours(0, 0, 0);
+
+  // Adjust the date to start of the week (Monday)
+  var dayOfWeek = date.getDay();
+  var mondayOffset = 1; // Monday is the first day of the week
+  var daysToMonday = (7 + dayOfWeek - mondayOffset) % 7;
+  date.setDate(date.getDate() - daysToMonday);
+
+  // Get the year of the first day of the year
+  var yearStart = new Date(year, 0, 1);
+
+  // Calculate the week number
+  var weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+
+  return weekNo;
 }
+
 
 
 
@@ -1648,44 +1922,76 @@ Export in Excel </button></div>`;
                       console.log("item.sales_id:", item.sale_id);
                       console.log("item.product_id:", item.product_id);
 
-                    let sts = "";
-                    let endis = "";
-                    let icon = "";
-                    let msg = "";
-
-                    if (item.paid_status === "Paid") {
-                        sts = "Active";
-                        endis = "btn btn-success";
-                        icon = "fa fa-check-square text-white";
-                        msg = "Paid";
+                      let sts = "";
+                      let endis = "";
+                      let icon = "";
+                      let msg = "";
+                      let stsstore = "";
+                      let endistore = "";
+                      let iconstore = "";
+                      let msgstore = "";
+                      let stsmanager = "";
+                      let endimanager = "";
+                      let iconmanager = "";
+                      let msgmanager = "";
+  
+                      if (item.paid_status === "Paid") {
+                          sts = "Active";
+                          endis = "btn btn-success";
+                          icon = "fa fa-check-square text-white";
+                          msg = "Paid";
+                      } else {
+                          sts = "Not Active";
+                          endis = "btn btn-danger";
+                          icon = "bi bi-x-circle";
+                          msg = "Debt";
+                      }
+  
+                      
+  
+                      if (item.storekeeperaproval == 0) {
+                          stsstore = "Active";
+                          endistore = "btn btn-warning";
+                          iconstore = "bi bi-x-circle";
+                          msgstore = "Pending";
+                      } else {
+                          stsstore = "Not Active";
+                          endistore = "btn btn-primary";
+                          iconstore = "fa fa-check-square text-white";
+                          msgstore = "Approved";
+                      }
+                      
+                      if (item.manageraproval == 0) {
+                        stsmanager = "Active";
+                        endimanager = "btn btn-warning";
+                        iconmanager = "bi bi-x-circle";
+                        msgmanager = "Pending";
                     } else {
-                        sts = "Not Active";
-                        endis = "btn btn-danger";
-                        icon = "bi bi-x-circle";
-                        msg = "Debt";
+                        stsmanager = "Not Active";
+                        endimanager = "btn btn-primary";
+                        iconmanager = "fa fa-check-square text-white";
+                        msgmanager = "Approved";
                     }
                     
 
                     html += `
-                        <tr>
-                            <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.sales_price))}</td>
-                            <td style="font-size: 14px;">${item.quantity}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_amount))}</td>
-                            <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                          }).format(parseFloat(item.total_benefit))}</td>
-                            <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                            <td style="font-size: 14px;">${item.created_time}</td>
-                            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
-                        </tr>
+                    <tr>
+                    <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.sales_price))}</td>
+                    <td style="font-size: 12px;">${item.quantity}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.total_amount))}</td>
+                    <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodalyest(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodalyest(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                    <td style="font-size: 12px;">${item.created_time}</td>
+                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                </tr>
                     `;
                     
                     
@@ -1725,38 +2031,11 @@ Export in Excel </button></div>`;
   
   
   
-  function getrightstoremodal(storekeeper,sale_id){
-    console.log("Store keeper", storekeeper);
 
-    if(storekeeper== 0){
-      $("#aprovalmodal").modal("show");
-      localStorage.setItem("storeapproval",storekeeper);
-      localStorage.setItem("sale_id",sale_id);
-    }else{
-      $("#alreadyaproved").modal("show");
-    }
 
-  }
 
-  function getrightmanagermodal(manager,sale_id){
-    console.log("manager appreoval", manager);
 
-    var usertype = localStorage.getItem("UserType");
 
-    if(usertype === "BOSS"){
-     if(manager== 0){
-      $("#aprovalmanagermodal").modal("show");
-      localStorage.setItem("managerapproval",manager);
-      localStorage.setItem("sale_id",sale_id);
-    }else{
-      $("#alreadyaprovedbymanager").modal("show");
-    } 
-    }else{
-      $("#notallowedmodal").modal("show");
-    }
-
-    
-  }
    function exportTableToExcel(tableID, filename = '') {
         var table = document.getElementById(tableID);
         var ws = XLSX.utils.table_to_sheet(table);
@@ -1917,6 +2196,14 @@ Debts Sales </button>
                       let endis = "";
                       let icon = "";
                       let msg = "";
+                      let stsstore = "";
+                      let endistore = "";
+                      let iconstore = "";
+                      let msgstore = "";
+                      let stsmanager = "";
+                      let endimanager = "";
+                      let iconmanager = "";
+                      let msgmanager = "";
   
                       if (item.paid_status === "Paid") {
                           sts = "Active";
@@ -1930,28 +2217,53 @@ Debts Sales </button>
                           msg = "Debt";
                       }
   
-                      html += `
-                      <tr>
-                      <td style="font-size: 14px;">${i+1}. ${item.Product_Name}</td>
-                      <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "RWF",
-                    }).format(parseFloat(item.sales_price))}</td>
-                      <td style="font-size: 14px;">${item.quantity}</td>
-                      <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "RWF",
-                    }).format(parseFloat(item.total_amount))}</td>
-                      <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "RWF",
-                    }).format(parseFloat(item.total_benefit))}</td>
-                      <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                      <td style="font-size: 14px;">${item.created_time}</td>
-                      <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" data-sale-id="${item.sales_id}"><i class="fa fa-trash"></i></button></td>
-                  </tr>
-                      `;
                       
+  
+                      if (item.storekeeperaproval == 0) {
+                          stsstore = "Active";
+                          endistore = "btn btn-warning";
+                          iconstore = "bi bi-x-circle";
+                          msgstore = "Pending";
+                      } else {
+                          stsstore = "Not Active";
+                          endistore = "btn btn-primary";
+                          iconstore = "fa fa-check-square text-white";
+                          msgstore = "Approved";
+                      }
+                      
+                      if (item.manageraproval == 0) {
+                        stsmanager = "Active";
+                        endimanager = "btn btn-warning";
+                        iconmanager = "bi bi-x-circle";
+                        msgmanager = "Pending";
+                    } else {
+                        stsmanager = "Not Active";
+                        endimanager = "btn btn-primary";
+                        iconmanager = "fa fa-check-square text-white";
+                        msgmanager = "Approved";
+                    }
+                    
+
+                    html += `
+                    <tr>
+                    <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.sales_price))}</td>
+                    <td style="font-size: 12px;">${item.quantity}</td>
+                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(item.total_amount))}</td>
+                    <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodalweek(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
+                    <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodalweek(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                    <td style="font-size: 12px;">${item.created_time}</td>
+                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                </tr>
+                    `;
+                    
                      excel += `
                         <tr>
                             <td style="font-size: 14px;">${i+1}</td>
@@ -3890,5 +4202,109 @@ function getSalesID(sale_id, sess_id, product_id){
         }
 
 
+
+
+
+        function getrightstoremodal(storekeeper,sale_id){
+          console.log("Store keeper", storekeeper);
+      
+          if(storekeeper== 0){
+            $("#aprovalmodal").modal("show");
+            localStorage.setItem("storeapproval",storekeeper);
+            localStorage.setItem("sale_id",sale_id);
+          }else{
+            $("#alreadyaproved").modal("show");
+          }
+      
+        }
+      
+        function getrightmanagermodal(manager,sale_id){
+          console.log("manager appreoval", manager);
+      
+          var usertype = localStorage.getItem("UserType");
+      
+          if(usertype === "BOSS"){
+           if(manager== 0){
+            $("#aprovalmanagermodal").modal("show");
+            localStorage.setItem("managerapproval",manager);
+            localStorage.setItem("sale_id",sale_id);
+          }else{
+            $("#alreadyaprovedbymanager").modal("show");
+          } 
+          }else{
+            $("#notallowedmodal").modal("show");
+          }
+      
+          
+        }
+      
+      
+        function getrightstoremodalyest(storekeeper,sale_id){
+          console.log("Store keeper", storekeeper);
+      
+          if(storekeeper== 0){
+            $("#aprovalmodalyest").modal("show");
+            localStorage.setItem("storeapproval",storekeeper);
+            localStorage.setItem("sale_id",sale_id);
+          }else{
+            $("#alreadyaproved").modal("show");
+          }
+      
+        }
+      
+        function getrightmanagermodalyest(manager,sale_id){
+          console.log("manager appreoval", manager);
+      
+          var usertype = localStorage.getItem("UserType");
+      
+          if(usertype === "BOSS"){
+           if(manager== 0){
+            $("#aprovalmanagermodalyest").modal("show");
+            localStorage.setItem("managerapproval",manager);
+            localStorage.setItem("sale_id",sale_id);
+          }else{
+            $("#alreadyaprovedbymanager").modal("show");
+          } 
+          }else{
+            $("#notallowedmodal").modal("show");
+          }
+      
+          
+        }
+
+
+
+        function getrightstoremodalweek(storekeeper,sale_id){
+          console.log("Store keeper", storekeeper);
+      
+          if(storekeeper== 0){
+            $("#aprovalmodalweek").modal("show");
+            localStorage.setItem("storeapproval",storekeeper);
+            localStorage.setItem("sale_id",sale_id);
+          }else{
+            $("#alreadyaproved").modal("show");
+          }
+      
+        }
+      
+        function getrightmanagermodalweek(manager,sale_id){
+          console.log("manager appreoval", manager);
+      
+          var usertype = localStorage.getItem("UserType");
+      
+          if(usertype === "BOSS"){
+           if(manager== 0){
+            $("#aprovalmanagermodalweek").modal("show");
+            localStorage.setItem("managerapproval",manager);
+            localStorage.setItem("sale_id",sale_id);
+          }else{
+            $("#alreadyaprovedbymanager").modal("show");
+          } 
+          }else{
+            $("#notallowedmodal").modal("show");
+          }
+      
+          
+        }
   
     

@@ -44,8 +44,7 @@ $sql = "
         AND SL.sales_point_id = $spt
     GROUP BY
         SL.sales_id
-    ORDER BY
-        SL.created_time DESC";
+   ";
 
 $result = $conn->query($sql);
 

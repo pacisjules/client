@@ -37,13 +37,17 @@
   <path d="M8 1 0 8h2v6h12V8h2L8 1zm1 7h5v1H9v4H7V9H3V8h6V7z"/>
 </svg>
 &nbsp;Yesterday</button>
-                        <button class="btn btn-primary" id="pickDateButton" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+
+<button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" id="weeklysales" ><i class="fas fa-calendar-week"></i>&nbsp;Weekly</button>
+
+
+<button class="btn btn-primary" id="pickDateButton" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
   <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm15-1V3h-2V1h-2v2H6V1H4v2H2V0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V0h-1zM7 15v-2h2v2H7zm5-10H4V3h8v2z"/>
   <path d="M11.354 6.354a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 0 .708L9 9.707l1.354 1.353a.5.5 0 0 0 .708-.708L9.707 10l1.353-1.354a.5.5 0 0 0 0-.708z"/>
 </svg>
 &nbsp;Pick Date</button>
-                        <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" id="weeklysales" ><i class="fas fa-calendar-week"></i>&nbsp;Weekly</button>
-                       <button class="btn btn-primary" id="Pickdaterangebtn" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-range" viewBox="0 0 16 16">
+                       
+<button class="btn btn-primary" id="Pickdaterangebtn" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-range" viewBox="0 0 16 16">
   <path d="M1 3.5a.5.5 0 0 1 1 0V13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V3.5a.5.5 0 0 1 1 0V13a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3.5zM14 3a2 2 0 0 1 2 2V13a.5.5 0 0 1-1 0V5a1 1 0 0 0-1-1H5a.5.5 0 0 1 0-1H13z"/>
   <path d="M7.5 11.5a.5.5 0 0 1 1 0V13a.5.5 0 0 1-1 0v-1.5zM9.5 11.5a.5.5 0 0 1 1 0V13a.5.5 0 0 1-1 0v-1.5z"/>
   <path d="M3 1h1V0H3a2 2 0 0 0-2 2v1h1V2a1 1 0 0 1 1-1z"/>

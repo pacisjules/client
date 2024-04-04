@@ -30,6 +30,8 @@ SELECT DISTINCT
     SL.paid_status,
     SL.created_time,
     SL.sales_type,
+    SL.storekeeperaproval,
+    SL.manageraproval,
     INV.alert_quantity,
     INV.quantity AS remain_stock
    
@@ -48,8 +50,8 @@ WHERE
     AND SL.sales_point_id = $spt
 GROUP BY
     SL.sales_id
-ORDER BY
-    SL.created_time DESC";
+
+    ";
 
 $result = $conn->query($sql);
 
@@ -62,6 +64,7 @@ while ($row = $result->fetch_assoc()) {
 
     // Create an object to represent each row of data
     $item = array(
+        'sale_id' => $row['sales_id'],
         'Product_Name' => $row['Product_Name'],
         'sales_price' => $row['sales_price'],
         'quantity' => $row['quantity'],
@@ -69,6 +72,8 @@ while ($row = $result->fetch_assoc()) {
         'total_benefit' => $row['total_benefit'],
         'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
+        'storekeeperaproval' => $row['storekeeperaproval'],
+        'manageraproval' => $row['manageraproval'],
         // Add other fields as needed
     );
 

@@ -333,6 +333,32 @@ include('getuser.php');
             </div>
         </div>
     </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="aprovalmodalweek">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Are you sure to Approve this sales??</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can approve this sales.</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="approvebtnweek">Approve</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="aprovalmodalyest">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Are you sure to Approve this sales??</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can approve this sales.</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="approvebtnyest">Approve</button></div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="alreadyaproved">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -355,6 +381,33 @@ include('getuser.php');
                     <p>Here&nbsp; you can approve this sales.</p>
                 </div>
                 <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="managerapprovebtn">Approve</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="aprovalmanagermodalweek">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Are you sure to Approve this sales??</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can approve this sales.</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="managerapprovebtnweek">Approve</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="aprovalmanagermodalyest">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Are you sure to Approve this sales??</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can approve this sales.</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="managerapprovebtnyest">Approve</button></div>
             </div>
         </div>
     </div>
