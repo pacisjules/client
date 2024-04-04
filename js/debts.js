@@ -6,11 +6,16 @@ $(document).ready(function () {
     $('#searchDebt').on('keyup', filterTableRowsStore);
   
     function filterTableRowsStore() {
-     const searchValue = $('#searchstoredetail').val().toLowerCase();
-     $('#debt_table tr').filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
-     });
- }
+        const searchValue = $('#searchDebt').val().toLowerCase();
+        $('#debt_table tr').filter(function() {
+            // Use find or children to target specific columns
+            // Adjust column indexes according to your table structure
+            return $(this).find('td').filter(function() {
+                return $(this).text().toLowerCase().indexOf(searchValue) > -1;
+            }).length > 0; // Check if any column contains the search value
+        }).toggle(); // Toggle rows based on the search result
+    }
+    
     
    var customer_id = getParameterByName('customer_id');
    localStorage.setItem("customer_id", customer_id);
