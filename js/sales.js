@@ -1325,7 +1325,7 @@ $("#managerapprovebtnyest").on("click", function() {
 });
 
 $("#managerapprovebtnweek").on("click", function() {
-  // var managerapproval = localStorage.getItem("managerapproval");
+  var managerapproval = localStorage.getItem("managerapproval");
   var s_id = localStorage.getItem("sale_id");
   console.log("sales_id " ,s_id);
   
