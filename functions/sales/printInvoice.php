@@ -75,6 +75,8 @@ while ($row = $result->fetch_assoc()) {
         'total_benefit' => $row['total_benefit'],
         'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
+        'cust_name' => $row['cust_name'],
+        'phone' => $row['phone'],
     );
 
     $data[] = $item;
