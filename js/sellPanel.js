@@ -1363,9 +1363,10 @@ function printInvoiceFunc() {
           if (data && data.data && data.data.length > 0) {
               const salesdata = data.data;
               const date = data.data[0].created_time;
+              const customer = data.data[0].names;
               const sumtotal = data.sumtotal;
               const typereport = "Selleasep Receipt";
-              printInvoice(salesdata, typereport, sumtotal,date);
+              printInvoice(salesdata, typereport, sumtotal,date,customer);
           } else {
               console.error('Empty or invalid data received from the server.');
           }
@@ -1753,7 +1754,7 @@ function setOldCart(){
 
 
 
-function printInvoice(salesdata,typereport,sumtotal,date) {
+function printInvoice(salesdata,typereport,sumtotal,date,customer) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -1917,6 +1918,10 @@ for (let i = 0; i < salesdata.length; i++) {
               <tr class="visibleMobile">
                 <td height="20"></td>
               </tr>
+              <tr>
+                <td style="font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
+                  <strong>Customer name : ${customer}</strong>
+                </td>
               <tr>
                 <td style="font-size: 16px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
                   <small>Receipt Date : ${date}</small>

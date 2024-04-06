@@ -32,7 +32,8 @@ $sql = "
         SL.created_time,
         SL.sales_type,
         INV.alert_quantity,
-        INV.quantity AS remain_stock
+        INV.quantity AS remain_stock,
+        CU.names
     FROM
         sales SL
     JOIN products PD ON
@@ -41,6 +42,9 @@ $sql = "
         SL.sales_point_id = SP.sales_point_id
     JOIN inventory INV ON
         SL.product_id = INV.product_id
+    LEFT JOIN customer CU ON
+        SL.customer_id = CU.customer_id
+
     WHERE
         SL.sess_id = '$sess_id'
     GROUP BY
