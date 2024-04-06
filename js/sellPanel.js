@@ -1367,6 +1367,7 @@ function printInvoiceFunc() {
               const phone = data.data[0].phone;
               const sumtotal = data.sumtotal;
               const typereport = "Selleasep Receipt";
+              console.log("customer : ",customer);
               printInvoice(salesdata, typereport, sumtotal,date,customer,phone);
           } else {
               console.error('Empty or invalid data received from the server.');
