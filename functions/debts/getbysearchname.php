@@ -24,7 +24,9 @@ $sql = "SELECT DISTINCT
         JOIN
             customer CU ON DE.customer_id = CU.customer_id 
         WHERE 
-            DE.sales_point_id = $spt AND CU.names LIKE '%$names%'";
+            DE.sales_point_id = $spt AND CU.names LIKE '%$names%'
+            GROUP BY CU.customer_id
+            ";
 
 $value = "";
 $result = mysqli_query($conn, $sql);
