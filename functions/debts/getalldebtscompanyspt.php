@@ -20,7 +20,7 @@ JOIN
 customer CU ON DE.customer_id = CU.customer_id
 WHERE
 DE.sales_point_id = $spt
-GROUP BY CU.customer_id
+GROUP BY DE.customer_id
 ";
 
 $value = "";
@@ -30,7 +30,6 @@ $num = 0;
 
 // Convert the results to an array of objects
 $comp = array();
-$totalDebt = 0;
 while ($row = $result->fetch_assoc()) {
     $myid = $row['customer_id'];
     $num += 1;
@@ -51,8 +50,6 @@ while ($row = $result->fetch_assoc()) {
     
      $formattedTotalAmount = number_format($row['Amount']); 
 
-     $totalDebt += $row['Amount'];
-
     $value .= '
         <tr>
         <td>' . $num . '. ' . $row['names'] . '</td>
@@ -72,11 +69,23 @@ while ($row = $result->fetch_assoc()) {
     ';
 }
 
-$formattedTotalDebt = number_format($totalDebt);
+$sqltot = "
+        SELECT 
+            SUM(amount - amount_paid) as total_debt
+                 
+FROM debts
+     
+     WHERE 
+sales_point_id=$spt 
+";
+        
+$sumResult = $conn->query($sqltot);
+$sumRow = $sumResult->fetch_assoc();
+$sumtotal = $sumRow['total_debt'];
 
 
 $response = array(
-    'total_debt' => $formattedTotalDebt,
+    'total_debt' => $sumtotal,
     'debts' => $value
 );
 
