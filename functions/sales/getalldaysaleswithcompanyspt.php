@@ -79,7 +79,7 @@ while ($row = $result->fetch_assoc()) {
     $pic = $tprice/$qty;
 
     $created_time = new DateTime($row['created_time']);
-    $created_time->setTimezone(new DateTimeZone('Asia/Kolkata'));
+    $created_time->setTimezone(new DateTimeZone('Africa/Rwanda'));
     $row['created_time'] = $created_time->format('Y-m-d H:i:s');
     
     
