@@ -9,12 +9,22 @@ $comID = $_GET['company'];
 $spt = $_GET['spt'];
 
 
+
+
 $sqlcompany = "SELECT * FROM companies WHERE id=$comID";
 $resultCompany = $conn->query($sqlcompany);
 $rowCompany = $resultCompany->fetch_assoc();
 
 
-$newdate = date('Y-m-d H:i:s', time());
+$newdate;
+
+if($rowCompany['timezone_number']>0){
+    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
+}else{
+    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
+}
+
+
 
 // SQL query to fetch daily sales records
 $sql = "
@@ -47,7 +57,7 @@ $sql = "
     JOIN inventory INV ON
         SL.product_id = INV.product_id
     WHERE
-        SL.created_time LIKE '$date%'
+        SL.created_time LIKE '$newdate%'
         AND SP.company_ID = $comID
         AND SL.sales_point_id = $spt
     GROUP BY
@@ -84,8 +94,8 @@ while ($row = $result->fetch_assoc()) {
         'paid_status' => $row['paid_status'],
         'storekeeperaproval' => $row['storekeeperaproval'],
         'manageraproval' => $row['manageraproval'],
-        //'created_time' => $row['created_time'],
-        'created_time' => $newdate,
+        'created_time' => $row['created_time'],
+        //'created_time' => $newdate,
 
 
     );
