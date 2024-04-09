@@ -16,16 +16,8 @@ $resultCompany = $conn->query($sqlcompany);
 $rowCompany = $resultCompany->fetch_assoc();
 
 
-$newdate;
+$newdate=$rowCompany['timezone_name'];
 $righttime=date('Y-m-d', time());
-
-if($rowCompany['timezone_number']>0){
-    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
-}else{
-    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
-}
-
-
 
 // SQL query to fetch daily sales records
 $sql = "
@@ -79,7 +71,7 @@ while ($row = $result->fetch_assoc()) {
     $pic = $tprice/$qty;
 
     $created_time = new DateTime($row['created_time']);
-    $created_time->setTimezone(new DateTimeZone('Africa/Kigali'));
+    $created_time->setTimezone(new DateTimeZone($newdate));
     $row['created_time'] = $created_time->format('Y-m-d H:i:s');
     
     
@@ -96,9 +88,6 @@ while ($row = $result->fetch_assoc()) {
         'storekeeperaproval' => $row['storekeeperaproval'],
         'manageraproval' => $row['manageraproval'],
         'created_time' => $row['created_time'],
-        //'created_time' => $newdate,
-
-
     );
 
     $data[] = $item;
@@ -106,7 +95,7 @@ while ($row = $result->fetch_assoc()) {
 
 // Calculate sumtotal and sumbenefit
 $sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal, SUM(total_benefit) AS sumbenefit FROM sales 
-                 WHERE created_time LIKE '$date%' AND sales_point_id = $spt";
+                 WHERE created_time LIKE '$righttime%' AND sales_point_id = $spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
 $sumtotal = $sumRow['sumtotal'];
@@ -115,7 +104,7 @@ $sumbenefit = $sumRow['sumbenefit'];
 
 // Calculate sumtotal and sumbenefit for 'Paid' and 'Not Paid'
 $sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal_paid, SUM(total_benefit) AS sumbenefit_paid FROM sales 
-                     WHERE created_time LIKE '$date%' AND sales_point_id = $spt AND paid_status = 'Paid'";
+                     WHERE created_time LIKE '$righttime%' AND sales_point_id = $spt AND paid_status = 'Paid'";
 $sumResultPaid = $conn->query($sumTotalQueryPaid);
 $sumRowPaid = $sumResultPaid->fetch_assoc();
 $sumtotalPaid = $sumRowPaid['sumtotal_paid'];
@@ -124,14 +113,14 @@ $sumbenefitPaid = $sumRowPaid['sumbenefit_paid'];
 
 $sumTotalQueryNotPaid = "SELECT IFNULL(SUM(total_amount), 0.00) AS sumtotal_not_paid, SUM(total_benefit) AS sumbenefit_not_paid
                             FROM sales
-                            WHERE created_time LIKE '$date%' AND sales_point_id = $spt AND paid_status = 'Not Paid'";
+                            WHERE created_time LIKE '$righttime%' AND sales_point_id = $spt AND paid_status = 'Not Paid'";
 $sumResultNotPaid = $conn->query($sumTotalQueryNotPaid);
 $sumRowNotPaid = $sumResultNotPaid->fetch_assoc();
 $sumtotalNotPaid = $sumRowNotPaid['sumtotal_not_paid'];
 $sumbenefitNotPaid = $sumRowNotPaid['sumbenefit_not_paid'];
 
 $sumTotalExpenses = "SELECT IFNULL(SUM(amount), 0.00) AS sumtotalexpenses FROM shop_expenses 
-                        WHERE created_date LIKE '$date%' AND sales_point_id = $spt";
+                        WHERE created_date LIKE '$righttime%' AND sales_point_id = $spt";
 $sumResultexpe = $conn->query($sumTotalExpenses);
 $sumRowexpe = $sumResultexpe->fetch_assoc();
 $sumtotalexpenses = $sumRowexpe['sumtotalexpenses'];
