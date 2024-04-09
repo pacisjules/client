@@ -19,9 +19,9 @@ $rowCompany = $resultCompany->fetch_assoc();
 $newdate;
 
 if($rowCompany['timezone_number']>0){
-    $newdate = date('Y-m-d');
+    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
 }else{
-    $newdate = date('Y-m-d');
+    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
 }
 
 
@@ -78,7 +78,7 @@ while ($row = $result->fetch_assoc()) {
     $pic = $tprice/$qty;
 
     $created_time = new DateTime($row['created_time']);
-    $created_time->modify('+2 hours');
+    $created_time->$newdate;
     $row['created_time'] = $created_time->format('Y-m-d H:i:s');
     
     
