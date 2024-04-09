@@ -19,9 +19,9 @@ $rowCompany = $resultCompany->fetch_assoc();
 $newdate;
 
 if($rowCompany['timezone_number']>0){
-    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
+    $newdate = date('Y-m-d');
 }else{
-    $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
+    $newdate = date('Y-m-d');
 }
 
 
