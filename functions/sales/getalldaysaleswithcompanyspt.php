@@ -17,6 +17,7 @@ $rowCompany = $resultCompany->fetch_assoc();
 
 
 $newdate;
+$righttime=date('Y-m-d', time());
 
 if($rowCompany['timezone_number']>0){
     $newdate = date('Y-m-d H:i:s', time()+($rowCompany['timezone_number']*3600));
@@ -57,7 +58,7 @@ $sql = "
     JOIN inventory INV ON
         SL.product_id = INV.product_id
     WHERE
-        SL.created_time LIKE '$newdate%'
+        SL.created_time LIKE '$righttime%'
         AND SP.company_ID = $comID
         AND SL.sales_point_id = $spt
     GROUP BY
