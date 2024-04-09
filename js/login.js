@@ -63,6 +63,7 @@ $(document).ready(function () {
                  localStorage.setItem("company_color", response.company_color);
                  localStorage.setItem("spt_name", response.spt_name);
                  localStorage.setItem("user_category", response.user_category);
+                 localStorage.setItem("zone", response.zone);
                 window.location.href = "/client";
                 $('#lgnbtn').html('Login');
 

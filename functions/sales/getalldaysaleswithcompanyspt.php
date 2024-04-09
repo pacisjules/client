@@ -8,6 +8,14 @@ $date = $_GET['date'];
 $comID = $_GET['company'];
 $spt = $_GET['spt'];
 
+
+$sqlcompany = "SELECT * FROM companies WHERE id=$comID";
+$resultCompany = $conn->query($sqlcompany);
+$rowCompany = $resultCompany->fetch_assoc();
+
+
+$newdate = date('Y-m-d', time());
+
 // SQL query to fetch daily sales records
 $sql = "
     SELECT DISTINCT
@@ -76,7 +84,8 @@ while ($row = $result->fetch_assoc()) {
         'paid_status' => $row['paid_status'],
         'storekeeperaproval' => $row['storekeeperaproval'],
         'manageraproval' => $row['manageraproval'],
-        'created_time' => $row['created_time'],
+        //'created_time' => $row['created_time'],
+        'created_time' => $newdate,
 
 
     );

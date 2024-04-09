@@ -41,6 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultComp = $conn->query($sqlcomp);
         $rowComp = $resultComp->fetch_assoc();
 
+
+        $sqlcompany = "SELECT * FROM companies WHERE id=$comp";
+        $resultCompany = $conn->query($sqlcompany);
+        $rowCompany = $resultCompany->fetch_assoc();
+
         $sqlsa = "SELECT * FROM salespoint WHERE sales_point_id=$sal";
         $resultsa = $conn->query($sqlsa);
         $rowsa = $resultsa->fetch_assoc();
@@ -64,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],
             'spt_name'=>$rowsa['location'],
+            'zone'=>$rowCompany['timezone_number'],
             'Message'=> 'Account passed'
         );
         
