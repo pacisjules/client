@@ -14,7 +14,7 @@ $resultCompany = $conn->query($sqlcompany);
 $rowCompany = $resultCompany->fetch_assoc();
 
 
-$newdate = date('Y-m-d', time());
+$newdate = date('Y-m-d H:i:s', time());
 
 // SQL query to fetch daily sales records
 $sql = "
