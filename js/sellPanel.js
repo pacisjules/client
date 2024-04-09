@@ -390,7 +390,7 @@ $("#NegoPrice").on("input", function () {
       // Toggle the checkbox's checked state
       checkbox.checked = false;
       
-      $('#amadenis').hide();
+      // $('#amadenis').hide();
       $("#finishModal").modal('show');
       $('#sessionid').html(response);
       localStorage.setItem('sessionid', response);
@@ -1318,7 +1318,7 @@ function proceed_tablet_sales () {
       // Toggle the checkbox's checked state
       checkbox.checked = false;
       
-      $('#amadenis').hide();
+      // $('#amadenis').hide();
       $("#finishModal").modal('show');
       $('#sessionid').html(response);
       localStorage.setItem('sessionid', response);

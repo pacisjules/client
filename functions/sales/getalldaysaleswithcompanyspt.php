@@ -58,6 +58,10 @@ while ($row = $result->fetch_assoc()) {
     $tprice = $row['total_amount'];
     $qty = $row['quantity'];
     $pic = $tprice/$qty;
+
+    $created_time = new DateTime($row['created_time']);
+    $created_time->modify('+2 hours');
+    $row['created_time'] = $created_time->format('Y-m-d H:i:s');
     
     
     $item = array(
@@ -69,10 +73,12 @@ while ($row = $result->fetch_assoc()) {
         'quantity' => $row['quantity'],
         'total_amount' => $row['total_amount'],
         'total_benefit' => $row['total_benefit'],
-        'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
         'storekeeperaproval' => $row['storekeeperaproval'],
         'manageraproval' => $row['manageraproval'],
+        'created_time' => $row['created_time'],
+
+
     );
 
     $data[] = $item;
