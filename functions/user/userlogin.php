@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],
             'spt_name'=>$rowsa['location'],
-            'zone'=>$rowCompany['timezone_number'],
+            'zone'=>$rowCompany['timezone_name'],
             'Message'=> 'Account passed'
         );
         

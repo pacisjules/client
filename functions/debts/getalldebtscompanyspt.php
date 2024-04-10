@@ -13,7 +13,9 @@ CU.address,
 DE.due_date,
 DE.status,
 DE.customer_id,
-(SELECT SUM(amount - amount_paid) FROM debts WHERE customer_id = DE.customer_id AND sales_point_id= $spt ) AS Amount
+(SELECT SUM(amount - amount_paid) FROM debts WHERE customer_id = DE.customer_id AND sales_point_id= $spt GROUP BY DE.customer_id ) AS Amount
+
+
 FROM
 debts DE
 JOIN
@@ -27,6 +29,8 @@ $value = "";
 $result = mysqli_query($conn, $sql);
 
 $num = 0;
+
+$tot = 0;
 
 // Convert the results to an array of objects
 $comp = array();
@@ -46,6 +50,12 @@ while ($row = $result->fetch_assoc()) {
         $sts = "Full Paid";
         $endis = "green";
         $icon = "fa fa-check-square text-white";
+    }
+
+
+    if($row['Amount']>0){
+      $new = $row['Amount'];
+      $tot += $new;
     }
     
      $formattedTotalAmount = number_format($row['Amount']); 
@@ -69,23 +79,23 @@ while ($row = $result->fetch_assoc()) {
     ';
 }
 
-$sqltot = "
-        SELECT 
-            SUM(amount - amount_paid) as total_debt
+// $sqltot = "
+//         SELECT 
+//             SUM(amount - amount_paid) as total_debt
                  
-FROM debts
+// FROM debts
      
-     WHERE 
-sales_point_id=$spt 
-";
+//      WHERE 
+// sales_point_id=$spt 
+// ";
         
-$sumResult = $conn->query($sqltot);
-$sumRow = $sumResult->fetch_assoc();
-$sumtotal = $sumRow['total_debt'];
+// $sumResult = $conn->query($sqltot);
+// $sumRow = $sumResult->fetch_assoc();
+// $sumtotal = $sumRow['total_debt'];
 
 
 $response = array(
-    'total_debt' => $sumtotal,
+    'total_debt' => $tot,
     'debts' => $value
 );
 
