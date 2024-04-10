@@ -265,13 +265,19 @@ $(function () {
   $("#EditInventory").click(function () {
     $("#EditInventory").html("Please wait..");
 
+
+
     var quantity = $("#quantity").val();
     var alert_quantity = $("#alert_quantity").val();
 
     var sales_point_id = localStorage.getItem("SptID");
     var UserID = localStorage.getItem("UserID");
     var product_id = parseInt(localStorage.getItem("co_id"));
-    //Ajax Start!
+
+    var usertype = localStorage.getItem("UserType");
+
+    if(usertype === 'BOSS'){
+       //Ajax Start!
     $.ajax({
       url: "functions/inventory/updateinventory.php",
       method: "POST",
@@ -295,6 +301,15 @@ $(function () {
         //console.log(error.responseText);
       },
     });
+    }else{
+      $("#modal_inventory").modal("hide");
+      $("#notallowedmodal").modal("show");
+    }
+
+
+
+
+   
   });
 
 
@@ -312,6 +327,11 @@ $(function () {
                 var sales_point_id = localStorage.getItem("SptID");
 
                 console.log("deleteable id: "+id);
+
+
+                var usertype = localStorage.getItem("UserType");
+
+              if(usertype === 'BOSS'){
 
                 //Ajax Start!
                 $.ajax({
@@ -337,6 +357,10 @@ $(function () {
                     $("#removeInventory").html("Delete");
                 },
                 });
+              }else{
+                $("#delete-modal").modal("hide");
+                $("#notallowedmodal").modal("show");
+              }
             });
 
 
