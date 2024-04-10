@@ -11,7 +11,7 @@ $comID = $_GET['company'];
 $spt = $_GET['spt'];
 
 // Retrieve all products and inventory for the given company and sales point
-$sql = "SELECT INVE.id,(SELECT `abbreviation` FROM `unittype` WHERE unit_id=INVE.unit_id) AS unit,(INVE.container,0.00) as cont,INVE.item_per_container,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt GROUP BY PRO.id ORDER BY INVE.last_updated DESC;";
+$sql = "SELECT INVE.id,(SELECT `abbreviation` FROM `unittype` WHERE unit_id=INVE.unit_id) AS unit,ROUND(INVE.container, 2) as cont,INVE.item_per_container,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt GROUP BY PRO.id ORDER BY INVE.last_updated DESC;";
 
 
 $value = "";
