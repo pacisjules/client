@@ -93,6 +93,7 @@ function GetWeeklyTotal() {
 
   // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
+  var TypeUser = localStorage.getItem("UserType");
 
   // Ajax Start!
   $.ajax({
@@ -102,7 +103,12 @@ function GetWeeklyTotal() {
       success: function (response) {
           if (response) {
               console.log(response);
-              $("#getWeekly").html(response);
+          if(TypeUser==='BOSS'){
+            $("#getWeekly").html(response);
+          } else{
+            $("#getWeekly").html(' '); 
+          }   
+              
           } else {
               $("#getWeekly").html("No results available");
           }
@@ -158,6 +164,7 @@ function GetYearlyTotal() {
 
   // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
+  var TypeUser = localStorage.getItem("UserType");
 
   // Ajax Start!
   $.ajax({
@@ -167,7 +174,12 @@ function GetYearlyTotal() {
       success: function (response) {
           if (response) {
               console.log(response);
-              $("#getYearly").html(response);
+              if (TypeUser==='BOSS') {
+                $("#getYearly").html(response);
+              }else{
+                $("#getYearly").html(' ');
+              }
+              
           } else {
               $("#getYearly").html("No results available");
           }
