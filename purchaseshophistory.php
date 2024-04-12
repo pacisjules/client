@@ -79,11 +79,8 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th>Product Names</th>
-                                            <th>Unit</th>
-                                            <th>Container</th>
-                                            <th>Item/Container</th>
+                                            <th>Purchased Qty</th>
                                              <th>Price/Item</th>
-                                            <th>Price/Box</th>
                                             <th>Total</th>
                                             <th>Supplied By</th>
                                             <th>Phone </th>

@@ -77,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $newqty = $box_or_carton * $quantity;
         
         // Insert the  products
-  $sqlup = "INSERT INTO inventory (product_id,unit_id,container,item_per_container, quantity, alert_quantity,company_ID,spt_id)
-  VALUES ('$product_id','$unit','$box_or_carton','$quantity','$newqty','$alert_quantity','$company','$spt')";
+  $sqlup = "INSERT INTO inventory (product_id, quantity, alert_quantity,company_ID,spt_id)
+  VALUES ('$product_id','$newqty','$alert_quantity','$company','$spt')";
 
   if ($conn->query($sqlup) === TRUE) {
     $sqlproduct = "SELECT 
@@ -110,21 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $resultInfos = $conn->query($sqlcurrent);
     $rowInfos = $resultInfos->fetch_assoc();
 
-    $current_container = $rowInfos['container'];
-    $current_item_per_container = $rowInfos['item_per_container'];
+    $newqty = $box_or_carton * $quantity;
     $current_quantity = $rowInfos['quantity'];
     
-   $rem = $current_container * $current_item_per_container;
-    $remain = $current_quantity + $rem;
+  
+    $remain = $current_quantity + $newqty;
    
 
     // Update the employee data into the database
     $sqlup = "UPDATE 
              inventory 
             SET 
-            unit_id='$unit',
-            container='$box_or_carton',
-            item_per_container='$quantity',
             quantity='$remain'
         WHERE product_id=$product_id AND spt_id=$spt";
 

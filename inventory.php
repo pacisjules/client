@@ -67,9 +67,6 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Unit Type</th>
-                                            <th>Container</th>
-                                            <th>Item/Container</th>
                                             <th>Total Items</th>
                                             <th>Alert Quantity</th>
                                             <th>Actions</th>

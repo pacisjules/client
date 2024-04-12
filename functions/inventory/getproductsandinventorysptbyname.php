@@ -13,7 +13,7 @@ $comID = intval($comID); // Ensure it's an integer
 $spt = intval($spt); // Ensure it's an integer
 $name = mysqli_real_escape_string($conn, $name); // Sanitize input
 
-$sql = "SELECT INVE.id,(SELECT `abbreviation` FROM `unittype` WHERE unit_id=INVE.unit_id) AS unit,INVE.container,INVE.item_per_container,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id
+$sql = "SELECT INVE.id,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PRO.status, PRO.sales_point_id, PRO.name, PRO.description, PRO.id AS product_id FROM inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id
         WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt
         AND PRO.name LIKE '%$name%'
         

@@ -71,26 +71,29 @@ $(function () {
                   console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
                   console.log("Sum total expenses: ", sumtotalexpenses);
                   
-                  btntype += `<p class="text-primary m-0 fw-bold" style="font-size: 13px;"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span> Sales Records</p>
-              
-              <div>
-                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-
-Paid Sales </button>
-              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-
-Debts Sales </button>
-               </div>
-              
-              <div>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdaterangesalesReport()"><i class="fa fa-file-pdf"  style="margin-right:10px;"></i>Export in Pdf </button>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelfromtoTable', 'FromToSales_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
-              </div>
-              `;
-              
-              $("#btnsalesType").html(btntype);
+                  
 
                   if(usertype==="BOSS"){
+
+                    btntype += `<p class="text-primary m-0 fw-bold" style="font-size: 13px;"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span> Sales Records</p>
+              
+                    <div>
+                      <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+      
+      Paid Sales </button>
+                    <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+      
+      Debts Sales </button>
+                     </div>
+                    
+                    <div>
+                    <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdaterangesalesReport()"><i class="fa fa-file-pdf"  style="margin-right:10px;"></i>Export in Pdf </button>
+                    <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelfromtoTable', 'FromToSales_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
+                    </div>
+                    `;
+                    
+                    $("#btnsalesType").html(btntype);
+
                    tot += `<tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -123,15 +126,20 @@ Debts Sales </button>
                `;
                $("#totalfromtoexcel").html(totexcel);
                       
-                  }else{
+                  }else {
+                    btntype += `<p class="text-primary m-0 fw-bold" style="font-size: 13px;"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span> Sales Records</p>
+              
+                    
+                    `;
+                    
+                    $("#btnsalesType").html(btntype);
+
+
                     tot += `<tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                  }).format(parseFloat(sumtotal))}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                             <td style="font-size: 14px;"></td>
                             <td style="font-size: 14px;"></td>
                             <td style="font-size: 14px;"></td>
@@ -144,7 +152,7 @@ Debts Sales </button>
                    <td style="font-size: 14px;"><strong></strong></td>
                    <td style="font-size: 14px;"><strong></td>
                    <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
                      <td style="font-size: 14px;"><strong></strong> </td>
                    <td style="font-size: 14px;"><strong></strong></td>
                </tr>
@@ -314,7 +322,7 @@ $(function () {
   // Ajax Start!
 
   $.ajax({
-    url:`functions/sales/getalldaysaleswithcompanyspt.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
+    url:`functions/sales/getalldaysaleswithcompanysptyyest.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
     method: "POST",
     context: document.body,
     success: function(response) {
@@ -350,25 +358,32 @@ $(function () {
               console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
               
-               btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Sales Record ,At <span>${formattedDate}</span></p>
                
-               <div>
-                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-
-Paid Sales </button>
-              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-
-Debts Sales </button>
-               </div>
-               <div>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchpickeddatesalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelPickedTable', 'PickedDateSales_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
-              </div>
-              `;
-              
-              $("#btnsalesType").html(btntype);
               
               if(usertype==="BOSS"){
+
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Sales Record ,At <span>${formattedDate}</span></p>
+               
+                <div>
+                 <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+ 
+ Paid Sales </button>
+               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+ 
+ Debts Sales </button>
+                </div>
+                <div>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchpickeddatesalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelPickedTable', 'PickedDateSales_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
+               </div>
+               `;
+               
+               $("#btnsalesType").html(btntype);
+
+
+
+
                tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -403,15 +418,21 @@ Debts Sales </button>
               $("#totalpickexcel").html(totexcel);
               
               }else{
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Sales Record ,At <span>${formattedDate}</span></p>
+               
+               `;
+               
+               $("#btnsalesType").html(btntype);
+
+
+
                 tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                  }).format(parseFloat(sumtotal))}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"></td>
@@ -425,7 +446,7 @@ Debts Sales </button>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></td>
                   <td style="font-size: 14px;"></td>
-                  <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong> </td>
                   <td style="font-size: 14px;"><strong></strong></td>
               </tr>
@@ -648,26 +669,32 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                   console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
                   console.log("Sum total expenses: ", sumtotalexpenses);
                   
-                  btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Montly Sales,<span>${formattedStartDate}</span> - <span>${formattedEndDate}</span></p>
                   
-                  <div>
-                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchmonthlysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-
-Paid Sales </button>
-              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchmonthlysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-
-Debts Sales </button>
-               </div>
-              <div>    
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchmonthlysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelMonthTable', 'MonthySales_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
-              </div>
-              
-              `;
-              
-              $("#btnsalesType").html(btntype);
 
                   if(usertype==="BOSS"){
+
+
+                    btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Montly Sales,<span>${formattedStartDate}</span> - <span>${formattedEndDate}</span></p>
+                  
+                    <div>
+                  <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchmonthlysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+  
+  Paid Sales </button>
+                <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchmonthlysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+  
+  Debts Sales </button>
+                 </div>
+                <div>    
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchmonthlysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelMonthTable', 'MonthySales_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
+                </div>
+                
+                `;
+                
+                $("#btnsalesType").html(btntype);
+
+
+
                    tot += `<tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -701,14 +728,20 @@ Debts Sales </button>
                $("#totalmonthexcel").html(totexcel);
                       
                   }else{
+
+                    btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Montly Sales,<span>${formattedStartDate}</span> - <span>${formattedEndDate}</span></p>
+                  
+                `;
+                
+                $("#btnsalesType").html(btntype);
+
+
+
                     tot += `<tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                  }).format(parseFloat(sumtotal))}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                             <td style="font-size: 14px;"></td>
                             <td style="font-size: 14px;"></td>
                             <td style="font-size: 14px;"></td>
@@ -721,7 +754,7 @@ Debts Sales </button>
                    <td style="font-size: 14px;"><strong></strong></td>
                    <td style="font-size: 14px;"><strong></td>
                    <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
                      <td style="font-size: 14px;"><strong></strong> </td>
                    <td style="font-size: 14px;"><strong></strong></td>
                </tr>
@@ -911,7 +944,12 @@ $.ajax({
                   console.log("sum total expenses: ", sumtotalexpenses);
                   
                   
-                   btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yearly Sales, <span>${startDate}</span> - <span>${endDate}</span></p>
+                  
+              
+               
+               if(usertype==="BOSS"){
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yearly Sales, <span>${startDate}</span> - <span>${endDate}</span></p>
                    
                     <div>
                 <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchyearlysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
@@ -930,9 +968,9 @@ Debts Sales </button>
               `;
               
               $("#btnsalesType").html(btntype);
-              
-               
-               if(usertype==="BOSS"){
+
+
+
                 tot += `<tr>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
@@ -966,14 +1004,24 @@ Debts Sales </button>
                 $("#totalam").html(tot);
                  $("#totalyearexcel").html(totexcel);
                }else{
+
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yearly Sales, <span>${startDate}</span> - <span>${endDate}</span></p>
+                   
+                
+          
+          `;
+          
+          $("#btnsalesType").html(btntype);
+
+
+
+
                  tot += `<tr>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "RWF",
-                    }).format(parseFloat(sumtotal))}</strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"></td>
                     <td style="font-size: 14px;"></td>
                     <td style="font-size: 14px;"></td>
@@ -985,7 +1033,7 @@ Debts Sales </button>
 //                     <td style="font-size: 14px;"><strong></strong></td>
 //                     <td style="font-size: 14px;"><strong></td>
 //                     <td style="font-size: 14px;"></td>
-//                     <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+//                     <td style="font-size: 14px;"><strong></strong></td>
 //                     <td style="font-size: 14px;"><strong></strong> </td>
 //                     <td style="font-size: 14px;"><strong></strong></td>
 //                 </tr>
@@ -1548,27 +1596,32 @@ function View_DaySalesRecord() {
               console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
               console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
-              
-               btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Sales Record ,At <span>${formattedDate}</span></p>
-               <div>
-               <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-
-Paid Sales </button>
-              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-
-Debts Sales </button>
-              </div>
-              <div>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
-
-Export in Pdf </button>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailySales_data');"><i class="fa fa-file-excel"></i>
-
-Export in Excel </button>  </div>`;
-              
-              $("#btnsalesType").html(btntype);
+      
               
               if(usertype==="BOSS"){
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Sales Record ,At <span>${formattedDate}</span></p>
+                <div>
+                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+ 
+ Paid Sales </button>
+               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+ 
+ Debts Sales </button>
+               </div>
+               <div>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
+ 
+ Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailySales_data');"><i class="fa fa-file-excel"></i>
+ 
+ Export in Excel </button>  </div>`;
+               
+               $("#btnsalesType").html(btntype);
+
+
+
+
                tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -1602,7 +1655,12 @@ Export in Excel </button>  </div>`;
               `;
               $("#totalexcel").html(totexcel);
               
-              }else{
+              }else if(usertype==="Manager"){
+
+               
+               $("#btnsalesType").html(" ");
+
+
                 tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -1633,7 +1691,40 @@ Export in Excel </button>  </div>`;
               `;
               $("#totalexcel").html(totexcel);
               
-              }
+              }else{
+
+               
+                $("#btnsalesType").html(" ");
+ 
+ 
+                 tot += `
+               <tr>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"></td>
+                   <td style="font-size: 14px;"></td>
+                   <td style="font-size: 14px;"></td>
+               </tr>`;
+               $("#totalam").html(tot);
+               
+               totexcel += `
+               
+               <tr>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"><strong></td>
+                   <td style="font-size: 14px;"></td>
+                   <td style="font-size: 14px;"><strong></strong></td>
+                   <td style="font-size: 14px;"><strong></strong> </td>
+                   <td style="font-size: 14px;"><strong></strong></td>
+               </tr>
+               
+               `;
+               $("#totalexcel").html(totexcel);
+               
+               }
              
               
               
@@ -1751,6 +1842,7 @@ Export in Excel </button>  </div>`;
 }
 
 
+
 function View_YesterdaySalesRecord() {
 
   const currentDate = new Date();
@@ -1793,7 +1885,7 @@ function View_YesterdaySalesRecord() {
   // Ajax Start!
 
   $.ajax({
-    url:`functions/sales/getalldaysaleswithcompanyspt.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
+    url:`functions/sales/getalldaysaleswithcompanysptyyest.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
     method: "POST",
     context: document.body,
     success: function(response) {
@@ -1829,26 +1921,33 @@ function View_YesterdaySalesRecord() {
               console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
               
-               btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yesterday Sales Record ,At <span>${formattedDate}</span></p>
-               <div>
                
-                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchyesterdaysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-
-Paid Sales </button>
-              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchyesterdaysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-
-Debts Sales </button>
-               </div>
-               
-               
-              <div><button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;"  onclick="fetchyesterdaysalesReport()"><i class="fa fa-file-pdf"></i>
-Export in Pdf </button>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelYesterdayTable', 'YesterdaySales_data');"><i class="fa fa-file-excel"></i>
-Export in Excel </button></div>`;
-              
-              $("#btnsalesType").html(btntype);
               
               if(usertype==="BOSS"){
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yesterday Sales Record ,At <span>${formattedDate}</span></p>
+                <div>
+                
+                 <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchyesterdaysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+ 
+ Paid Sales </button>
+               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchyesterdaysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+ 
+ Debts Sales </button>
+                </div>
+                
+                
+               <div><button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;"  onclick="fetchyesterdaysalesReport()"><i class="fa fa-file-pdf"></i>
+ Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelYesterdayTable', 'YesterdaySales_data');"><i class="fa fa-file-excel"></i>
+ Export in Excel </button></div>`;
+               
+               $("#btnsalesType").html(btntype);
+
+
+
+
+
                tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -1883,15 +1982,21 @@ Export in Excel </button></div>`;
               $("#totalyesterdayexcel").html(totexcel);
               
               }else{
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yesterday Sales Record ,At <span>${formattedDate}</span></p>
+                `;
+               
+               $("#btnsalesType").html(btntype);
+
+
+
+
                 tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                  }).format(parseFloat(sumtotal))}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"></td>
@@ -1905,7 +2010,7 @@ Export in Excel </button></div>`;
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></td>
                   <td style="font-size: 14px;"></td>
-                  <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong> </td>
                   <td style="font-size: 14px;"><strong></strong></td>
               </tr>
@@ -2106,25 +2211,28 @@ console.log(week);
               
               
               
-               btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Weekly Sales Record ,At Week <span>${week}</span></p>
-               <div>
-               <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchweeklysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-
-Paid Sales </button>
-              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchweeklysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-
-Debts Sales </button>
                
-               </div>
-               <div>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchweeklysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-              <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelWeekTable', 'WeeklySales_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
-              </div>
-              `;
-              
-              $("#btnsalesType").html(btntype);
 
                if(usertype==="BOSS"){
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Weekly Sales Record ,At Week <span>${week}</span></p>
+                <div>
+                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchweeklysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+ 
+ Paid Sales </button>
+               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchweeklysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+ 
+ Debts Sales </button>
+                
+                </div>
+                <div>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchweeklysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelWeekTable', 'WeeklySales_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
+               </div>
+               `;
+               
+               $("#btnsalesType").html(btntype);
+
                    
                 tot += `<tr>
                     <td style="font-size: 14px;"><strong></strong></td>
@@ -2159,14 +2267,20 @@ Debts Sales </button>
               $("#totalweekexcel").html(totexcel);
                    
                }else{
+
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Weekly Sales Record ,At Week <span>${week}</span></p>
+                
+               `;
+               
+               $("#btnsalesType").html(btntype);
+
+
                  tot += `<tr>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"><strong></strong></td>
-                    <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "RWF",
-                    }).format(parseFloat(sumtotal))}</strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
                     <td style="font-size: 14px;"></td>
                     <td style="font-size: 14px;"></td>
                     <td style="font-size: 14px;"></td>
@@ -2179,7 +2293,7 @@ Debts Sales </button>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></td>
                   <td style="font-size: 14px;"></td>
-                  <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                  <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong> </td>
                   <td style="font-size: 14px;"><strong></strong></td>
               </tr>
@@ -2555,7 +2669,7 @@ if (!company_ID || !sales_point_id) {
 
 // Make an AJAX request to fetch appointment data
 $.ajax({
-  url: `functions/sales/getalldaysaleswithcompanyspt.php?date=${date}&company=${company_ID}&spt=${sales_point_id}`,
+  url: `functions/sales/getalldaysaleswithcompanysptyyest.php?date=${date}&company=${company_ID}&spt=${sales_point_id}`,
   method: 'GET',
   dataType: 'json',
   success: function (data) {
@@ -2963,7 +3077,7 @@ if (!company_ID || !sales_point_id) {
 
 // Make an AJAX request to fetch appointment data
 $.ajax({
-  url: `functions/sales/getalldaysaleswithcompanyspt.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
+  url: `functions/sales/getalldaysaleswithcompanysptyyest.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
   method: 'GET',
   dataType: 'json',
   success: function (data) {
@@ -4209,14 +4323,20 @@ function redirectToMonthlySales() {
 
       function getrightstoremodal(storekeeper,sale_id){
         console.log("Store keeper", storekeeper);
-    
-        if(storekeeper== 0){
+
+        var usertype = localStorage.getItem("UserType");
+        if(usertype === "EndUser"){
+       if(storekeeper== 0){
           $("#aprovalmodal").modal("show");
           localStorage.setItem("storeapproval",storekeeper);
           localStorage.setItem("sale_id",sale_id);
         }else{
           $("#alreadyaproved").modal("show");
         }
+        }else{
+          $("#notallowedmodal").modal("show");
+        }
+        
     
       }
     
@@ -4243,6 +4363,9 @@ function redirectToMonthlySales() {
     
       function getrightstoremodalyest(storekeeper,sale_id){
         console.log("Store keeper", storekeeper);
+
+        var usertype = localStorage.getItem("UserType");
+        if(usertype === "EndUser"){
     
         if(storekeeper== 0){
           $("#aprovalmodalyest").modal("show");
@@ -4251,6 +4374,9 @@ function redirectToMonthlySales() {
         }else{
           $("#alreadyaproved").modal("show");
         }
+      }else{
+        $("#notallowedmodal").modal("show");
+      }
     
       }
     
@@ -4278,6 +4404,9 @@ function redirectToMonthlySales() {
 
       function getrightstoremodalweek(storekeeper,sale_id){
         console.log("Store keeper", storekeeper);
+
+        var usertype = localStorage.getItem("UserType");
+        if(usertype === "EndUser"){
     
         if(storekeeper== 0){
           $("#aprovalmodalweek").modal("show");
@@ -4286,6 +4415,10 @@ function redirectToMonthlySales() {
         }else{
           $("#alreadyaproved").modal("show");
         }
+
+      }else{
+        $("#notallowedmodal").modal("show");
+      }
     
       }
     

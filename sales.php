@@ -63,7 +63,7 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Quantity</th>
                                             <th style="font-size: 14px;">Total amount</th>
                                             <th style="font-size: 14px;">Status</th>
-                                            <th style="font-size: 14px; text-align:center">Store Keeper</th>
+                                            <th style="font-size: 14px; text-align:center">Store Manager</th>
                                             <th style="font-size: 14px; text-align:center">Manager</th>
                                             <th style="font-size: 14px;">Sold time</th>
                                             <th style="font-size: 14px;">Actions</th>

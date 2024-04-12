@@ -283,13 +283,10 @@ include('getuser.php');
                         <select class="form-control" id="salespointSelect"></select>
                         <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Supplier:&nbsp;</label>
                         <select class="form-control" id="supplieSelect"></select>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Unit type:&nbsp;</label>
-                        <select class="form-control" id="unitSelectsales"></select>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Container:&nbsp;</label>
-                        <input class="form-control" type="number" id="containerSales" min="1">
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Quantity/Container:&nbsp;</label>
+
+                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Purchased Quantity:&nbsp;</label>
                         <input class="form-control" type="number" id="qtii" min="1">
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Price Per Unit:&nbsp;</label>
+                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">item Price:&nbsp;</label>
                         <input class="form-control" type="number" id="priceunitii" min="1">
                     </form>
                 </div>

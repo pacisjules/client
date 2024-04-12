@@ -472,8 +472,7 @@ $(document).ready(function () {
       // Retrieve values from input fields
       var supplier = $("#supplieSelect").val();
       var spt_id = $("#salespointSelect").val();
-      var unit_id = $("#unitSelectsales").val();
-      var container = $("#containerSales").val();
+  
       var quantity = $("#qtii").val();
       var price_per_unity = $("#priceunitii").val();
   
@@ -490,8 +489,6 @@ $(document).ready(function () {
           product_id: product_id,
           spt_id: spt_id,
           company: company_ID,
-          unit_id: unit_id,
-          container: container,
           quantity: quantity,
           price_per_unity: price_per_unity,
           supplier_id: supplier,
@@ -920,11 +917,11 @@ $(document).ready(function () {
           method: "GET", // Change to GET method
           data: { company: company_ID },
           success: function (response) {
-              console.log(response);
+              console.log("sales point : ",response);
               $("#salespointSelect").html(response);
           },
           error: function (error) {
-              console.log(error);
+              console.log("Error : ",error);
           }
       });
   }

@@ -57,6 +57,7 @@ function GetDailyTotal() {
     
         // Retrieve values from localStorage
         var sales_point_id = localStorage.getItem("SptID");
+        var TypeUser = localStorage.getItem("UserType");
       
         // Ajax Start!
     
@@ -67,7 +68,11 @@ function GetDailyTotal() {
           success: function (response) {
             if (response) {
               console.log(response);
+              if(TypeUser==='BOSS'|| TypeUser==='Manager'){
               $("#getdaily").html(response);
+            } else{
+              $("#getdaily").html(' '); 
+            }
             } else {
               //console.log(response);
               $("#getdaily").html("Not Any result");

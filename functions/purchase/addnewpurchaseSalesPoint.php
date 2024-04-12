@@ -11,8 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_id  = $_POST['product_id'];
     $spt_id  = $_POST['spt_id'];
     $company = $_POST['company'];
-    $unit_id = $_POST['unit_id'];
-    $container = $_POST['container'];
     $quantity = $_POST['quantity'];
     $priceper_unity = $_POST['price_per_unity'];
     $supplier_id = $_POST['supplier_id'];
@@ -22,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if raw_material_id exists in rawstock
     $checkExistingQuery = "SELECT * FROM inventory WHERE product_id = '$product_id'";
     $checkExistingResult = $conn->query($checkExistingQuery);
-    $newqty=$container * $quantity;
+    
     if ($checkExistingResult->num_rows > 0) {
         // Update quantity_in_stock if the raw_material_id exists
         
@@ -30,10 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         
         $updateQuery = "UPDATE inventory 
-        SET unit_id= '$unit_id',
-            container = container + '$container',
-            item_per_container = $quantity,
-            quantity = quantity + '$newqty',
+        SET 
+            quantity = quantity + '$quantity',
             company_ID='$company',
             spt_id='$spt_id'
         
@@ -46,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         // Insert a new row in rawstock if raw_material_id doesn't exist
-        $insertQuery = "INSERT INTO `inventory` (`product_id`,`unit_id`, `container`, `item_per_container`, `quantity`,`alert_quantity`, `company_ID`,`spt_id`)
-                        VALUES ('$product_id','$unit_id','$container','$quantity','$newqty','$alertqty','$company','$spt_id')";
+        $insertQuery = "INSERT INTO `inventory` (`product_id`, `quantity`,`alert_quantity`, `company_ID`,`spt_id`)
+                        VALUES ('$product_id','$quantity','$alertqty','$company','$spt_id')";
         if ($conn->query($insertQuery) === TRUE) {
             echo "New row added to inventory successfully.";
         } else {
@@ -60,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert the purchase record
     $purchaseQuery = "INSERT INTO `purchase` (`product_id`, `unit_id`, `container`,`quantity`, `price_per_unity`,`total_price`, `supplier_id`, `company_ID`, `spt_id`,`user_id`)
-                        VALUES ('$product_id', '$unit_id','$container','$quantity', '$priceper_unity','$total_price', '$supplier_id', '$company','$spt_id' ,'$user_id')";
+                        VALUES ('$product_id', 0,0,'$quantity', '$priceper_unity','$total_price', '$supplier_id', '$company','$spt_id' ,'$user_id')";
 
     if ($conn->query($purchaseQuery) === TRUE) {
         // Return a success message

@@ -486,9 +486,6 @@ $(function () {
                         var html = `
                           <tr>
                             <td>${index + 1}. ${row.name}</td>
-                            <td>${row.unit}</td>
-                            <td>${row.container}</td>
-                            <td>${row.item_per_container}</td>
                             <td>${row.quantity}</td>
                             <td>${row.alert_quantity}</td>
                             <td class="d-flex flex-row justify-content-start align-items-center">
