@@ -78,9 +78,6 @@ include('getuser.php');
                                     <tfoot>
                                         <tr>
                                             <td><strong>Name</strong></td>
-                                            <td><strong>Unit Type</strong></td>
-                                            <td><strong>Container</strong></td>
-                                            <td><strong>Item/Container</strong></td>
                                             <td><strong>Total Items</strong></td>
                                             <td><strong>Alert Quantity</strong></td>
                                             <td><strong>Actions</strong></td>
