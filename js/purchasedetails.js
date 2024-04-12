@@ -49,13 +49,18 @@ $(document).ready(function () {
                                   currency: "RWF",
                               }).format(parseFloat(data.data[0].totalpurchase));
      
-       var num = 0;                       
+       var num = 0; 
+       sumtotal = 0;                      
       $.each(data.data, function(index, item) {
           
         num += 1; 
         var qty = item.quantity;
+        var cont = item.container
         var boxprice = item.price_per_unity;
-        priceperitem = boxprice /qty;
+        var priceperitem = boxprice /qty;
+        var totpurch = boxprice * cont;
+
+        sumtotal += totpurch;
           
           
         html += '<tr>';
@@ -74,7 +79,7 @@ $(document).ready(function () {
         html += '<td>' + new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "RWF",
-                              }).format(parseFloat(item.total_price)) + '</td>';
+                              }).format(parseFloat(totpurch)) + '</td>';
         html += '<td>' + item.names + '</td>';
         html += '<td>' + item.phone + '</td>';
         html += '<td>' + item.purchase_date + '</td>';
@@ -84,7 +89,10 @@ $(document).ready(function () {
       });
       $('#purchasedetail_table').html(html);
       $('#productname').html(productname);
-      $('#totalpurchase').html(totalpurchase);
+      $('#totalpurchase').html(new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "RWF",
+    }).format(parseFloat(sumtotal)));
      
       
     },
