@@ -2,6 +2,7 @@ $(document).ready(function () {
   var session_id = getParameterByName('session_id'); 
    var product_id = getParameterByName('product_id'); 
    var category_id = getParameterByName('category_id'); 
+
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
   View_DayFinishedRecord();
@@ -183,34 +184,12 @@ $(document).ready(function () {
 
 
 $("#addCart").click(function() {
-
-var qty = $("#Sales_qty").val();
-
-
-    var c_qaty = localStorage.getItem("current_quantity");
-
+    var qty = $("#quantityExpected").val();
+    var standard_id = localStorage.getItem("standard_id");
+    
     // Parse stored values to floats
-    c_qty = parseFloat(qty);
-    
-    if (c_qaty < c_qty) {
-        $("#calc_result").html("You entered more quantity than stock!");
-        $("#calc_result").css("color:red");
-    }else{
-        // If all checks pass, proceed with adding to cart
-        AddToCart( c_qty);
-
-        // Clear input values and other elements
-        $("#Sales_qty").val("");
-        $("#searcProductNow").val("");
-        $("#gettedProduct").html("");
-        $("#unitvalue").html("");
-        $("#gettedCQuantity").html("");
-    }
-
-
-        
-
-    
+    var c_qty = parseFloat(qty);
+    AddToCart(c_qty, standard_id);
 });
 
 
@@ -390,20 +369,23 @@ $('#clearItemBtn').click(function () {
 
   $("#savep_sell").html("Please wait..");
 
-  var cart = JSON.parse(localStorage.getItem("cart")) || { items: []};
+  var cart = JSON.parse(localStorage.getItem("cart"));
+  console.log(cart);
 
   // Extract the product IDs and quantities from the cart array
-  var rowIds = cart.items.map(function(item) {
+  var rowIds = cart.map(function(item) {
     return parseInt(item.id);
   });
 
-  var quantities = cart.items.map(function(item) {
+  var quantities = cart.map(function(item) {
     return parseFloat(item.qty);
   });
   
-  var units = cart.items.map(function(item) {
+  var units = cart.map(function(item) {
     return item.unit;
   });
+
+  
   
 
   //console.log("P_IDS: "+productIds);
@@ -411,20 +393,19 @@ $('#clearItemBtn').click(function () {
 
   // Retrieve values from localStorage
   var NeeddedQty = $("#quantityExpected").val();
-  
   var company_id = localStorage.getItem("CoID");
   var use_id = parseInt(localStorage.getItem("UserID"));
-  var product_id = parseInt(localStorage.getItem("product_id"));
+  var standard_code = localStorage.getItem("standard_id");
 
 
-  // // Start AJAX request
+  // Start AJAX request
   $.ajax({
     url: "functions/production/bulkproduction.php",
     method: "POST",
     dataType: 'json',
     data: {
       row_id: rowIds,
-      product_id: product_id,
+      standard_code: standard_code,
       needdedQty:NeeddedQty,
       
       company_id: company_id,
@@ -486,12 +467,17 @@ $('#clearItemBtn').click(function () {
  
  
   $("#searcProductingNow").on("input", function (e) {
+
+    if(e.target.value == ""){
+      $("#getseachproduct").html("");
+    }
+
     var company_ID = localStorage.getItem("CoID");
     var sales_point_id = localStorage.getItem("SptID");
   
     // Ajax Start!
     $.ajax({
-      url: `functions/product/searchproductbyname.php?company=${company_ID}&spt=${sales_point_id}&name=${e.target.value}`,
+      url: `functions/product/searchstandardbyname.php?company=${company_ID}&name=${e.target.value}`,
       method: "POST",
       context: document.body,
       success: function (response) {
@@ -834,49 +820,17 @@ function View_DayFinishedPrintRecord() {
 // }
 
 function View_LastFinishedRecord() {
-//   const currentDate = new Date();
-//   const montly = currentDate.getMonth();
-//   const date = currentDate.getDate();
-//   const year = currentDate.getFullYear();
-//   const formattedDate =
-//     year +
-//     "-" +
-//     (montly + 1).toString().padStart(2, "0") +
-//     "-" +
-//     date.toString().padStart(2, "0");
-
-//   const formatDate = (myDate) => {
-//     const dateParts = myDate.split("-");
-//     const year = dateParts[0];
-//     const month = dateParts[1];
-//     const day = dateParts[2];
-
-//     const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
-//       "en-US",
-//       {
-//         year: "numeric",
-//         month: "long",
-//         day: "numeric",
-//       }
-//     );
-
-//     return formattedDate;   date=${formattedDate}&
-//   };
-
-
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
-  
 
   // Ajax Start!
-
   $.ajax({
     url: `functions/production/getalldayFinishedsptLast5.php?company_ID=${company_ID}`,
     method: "POST",
     context: document.body,
     success: function (response) {
       if (response) {
-        //console.log(response);
+        console.log(response);
         $("#lastsells_table").html(response);
         
       } else {
@@ -921,15 +875,17 @@ function getSelecteRow(raw_material_id,raw_material_name,unit_of_measure,C_Qty) 
 
 
 
-function getSelected(id,name,price,benefit,C_Qty) {
+function getSelected(id,name,quantity,unitname) {
   console.log(name);
   
   $("#gettedProduction").html(name);
+  $("#gettedProductionstd").html(quantity);
+  $("#gettedProductionunit").html(unitname);
 
 
   $("#getseachproduct").html('');
 
-  localStorage.setItem("product_id", id);
+  localStorage.setItem("standard_id", id);
 }
 
 
@@ -994,54 +950,71 @@ function updateCalcResult() {
 
 
 
-function AddToCart(qty) {
+function AddToCart(qty_value, code) {
+  var company_id = localStorage.getItem("CoID");
+  var all_data = [];
+  var cart = [];
+  $('#cartItemTable').html('');
+
+  // Ajax Start!
+  $.ajax({
+    url: `functions/product/getstandardsdetails.php?company=${company_id}&code=${code}`,
+    method: "GET",
+    success: function (respo) {
+      if (respo) {
+        respo =respo; // Parse the JSON response
+        var list_error=0;
+        var list_success=0;
+        for (var i = 0; i < respo.length; i++) {
+          var id = respo[i]["stand_id"];
+          var name = respo[i]["raw_material_name"];
+          var qty = respo[i]["quantity"];
+          var unit = respo[i]["unit_of_measure"];
+          var c_stock = respo[i]["Current_stock"];
+          var row_mid = respo[i]["raw_material_id"];
+
+          if(c_stock<(qty_value*qty)){
+            var set_color = "red";
+            var bolding = "bold";
+            list_error = list_error+1;
+          }else{
+            var set_color = "green";
+            var bolding = "normal";
+            list_success=list_success+1;
+          }
+
+          
     
-   var id = localStorage.getItem("raw_material_id");
-    var name = localStorage.getItem("raw_material_name");
+          // Create a new row
+          var newRow = $('<tr style="color:'+set_color+'; font-weight:'+bolding+'"></tr>');
+          newRow.append('<td>' + name + '</td>');
+          
+          newRow.append('<td>' + qty + '</td>');
+          newRow.append('<td>' + unit + '</td>');
+          newRow.append('<td >' + qty_value*qty + '</td>');
+          newRow.append('<td style="background-color: black; color: white; border: 2px inset '+set_color+' ; font-weight:'+bolding+' ">' + c_stock + '</td>');
+          // Append the new row to the table
+          $('#cartItemTable').append(newRow);
 
-  var unit = localStorage.getItem("unit_of_measure");
+          // add data to cart array
+          cart.push({id:row_mid, name:name, qty:qty_value*qty, unit:unit});
+        }
 
-
-
-    if (!id || !unit || !name || !qty) {
-        console.log("Product information is incomplete. Cannot add to cart.");
-        return;
-    }
-    
-  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [] };
-  
-
-
-    var product = {
-      id: id,
-      unit: unit,
-      name: name,
-      qty: qty
-    };
-    cart.items.push(product);
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  // Create a new table row with the product data
-  var newRow = $('<tr></tr>');
-  newRow.append('<td>' + name + '</td>');
-  newRow.append('<td>' + qty + '</td>');
-  newRow.append('<td>' + unit + '</td>');
-  newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + id + '" type="button">  <i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button></td>');
-
-  // Append the new row to the table
-  $('#cartItemTable').append(newRow);
-
-  // Calculate total amount
-  
-  
-
-  // Optional: Log the updated cart array for debugging
-  localStorage.removeItem("raw_material_id");
-  localStorage.removeItem("raw_material_name");
-  localStorage.removeItem("unit_of_measure");
-  localStorage.removeItem("current_quantity");
-  console.log(cart);
+        if(list_error> 0){
+          $("#message_sell").html("Stock is not enough!");
+          $("#message_sell").css("color", "red");
+          $("#savep_sell").css("display", "none");
+        }
+        else{
+          $("#message_sell").html("Stock is ready!");
+          $("#message_sell").css("color", "green");
+          $("#savep_sell").css("display", "block");
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        console.log("cart", cart);
+      }
+    },
+  });
 }
 
 

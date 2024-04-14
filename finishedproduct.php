@@ -66,13 +66,14 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Finished Product</th>
-                                            <th>Produced Quantity</th>
-                                            <th>Produced By</th>
-                                            <th style="font-size: 11px;">Register Date</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                            <th>Production Details</th>
+                                            <th style="font-size: 12px;">FINISHED</th>
+                                            <th style="font-size: 12px;">EXPECTED</th>
+                                            <th style="font-size: 12px;">PRODUCED BY</th>
+                                            <th style="font-size: 12px;">PRODUCED</th>
+                                            <th style="font-size: 12px;">APPROVED BY</th>
+                                            <th style="font-size: 12px;">STATUS</th>
+                                            <th style="font-size: 12px;">PRODUCED TIME</th>
+                                            <th style="font-size: 12px;">ACTIONS</th>
                                         </tr>
                                     </thead>
                                     <tbody id="inve_table">
@@ -80,13 +81,13 @@ include('getuser.php');
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>Finished Product</strong></td>
-                                            <td><strong>Produced Quantity</strong></td>
-                                            <td><strong>Produced By</strong></td>
-                                            <td><strong style="font-size: 11px;">Register Date</strong></td>
-                                            <td><strong>Status</strong></td>
-                                            <td><strong>Action</strong></td>
-                                            <td><strong>Production Details</strong></td>
+                                            <th style="font-size: 12px;">EXPECTED</th>
+                                            <th style="font-size: 12px;">PRODUCED BY</th>
+                                            <th style="font-size: 12px;">PRODUCED</th>
+                                            <th style="font-size: 12px;">APPROVED BY</th>
+                                            <th style="font-size: 12px;">STATUS</th>
+                                            <th style="font-size: 12px;">PRODUCED TIME</th>
+                                            <th style="font-size: 12px;">ACTIONS</th>
                                         </tr>
                                     </tfoot>
                                 </table>

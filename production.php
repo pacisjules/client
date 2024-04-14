@@ -96,7 +96,7 @@ include('getuser.php');
                         
                         <div class="card shadow" style="width: 60%;">
                             <div class="card-header py-3">
-                                <p class="text-primary m-0 fw-bold">Table List</p>
+                                <p class="text-primary m-0 fw-bold">Ingredients List</p>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -111,10 +111,11 @@ include('getuser.php');
                                     <table class="table my-0" id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th>Row Material</th>
-                                                <th>box</th>
-                                                <th>Unit</th>
-                                                <th>Actions</th>
+                                                <th>ITEM</th>
+                                                <th>QTY/STANDARDS</th>
+                                                <th>UNIT</th>
+                                                <th>TOTAL QTY</th>
+                                                <th>CURRENT STOCK</th>
                                             </tr>
                                         </thead>
                                         <tbody id="cartItemTable">
@@ -122,15 +123,10 @@ include('getuser.php');
 
                                         </tbody>
                                         <tfoot>
-                                            <!--<tr style="background: #efefef;">-->
-                                            <!--    <td><strong></strong></td>-->
-                                            <!--    <td><strong></strong></td>-->
-                                            <!--    <td><strong></strong></td>-->
-                                            <!--    <td><strong>G.Total</strong></td>-->
-                                            <!--    <td id="totalAmount"><strong>-->
-
-                                            <!--        </strong></td>-->
-                                            <!--</tr>-->
+                                            <tr style="background: #efefef;">
+                                               <td>Message:</td>
+                                               <td><span id="message_sell"></span></td>
+                                            </tr>
                                         </tfoot>
                                     </table>
                                 </div>
@@ -138,7 +134,7 @@ include('getuser.php');
 
                                 
                                 
-                                <div class="d-flex justify-content-end"><button class="btn btn-dark" type="button" id="savep_sell" style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 20px;margin-bottom: 15px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-plus-fill">
+                                <div class="d-flex justify-content-end"><button class="btn btn-dark" type="button" id="savep_sell" style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 20px;margin-bottom: 15px;display:none;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-plus-fill">
                                             <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path>
                                         </svg>&nbsp; &nbsp;PRODUCE NOW</button>
                                 </div>
@@ -156,19 +152,27 @@ include('getuser.php');
 
                            <!--get product for producing-->
                            
-                           <div><label class="form-label">Search Product For Producing</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductingNow">
+                           <div>
+                            <label class="form-label" style="font-weight: bold;">Search Product For Producing</label>
+                            <input class="form-control" type="text" placeholder="Search Product ....." id="searcProductingNow">
                            
                            <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseachproduct">
 
                                 </div>
                               <form >
                                 <div>  
-                                <label class="form-label" style="margin-top: 20px; font-weight:bold; font-size:20px; color:black;">Product : <span id="gettedProduction"></span></label>
-                                </div>
-                              <div style="display: flex; align-items: center;">
-                                <label class="form-label" style="font-weight: bold; font-size: 18px; color: black; ">Quantity: </label>
-                                <input class="form-control" type="number" min="1" id="quantityExpected" style="margin-left:5px; "  >
+                                <label class="form-label" style="margin-top: 20px; font-weight:bold; font-size:16px; color:black;">Standard Product : <span style="font-weight: normal; color: green;" id="gettedProduction"></span></label><br/>
+                                <label class="form-label" style="margin-top: 2px; font-weight:bold; font-size:16px; color:black;">Standard Qty : <span style="font-weight: normal; color: green;" id="gettedProductionstd"></span></label><br/>
+                                <label class="form-label" style="margin-top: 2px; font-weight:bold; font-size:16px; color:black;">Standard Unit : <span style="font-weight: normal; color: green;">Per/</span><span style="font-weight: normal; color: green;"id="gettedProductionunit"></span></label>
+                                <div style="height:2px; background: #ededed;  margin-bottom: 30px;"></div>    
                             </div>
+                            <label class="form-label" style="font-weight: bold;">Set expected quantity for finished product</label>
+                              <div style="display: flex; align-items: center;">
+                              
+                                <label class="form-label" style="font-weight: bold;font-size:16px; color: black; ">Quantity: </label>
+                                <input class="form-control" type="number" min="1" id="quantityExpected" style="margin-left:5px; "  >
+                                
+                            </div><button class="btn btn-primary" type="button" style="width: 100%;margin-top: 10px;font-weight: bold;" id="addCart">GET DETAILS</button><button class="btn btn-danger openModal" type="button" data-bs-target="#clear-modal" data-bs-toggle="modal" style="width: 100%;margin-top: 10px;font-weight: bold;"><i class="icon ion-android-cancel"></i>&nbsp; Cancel</button>
 
                               </form>  
                                 
@@ -178,7 +182,7 @@ include('getuser.php');
                             <br> <br>
                            
                            
-                            <form><label class="form-label">Search Row Material</label><input class="form-control" type="text" placeholder="Search Row Material ....." id="searcProductNow"> 
+                            <!-- <form><label class="form-label">Search Row Material</label><input class="form-control" type="text" placeholder="Search Row Material ....." id="searcProductNow"> 
 
                                 <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseach">
 
@@ -200,7 +204,7 @@ include('getuser.php');
                                     </svg>&nbsp;Add to List</button><button class="btn btn-danger openModal" type="button" data-bs-target="#clear-modal" data-bs-toggle="modal" style="width: 100%;margin-top: 10px;font-weight: bold;"><i class="icon ion-android-cancel"></i>&nbsp; Cancel</button>
                                     
                                     
-                            </form>
+                            </form> -->
                         </div>
                     </div>
                     
@@ -226,11 +230,13 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Finished Product</th>
-                                            <th>Produced Quantity</th>
-                                            <th>Produced By</th>
-
-                                            <th style="font-size: 11px;">Produced Time</th>
+                                            <th style="font-size: 12px;">FINISHED</th>
+                                            <th style="font-size: 12px;">EXPECTED QUANTITY</th>
+                                            <th style="font-size: 12px;">PRODUCED BY</th>
+                                            <th style="font-size: 12px;">PRODUCED QUANTITY</th>
+                                            <th style="font-size: 12px;">APPROVED BY</th>
+                                            <th style="font-size: 12px;">STATUS</th>
+                                            <th style="font-size: 12px;">PRODUCED TIME</th>
 
                                         </tr>
                                     </thead>
@@ -240,10 +246,13 @@ include('getuser.php');
 
                                     <tfoot>
                                         <tr>
-                                            <td><strong>Finished Product</strong></td>
-                                            <td><strong>Produced Quantity</strong></td>
-                                            <td><strong>Produced By</strong></td>
-                                            <td><strong style="font-size: 11px;">Produced Time</strong></td>
+                                        <th style="font-size: 12px;">FINISHED</th>
+                                            <th style="font-size: 12px;">EXPECTED QUANTITY</th>
+                                            <th style="font-size: 12px;">PRODUCED BY</th>
+                                            <th style="font-size: 12px;">PRODUCED QUANTITY</th>
+                                            <th style="font-size: 12px;">APPROVED BY</th>
+                                            <th style="font-size: 12px;">STATUS</th>
+                                            <th style="font-size: 12px;">PRODUCED TIME</th>
 
                                         </tr>
                                     </tfoot>
