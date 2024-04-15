@@ -17,15 +17,14 @@ $company_ID = $_GET['company_ID'];
 $sql = "
 SELECT DISTINCT
     FI.id,
-    PD.name AS Product_Name,
+    FI.product_name,
     FI.quantity,
     FI.created_at,
     FI.user_id,
     (SELECT CONCAT(first_name, ' ', last_name) AS names FROM employee WHERE user_id = FI.user_id) AS usernames
 FROM
 product_standard FI
-JOIN products PD ON
-    FI.product_id = PD.id
+
 WHERE
     FI.company_id = $company_ID
 ORDER BY
@@ -56,7 +55,7 @@ while ($row = $result->fetch_assoc()) {
 
         <tr>
 
-        <td style="font-size: 14px;">'.$num.'. '.$row['Product_Name'].'</td>
+        <td style="font-size: 14px;">'.$num.'. '.$row['product_name'].'</td>
         <td style="font-size: 14px;">'.$row['quantity'].'</td>
         <td style="font-size: 14px;">'.$row['usernames'].'</td>
         <td style="font-size: 14px;">'.$row['created_at'].'</td>

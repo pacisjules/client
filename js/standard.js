@@ -1,6 +1,6 @@
 $(document).ready(function () {
   var session_id = getParameterByName('session_id'); 
-   var product_id = getParameterByName('product_id'); 
+  //  var product_id = getParameterByName('product_id'); 
   //  var category_id = getParameterByName('category_id'); 
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
@@ -31,12 +31,12 @@ $(document).ready(function () {
 
     // Make an AJAX request to fetch data by customer_id
     $.ajax({
-      url: `functions/standard/getallStandardbySession.php?session_id=${session_id}&product_id=${product_id}&company_id=${company_id}`,
+      url: `functions/standard/getallStandardbySession.php?session_id=${session_id}&company_id=${company_id}`,
       method: 'GET',
       success: function(data) {
         // Handle the data received from the AJAX request and display it in the table
         var html = '';
-        var product_name = data.name;
+        var product_name = data.data[0].name;
                                 
         $.each(data.data, function(index, item) {
             
@@ -652,6 +652,7 @@ $('#clearItemBtn').click(function () {
 $("#updatestandard").click(function () {
   $("#updatestandard").html("Please wait..");
 
+  var set_name = $("#set_name").val();
   var set_qty = parseFloat($("#set_qty").val());
   var set_id = parseInt(localStorage.getItem("set_id"));
 
@@ -663,6 +664,7 @@ $("#updatestandard").click(function () {
     data: {
       set_id: set_id,
       set_qty: set_qty,
+      set_name:set_name,
      
     },
 
@@ -751,36 +753,6 @@ $("#removeStandard").click(function () {
 });
 
 function View_DayStandardRecord() {
-//   const currentDate = new Date();
-//   const montly = currentDate.getMonth();
-//   const date = currentDate.getDate();
-//   const year = currentDate.getFullYear();
-//   const formattedDate =
-//     year +
-//     "-" +
-//     (montly + 1).toString().padStart(2, "0") +
-//     "-" +
-//     date.toString().padStart(2, "0");
-
-//   const formatDate = (myDate) => {
-//     const dateParts = myDate.split("-");
-//     const year = dateParts[0];
-//     const month = dateParts[1];
-//     const day = dateParts[2];
-
-//     const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
-//       "en-US",
-//       {
-//         year: "numeric",
-//         month: "long",
-//         day: "numeric",
-//       }
-//     );
-
-//     return formattedDate; date=${formattedDate}&
-//   };
-
-//   $("#dateShow").html(formatDate(formattedDate));
 
 var company_ID = localStorage.getItem("CoID");
 
@@ -792,7 +764,7 @@ var company_ID = localStorage.getItem("CoID");
     context: document.body,
     success: function (response) {
       if (response) {
-        //console.log(response);
+        console.log(response);
         $("#standard_records").html(response);
       } else {
         //console.log(response);
@@ -1965,10 +1937,11 @@ for (let i = 0; i < historydata.length; i++) {
 
 
 
-function setUpdates(qty, id){
+function setUpdates(qty, id,name){
   console.log(id);
   console.log(qty);
   localStorage.setItem("set_id",id);
+  $("#set_name").val(name);
   $("#set_qty").val(qty);
 }
 

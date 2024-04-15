@@ -8,8 +8,6 @@ header('Content-Type: application/json');
 
 //Get all sales by date
 $session_id = $_GET['session_id'];
-$product_id = $_GET['product_id'];
-$spt = $_GET['spt'];
 $company_id = $_GET['company_id'];
 
 
@@ -22,7 +20,9 @@ SELECT DISTINCT
     RW.raw_material_name,
     PR.quantity,
     PR.unit,
-    PR.created_at
+    PR.created_at,
+    PR.standard_code,
+    (select product_name from product_standard as name where standard_code=PR.standard_code COLLATE utf8mb4_unicode_ci) AS product_name
 FROM
     production PR
 JOIN rawmaterials RW ON
@@ -46,6 +46,7 @@ while ($row = $result->fetch_assoc()) {
      $item = array(
         'id'=> $row['id'],
         'raw_material_name' => $row['raw_material_name'],
+        'product_name' => $row['product_name'],
         'quantity' => $row['quantity'],
         'unit' => $row['unit'],
         'created_at' => $row['created_at'],
@@ -54,16 +55,8 @@ while ($row = $result->fetch_assoc()) {
     $data[] = $item;
 }
 
-$sqltot = "SELECT name FROM products  WHERE id=$product_id  AND sales_point_id=$spt ";
-        
-$sumResult = $conn->query($sqltot);
-$sumRow = $sumResult->fetch_assoc();
-$names = $sumRow['name'];
-
-
 $responseData = array(
     'data' => $data,
-    'name'=> $names,
 );
 
 // Convert data to JSON

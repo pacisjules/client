@@ -16,6 +16,7 @@ $company_ID = $_GET['company_ID'];
 
 $sql = "
 SELECT DISTINCT
+FP.id,
 FP.session_id,
 FP.standard_code,
 PS.product_name,
@@ -45,7 +46,7 @@ $result = mysqli_query($conn, $sql);
 
 $num = 0;
 while ($row = $result->fetch_assoc()) {
-    // $myid = $row['id'];
+    $myid = $row['id'];
     $prod_session = $row['session_id'];
     //$prod_id = $row['product_id'];
     //$category =  $row['category_id'];
@@ -59,10 +60,17 @@ while ($row = $result->fetch_assoc()) {
         $sts="Pending";
         $style="orange";
         
-    }else{
-        $sts="Stocked";
+    }else if($row['status']==2){
+        $sts="Approved";
         $style="green";
        
+    }else if($row['status']==3){
+        $sts="Rejected";
+        $style="red";
+       
+    }else{
+        $sts="Transferred";
+        $style="blue"; 
     }
 
 
@@ -78,20 +86,21 @@ while ($row = $result->fetch_assoc()) {
         <td style="font-size: 12px;">'.$row['approved_by'].'</td>
          
         
-        <td style="font-size: 16px;font-weight:bold; color:'.$style.';">'.$sts.'</td>
+        <td style="font-size: 12px;font-weight:bold; color:'.$style.';">'.$sts.'</td>
         <td style="font-size: 12px;">'.$row['created_at'].'</td>
          
-         <td >
+        <td class="d-flex flex-row justify-content-start align-items-center" style="font-size: 12px; padding:10px;">
          
-            <button class="btn btn-success"    type="button" onclick="setFinishedProduct( `'.$row['real_produced_qty'].'`,`'.$row['product_name'].'`)">
-            <i class="fa fa-exclamation-circle" style="color: white; font-weight:bold;"></i> <span style="color: white; font-weight:bold;">APPROVE</span> 
-            </button>
+            <button class="btn btn-success" style="font-size: 5px;"   type="button" data-bs-target="#approvemodal" data-bs-toggle="modal" onclick="ApproveorRejectProduction(`'.$myid.'`,`'.$row['status'].'`)">
+            <i class="fa fa-exclamation-circle" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">APPROVE</span> 
+            </button>&nbsp;
+            <button class="btn btn-primary" style="font-size: 5px; "   type="button" data-bs-target="#PackingAndTransfer" data-bs-toggle="modal" onclick="settransferProduct( `'.$row['real_produced_qty'].'`,`'.$myid.'`,`'.$row['status'].'`)">
+            <i class="fa fa-exclamation-circle" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">TRANSFER</span> 
+            </button>&nbsp;
         
-         </td>
-         <td class="d-flex flex-row justify-content-start align-items-center">
             <a class="nav-link active" href="productiondetails.php?session_id=' . $prod_session . '">
-                <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:15px;" type="button">
-                    <i class="fas fa-eye" style="font-size:20px; color: white; margin-top:3px;"></i><span style="font-size:15px; color: white; margin-left:13px;">View More</span>
+                <button class="btn btn-light"  rounded-circle" style="background-color:#a9e7e8; border-radius:5px;font-size: 5px;" type="button">
+                    <i class="fas fa-eye" style="font-size:10px; color: black; margin-top:3px;"></i>&nbsp;<span style="font-size:10px; color: black;">DETAILS</span>
                 </button>
             </a>
         </td>

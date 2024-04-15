@@ -1,13 +1,15 @@
 $(document).ready(function () {
   var session_id = getParameterByName('session_id'); 
-   var product_id = getParameterByName('product_id'); 
-   var category_id = getParameterByName('category_id'); 
+  //  var product_id = getParameterByName('product_id'); 
+  //  var category_id = getParameterByName('category_id'); 
 
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
   View_DayFinishedRecord();
   getSelected();
   View_LastFinishedRecord();
+  populateProduct();
+  populateStore();
   
   $("#generateFinishedPrintRecord").click(function() {
      View_DayFinishedPrintRecord();   
@@ -28,33 +30,33 @@ $(document).ready(function () {
     var sales_point_id = localStorage.getItem("SptID");
     var company_id = localStorage.getItem("CoID");
 
-  // Make an AJAX request to fetch data by customer_id
-  $.ajax({
-    url: `functions/production/getpackagedproductCatgory.php?category_id=${category_id}&company_ID=${company_id}&spt=${sales_point_id}`,
-    method: 'GET',
-    success: function (response) {
-      if (response) {
-        //console.log(response);
-        $("#Packegesboxes").html(response);
-      } else {
-        //console.log(response);
-        $("#Packegesboxes").html("Not Any result");
-      }
-    },
-    error: function (error) {
-      console.log(error);
-    },
-  });
+  // // Make an AJAX request to fetch data by customer_id
+  // $.ajax({
+  //   url: `functions/production/getpackagedproductCatgory.php?category_id=${category_id}&company_ID=${company_id}&spt=${sales_point_id}`,
+  //   method: 'GET',
+  //   success: function (response) {
+  //     if (response) {
+  //       //console.log(response);
+  //       $("#Packegesboxes").html(response);
+  //     } else {
+  //       //console.log(response);
+  //       $("#Packegesboxes").html("Not Any result");
+  //     }
+  //   },
+  //   error: function (error) {
+  //     console.log(error);
+  //   },
+  // });
 
 
     // Make an AJAX request to fetch data by customer_id
     $.ajax({
-      url: `functions/production/getallProductionbySession.php?session_id=${session_id}&product_id=${product_id}&spt=${sales_point_id}&company_id=${company_id}`,
+      url: `functions/production/getallProductionbySession.php?session_id=${session_id}&company_id=${company_id}`,
       method: 'GET',
       success: function(data) {
         // Handle the data received from the AJAX request and display it in the table
         var html = '';
-        var product_name = data.name;
+        var product_name = data.data[0].product_name;
                                 
         $.each(data.data, function(index, item) {
             
@@ -63,7 +65,7 @@ $(document).ready(function () {
           html += '<td>' + item.quantity + '</td>';
           html += '<td> Frw ' + item.unit + '</td>';
           html += '<td>' + item.created_at + '</td>';
-          html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.raw_material_name}','${item.quantity}','${item.unit}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.stock_id}','${item.id}','${item.raw_material_name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
+          html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.raw_material_name}','${item.quantity}','${item.unit}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.raw_material_name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
           html += '</tr>';
         });
         $('#detail_table').html(html);
@@ -477,7 +479,7 @@ $('#clearItemBtn').click(function () {
   
     // Ajax Start!
     $.ajax({
-      url: `functions/product/searchstandardbyname.php?company=${company_ID}&name=${e.target.value}`,
+      url: `functions/product/searchStandardForProduce.php?company=${company_ID}&name=${e.target.value}`,
       method: "POST",
       context: document.body,
       success: function (response) {
@@ -532,7 +534,7 @@ $('#clearItemBtn').click(function () {
  
  
    $("#transferInStock").click(function () {
-    $("#transferInStock").html("Please wait..");
+   
     
     
     function convertDateFormat(duedate) {
@@ -552,43 +554,132 @@ $('#clearItemBtn').click(function () {
       
     
     var company_id = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
     var user_id = localStorage.getItem("UserID");
-    var product_id = parseInt(localStorage.getItem("pro_id"));
-    var quantity = localStorage.getItem("qty");
+    var status = localStorage.getItem("status");
+    var production_id = localStorage.getItem("production_id");
+    var store_id = $("#StoreSelect").val();
+    var product_id = $("#ProductSelect").val();
+    var transf_qty = $("#transf_qty").val();
     var duedate = $("#duedate").val(); 
     var convertedDate = convertDateFormat(duedate);
 
+    if (status == 3) {
+      $("#PackingAndTransfer").modal("hide");
+      $("#rejectedmodal").modal("show");
+  } else if (status == 4) {
+    $("#PackingAndTransfer").modal("hide");
+      $("#alreadytransferred").modal("show");
+  } else {
+      
+    
     //Ajax Start!
     $.ajax({
       url: "functions/inventory/transferQuantity.php",
       method: "POST",
 
       data: {
+        production_id:production_id,
+        store_id:store_id,
         product_id: product_id,
         company_id:company_id,
-        salespt_id: sales_point_id,
-        quantity:quantity,
+        transf_qty:transf_qty,
         created_at:convertedDate,
         user_id:user_id,
       },
 
       success: function (response) {
-        $("#transfer_modal").modal("hide");
+        $("#PackingAndTransfer").modal("hide");
         $("#successmodal").modal("show");
-    //     setTimeout(function() {
-    //       location.reload();
-    //   }, 1000);
+        setTimeout(function() {
+          location.reload();
+      }, 1000);
       },
       error: function (error) {
         console.log(error);
-        $("#transfer_modal").modal("hide");
+        $("#PackingAndTransfer").modal("hide");
+        $("#errormodal").modal("show");
+      },
+    });
+  }
+   
+  });
+
+
+
+  $("#ApproveProduction").click(function () {
+    
+    
+    var production_id = localStorage.getItem("production_id");
+    var user_id = localStorage.getItem("UserID");
+    var real_qty = $("#real_qty").val();
+
+
+    //Ajax Start!
+    $.ajax({
+      url: "functions/production/ApproveProduction.php",
+      method: "POST",
+
+      data: {
+        production_id:production_id,
+        real_qty:real_qty,
+        approvedby:user_id,
+      },
+
+      success: function (response) {
+        $("#approvemodal").modal("hide");
+        $("#successmodal").modal("show");
+        setTimeout(function() {
+          location.reload();
+      }, 1000);
+      },
+      error: function (error) {
+        console.log(error);
+        $("#approvemodal").modal("hide");
         $("#errormodal").modal("show");
       },
     });
   });
 
+  $("#rejectproduction").click(function () {
  
+    $("#approvemodal").modal("hide");
+      $("#asktorejectmodal").modal("show");
+  });
+ 
+  $("#rejectcompletly").click(function () {
+   
+    
+     
+    var production_id = localStorage.getItem("production_id");
+    var user_id = localStorage.getItem("UserID");
+
+
+    //Ajax Start!
+    $.ajax({
+      url: "functions/production/RejectProduction.php",
+      method: "POST",
+
+      data: {
+        production_id:production_id,
+        approvedby:user_id,
+      },
+
+      success: function (response) {
+        $("#rejectproduction").html("REJECT");      
+        $("#asktorejectmodal").modal("hide");
+        $("#successmodal").modal("show");
+        setTimeout(function() {
+          location.reload();
+      }, 1000);
+      },
+      error: function (error) {
+        console.log(error);
+        $("#rejectproduction").html("FAILED");
+        $("#asktorejectmodal").modal("hide");
+        $("#errormodal").modal("show");
+      },
+    });
+  });
  
  
   
@@ -1864,9 +1955,57 @@ for (let i = 0; i < historydata.length; i++) {
 
 
 
+function ApproveorRejectProduction(id,status){
+ console.log("production id ",id);
+ localStorage.setItem("production_id", id);
+ localStorage.setItem("status", status);
+}
+
+function settransferProduct(qty,id,status){
+  localStorage.setItem("production_id", id);
+  localStorage.setItem("status", status);
+  $("#transf_qty").val(qty); 
+}
 
 
 
+function populateProduct() {
+  var company_id = parseInt(localStorage.getItem("CoID"));
+
+  
+
+  $.ajax({
+      url: "functions/debts/getProductforTransfer.php",
+      method: "GET", // Change to GET method
+      data: {company_id: company_id},
+      success: function (response) {
+          console.log(response);
+          $("#ProductSelect").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
+
+function populateStore() {
+  var company_id = parseInt(localStorage.getItem("CoID"));
+
+  
+
+  $.ajax({
+      url: "functions/debts/getStoreforTransfer.php",
+      method: "GET", // Change to GET method
+      data: {company_id: company_id},
+      success: function (response) {
+          console.log(response);
+          $("#StoreSelect").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
 
 
 

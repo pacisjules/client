@@ -25,23 +25,8 @@ $num = 0;
 
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
-    $myid = $row['id'];
-    $current_quantity="";
-
-    $sqlInventory = "SELECT quantity FROM inventory WHERE product_id=$myid";
-    $resultInv = mysqli_query($conn, $sqlInventory);
-    $rowInv = $resultInv->fetch_assoc();
-
-    if(empty( $rowInv['quantity'])){
-        $current_quantity =0;
-    }else
-    {
-        $current_quantity = $rowInv['quantity']; 
-    }
-
-    // $sqlGetUnit = "SELECT unitname FROM unittype WHERE unit_id='.$row['unit_id'].'";
-    // $resultUnit = mysqli_query($conn, $sqlGetUnit );
-    // $rowUnit = $resultUnit->fetch_assoc();
+  
+   
 
 
     $num+=1;

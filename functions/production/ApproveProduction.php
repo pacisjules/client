@@ -5,18 +5,19 @@ require '../systemhistory.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
-    $set_id= $_POST["set_id"];
-    $set_qty = $_POST['set_qty'];
-    $set_name = $_POST['set_name'];
+    $production_id= $_POST["production_id"];
+    $real_qty = $_POST['real_qty'];
+    $approvedby = $_POST['approvedby'];
+
 
     // Update the employee data into the database
-    $sql = "UPDATE product_standard SET product_name = '$set_name',quantity = '$set_qty' WHERE id=$set_id";
+    $sql = "UPDATE finishedproduct SET real_produced_qty = '$real_qty',approved_by = '$approvedby',status=2 WHERE id=$production_id";
 
     
     if ($conn->query($sql) === TRUE) {
         // Return a success message
         header('HTTP/1.1 201 Created');
-        echo "standard Updated successfully.";
+        echo "production  Approved successfully.";
 
     } else {
         // Return an error message if the insert failed

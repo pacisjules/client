@@ -66,12 +66,12 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Finished Product</th>
-                                            <th>Expected Quantity</th>
-                                            <th>Done By</th>
-                                            <th style="font-size: 11px;">Register Date</th>
+                                            <th>STANDARD NAME</th>
+                                            <th>EXPECTED QTY</th>
+                                            <th>DONE BY</th>
+                                            <th style="font-size: 11px;">REGISTER DATE</th>
             
-                                            <th>Action</th>
+                                            <th>ACTION</th>
                                             
                                         </tr>
                                     </thead>
@@ -80,12 +80,12 @@ include('getuser.php');
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>Finished Product</strong></td>
-                                            <td><strong>Expected Quantity</strong></td>
-                                            <td><strong>Done By</strong></td>
-                                            <td><strong style="font-size: 11px;">Register Date</strong></td>
+                                            <td><strong>STANDARD NAME</strong></td>
+                                            <td><strong>EXPECTED QTY</strong></td>
+                                            <td><strong>DONE BY</strong></td>
+                                            <td><strong style="font-size: 11px;">REGISTER DATE</strong></td>
                     
-                                            <td><strong>Action</strong></td>
+                                            <td><strong>ACTION</strong></td>
                                             
                                         </tr>
                                     </tfoot>
@@ -143,7 +143,10 @@ include('getuser.php');
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp;are for Edit Standard.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Expected Quantity</label>
+                    <form>
+                    <label class="form-label" style="margin-top: 12px;">Standard Name</label>
+                    <input class="form-control" type="text" id="set_name">    
+                    <label class="form-label" style="margin-top: 12px;">Expected Quantity</label>
                     <input class="form-control" type="number" id="set_qty">
                     </form>
                 </div>
