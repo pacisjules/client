@@ -475,7 +475,7 @@ $('#clearItemBtn').click(function () {
     }
 
     var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
+  
   
     // Ajax Start!
     $.ajax({
@@ -966,12 +966,12 @@ function getSelecteRow(raw_material_id,raw_material_name,unit_of_measure,C_Qty) 
 
 
 
-function getSelected(id,name,quantity,unitname) {
+function getSelected(id,name,quantity) {
   console.log(name);
   
   $("#gettedProduction").html(name);
   $("#gettedProductionstd").html(quantity);
-  $("#gettedProductionunit").html(unitname);
+  // $("#gettedProductionunit").html(unitname);
 
 
   $("#getseachproduct").html('');
