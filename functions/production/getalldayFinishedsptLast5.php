@@ -47,19 +47,22 @@ $num = 0;
 while ($row = $result->fetch_assoc()) {
     
     $num += 1;
-    $current_status=$row['status'];
+    
     $msg="";
     $color="";
 
-    if($current_status=1){
+    if($row['status']==1){
         $msg="Pending";
         $color="orange";
-    }else if($current_status=2){
+    }else if($row['status']==2){
         $msg="Approved";
         $color="green";
-    }else{
+    }else if($row['status']==3){
         $msg="Rejected";
         $color="red";
+    }else{
+        $msg="Transferred";
+        $color="blue";  
     }
 
 
