@@ -22,9 +22,7 @@ $(document).ready(function () {
   
   
   
-   
-   
-    var sales_point_id = localStorage.getItem("SptID");
+
     var company_id = localStorage.getItem("CoID");
 
 
@@ -168,27 +166,10 @@ $(document).ready(function () {
 $("#addCart").click(function() {
 
 var qty = $("#Sales_qty").val();
-
-
-    var c_qaty = localStorage.getItem("current_quantity");
-
     // Parse stored values to floats
-    c_qty = parseFloat(qty);
-    
-    if (c_qaty < c_qty) {
-        $("#calc_result").html("You entered more quantity than stock!");
-        $("#calc_result").css("color:red");
-    }else{
-        // If all checks pass, proceed with adding to cart
-        AddToCart( c_qty);
+  var c_qty = parseFloat(qty);  
+   AddToCart( c_qty);
 
-        // Clear input values and other elements
-        $("#Sales_qty").val("");
-        $("#searcProductNow").val("");
-        $("#gettedProduct").html("");
-        $("#unitvalue").html("");
-        $("#gettedCQuantity").html("");
-    }
 
 
         
@@ -394,10 +375,10 @@ $('#clearItemBtn').click(function () {
 
   // Retrieve values from localStorage
   var ExpectededQty = $("#quantityExpected").val();
+  var standardname = $("#standardname").val();
   
   var company_id = localStorage.getItem("CoID");
   var use_id = parseInt(localStorage.getItem("UserID"));
-  var product_id = parseInt(localStorage.getItem("product_id"));
 
 
   // // Start AJAX request
@@ -407,7 +388,7 @@ $('#clearItemBtn').click(function () {
     dataType: 'json',
     data: {
       row_id: rowIds,
-      product_id: product_id,
+      standardname: standardname,
       expectedQty:ExpectededQty,      
       company_id: company_id,
       quantity: quantities,
@@ -969,15 +950,15 @@ function getSelecteRow(raw_material_id,raw_material_name,unit_of_measure,C_Qty) 
 
 
 
-function getSelected(id,name,price,benefit,C_Qty) {
-  console.log(name);
+function getSelected() {
+  // console.log(name);
   
-  $("#gettedProduction").html(name);
+  // $("#gettedProduction").html(name);
 
 
   $("#getseachproduct").html('');
 
-  localStorage.setItem("product_id", id);
+  // localStorage.setItem("product_id", id);
 }
 
 

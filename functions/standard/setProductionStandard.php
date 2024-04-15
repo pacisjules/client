@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         // Get the form data
         $rowIds = $_POST['row_id'];
-        $product_id = $_POST['product_id'];
+        $standardname = $_POST['standardname'];
         $ExpectededQty = $_POST['expectedQty'];
         $company_id = $_POST['company_id'];
         $quantities = $_POST['quantity'];
@@ -79,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     
                     // Insert sales record
-                    $sql = "INSERT INTO `standardrowmaterial`( `standard_code`, `raw_material_id`, `product_id`, `unit_id`, `quantity`, `company_id`, `user_id`)
-                    VALUES ('$Session_sale_ID','$row_id','$product_id','$unit','$quantity','$company_id','$user_id')";
+                    $sql = "INSERT INTO `standardrowmaterial`( `standard_code`, `raw_material_id`, `unit_id`, `quantity`, `company_id`, `user_id`)
+                    VALUES ('$Session_sale_ID','$row_id','$unit','$quantity','$company_id','$user_id')";
 
 
 
@@ -95,8 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             if ($successCount === count($rowIds)) {
-                $sqlsaveSession = "INSERT INTO `product_standard`(`standard_code`, `product_id`, `quantity`,`company_id`, `user_id`) 
-                VALUES ('$Session_sale_ID', '$product_id','$ExpectededQty', '$company_id','$user_id')";
+                $sqlsaveSession = "INSERT INTO `product_standard`(`standard_code`, `product_name`, `quantity`,`company_id`, `user_id`) 
+                VALUES ('$Session_sale_ID', '$standardname','$ExpectededQty', '$company_id','$user_id')";
 
                 $conn->query($sqlsaveSession);
                 

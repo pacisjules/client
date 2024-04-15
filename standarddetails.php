@@ -74,11 +74,11 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Row Material Name</th>
-                                            <th>Quantity</th>
-                                            <th>Unit</th>
+                                            <th style="font-size: 11px;">ROW MATERIAL NAME</th>
+                                            <th style="font-size: 11px;">QUANTITY</th>
+                                            <th style="font-size: 11px;">UNIT</th>
 
-                                            <th style="font-size: 11px;">Done At</th>
+                                            <th style="font-size: 11px;">DONE AT</th>
                                         </tr>
                                     </thead>
                                     <tbody id="detail_table">
@@ -86,10 +86,10 @@ include('getuser.php');
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>Row Material Name</strong></td>
-                                            <td><strong>Quantity</strong></td>
-                                            <td><strong>Unit</strong></td>
-                                            <td><strong style="font-size: 11px;">Done At</strong></td>
+                                            <td style="font-size: 11px;"><strong>ROW MATERIAL NAME</strong></td>
+                                            <td style="font-size: 11px;"><strong>QUANTITY</strong></td>
+                                            <td style="font-size: 11px;"><strong>UNIT</strong></td>
+                                            <td style="font-size: 11px;"><strong style="font-size: 11px;">DONE AT</strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>

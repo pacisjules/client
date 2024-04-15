@@ -19,6 +19,7 @@ SELECT DISTINCT
     PR.stand_id ,
     PS.product_name,
     RW.raw_material_name,
+    RW.unit_of_measure,
     PR.quantity,
     PR.unit_id,
     PR.created_at
@@ -28,7 +29,7 @@ JOIN rawmaterials RW ON
     PR.raw_material_id = RW.raw_material_id
 JOIN product_standard PS ON
     PR.standard_code = PS.standard_code COLLATE utf8mb4_unicode_ci   
-WHERE PR.standard_code='Q5dLz4TX3JVD' AND PR.company_id=5
+WHERE PR.standard_code='$session_id' AND PR.company_id=$company_id
 ";
 
 $result = mysqli_query($conn, $sql);
@@ -49,7 +50,7 @@ while ($row = $result->fetch_assoc()) {
         'raw_material_name' => $row['raw_material_name'],
         'name' => $row['product_name'],
         'quantity' => $row['quantity'],
-        'unit' => $row['unit_id'],
+        'unit' => $row['unit_of_measure'],
         'created_at' => $row['created_at'],
     );
 

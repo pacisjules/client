@@ -66,12 +66,12 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>STANDARD NAME</th>
-                                            <th>EXPECTED QTY</th>
-                                            <th>DONE BY</th>
+                                            <th style="font-size: 11px;">STANDARD NAME</th>
+                                            <th style="font-size: 11px;">EXPECTED QTY</th>
+                                            <th style="font-size: 11px;">DONE BY</th>
                                             <th style="font-size: 11px;">REGISTER DATE</th>
             
-                                            <th>ACTION</th>
+                                            <th style="font-size: 11px;">ACTION</th>
                                             
                                         </tr>
                                     </thead>
@@ -80,12 +80,12 @@ include('getuser.php');
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>STANDARD NAME</strong></td>
-                                            <td><strong>EXPECTED QTY</strong></td>
-                                            <td><strong>DONE BY</strong></td>
-                                            <td><strong style="font-size: 11px;">REGISTER DATE</strong></td>
+                                            <td style="font-size: 11px;"><strong>STANDARD NAME</strong></td>
+                                            <td style="font-size: 11px;"><strong>EXPECTED QTY</strong></td>
+                                            <td style="font-size: 11px;"><strong>DONE BY</strong></td>
+                                            <td style="font-size: 11px;"><strong style="font-size: 11px;">REGISTER DATE</strong></td>
                     
-                                            <td><strong>ACTION</strong></td>
+                                            <td style="font-size: 11px;"><strong>ACTION</strong></td>
                                             
                                         </tr>
                                     </tfoot>

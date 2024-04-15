@@ -156,15 +156,15 @@ include('getuser.php');
 
                            <!--get product for producing-->
                            
-                           <div><label class="form-label">Search Product For Standard</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductingNow">
-                           
+                           <div><label class="form-label">Search Product For Standard</label><input class="form-control" type="text" placeholder="Type Standard Name Product ....." id="standardname"><br>
+<!--                            
                            <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseachproduct">
 
-                                </div>
+                                </div> -->
                               <form >
-                                <div>  
+                                <!-- <div>  
                                 <label class="form-label" style="margin-top: 20px; font-weight:bold; font-size:20px; color:black;">Finished Product : <span id="gettedProduction"></span></label>
-                                </div>
+                                </div> -->
                               <div style="display: flex; align-items: center;">
                                 <label class="form-label" style="font-weight: bold; font-size: 18px; color: black; ">Expected Quantity: </label>
                                 <input class="form-control" type="number" min="1" id="quantityExpected" style="margin-left:5px; "  >
