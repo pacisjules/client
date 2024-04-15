@@ -179,10 +179,10 @@ $(document).ready(function () {
    // Call the initializeCart function on page load
 
     // Retrieve cart data from localStorage
-    var cart = JSON.parse(localStorage.getItem("cart")) || { items: [] };
-   console.log(cart);
-    // Update the cart display
-    updateCartDisplay(cart);
+  //   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [] };
+  //  console.log(cart);
+  //   // Update the cart display
+  //   updateCartDisplay(cart);
 
 
 $("#addCart").click(function() {
@@ -272,7 +272,7 @@ $(document).on('click', '.decreaseQtyBtn', function() {
     localStorage.setItem("cart", JSON.stringify(cart));
 
     // Update the cart display
-    updateCartDisplay(cart);
+    // updateCartDisplay(cart);
   }
 
   
@@ -299,7 +299,7 @@ $(document).on('click', '.increaseQtyBtn', function() {
     localStorage.setItem("cart", JSON.stringify(cart));
 
     // Update the cart display
-    updateCartDisplay(cart);
+    // updateCartDisplay(cart);
   }
 });
 
@@ -329,7 +329,7 @@ $('#removeItem').click(function () {
     localStorage.setItem("cart", JSON.stringify(cart));
 
     // Update the cart display
-    updateCartDisplay(cart);
+    // updateCartDisplay(cart);
   }
 
   // Close the modal
@@ -1110,25 +1110,25 @@ function AddToCart(qty_value, code) {
 
 
 
-function updateCartDisplay(cart) {
-  // Clear the existing cart table
-  $('#cartItemTable').empty();
-  // var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: 0.00 };
-  console.log(cart);
+// function updateCartDisplay(cart) {
+//   // Clear the existing cart table
+//   $('#cartItemTable').empty();
+//   // var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: 0.00 };
+//   console.log(cart);
 
-  // Loop through the cart items and update the table
-  cart.items.forEach(item => {
-    var newRow = $('<tr></tr>');
-    newRow.append('<td>' + item.name + '</td>');
-    newRow.append('<td>' + item.qty + '</td>');
-    newRow.append('<td>' + item.unit + '</td>');
-    newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + item.id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + item.id + '" type="button"><i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + item.id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button </td>');
+//   // Loop through the cart items and update the table
+//   cart.items.forEach(item => {
+//     var newRow = $('<tr></tr>');
+//     newRow.append('<td>' + item.name + '</td>');
+//     newRow.append('<td>' + item.qty + '</td>');
+//     newRow.append('<td>' + item.unit + '</td>');
+//     newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + item.id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + item.id + '" type="button"><i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + item.id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button </td>');
 
-    // Append the new row to the table
-    $('#cartItemTable').append(newRow);
-  });
+//     // Append the new row to the table
+//     $('#cartItemTable').append(newRow);
+//   });
 
-}
+// }
 
 
 function setFinishedProduct(product_id, prod_session,quantity,Product_Name){
