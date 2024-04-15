@@ -18,7 +18,7 @@ $code = $_GET['code'];
 // Retrieve all users from the database
 $sql = "
 SELECT
-    sd.stand_id,
+    SD.stand_id,
     RM.raw_material_id,
     RM.raw_material_name,
     RM.unit_of_measure,
