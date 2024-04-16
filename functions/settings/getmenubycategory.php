@@ -29,7 +29,7 @@ while ($row = $result->fetch_assoc()) {
      $value .= '
 
         <li class="nav-item">
-                <a class="nav-link" href="'.$row['path_name'].'" style="margin-left: 5px;text-transform: uppercase;"><i class="'.$row['menu_icon'].'" style="margin-left: 5px; color: #ed3705;"></i> '.$row['page_name'].'</a>
+                <a class="nav-link" href="'.$row['path_name'].'" style="margin-left: 5px;text-transform: uppercase;font-weight:bold;"><i class="'.$row['menu_icon'].'" style="margin-left: 5px; color: #ed3705;"></i> '.$row['page_name'].'</a>
         </li>
  
         ';
