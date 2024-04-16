@@ -8,7 +8,7 @@ $spt = $_GET['spt'];
 $name = $_GET['names'];
 
 // Validate and sanitize user input
-$comID = intval($comID); // Ensure it's an integer
+// Ensure it's an integer
 $spt = intval($spt); // Ensure it's an integer
 $name = mysqli_real_escape_string($conn, $name); // Sanitize input
 

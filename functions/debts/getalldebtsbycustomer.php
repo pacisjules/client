@@ -30,7 +30,7 @@ $balance = $am - $am_paid;
 
      $item = array(
         'id'=> $row['id'],
-        'names' => $row['names'],
+        'person_names' => $row['person_names'],
         'phone' => $row['phone'],
         'address' => $row['address'],
         'due_date' => $row['due_date'],
