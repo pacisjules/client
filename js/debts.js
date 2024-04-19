@@ -40,6 +40,7 @@ $(document).ready(function () {
       // Handle the data received from the AJAX request and display it in the table
       var html = '';
       var person_names = data.person_names;
+      var name= data.data[0].name;
       var totaldebt = new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "RWF",
@@ -82,7 +83,11 @@ $(document).ready(function () {
                               }).format(parseFloat(item.balance)) + '</td>';
         html += '<td style="color: ' + color + '; font-weight:bold;">' + mes + '</td>';
         html += '<td>' + item.due_date + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_debts_modal" data-bs-toggle="modal" onclick="getDataEdit('${item.id}','${item.name}','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_debts_modal" data-bs-toggle="modal" onclick="getDataRemove('${item.id} ','${item.name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
+        html += `<td class="d-flex flex-row justify-content-start align-items-center">
+        <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_debts_modal" data-bs-toggle="modal" onclick="getDataEdit('${item.id}','${item.name}','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_debts_modal" data-bs-toggle="modal" onclick="getDataRemove('${item.id} ','${item.name}')" "><i class="fa fa-trash"></i></button>
+        <button class="btn btn-primary getPaidDbts" type="button" style="margin-left: 20px;" data-bs-target="#payoneitem_modal" data-bs-toggle="modal" onclick="getPaidDbts('${item.id} ','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-money"></i>&nbsp; Pay it</button>
+        </td>`; // Replace with your action buttons
         html += '</tr>';
       });
       $('#detail_table').html(html);
@@ -92,6 +97,7 @@ $(document).ready(function () {
        $('#dbt_amount').html(totaldebt);
         $('#paid_amount').html(totalpaid);
          $('#tot_balance').html(total_balance);
+         $('#product_nam').html(name);
       
     },
     error: function() {
@@ -256,6 +262,48 @@ $(document).ready(function () {
             },
         });
     });            
+
+
+    $("#PayDebts").click(function () {
+      
+      var Quantity = localStorage.getItem("debt_qty");
+      var amountDue = localStorage.getItem("debt_amount");
+  var amountPaid = localStorage.getItem("debt_amount_paid");
+      var sales_point_id = localStorage.getItem("SptID"); 
+       var debt_id = localStorage.getItem("debt_id"); 
+      
+
+      $.ajax({
+          type: "POST",
+          url: "functions/debts/payOneItemdbts.php", // Replace with the actual URL of your PHP script
+          data: {
+              id: debt_id,
+              qty: Quantity,
+              amount: amountDue,
+              amount_paid:amountPaid,
+              sales_point_id:sales_point_id,
+              
+          },
+          success: function (response) {
+              // Handle success here, e.g., show a success message
+              console.log(response);
+              $("#payoneitem_modal").modal("hide");
+              $("#successmodal").modal("show");
+                setTimeout(function() {
+                      location.reload();
+                  }, 1000);
+          },
+          error: function (xhr, status, error) {
+              // Handle errors here, e.g., show an error message
+              console.log(error);
+              $("#payoneitem_modal").modal("hide");
+              $("#errormodal").modal("show");
+                setTimeout(function() {
+                      location.reload();
+                  }, 1000);
+          },
+      });
+  });            
 
 
 
@@ -1914,6 +1962,13 @@ function getDataEdit(id,name,qty,amount,amount_paid){
 function getDataRemove(id,name){
      localStorage.setItem("debt_id", id);
      localStorage.setItem("name", name);
+}
+
+function getPaidDbts(id,qty,amount,amount_paid){
+  localStorage.setItem("debt_id", id);
+  localStorage.setItem("debt_qty", qty);
+  localStorage.setItem("debt_amount", amount);
+  localStorage.setItem("debt_amount_paid", amount_paid);
 }
 
 
