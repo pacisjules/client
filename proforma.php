@@ -120,7 +120,7 @@ include('getuser.php');
                                                 <th>Price</th>
                                                 <th>Qty</th>
                                                 <th>Total</th>
-                                                <th>Actions</th>
+
                                             </tr>
                                         </thead>
                                         <tbody id="cartItemTable">
@@ -129,7 +129,6 @@ include('getuser.php');
                                         </tbody>
                                         <tfoot>
                                             <tr style="background: #efefef;">
-                                                <td><strong></strong></td>
                                                 <td><strong></strong></td>
                                                 <td><strong></strong></td>
                                                 <td><strong>G.Total</strong></td>
@@ -145,7 +144,7 @@ include('getuser.php');
                                            <label>Customer Name</label><br />
                                            <input class="form-control" style="width:90%;" type="text" placeholder="Type Customer name" id="CustomerName"><br />
                                            <label>Customer Phone</label><br />
-                                           <input class="form-control" style="width:90%;" type="number" placeholder="Type Customer phone" id="Customerphone">
+                                           <input class="form-control" style="width:90%;" type="text" placeholder="Type Customer phone" id="Customerphone">
 
                                     </div>
                           
@@ -214,20 +213,21 @@ include('getuser.php');
                         <div style="margin-left: 31px;width: 40%;">
 
 
-                            <form><label class="form-label">Search Product</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
+                            <form><label class="form-label">Type Product</label><input class="form-control" type="text" placeholder="Type Product ....." id="proformaproduct">
 
-
+<!-- 
                                 <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseach">
 
-                                </div>
+                                </div> -->
 
 
 
 
 
-                                <label class="form-label" style="margin-top: 28px;">Product: <span id="gettedProduct"></span> &nbsp;&nbsp;</label><label class="form-label" style="padding-top: 0px;margin-top: 14px;font-weight: bold;">Price: <span id="gettedPrice"></span> Cqty: <span id="gettedCQuantity"></span></label><input class="form-control" type="number" id="Sales_qty" style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px;">Type Quantity</label><input class="form-control" type="number" id="Sales_qty" style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px;">Type Price</label><input class="form-control" type="number" id="pricepro" style="margin-top: -6px;">
                                 
-                                <br />
+                                <!-- <br />
                                 <div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchPriceChecked" onchange="showNegotiablePrice()">
                                     <label class="form-check-label" for="flexSwitchPriceChecked">Add Negotiable Price</label>
@@ -237,7 +237,7 @@ include('getuser.php');
                                          <input class="form-control" style="width:90%;" type="number"  id="NegoPrice"></div>
 
                                 </div>
-                                <label class="form-label" style="margin-top: 28px;"> <span id="calc_result"></span> &nbsp;&nbsp;</label>
+                                <label class="form-label" style="margin-top: 28px;"> <span id="calc_result"></span> &nbsp;&nbsp;</label> -->
 
 
 
@@ -394,12 +394,12 @@ include('getuser.php');
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;">Remove Proforma</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are sure you need to delete this product? </p>
+                    <p>Are sure you need to delete this proforma? </p>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeItem"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeproforma"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
             </div>
         </div>
     </div>

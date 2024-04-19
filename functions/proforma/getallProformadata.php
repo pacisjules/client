@@ -20,24 +20,20 @@ PR.id,
 PR.session_id,
 PR.customer_name,
 PR.phone,
-PD.name AS Product_Name,
+PR.product_name,
 SP.manager_name,
 SP.phone_number,
 SP.location,
-PD.benefit,
-PR.product_id,
 PR.quantity,
 PR.price,
 PR.total_amount,
-PR.total_benefit,
 PR.created_at,
 (SELECT COUNT(id) AS num FROM proforma WHERE session_id = PR.session_id) AS tottal_item
 
 
 FROM
 proforma PR
-JOIN products PD ON
-PR.product_id = PD.id
+
 JOIN salespoint SP ON
 PR.spt_id = SP.sales_point_id
 
@@ -68,11 +64,12 @@ while ($row = $result->fetch_assoc()) {
         <td>'.$num.'. '.$row['customer_name'].'</td>
         <td>'.$row['phone'].'</td>
         <td>'.$row['tottal_item'].'</td>
-        <td>'.$row['total_amount'].'</td>
+        <td>'.number_format($row['total_amount']).' FRW</td>
         <td>'.$row['manager_name'].'</td>
         <td>'.$row['created_at'].'</td>
         <td class="d-flex flex-row justify-content-start align-items-center">
-        <button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i>Print</button>
+        <button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-print" style="color: rgb(255,255,255);"></i>&nbsp;PRINT</button>&nbsp;
+        <button class="btn btn-danger" type="button" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-trash" style="color: rgb(255,255,255);"></i>&nbsp;DELETE</button>
       </td>  
         </tr>
 

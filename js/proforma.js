@@ -16,16 +16,16 @@ $(document).ready(function () {
 // setInterval(checkInternetConnection, 500);
 
 
-
+var idpro = 0;
   
   // localStorage.setItem("temporary_hold",[]);
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
   View_AllProformaRecord();
-  getSelected();
+  // getSelected();
   View_LastSalesRecord();
   View_ProductsRecord();
-  addCartTablet();
+  // addCartTablet();
   //holded_carts();
   setOldCart();
   
@@ -104,46 +104,25 @@ $(document).ready(function () {
 
 $("#addCart").click(function() {
     var qty = $("#Sales_qty").val();
-    var negoPrice = $("#NegoPrice").val();
+    var product = $("#proformaproduct").val();
+    var price = $("#pricepro").val();
+    
+   
 
     // Parse values to floats
     qty = parseFloat(qty);
-    negoPrice = parseFloat(negoPrice);
 
-    var c_qty = localStorage.getItem("current_quantity");
-    var price = localStorage.getItem("product_price");
-    var benefit = localStorage.getItem("product_benefit");
-
-    // Parse stored values to floats
-    c_qty = parseFloat(c_qty);
-    price = parseFloat(price);
-    benefit = parseFloat(benefit);
-
-        // Define variables to hold the calculated values
-        var benefits, realprice;
-
-        // Check if Negoprice is a valid number
-        if (!isNaN(negoPrice)) {
-            // Update calculation if Negoprice is a valid number
-            var ikiranguzo =  price - benefit;
-            benefits = negoPrice - ikiranguzo ;
-            realprice = negoPrice;
-        } else {
-            // Use regular price and benefit if Negoprice is not a valid number
-            benefits = benefit;
-            realprice = price;
-        }
-
+  
         // If all checks pass, proceed with adding to cart
-        AddToCart(realprice, benefits, qty);
+        AddToCart(product, price, qty);
 
         // Clear input values and other elements
         $("#Sales_qty").val("");
-        $("#NegoPrice").val("");
-        $("#searcProductNow").val("");
-        $("#gettedProduct").html("");
-        $("#gettedPrice").html("");
-        $("#gettedCQuantity").html("");
+
+        $("#proformaproduct").val("");
+        $("#CustomerName").val("");
+        $("#Customerphone").val("");
+        $("#pricepro").val("");
 
         // Clear any previous error messages
         $("#calc_result").html("");
@@ -333,8 +312,8 @@ $("#NegoPrice").on("input", function () {
   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
 
   // Extract the product IDs and quantities from the cart array
-  var productIds = cart.items.map(function(item) {
-    return parseInt(item.id);
+  var productnames = cart.items.map(function(item) {
+    return item.proforma_pro;
   });
 
   var quantities = cart.items.map(function(item) {
@@ -345,11 +324,8 @@ $("#NegoPrice").on("input", function () {
     return parseFloat(item.price);
   });
   
-  var benes = cart.items.map(function(item) {
-    return parseFloat(item.benefit);
-  });
 
-  //console.log("P_IDS: "+productIds);
+  console.log("P_IDS: "+productnames);
   //console.log("Qty: "+quantities);
   var sales_point_id = localStorage.getItem("SptID");
   var use_id = parseInt(localStorage.getItem("UserID"));
@@ -365,14 +341,12 @@ $("#NegoPrice").on("input", function () {
     method: "POST",
     dataType: 'json',
     data: {
-      product_id: productIds,
+      product_id: productnames,
       sales_point_id: sales_point_id,
       cust_name:cust_name,
       phone:phone,
       quantity: quantities,
       price:prices,
-      benefit:benes,
-      sales_type: 1,
       user_id: use_id,
     },
     
@@ -380,7 +354,7 @@ $("#NegoPrice").on("input", function () {
     success: function (response) {
       console.log("response:", response);
       initializeCart();
-      View_LastSalesRecord();
+      
       $("#savep_sell").html("Proforma Done");
    
       // $('#amadenis').hide();
@@ -671,46 +645,46 @@ function View_LastSalesRecord() {
 
 
 function getSelected(id,name,price,benefit,C_Qty) {
-  console.log(name);
+  // console.log(name);
   
-  $("#gettedProduct").html(name);
+  // $("#gettedProduct").html(name);
 
-  $("#gettedPrice").html(
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "RWF",
-    }).format(price)
-  );
+  // $("#gettedPrice").html(
+  //   new Intl.NumberFormat("en-US", {
+  //     style: "currency",
+  //     currency: "RWF",
+  //   }).format(price)
+  // );
 
-  $("#gettedCQuantity").html(C_Qty);
+  // $("#gettedCQuantity").html(C_Qty);
 
-  $("#Up_benefit").val(benefit);
+  // $("#Up_benefit").val(benefit);
   
   
 
-  //$("#product_name").html(benefit);
+  // //$("#product_name").html(benefit);
 
-  $("#getseach").html('');
+  // $("#getseach").html('');
 
-  localStorage.setItem("product_id", id);
-  localStorage.setItem("product_price", price);
-  localStorage.setItem("product_benefit", benefit);
-  localStorage.setItem("product_name", name);
-  localStorage.setItem("current_quantity", C_Qty);
+  // localStorage.setItem("product_id", id);
+  // localStorage.setItem("product_price", price);
+  // localStorage.setItem("product_benefit", benefit);
+  // localStorage.setItem("product_name", name);
+  // localStorage.setItem("current_quantity", C_Qty);
 }
 
 function getSelectedCustomer(customer_id,names,phone,address) {
   console.log(names);
 
-  $("#getnames").html(names);
-  $("#getphone").html(phone);
-  $("#getaddress").html(address);
-  $("#getsearchCustomer").html('');
+  // $("#getnames").html(names);
+  // $("#getphone").html(phone);
+  // $("#getaddress").html(address);
+  // $("#getsearchCustomer").html('');
 
-  localStorage.setItem("customer_id", customer_id);
-  localStorage.setItem("customer_names", names);
-  localStorage.setItem("customer_phone", phone);
-  localStorage.setItem("customer_address", address);
+  // localStorage.setItem("customer_id", customer_id);
+  // localStorage.setItem("customer_names", names);
+  // localStorage.setItem("customer_phone", phone);
+  // localStorage.setItem("customer_address", address);
  
 }
 
@@ -823,12 +797,11 @@ function updateCalcResult() {
 
 
 
-function AddToCart(realprice, benefit, qty) {
+function AddToCart(proforma_pro, price, qty) {
     
-   var id = localStorage.getItem("product_id");
-    var name = localStorage.getItem("product_name");
+ 
 
-    if (!id || !realprice || !benefit || !name || !qty) {
+    if (!proforma_pro || !price || !qty) {
         console.log("Product information is incomplete. Cannot add to cart.");
         return;
     }
@@ -838,10 +811,8 @@ function AddToCart(realprice, benefit, qty) {
 
 
     var product = {
-      id: id,
-      price: realprice,
-      benefit: benefit,
-      name: name,
+      proforma_pro: proforma_pro,
+      price: price,
       qty: qty
     };
     cart.items.push(product);
@@ -850,7 +821,7 @@ function AddToCart(realprice, benefit, qty) {
 
   // Create a new table row with the product data
   var newRow = $('<tr></tr>');
-  newRow.append('<td>' + name + '</td>');
+  newRow.append('<td>' + proforma_pro + '</td>');
   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RWF",
@@ -860,8 +831,6 @@ function AddToCart(realprice, benefit, qty) {
     style: "currency",
     currency: "RWF",
   }).format(product.price * qty) + '</td>');
-  newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + id + '" type="button">  <i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button></td>');
-
   // Append the new row to the table
   $('#cartItemTable').append(newRow);
 
@@ -879,92 +848,87 @@ function AddToCart(realprice, benefit, qty) {
     currency: "RWF",
   }).format(totalAmount));
 
-  // Optional: Log the updated cart array for debugging
-  localStorage.removeItem("product_id");
-  localStorage.removeItem("product_price");
-  localStorage.removeItem("product_benefit");
-  localStorage.removeItem("product_name");
   console.log(cart);
 }
 
 
-function AddToCartTablet(id,namepro,realprice, benefits, qty) {
+// function AddToCartTablet(id,namepro,realprice, benefits, qty) {
     
   
 
-   if (!id || !realprice || !benefits || !namepro || !qty) {
-       console.log("Product information is incomplete. Cannot add to cart.");
-       return;
-   }
+//    if (!id || !realprice || !benefits || !namepro || !qty) {
+//        console.log("Product information is incomplete. Cannot add to cart.");
+//        return;
+//    }
    
- var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+//  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
  
  
 
 
-   var product = {
-     id: id,
-     price: realprice,
-     benefit: benefits,
-     name: namepro,
-     qty: qty
-   };
-   cart.items.push(product);
+//    var product = {
+//      id: id,
+//      price: realprice,
+//      benefit: benefits,
+//      name: namepro,
+//      qty: qty
+//    };
+//    cart.items.push(product);
 
- localStorage.setItem("cart", JSON.stringify(cart));
+//  localStorage.setItem("cart", JSON.stringify(cart));
 
- $('#items_number').html(cart.items.length);
+//  $('#items_number').html(cart.items.length);
 
- // Create a new table row with the product data
- var newRow = $('<tr></tr>');
- newRow.append('<td>' + product.name + '</td>');
- newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-   style: "currency",
-   currency: "RWF",
- }).format(product.price) + '</td>');
- newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-   style: "currency",
-   currency: "RWF",
- }).format(product.price * product.qty) + '</td>');
- newRow.append(`<td class="actBtn">
- <div class="actBtnIn"  onclick="decreaseQtyshow(${product.id})">
- <img src="styles/icons/minus-sign.png" alt="" srcset="">
- </div>
- <div class="actBtnInTotal">
-     <p>${product.qty}</p>
- </div> 
- <div class="actBtnIn"  onclick="increaseQtyshow(${product.id})">
- <img src="styles/icons/plus.png" alt="" srcset="">
- </div>
- <div class="actBtnIn" onclick="removeItemshow(${product.id})">
- <img src="styles/icons/remove.png" alt="" srcset="">
- </div>
-</td>`)
+//  // Create a new table row with the product data
+//  var newRow = $('<tr></tr>');
+//  newRow.append('<td>' + product.name + '</td>');
+//  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+//    style: "currency",
+//    currency: "RWF",
+//  }).format(product.price) + '</td>');
+//  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+//    style: "currency",
+//    currency: "RWF",
+//  }).format(product.price * product.qty) + '</td>');
+//  newRow.append(`<td class="actBtn">
+//  <div class="actBtnIn"  onclick="decreaseQtyshow(${product.id})">
+//  <img src="styles/icons/minus-sign.png" alt="" srcset="">
+//  </div>
+//  <div class="actBtnInTotal">
+//      <p>${product.qty}</p>
+//  </div> 
+//  <div class="actBtnIn"  onclick="increaseQtyshow(${product.id})">
+//  <img src="styles/icons/plus.png" alt="" srcset="">
+//  </div>
+//  <div class="actBtnIn" onclick="removeItemshow(${product.id})">
+//  <img src="styles/icons/remove.png" alt="" srcset="">
+//  </div>
+// </td>`)
 
- // Append the new row to the table
- $('#cartItemTableTablet').append(newRow);
+//  // Append the new row to the table
+//  $('#cartItemTableTablet').append(newRow);
 
- // Calculate total amount
- var totalAmount = 0;
- for (var i = 0; i < cart.items.length; i++) {
-   var item = cart.items[i];
-   var itemTotal = item.price * item.qty;
-   totalAmount += itemTotal;
- }
+//  // Calculate total amount
+//  var totalAmount = 0;
+//  for (var i = 0; i < cart.items.length; i++) {
+//    var item = cart.items[i];
+//    var itemTotal = item.price * item.qty;
+//    totalAmount += itemTotal;
+//  }
 
- // Display the total amount
- $("#subtotal").text(new Intl.NumberFormat("en-US", {
-   style: "currency",
-   currency: "RWF",
- }).format(totalAmount));
+//  // Display the total amount
+//  $("#subtotal").text(new Intl.NumberFormat("en-US", {
+//    style: "currency",
+//    currency: "RWF",
+//  }).format(totalAmount));
 
- $("#subtotalPayable").text(new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "RWF",
-}).format(totalAmount));
+//  $("#subtotalPayable").text(new Intl.NumberFormat("en-US", {
+//   style: "currency",
+//   currency: "RWF",
+// }).format(totalAmount));
 
- console.log(cart);
-}
+//  console.log(cart);
+// }
 
 
 
@@ -977,7 +941,7 @@ function updateCartDisplay(cart) {
   // Loop through the cart items and update the table
   cart.items.forEach(item => {
     var newRow = $('<tr></tr>');
-    newRow.append('<td>' + item.name + '</td>');
+    newRow.append('<td>' + item.proforma_pro + '</td>');
     newRow.append('<td>' + new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "RWF",
@@ -987,8 +951,7 @@ function updateCartDisplay(cart) {
       style: "currency",
       currency: "RWF",
     }).format(parseFloat(item.price) * parseFloat(item.qty)) + '</td>');
-    newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + item.id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + item.id + '" type="button"><i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + item.id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button </td>');
-
+    
     // Append the new row to the table
     $('#cartItemTable').append(newRow);
   });
@@ -1064,60 +1027,60 @@ function updateCartDisplaytablet(cart) {
 
 
 
-function addCartTablet(id, namepro, p_c_qty, p_price, p_benefit) {
+// function addCartTablet(id, namepro, p_c_qty, p_price, p_benefit) {
 
-$('#unhold').css('opacity', 0);
-console.log(id)
-var qty = 1;
-var negoPrice = $("#NegoPrice").val();
+// $('#unhold').css('opacity', 0);
+// console.log(id)
+// var qty = 1;
+// var negoPrice = $("#NegoPrice").val();
 
-// Parse values to floats
-qty = parseFloat(qty);
-negoPrice = parseFloat(negoPrice);
+// // Parse values to floats
+// qty = parseFloat(qty);
+// negoPrice = parseFloat(negoPrice);
 
-var c_qty = p_c_qty;
-var price = p_price;
-var benefit = p_benefit;
+// var c_qty = p_c_qty;
+// var price = p_price;
+// var benefit = p_benefit;
 
-// Parse stored values to floats
-c_qty = parseFloat(c_qty);
-price = parseFloat(price);
-benefit = parseFloat(benefit);
+// // Parse stored values to floats
+// c_qty = parseFloat(c_qty);
+// price = parseFloat(price);
+// benefit = parseFloat(benefit);
 
-// Check if qty is a valid number and greater than 0
-if (isNaN(qty) || qty <= 0) {
-    alert("Please enter a valid quantity.");
-} else if (c_qty < qty) {
-    alert("You entered more quantity than stock!");
-} else {
-    // Define variables to hold the calculated values
-    var benefits, realprice;
+// // Check if qty is a valid number and greater than 0
+// if (isNaN(qty) || qty <= 0) {
+//     alert("Please enter a valid quantity.");
+// } else if (c_qty < qty) {
+//     alert("You entered more quantity than stock!");
+// } else {
+//     // Define variables to hold the calculated values
+//     var benefits, realprice;
 
-    // Check if Negoprice is a valid number
-    if (!isNaN(negoPrice)) {
-        // Update calculation if Negoprice is a valid number
-        var ikiranguzo =  price - benefit;
-        benefits = negoPrice - ikiranguzo ;
-        realprice = negoPrice;
-    } else {
-        // Use regular price and benefit if Negoprice is not a valid number
-        benefits = benefit;
-        realprice = price;
-    }
+//     // Check if Negoprice is a valid number
+//     if (!isNaN(negoPrice)) {
+//         // Update calculation if Negoprice is a valid number
+//         var ikiranguzo =  price - benefit;
+//         benefits = negoPrice - ikiranguzo ;
+//         realprice = negoPrice;
+//     } else {
+//         // Use regular price and benefit if Negoprice is not a valid number
+//         benefits = benefit;
+//         realprice = price;
+//     }
 
-    // If all checks pass, proceed with adding to cart
-    AddToCartTablet(id,namepro,realprice, benefits, qty);
+//     // If all checks pass, proceed with adding to cart
+//     // AddToCartTablet(id,namepro,realprice, benefits, qty);
 
-    // // Clear input values and other elements
-    // $("#Sales_qty").val("");
-    // $("#NegoPrice").val("");
-    // $("#searcProductNow").val("");
-    // $("#gettedProduct").html("");
-    // $("#gettedPrice").html("");
-    // $("#gettedCQuantity").html("");
+//     // // Clear input values and other elements
+//     // $("#Sales_qty").val("");
+//     // $("#NegoPrice").val("");
+//     // $("#searcProductNow").val("");
+//     // $("#gettedProduct").html("");
+//     // $("#gettedPrice").html("");
+//     // $("#gettedCQuantity").html("");
 
-  }
-}
+//   }
+// }
 
 function decreaseQtyshow(e) {
   var itemId = e;

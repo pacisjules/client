@@ -20,23 +20,19 @@ PR.id,
 PR.session_id,
 PR.customer_name,
 PR.phone,
-PD.name AS Product_Name,
 SP.manager_name,
 SP.phone_number,
 SP.location,
-PD.benefit,
-PR.product_id,
+PR.product_name,
 PR.quantity,
 PR.price,
 PR.total_amount,
-PR.total_benefit,
 PR.created_at
 
 
 FROM
 proforma PR
-JOIN products PD ON
-PR.product_id = PD.id
+
 JOIN salespoint SP ON
 PR.spt_id = SP.sales_point_id
 
@@ -57,12 +53,10 @@ while ($row = $result->fetch_assoc()) {
     $item = array(
         'id' => $row['id'],
         'sess_id' => $row['session_id'],
-        'product_id' => $row['product_id'],
-        'Product_Name' => $row['Product_Name'],
+        'Product_Name' => $row['product_name'],
         'price' => $row['price'],
         'quantity' => $row['quantity'],
         'total_amount' => $row['total_amount'],
-        'total_benefit' => $row['total_benefit'],
         'created_at' => $row['created_at'],
         'customer_name' => $row['customer_name'],
         'phone' => $row['phone'],
