@@ -17,7 +17,7 @@ $sql = "SELECT INVE.id,INVE.quantity, INVE.alert_quantity, INVE.last_updated, PR
         WHERE PRO.company_ID = $comID AND PRO.sales_point_id = $spt
         AND PRO.name LIKE '%$name%'
         
-        GROUP BY PRO.id ";
+        GROUP BY PRO.id LIMIT 40";
 
 $result = mysqli_query($conn, $sql);
 

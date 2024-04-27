@@ -16,6 +16,7 @@ $sql = "SELECT  PD.id, PD.name, PD.price, PD.benefit, PD.status, PD.description,
         WHERE PD.company_ID = $comID
         AND PD.sales_point_id = $spt 
        ORDER BY PD.created_at DESC
+       LIMIT 40
         ";
 
 
