@@ -124,7 +124,7 @@ include('getuser.php');
                                         </tbody>
                                         <tfoot>
                                             <tr style="background: #efefef;">
-                                               <td>Message:</td>
+                                               <td>Stock Message:</td>
                                                <td><span id="message_sell"></span></td>
                                             </tr>
                                         </tfoot>
@@ -162,8 +162,8 @@ include('getuser.php');
                               <form >
                                 <div>  
                                 <label class="form-label" style="margin-top: 20px; font-weight:bold; font-size:16px; color:black;">Standard Product : <span style="font-weight: normal; color: green;" id="gettedProduction"></span></label><br/>
-                                <label class="form-label" style="margin-top: 2px; font-weight:bold; font-size:16px; color:black;">Standard Qty : <span style="font-weight: normal; color: green;" id="gettedProductionstd"></span></label><br/>
-                                <label class="form-label" style="margin-top: 2px; font-weight:bold; font-size:16px; color:black;">Standard Unit : <span style="font-weight: normal; color: green;">Per/</span><span style="font-weight: normal; color: green;"id="gettedProductionunit"></span></label>
+                                <label class="form-label" style="margin-top: 2px; font-weight:bold; font-size:16px; color:black;">Standard items : <span style="font-weight: normal; color: green;" id="gettedProductionstd"></span></label><br/>
+                                <label class="form-label" style="margin-top: 2px; font-weight:bold; font-size:16px; color:black;">Standard Unit : <span style="font-weight: normal; color: green;"></span><span style="font-weight: normal; color: green;"id="gettedProductionunit">1 package</span></label>
                                 <div style="height:2px; background: #ededed;  margin-bottom: 30px;"></div>    
                             </div>
                             <label class="form-label" style="font-weight: bold;">Set expected quantity for finished product</label>
