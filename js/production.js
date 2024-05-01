@@ -196,7 +196,7 @@ $("#addCart").click(function() {
    
     
     // Parse stored values to floats
-    var c_qty = parseFloat(qty) - parseFloat(standard_items);
+    var c_qty = parseFloat(qty) / parseFloat(standard_items);
     AddToCart(c_qty, standard_id);
 });
 
