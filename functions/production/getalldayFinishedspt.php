@@ -30,7 +30,7 @@ FROM
 finishedproduct FP,
 product_standard PS
 WHERE
-FP.company_id=$company_ID AND FP.standard_code = PS.standard_code  COLLATE utf8mb4_unicode_ci ORDER BY FP.status ASC LIMIT 30;
+FP.company_id=$company_ID AND FP.standard_code = PS.standard_code  COLLATE utf8mb4_unicode_ci ORDER BY FP.created_at DESC LIMIT 30;
 ";
 
 
@@ -92,10 +92,13 @@ while ($row = $result->fetch_assoc()) {
         <td class="d-flex flex-row justify-content-start align-items-center" style="font-size: 12px; padding:10px;">
          
             <button class="btn btn-success" style="font-size: 5px;"   type="button" data-bs-target="#approvemodal" data-bs-toggle="modal" onclick="ApproveorRejectProduction(`'.$myid.'`,`'.$row['status'].'`)">
-            <i class="fa fa-exclamation-circle" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">APPROVE</span> 
+            <i class="fa fa-check-circle" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">APPROVE</span> 
             </button>&nbsp;
-            <button class="btn btn-primary" style="font-size: 5px; "   type="button" data-bs-target="#PackingAndTransfer" data-bs-toggle="modal" onclick="settransferProduct( `'.$row['real_produced_qty'].'`,`'.$myid.'`,`'.$row['status'].'`)">
-            <i class="fa fa-exclamation-circle" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">TRANSFER</span> 
+            <button class="btn btn-primary" style="font-size: 5px; "   type="button" data-bs-target="#TransferAll" data-bs-toggle="modal" onclick="settransferProduct( `'.$row['real_produced_qty'].'`,`'.$myid.'`,`'.$row['status'].'`)">
+            <i class="fa fa-random" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">TRANSFER ALL</span> 
+            </button>&nbsp;
+            <button class="btn btn-dark" style="font-size: 5px; "   type="button" data-bs-target="#PackingAndTransfer" data-bs-toggle="modal" onclick="setPacktransferProduct( `'.$row['real_produced_qty'].'`,`'.$myid.'`,`'.$row['status'].'`)">
+            <i class="fa fa-box" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">PACKING</span> 
             </button>&nbsp;
         
             <a class="nav-link active" href="productiondetails.php?session_id=' . $prod_session . '">

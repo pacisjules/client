@@ -54,6 +54,7 @@ include('getuser.php');
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Finished Product</h3>
+                        <button class="btn btn-primary" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase; color: white" data-bs-toggle="modal" data-bs-target="#add_category_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add Package Standard</button>
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -61,7 +62,7 @@ include('getuser.php');
                             <!-- <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;" id="generateFinishedStockedRecord">Transfer Report</button> -->
                             <!--<button class="btn btn-success" style="font-size: 15px; font-weight: bold;" id="pickeditButton">Editing Report</button>-->
                             <!--<button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" id="pickdeleteButton">Deleting Report</button>-->
-                            <!-- <button class="btn btn-info" style="font-size: 15px; font-weight: bold;" id="generateFinishedPrintRecord">Production Report</button> -->
+                           
                         </div>
                         
                         <input type="text" id="datepickerTransfer" style="display: none;"> 
@@ -251,11 +252,15 @@ include('getuser.php');
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="PackingAndTransfer">
+
+    TransferAll
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="TransferAll">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">TRANSFER FINSHED PRODUCT</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;">TRANSFER ALL FINISHED PRODUCT</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here you can transfer in stock quantity which is less or equal of the produced product</p>
@@ -277,7 +282,7 @@ include('getuser.php');
                     </div>
         
                     <div class="col-md-6">
-                        <label class="form-label" style="margin-top: 12px;">Type Quantity</label>
+                        <label class="form-label" style="margin-top: 12px;">Type Packed items</label>
                         <input class="form-control" type="number" id="transf_qty" style="width: 100%;">
                             
                            
@@ -293,6 +298,99 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="PackingAndTransfer">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">PACK & TRANSFER FINSHED PRODUCT</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here you can pack  and transfer in stock quantity which is less or equal of the produced product</p>
+                    <form class="row">
+                    
+                    <div class="col-md-6">
+                        <label class="form-label" style="margin-top: 12px;">Select Store</label>
+                        <select class="form-control" id="StoreSelected" style="width: 100%;">
+                            
+                           
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label" style="margin-top: 12px;">Select Product</label>
+                     <select class="form-control" id="ProductSelectpack" style="width: 100%;">
+                            
+                           
+                        </select>
+                    </div>
+        
+                    <div class="col-md-6">
+                        <label class="form-label" style="margin-top: 12px;">Type Quantity</label>
+                        <input class="form-control" type="number" id="pack_qty" style="width: 100%;">
+                            
+                           
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" style="margin-top: 12px;">Done Date</label>
+                         <input class="form-control" type="date" id="packdate" onchange="convertAndSetDate()">
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="PacktransferInStock">PACK & TRANSFER</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="add_category_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase;">Add Package Standard</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; Add new Package Standard.</p>
+                    <label class="form-label" style="margin-top: 12px;">Select Product</label>
+                    <select class="form-control" id="ProductstandSelect" style="width: 100%;">
+                            
+                           
+                        </select>
+                    <label class="form-label" style="margin-top: 12px;">Set Package Number</label>
+                    <input class="form-control" type="number" id="Packingnumber">
+
+    </br>
+    <button class="btn btn-primary" type="submit" id="savePackage">Save Package</button>
+               
+
+
+<hr>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 12px;">Product Name</th>
+                                            <th style="font-size: 12px;">Package N0</th>
+                                            <th style="font-size: 12px;">Register Date</th>
+                                            <th style="font-size: 12px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pack_table">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>

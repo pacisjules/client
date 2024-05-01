@@ -9,7 +9,11 @@ $(document).ready(function () {
   getSelected();
   View_LastFinishedRecord();
   populateProduct();
+  populatepackingProduct();
+  populateProductPackage();
   populateStore();
+  populateStorePack();
+  populateProductPackageandtransfer()
   
   $("#generateFinishedPrintRecord").click(function() {
      View_DayFinishedPrintRecord();   
@@ -188,9 +192,11 @@ $(document).ready(function () {
 $("#addCart").click(function() {
     var qty = $("#quantityExpected").val();
     var standard_id = localStorage.getItem("standard_id");
+    var standard_items = localStorage.getItem("standard_items");
+   
     
     // Parse stored values to floats
-    var c_qty = parseFloat(qty);
+    var c_qty = parseFloat(qty) - parseFloat(standard_items);
     AddToCart(c_qty, standard_id);
 });
 
@@ -277,6 +283,41 @@ $(document).on('click', '.decreaseQtyBtn', function() {
 
   
 });
+
+
+
+$("#savePackage").click(function () {
+  $("#savePackage").html("Please wait..");
+  // Retrieve values from input fields
+  var Packingnumber = $("#Packingnumber").val();
+  var product_id = $("#ProductstandSelect").val();
+
+  // Retrieve values from localStorage
+  var company_id = localStorage.getItem("CoID");
+
+  // Start AJAX request
+  $.ajax({
+    url: "functions/product/addnewProductPackage.php",
+    method: "POST",
+    data: {
+      product_id:product_id,
+      packgenumber: Packingnumber,
+      company_id: company_id,
+    },
+    success: function (response) {
+      $("#Packingnumber").val("");
+      View_DayFinishedRecord();
+      populateProductPackage();
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+  $("#savePackage").html("Save Package");
+   // Update another element's text (saveNewUser)
+});
+
+
 
 
 
@@ -564,10 +605,10 @@ $('#clearItemBtn').click(function () {
     var convertedDate = convertDateFormat(duedate);
 
     if (status == 3) {
-      $("#PackingAndTransfer").modal("hide");
+      $("#TransferAll").modal("hide");
       $("#rejectedmodal").modal("show");
   } else if (status == 4) {
-    $("#PackingAndTransfer").modal("hide");
+    $("#TransferAll").modal("hide");
       $("#alreadytransferred").modal("show");
   } else {
       
@@ -588,7 +629,7 @@ $('#clearItemBtn').click(function () {
       },
 
       success: function (response) {
-        $("#PackingAndTransfer").modal("hide");
+        $("#TransferAll").modal("hide");
         $("#successmodal").modal("show");
         setTimeout(function() {
           location.reload();
@@ -596,7 +637,7 @@ $('#clearItemBtn').click(function () {
       },
       error: function (error) {
         console.log(error);
-        $("#PackingAndTransfer").modal("hide");
+        $("#TransferAll").modal("hide");
         $("#errormodal").modal("show");
       },
     });
@@ -683,63 +724,80 @@ $('#clearItemBtn').click(function () {
  
  
   
-  $("#packagingbtn").click(function () {
-    // Change button text to indicate loading
-    $(this).html("Please wait..");
 
-    // Store reference to 'this' to use inside AJAX callbacks
-    var $button = $(this);
 
-    // Your existing AJAX code...
-    var campany = localStorage.getItem("CoID");
-    var product_id = parseInt(localStorage.getItem("production_id"));
-    var quantitypro = parseFloat(localStorage.getItem("quantitypro"));
-    var prod_session = localStorage.getItem("prod_session");
-    var ibipimo  = parseFloat($("#ibipimo").val());
-    var itempacked = parseFloat($("#amountpack").val());
-
-    // console.log(campany);
-    // console.log(product_id);
-    // console.log(prod_session);
-    // console.log(quantitypro);
-    // console.log(ibipimo);
-    // console.log(itempacked);
+$("#PacktransferInStock").click(function () {
+   
     
+    
+  function convertDateFormat(duedate) {
+  // Create a new Date object with the selected date
+      var dateObject = new Date(duedate);
+  
+      // Extract the year, month, and day
+      var year = dateObject.getFullYear();
+      var month = ('0' + (dateObject.getMonth() + 1)).slice(-2); // Add 1 because months are zero-based
+      var day = ('0' + dateObject.getDate()).slice(-2);
+  
+      // Combine the parts into the desired format
+      var formattedDate = year + '-' + month + '-' + day;
+  
+      return formattedDate;
+  }
+    
+  
+  var company_id = localStorage.getItem("CoID");
+  var user_id = localStorage.getItem("UserID");
+  var status = localStorage.getItem("status");
+  var remain_finished = localStorage.getItem("qty");
+  var production_id = localStorage.getItem("production_id");
+  var store_id = $("#StoreSelected").val();
+  var pack_id = $("#ProductSelectpack").val();
+  var transf_qty = $("#pack_qty").val();
+  var duedate = $("#packdate").val(); 
+  var convertedDate = convertDateFormat(duedate);
 
-    //Ajax Start!
-    $.ajax({
-        url: "functions/production/packing.php",
-        method: "POST",
-        data: {
-            product_id: product_id,
-            company_id: campany,
-            quantitypro: quantitypro,
-            prod_session: prod_session,
-            ibipimo: ibipimo,
-            itempacked: itempacked,
-        },
-        success: function (response) {
-            // Restore button text after AJAX request completes
-            $button.html("Finish");
+  if (status == 3) {
+    $("#PackingAndTransfer").modal("hide");
+    $("#rejectedmodal").modal("show");
+} else if (status == 4) {
+  $("#PackingAndTransfer").modal("hide");
+    $("#alreadytransferred").modal("show");
+} else {
+    
+  
+  //Ajax Start!
+  $.ajax({
+    url: "functions/inventory/PackAndtransferQuantity.php",
+    method: "POST",
 
-            $("#packaging_modal").modal("hide");
-            $("#successmodal").modal("show");
-            setTimeout(function() {
-              location.reload();
-          }, 1000);
-        },
-        error: function (error) {
-            // Restore button text after AJAX request completes
-            $button.html("Finish");
+    data: {
+      production_id:production_id,
+      store_id:store_id,
+      pack_id: pack_id,
+      company_id:company_id,
+      pack_qty:transf_qty,
+      created_at:convertedDate,
+      user_id:user_id,
+      remain_finished:remain_finished,
+    },
 
-            console.log(error);
-            $("#packaging_modal").modal("hide");
-            $("#errormodal").modal("show");
-        },
-    });
-});
-
+    success: function (response) {
+      $("#PackingAndTransfer").modal("hide");
+      $("#successmodal").modal("show");
+      setTimeout(function() {
+        location.reload();
+    }, 1000);
+    },
+    error: function (error) {
+      console.log(error);
+      $("#PackingAndTransfer").modal("hide");
+      $("#errormodal").modal("show");
+    },
+  });
+}
  
+});
  
  
  
@@ -807,6 +865,34 @@ var company_ID = localStorage.getItem("CoID");
   });
   // Ajax End!
 }
+
+
+function View_DayFinishedRecordpacked() {
+  
+  var company_ID = localStorage.getItem("CoID");
+  
+    // Ajax Start!
+  
+    $.ajax({
+      url: `functions/production/getalldayFinishedsptpacked.php?company_ID=${company_ID}`,
+      method: "POST",
+      context: document.body,
+      success: function (response) {
+        if (response) {
+          //console.log(response);
+          $("#invepacked_table").html(response);
+        } else {
+          //console.log(response);
+          $("#invepacked_table").html("Not Any result");
+        }
+      },
+      error: function (xhr, status, error) {
+        // console.log("AJAX request failed!");
+        // console.log("Error:", error);
+      },
+    });
+    // Ajax End!
+  }
 
 function View_DayFinishedDetailsRecord(session_id, product_id) {
 
@@ -977,6 +1063,7 @@ function getSelected(id,name,quantity) {
   $("#getseachproduct").html('');
 
   localStorage.setItem("standard_id", id);
+  localStorage.setItem("standard_items", quantity);
 }
 
 
@@ -1967,6 +2054,12 @@ function settransferProduct(qty,id,status){
   $("#transf_qty").val(qty); 
 }
 
+function setPacktransferProduct(qty,id,status){
+  localStorage.setItem("production_id", id);
+  localStorage.setItem("status", status);
+  localStorage.setItem("qty", qty);
+}
+
 
 
 function populateProduct() {
@@ -1988,6 +2081,64 @@ function populateProduct() {
   });
 }
 
+function populatepackingProduct() {
+  var company_id = parseInt(localStorage.getItem("CoID"));
+
+  
+
+  $.ajax({
+      url: "functions/debts/getProductforTransfer.php",
+      method: "GET", // Change to GET method
+      data: {company_id: company_id},
+      success: function (response) {
+          console.log(response);
+          $("#ProductstandSelect").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
+
+
+function populateProductPackage() {
+  var company_ID = parseInt(localStorage.getItem("CoID"));
+
+  $.ajax({
+      url: `functions/product/getallCompanypackages.php`,
+      method: "GET", // Change to GET method
+      data: { company: company_ID },
+      success: function (response) {
+          console.log(response);
+          $("#pack_table").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
+
+
+
+function populateProductPackageandtransfer() {
+  var company_ID = parseInt(localStorage.getItem("CoID"));
+
+  $.ajax({
+      url: `functions/debts/getProductPackages.php`,
+      method: "GET", // Change to GET method
+      data: { company_id: company_ID },
+      success: function (response) {
+          console.log(response);
+          $("#ProductSelectpack").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
+
+
+
 function populateStore() {
   var company_id = parseInt(localStorage.getItem("CoID"));
 
@@ -2008,6 +2159,24 @@ function populateStore() {
 }
 
 
+function populateStorePack() {
+  var company_id = parseInt(localStorage.getItem("CoID"));
+
+  
+
+  $.ajax({
+      url: "functions/debts/getStoreforTransfer.php",
+      method: "GET", // Change to GET method
+      data: {company_id: company_id},
+      success: function (response) {
+          console.log(response);
+          $("#StoreSelected").html(response);
+      },
+      error: function (error) {
+          console.log(error);
+      }
+  });
+}
 
   
   

@@ -24,7 +24,7 @@ $(document).ready(function () {
     $("#storereport").click(function () {
     
       View_inventoryRecordPrint(store_id);
-      console.log("print"); 
+     
     });
     
     
@@ -136,7 +136,7 @@ $(document).ready(function () {
             }
 
             var formattedDate = convertDateFormat(dateText);
-            console.log("picking date: " + formattedDate);
+            
 
              var company_ID = localStorage.getItem("CoID");
    
@@ -149,11 +149,11 @@ $(document).ready(function () {
       context: document.body,
       success: function(response) {
         try {
-            console.log("Success Response: ", response);
+           
 
             if (response.data && response.data.length > 0) {
                  const historydata = response.data;
-                 console.log(historydata);
+                 
                  const typereport =  "Transfer History Report on "+formattedDate;
                  printInventoryhistory(historydata,typereport);
              }
@@ -189,8 +189,7 @@ $(document).ready(function () {
           $('#daterange').on('apply.daterangepicker', function (ev, picker) {
               const startDate = picker.startDate.format('YYYY-MM-DD');
               const endDate = picker.endDate.format('YYYY-MM-DD');
-              console.log("from "+startDate);
-               console.log("to "+endDate);
+             
                
           var company_ID = parseInt(localStorage.getItem("CoID"));
 
@@ -202,11 +201,11 @@ $.ajax({
       context: document.body,
       success: function(response) {
         try {
-            console.log("Success Response: ", response);
+            
 
             if (response.data && response.data.length > 0) {
                  const historydata = response.data;
-                 console.log(historydata);
+                 
                  const typereport =  "Transfer History Report From "+startDate+" To "+endDate;
                  printInventoryhistory(historydata,typereport);
              }
@@ -305,8 +304,8 @@ $.ajax({
       var user_id = parseInt(localStorage.getItem("UserID"));
      var duedate = $("#duedate").val(); 
      var convertedDate = convertDateFormat(duedate);
-                 
-                 console.log(convertedDate);
+
+
   
                   // Start AJAX request
                   $.ajax({
@@ -329,8 +328,11 @@ $.ajax({
                       setTimeout(function() {
                         location.reload();
                     }, 1000);
+                    
                     },
-                    error: function (error) {},
+                    error: function (error) {
+                     
+                    },
                   });
             
                 });
@@ -361,9 +363,9 @@ $.ajax({
             },
             success: function(response) {
                 if (response.message) {
-                console.log(response.message);
+               
                } else {
-                console.log("Sale purchase  updated successfully.");
+                
                 }
                 $("#edit_sales_modal").modal("hide");
                 localStorage.removeItem("detail_id");
@@ -377,7 +379,7 @@ $.ajax({
                 
             },
             error: function(xhr, status, error) {
-                console.log("Error: " + error);
+               
                 
                 
                 
@@ -406,9 +408,9 @@ $("#deleteBtnSales").on("click", function() {
         },
         success: function(response) {
             if (response.message) {
-                console.log(response.message);
+                
             } else {
-                console.log("Sale pURCHASE AND STOCK  deleted successfully.");
+                
             }
             $("#delete_sales_modal").modal("hide");
             localStorage.removeItem("saleID");
@@ -421,7 +423,7 @@ $("#deleteBtnSales").on("click", function() {
 
         },
         error: function(error) {
-            console.log("Error: " + error);
+            
 
         }
     });
@@ -460,13 +462,13 @@ $("#deleteBtnSales").on("click", function() {
                   },
   
                   success: function (response) {
-                      console.log(response);
+                     
                       View_ProductsRecord();
                       $("#disable-product").modal("hide");
                       $("#diagMsg").html("User removed");
                   },
                   error: function (error) {
-                      console.log(error);
+                      
                   },
                   });
               });
@@ -598,16 +600,15 @@ $("#deleteBtnSales").on("click", function() {
       context: document.body,
       success: function (response) {
         if (response) {
-          //console.log(response);
+          
           $("#storeboxes").html(response);
         } else {
-          //console.log(response);
+          
           $("#storeboxes").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {
-        // console.log("AJAX request failed!");
-        // console.log("Error:", error);
+        
       },
     });
     // Ajax End!
@@ -636,19 +637,18 @@ $("#deleteBtnSales").on("click", function() {
       context: document.body,
       success: function (response) {
         if (response) {
-          //console.log(response);
+          
           const inventorydata = response.data;
           const typereport = "Store Report of "+inventorydata[0].storename;
           printInventoryReport(inventorydata,typereport);
           
         } else {
-          //console.log(response);
-        console.error('Empty or invalid data received from the server.');
+          
+
         }
       },
       error: function (xhr, status, error) {
-        // console.log("AJAX request failed!");
-        // console.log("Error:", error);
+    
       },
     });
     // Ajax End!
@@ -660,7 +660,7 @@ $("#deleteBtnSales").on("click", function() {
 // }
   
   function RemoveProductID(e) {
-    console.log(e);
+  
     localStorage.setItem("co_id", e);
   }
   
@@ -677,15 +677,14 @@ $("#deleteBtnSales").on("click", function() {
       
     }
     
-    console.log(e);
-    console.log(a);
+  
     localStorage.setItem("co_id", e);
     localStorage.setItem("currentStatus", a);
   }
   
   function SelectEditInventory(id, quantity, alert_quantity, name) {
     
-    console.log(id);
+
 
     $("#quantity").val(quantity);
     $("#alert_quantity").val(alert_quantity);
@@ -695,11 +694,7 @@ $("#deleteBtnSales").on("click", function() {
 
   }
   function getProductTransfer(store_id,id,unit,box,qty) {
-    console.log("store id "+ store_id);
-    console.log("transfer id "+id);
-    console.log("Unit type "+ unit);
-    console.log("box quantity "+box);
-    console.log("item per box "+qty);
+
 
     localStorage.setItem("tras_id", id);
     localStorage.setItem("store_id", store_id);
@@ -709,7 +704,7 @@ $("#deleteBtnSales").on("click", function() {
   }
   
   function SelectDeleteInventory(e, name) {
-    console.log(e);
+   
     $("#product_name").html(name);
     localStorage.setItem("co_id", e);
     }
@@ -724,10 +719,7 @@ $("#deleteBtnSales").on("click", function() {
         $("#editbox_or_carton").val(box_or_carton);
         $("#editquantity").val(quantity);
         
-        console.log("detail_id", detail_id);
-        console.log("product_id", product_id);
-        console.log("box_or_cartone ", box_or_carton);
-     console.log("quantity ", quantity);
+       
         
 }
 
@@ -735,8 +727,7 @@ function getSalesIDremove(detail_id,product_id,){
    localStorage.setItem("detail_id", detail_id);
         localStorage.setItem("product_id", product_id);
       
-        console.log("detail_id ", detail_id);
-        console.log("product_id", product_id);
+       
         
 }
 
@@ -749,11 +740,11 @@ function getSalesIDremove(detail_id,product_id,){
         method: "GET", // Change to GET method
         data: { company: company_ID },
         success: function (response) {
-            console.log(response);
+          
             $("#salespointSelect").html(response);
         },
         error: function (error) {
-            console.log(error);
+            
         }
     });
 }

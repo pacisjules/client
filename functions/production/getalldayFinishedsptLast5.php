@@ -29,7 +29,7 @@ FROM
 finishedproduct FP,
 product_standard PS
 WHERE
-FP.company_id=$company_ID AND FP.standard_code = PS.standard_code  COLLATE utf8mb4_unicode_ci ORDER BY FP.status ASC LIMIT 5;
+FP.company_id=$company_ID AND FP.standard_code = PS.standard_code  COLLATE utf8mb4_unicode_ci ORDER BY FP.created_at DESC LIMIT 5;
 ";
 
 

@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $resultInfosstore = $conn->query($sqlstore);
     $rowInfostore = $resultInfosstore->fetch_assoc();
 
-    $current_store = $rowInfostore['quantity'];
     $container= $rowInfostore['box_or_carton'];
     
     if($container<$box_or_carton){
@@ -57,14 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
        header('HTTP/1.1 201 Created');
-      echo "Update Storedetails successfully.";  
-    }
-    
-    
+      echo "Update Storedetails successfully."; 
 
-    //Get if is in Inventory
 
-    $sqlCHECKin = "SELECT COUNT(*) AS NUMBER FROM inventory WHERE product_id=$product_id AND spt_id=$spt";
+
+
+    $sqlCHECKin = "SELECT COUNT(*) AS NUMBER FROM inventory WHERE product_id=$product_id";
     
     $resultIn = $conn->query($sqlCHECKin);
 
@@ -106,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   
     }else{
     //Get current Quantity
-    $sqlcurrent = "SELECT * FROM inventory WHERE product_id=$product_id AND spt_id=$spt";
+    $sqlcurrent = "SELECT * FROM inventory WHERE product_id=$product_id";
     $resultInfos = $conn->query($sqlcurrent);
     $rowInfos = $resultInfos->fetch_assoc();
 
@@ -121,8 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sqlup = "UPDATE 
              inventory 
             SET 
-            quantity='$remain'
-        WHERE product_id=$product_id AND spt_id=$spt";
+            quantity='$remain',
+            spt_id='$spt',
+            company_ID='$company'
+        WHERE product_id=$product_id";
 
 
     if ($conn->query($sqlup) === TRUE) {
@@ -146,7 +145,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('HTTP/1.1 500 Internal Server Error FAIL TO INSERT QUANTITY CHECH PHP CODES AND DATABASE');
         echo "Error: " . $sql . "<br>" . $conn->error;
     } 
+    } 
     }
+    
+    
+
+    //Get if is in Inventory
+
 }
 
 }
