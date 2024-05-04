@@ -229,7 +229,9 @@ $(document).ready(function () {
     var amountPaid = parseInt($("#editamountpaid").val(), 10);
         var sales_point_id = localStorage.getItem("SptID"); 
          var debt_id = localStorage.getItem("debt_id"); 
-        
+         var use_type = localStorage.getItem("UserType");
+
+         if(use_type === "BOSS"){
 
         $.ajax({
             type: "POST",
@@ -261,6 +263,10 @@ $(document).ready(function () {
                     }, 1000);
             },
         });
+      }else{
+        $("#edit_debts_modal").modal("hide");
+        $("#notallowedmodal").modal("show");
+      }
     });            
 
 
@@ -271,6 +277,9 @@ $(document).ready(function () {
   var amountPaid = localStorage.getItem("debt_amount_paid");
       var sales_point_id = localStorage.getItem("SptID"); 
        var debt_id = localStorage.getItem("debt_id"); 
+       var use_type = localStorage.getItem("UserType");
+
+       if(use_type === "BOSS"){
       
 
       $.ajax({
@@ -303,6 +312,10 @@ $(document).ready(function () {
                   }, 1000);
           },
       });
+    }else{
+      $("#payoneitem_modal").modal("hide");
+      $("#notallowedmodal").modal("show");
+    }
   });            
 
 
@@ -311,9 +324,10 @@ $(document).ready(function () {
   $("#RemoveDebts").click(function () {
       
          var debt_id = localStorage.getItem("debt_id"); 
-        
+         var use_type = localStorage.getItem("UserType");
 
-        $.ajax({
+         if(use_type === "BOSS"){
+          $.ajax({
             type: "POST",
             url: "functions/debts/removedebt.php", // Replace with the actual URL of your PHP script
             data: {
@@ -339,6 +353,13 @@ $(document).ready(function () {
                     }, 1000);
             },
         });
+         }else{
+          $("#delete_debts_modal").modal("hide");
+          $("#notallowedmodal").modal("show");
+         }
+        
+
+        
     });            
 
 
@@ -357,7 +378,10 @@ $(document).ready(function () {
         var descriptions = "updated"; // Add an input field for descriptions if not present
         var sales_point_id = localStorage.getItem("SptID");
         var use_id= parseInt(localStorage.getItem("UserID"));
-        var customer_idd = localStorage.getItem("customer_id"); 
+        var customer_idd = localStorage.getItem("customer_id");
+        var use_type = localStorage.getItem("UserType");
+
+         if(use_type === "BOSS"){ 
 
         $.ajax({
             type: "POST",
@@ -389,6 +413,10 @@ $(document).ready(function () {
                     }, 1000);
             },
         });
+      }else{
+        $("#paytranche_modal").modal("hide");
+        $("#notallowedmodal").modal("show");
+      }
     });            
 
 
@@ -399,6 +427,9 @@ $(document).ready(function () {
         var descriptions = "Paid in full"; // Add a description as needed
         var sales_point_id = localStorage.getItem("SptID");
         var use_id= parseInt(localStorage.getItem("UserID"));
+        var use_type = localStorage.getItem("UserType");
+
+         if(use_type === "BOSS"){ 
 
         $.ajax({
             type: "POST",
@@ -426,6 +457,10 @@ $(document).ready(function () {
                 console.log(error);
             },
         });
+      }else{
+        $("#payfull_modal").modal("hide");
+        $("#notallowedmodal").modal("show");
+      }
     });
 
 
