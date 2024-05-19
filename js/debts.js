@@ -306,18 +306,18 @@ $(document).ready(function () {
               $("#payoneitem_modal").modal("hide");
               $("#successmodal").modal("show");
              
-                setTimeout(function() {
-                      location.reload();
-                  }, 1000);
+                // setTimeout(function() {
+                //       location.reload();
+                //   }, 1000);
           },
           error: function (xhr, status, error) {
               // Handle errors here, e.g., show an error message
               console.log(error);
               $("#payoneitem_modal").modal("hide");
               $("#errormodal").modal("show");
-                setTimeout(function() {
-                      location.reload();
-                  }, 1000);
+                // setTimeout(function() {
+                //       location.reload();
+                //   }, 1000);
           },
       });
       
