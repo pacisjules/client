@@ -64,7 +64,7 @@ include('getuser.php');
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <div>
-                         <a class="nav-link active" href="finishedproduct.php">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
+                         <a class="nav-link active" href="finishedproduct">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a>   
                      <h1 class="text-dark mb-4" style="font-weight: bold;font-size: 30px;">Packing Products of <span id="product_name"></span></h1>
                         </div>

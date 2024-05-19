@@ -27,7 +27,7 @@ $(document).ready(function () {
     
     
     $("#backtostock").click(function () {
-    window.location.href = `storedetails.php?store_id=${store_id}`;
+    window.location.href = `storedetails?store_id=${store_id}`;
        
     });
     

@@ -53,6 +53,16 @@ while ($row = $result->fetch_assoc()) {
         $icon = "fa fa-check-square text-white";
     }
     
+      $color="green";
+    $is_paid="Paid";
+
+    if($row['Amount']>0){
+      $new = $row['Amount'];
+      $tot += $new;
+      $color="red";
+      $is_paid="";
+    }
+    
      $formattedTotalAmount = number_format($row['Amount']); 
 
     $value .= '
@@ -60,7 +70,7 @@ while ($row = $result->fetch_assoc()) {
         <td>' . $num . '. ' . $row['names'] . '</td>
         <td>' . $row['phone'] . '</td>
         <td>' . $row['address'] . '</td>
-        <td> FRW ' . $formattedTotalAmount . '</td>
+        <td style="color:'.$color.'; font-weight:bold;"> FRW ' . $formattedTotalAmount . ' '.$is_paid.'</td>
         
         <td>' . $row['due_date'] . '</td>
         <td class="d-flex flex-row justify-content-start align-items-center">

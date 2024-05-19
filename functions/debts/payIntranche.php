@@ -1,6 +1,9 @@
 <?php
 require_once '../connection.php';
 require_once '../debtssystemhistory.php';
+require_once '../vendor/autoload.php';
+use GuzzleHttp\Client;
+$client = new Client();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST["id"];
@@ -10,21 +13,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $spt = $_POST['spt'];
     $user_id = $_POST['user_id'];
     
+   
+    
+    // Retrieve the POST data
+    $qty = $POST['qty'];
+    $amount = $_POST['amount'];
+    $amount_paid = $_POST['amount_paid'];
+    $sales_point_id = $_POST['sales_point_id'];
+    
     // Check if the entered amount is greater than the total debt
     $sql_total_debt = "SELECT SUM(amount - amount_paid) as total_debt FROM debts WHERE customer_id = $id AND status = 1";
     $total_debt_result = $conn->query($sql_total_debt);
     $total_debt_row = $total_debt_result->fetch_assoc();
     $total_debt = $total_debt_row['total_debt'];
     $balance = $total_debt - $amount;
-
-    if ($amount > $total_debt) {
-        header('HTTP/1.1 400 Bad Request');
-        echo "Paid amount exceeds total debt.";
-        return;
-    }
-    
     
     debtHistory($user_id, $id, "Pay in Installment", $amount, $balance, $spt);
+    
+   
+     
     
     
     // Fetch all debts for the customer ordered by lowest remaining amount first
@@ -55,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             $sql_update = "UPDATE debts SET amount_paid = $new_paid_amount, status = $status WHERE id = $debt_id";
+            
             if ($conn->query($sql_update) !== TRUE) {
                 header('HTTP/1.1 500 Internal Server Error');
                 echo "Error updating debt record: " . $conn->error;
@@ -67,17 +75,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // If the paid amount is fully utilized, break out of the loop
             if ($amount <= 0) {
                 break;
+    
+}
+
+    if ($amount > $total_debt) {
+        header('HTTP/1.1 400 Bad Request');
+        echo "Paid amount exceeds total debt.";
+        return;
+    }
             }
         }
-    }
 
     // Calculate the remaining balance
     
-    
-    // Add a new entry to the debt history
    
     // Respond with success message and updated debt records
     header('HTTP/1.1 201 Created');
     echo json_encode(['message' => 'Debt paid successfully.', 'balance' => $balance]);
+    
 }
 ?>

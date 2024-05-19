@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Production Details - SellEASEP</title>
+    <title>Courses Details - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -17,7 +17,7 @@ include('getuser.php');
     <link rel="icon" href="icon.jpg" type="image/x-icon">
 
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
-    <script src="js/production.js"></script>
+    <script src="js/departements.js"></script>
 
 </head>
 
@@ -30,23 +30,24 @@ include('getuser.php');
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <div>
-                         <a class="nav-link active" href="finishedproduct">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
+                         <a class="nav-link active" href="departments">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a>   
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Production Details of <span id="product_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Courses Details of <span id="departement_name"></span></h3>
+                     <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Director: <span id="chef_dept"></span></h4>
+                      <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Tel: <span id="chef_tel"></span></h4>
                         </div>
                         
-                   <!--<div>-->
+                   <div>
                        
-                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Amount Due: <span id="dbt_amount" ></span></h4>-->
-                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Paid Amount: <span id="paid_amount"></span></h4>-->
-                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Balance: <span id="tot_balance"></span></h4>-->
-                   <!--</div>     -->
+                   <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_new_courses" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Record New Course</button>
+                      
+                   </div>    
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">Production Details Information</p>
+                            <p class="text-primary m-0 fw-bold">Courses Details Information</p>
                             <!--<div>-->
-                             <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getProductionDetails">Details Report</button>
+                             <!-- <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getProductionDetails">Details Report</button> -->
                             <!--<button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Debts Report</button>   -->
                             <!--</div>-->
                             
@@ -67,29 +68,34 @@ include('getuser.php');
                                             </select>&nbsp;</label></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchCustomer"></label></div>
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchprogramdetail"></label></div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Row Material Name</th>
-                                            <th>Used Quantity</th>
-                                            <th>Unit</th>
+                                            <th style="font-size: 11px;">COURSE NAME</th>
+                                            <th style="font-size: 11px;">COURSE CODE</th>
+                                            <th style="font-size: 11px;">DURATION</th>
+                                            <th style="font-size: 11px;">TRAINER</th>
 
-                                            <th style="font-size: 11px;">Produced Time</th>
+                                            <th style="font-size: 11px;">DONE AT</th>
+                                            <th style="font-size: 11px;">ACTION</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="detail_table">
+                                    <tbody id="courses_table">
                                         
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>Row Material Name</strong></td>
-                                            <td><strong>Used Quantity</strong></td>
-                                            <td><strong>Unit</strong></td>
-                                            <td><strong style="font-size: 11px;">Produced Time</strong></td>
+                                            <td style="font-size: 11px;"><strong>COURSE NAME</strong></td>
+                                            <td style="font-size: 11px;"><strong>PROGRAM DURATION</strong></td>
+                                            <td style="font-size: 11px;"><strong>COURSE CODE</strong></td>
+                                            <td style="font-size: 11px;"><strong>DURATION</strong></td>
+                                            <td style="font-size: 11px;"><strong>TRAINER</strong></td>
+                                            <td style="font-size: 11px;"><strong style="font-size: 11px;">DONE AT</strong></td>
+                                            <td style="font-size: 11px;"><strong style="font-size: 11px;">ACTION</strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -134,21 +140,41 @@ include('getuser.php');
             </div>
         </div>
     </div>
-    
-    <div class="modal fade" role="dialog" tabindex="-1" id="paytranche_modal">
+
+<div class="modal fade" role="dialog" tabindex="-1" id="add_new_courses">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Pay debts of <span id="custne"></span> in Installments</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Add New Course</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; you can pay debts in Installments.</p>
+                    <p>Here&nbsp; Add new Course.</p>
                     <form>
-                        <label class="form-label" style="margin-top: 12px;">Enter Amount</label>
-                        <input class="form-control" type="number" id="amountpaid">
+                    <label class="form-label" style="margin-top: 12px;">Course Name</label><input class="form-control" type="text" id="coursename" required>
+                    <label class="form-label" style="margin-top: 12px;">Course Code</label><input class="form-control" type="text" id="coursecode" required>
+                    <label class="form-label" style="margin-top: 12px;">Course Duration</label><input class="form-control" type="text" id="courseduration" required>
+                    
+                </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="RecordCourse">Record Course</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="addcoursetotrainer">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Course of <span  style="color:green;" id="course"></span> to a Trainer </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; you can Assign the Course to a Trainer .</p>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Select Trainer</label>
+                        <select class="form-control" id="trainerSelect"></select>
                     </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="paytranchedebt">Finish</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="AssignTrainer">Assign Trainer</button></div>
             </div>
         </div>
     </div>
@@ -182,17 +208,20 @@ include('getuser.php');
         </div>
     </div>
     
-    <div class="modal fade" role="dialog" tabindex="-1" id="edit_product_modal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="edit_stand_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Edit This row material </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp;are for Edit Product.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Description</label><textarea class="form-control"></textarea></form>
+                    <p>Here&nbsp;are for Edit row material.</p>
+                    <form>
+                    <label class="form-label" style="margin-top: 12px;">Quantity</label>
+                    <input class="form-control" type="number" id="row_qty">
+                    </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="updaterowmaterial">Edit</button></div>
             </div>
         </div>
     </div>

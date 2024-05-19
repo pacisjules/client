@@ -1,177 +1,194 @@
 $(document).ready(function () {
-  var store_id = getParameterByName('store_id');   
-  var product_id = getParameterByName('product_id'); 
-
+    
+  var dep_id = getParameterByName('dep_id'); 
   
-    View_StoreRecord(); 
-    DisableProductID();
+ 
+  View_DepartmentRecord(); 
+    // DisableProductID();
 
-    SelectEditInventory();
-    SelectDeleteInventory();
+    // SelectEditInventory();
+    // SelectDeleteInventory();
+    // populateSalespoints();
+    // getProductTransfer();
     
       
-    $('#searchPurchaseDetail').on('keyup', filterTableRowsStore);
+    $('#searchprogramdetail').on('keyup', filterTableRowsStore);
   
      function filterTableRowsStore() {
-      const searchValue = $('#searchPurchaseDetail').val().toLowerCase();
-      $('#purchasedetail_table tr').filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -5);
+      const searchValue = $('#searchprogramdetail').val().toLowerCase();
+      $('#programdetail_table tr').filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
       });
   }
+   
+  
+  
+
+
+
+
+    // $("#storereport").click(function () {
     
-    $("#generateInventoryReport").click(function () {
+    //   View_inventoryRecordPrint(store_id);
+     
+    // });
     
-      View_inventoryRecordPrint();
-      console.log("print"); 
-    });
+    
+    
     
     
     $("#backtostock").click(function () {
-    window.location.href = `storedetails?store_id=${store_id}`;
+    window.location.href = `trainers.php?dep_id=${dep_id}`;
        
     });
     
   
   
-  var company_ID = localStorage.getItem("CoID");
+
+  
 
   // Make an AJAX request to fetch data by customer_id
   $.ajax({
-    url: `functions/multistore/getPurchaseProductDetails.php?company=${company_ID}&store_id=${store_id}&product_id=${product_id}`,
+    url: `functions/departements/getallProgramsByDepartment.php?dep_id=${dep_id}`,
     method: 'GET',
     success: function(data) {
       // Handle the data received from the AJAX request and display it in the table
       var html = '';
-      var priceperitem = 0;
-      var productname = data.data[0].name;
-      var totalpurchase = new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(data.data[0].totalpurchase));
-     
-       var num = 0; 
-       sumtotal = 0;                      
+      var departement_name = data.data[0].departement_name;
+      var chef_dept = data.data[0].chef_dept;
+      var chef_tel = data.data[0].chef_tel;
+       var num = 0;                       
       $.each(data.data, function(index, item) {
-          
         num += 1; 
-        var qty = item.quantity;
-        var cont = item.container
-        var boxprice = item.price_per_unity;
-        var priceperitem = boxprice /qty;
-        var totpurch = boxprice * cont;
-
-        sumtotal += totpurch;
-          
           
         html += '<tr>';
-        html += '<td>'+num+'. ' + item.name + '</td>';
-         html += '<td> ' + item.unit + '</td>';
-          html += '<td>' + item.container + '</td>';
-        html += '<td>' + item.quantity + '</td>';
-        html += '<td>' + new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(priceperitem)) + '</td>';
-        html += '<td>' + new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(item.price_per_unity)) + '</td>';
-        html += '<td>' + new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "RWF",
-                              }).format(parseFloat(totpurch)) + '</td>';
-        html += '<td>' + item.names + '</td>';
-        html += '<td>' + item.phone + '</td>';
-        html += '<td>' + item.purchase_date + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.product_id}','${item.quantity}','${item.price_per_unity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.product_id}')" "><i class="fa fa-trash"></i></button>
+        html += '<td>'+num+'. ' + item.programtype + '</td>';
+        html += '<td>' + item.program_duration + '</td>';
+        html += '<td>' + item.from_time + '</td>';
+        html += '<td>' + item.to_time + '</td>';
+        html += '<td>' + item.created_at + '</td>';
+        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.program_id }','${item.programtype}','${item.program_duration	}','${item.from_time}','${item.to_time	}','${dep_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.program_id}','${dep_id}')" "><i class="fa fa-trash"></i></button> 
+           
          </td> `; 
         html += '</tr>';
       });
-      $('#purchasedetail_table').html(html);
-      $('#productname').html(productname);
-      $('#totalpurchase').html(new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "RWF",
-    }).format(parseFloat(sumtotal)));
-     
+      $('#programdetail_table').html(html);
+      $('#departement_name').html(departement_name);
+      $('#chef_dept').html(chef_dept);
+      $('#chef_tel').html(chef_tel);
       
     },
     error: function() {
-      alert('An error occurred while fetching debt details.');
+      console.log('An error occurred while fetching department programs.');
     }
   });
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  //   var spt = localStorage.getItem("CoID");
-    
-  //    // Make an AJAX request to fetch data by customer_id
-  // $.ajax({
-  //   url: `functions/multistore/getPurchaseProductDetailsspt.php?spt=${spt}&product_id=${product_id}`,
-  //   method: 'GET',
-  //   success: function(data) {
-  //     // Handle the data received from the AJAX request and display it in the table
-  //     var html = '';
-  //     var priceperitem = 0;
-  //     var productname = data.data[0].name;
-  //     var totalpurchase = new Intl.NumberFormat("en-US", {
-  //                                 style: "currency",
-  //                                 currency: "RWF",
-  //                             }).format(parseFloat(data.data[0].totalpurchase));
-     
-  //      var num = 0;                       
-  //     $.each(data.data, function(index, item) {
+   // Make an AJAX request to fetch data by customer_id
+   $.ajax({
+    url: `functions/departements/getallCoursesByDepartment.php?dep_id=${dep_id}`,
+    method: 'GET',
+    success: function(data) {
+      // Handle the data received from the AJAX request and display it in the table
+      var html = '';
+      var departement_name = data.data[0].departement_name;
+      var chef_dept = data.data[0].chef_dept;
+      var chef_tel = data.data[0].chef_tel;
+      var course_name = data.data[0].course_name;
+       var num = 0;                       
+      $.each(data.data, function(index, item) {
+        num += 1; 
           
-  //       num += 1; 
-  //       var qty = item.quantity;
-  //       var boxprice = item.price_per_unity;
-  //       priceperitem = boxprice /qty;
-          
-          
-  //       html += '<tr>';
-  //       html += '<td>'+num+'. ' + item.name + '</td>';
-  //        html += '<td> ' + item.unit + '</td>';
-  //         html += '<td>' + item.container + '</td>';
-  //       html += '<td>' + item.quantity + '</td>';
-  //       html += '<td>' + new Intl.NumberFormat("en-US", {
-  //                                 style: "currency",
-  //                                 currency: "RWF",
-  //                             }).format(parseFloat(priceperitem)) + '</td>';
-  //       html += '<td>' + new Intl.NumberFormat("en-US", {
-  //                                 style: "currency",
-  //                                 currency: "RWF",
-  //                             }).format(parseFloat(item.price_per_unity)) + '</td>';
-  //       html += '<td>' + new Intl.NumberFormat("en-US", {
-  //                                 style: "currency",
-  //                                 currency: "RWF",
-  //                             }).format(parseFloat(item.total_price)) + '</td>';
-  //       html += '<td>' + item.names + '</td>';
-  //       html += '<td>' + item.phone + '</td>';
-  //       html += '<td>' + item.purchase_date + '</td>';
-  //       html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.product_id}','${item.quantity}','${item.price_per_unity}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.product_id}')" "><i class="fa fa-trash"></i></button>
-  //        </td> `; 
-  //       html += '</tr>';
-  //     });
-  //     $('#purchasedetail_table').html(html);
-  //     $('#productname').html(productname);
-  //     $('#totalpurchase').html(totalpurchase);
-     
+        html += '<tr>';
+        html += '<td>'+num+'. ' + item.course_name + '</td>';
+        html += '<td>' + item.course_code + '</td>';
+        html += '<td>' + item.duration + '</td>';
+        html += '<td>' + item.full_name + '</td>';
+        html += '<td>' + item.created_at + '</td>';
+        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.course_id}','${item.course_name}','${item.course_code	}','${item.duration}','${dep_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.course_id}','${dep_id}')" "><i class="fa fa-trash"></i></button> 
+        <button class="btn btn-primary" type="button" style="margin-left: 20px;" data-bs-target="#addcoursetotrainer" data-bs-toggle="modal" onclick="getAllToAssign('${item.course_id}','${dep_id}')" "><i class="fas fa-link"></i>
+        &nbsp;Add Trainer</button> 
+           
+         </td> `; 
+        html += '</tr>';
+      });
+      $('#courses_table').html(html);
+      $('#departement_name').html(departement_name);
+      $('#chef_dept').html(chef_dept);
+      $('#chef_tel').html(chef_tel);
+      $('#course').html(course_name);
       
-  //   },
-  //   error: function() {
-  //     alert('An error occurred while fetching debt details.');
-  //   }
-  // });
-    
-    
+    },
+    error: function() {
+      console.log('An error occurred while fetching courses info.');
+    }
+  });
+
+
+
+
+    // Make an AJAX request to fetch data by customer_id
+    $.ajax({
+      url: `functions/departements/getallTrainerssByDepartment.php?dep_id=${dep_id}`,
+      method: 'GET',
+      success: function(data) {
+        // Handle the data received from the AJAX request and display it in the table
+        var html = '';
+        var departement_name = data.data[0].departement_name;
+        var chef_dept = data.data[0].chef_dept;
+        var chef_tel = data.data[0].chef_tel;
+         var num = 0;                       
+        $.each(data.data, function(index, item) {
+          num += 1; 
+            
+          html += '<tr>';
+          html += '<td>'+num+'. ' + item.full_name + '</td>';
+          html += '<td>' + item.phone + '</td>';
+          html += '<td>' + item.address + '</td>';
+          html += '<td>' + item.qualification + '</td>';
+          html += '<td>' + item.created_at + '</td>';
+          html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.trainer_id}','${item.full_name}','${item.phone}','${item.address	}','${item.qualification}','${dep_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+          <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.trainer_id}','${dep_id}')" "><i class="fa fa-trash"></i></button> 
+          <a class="nav-link active" href="trainerCourses.php?dep_id=${dep_id}&trainer_id=${item.trainer_id}">
+          <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:10px; margin-left: 18px;min-width: 120px;color:white;font-weight:bold;" type="button">
+              <i class="fas fa-eye"></i>&nbsp; My Courses
+          </button>
+      </a>
+           </td> `; 
+          html += '</tr>';
+        });
+        $('#trainer_table').html(html);
+        $('#departement_name').html(departement_name);
+        $('#chef_dept').html(chef_dept);
+        $('#chef_tel').html(chef_tel);
+        
+      },
+      error: function() {
+        console.log('An error occurred while fetching courses info.');
+      }
+    });
+
+
+    $.ajax({
+      url: "functions/departements/getTrainerFoAssign.php",
+      method: "GET", // Change to GET method
+      data: { dep_id: dep_id },
+      success: function (response) {
+        
+          $("#trainerSelect").html(response);
+      },
+      error: function (error) {
+          
+      }
+  });
+     
+  
+
+
+
+
     
     
       // Function to get URL query parameters
@@ -188,275 +205,379 @@ $(document).ready(function () {
     
     
     
-    $(function () {
-    // Open the datepicker when the button is clicked
-    $("#pickDateButton").on("click", function () {
-        $("#datepicker").datepicker("show");
-    });
+//     $(function () {
+//     // Open the datepicker when the button is clicked
+//     $("#pickDateButton").on("click", function () {
+//         $("#datepicker").datepicker("show");
+//     });
 
-    // Initialize the datepicker
-    $("#datepicker").datepicker({
-        onSelect: function (dateText) {
-            function convertDateFormat(dateText) {
-                const dateParts = dateText.split("/");
-                const month = dateParts[0];
-                const day = dateParts[1];
-                const year = dateParts[2];
+//     // Initialize the datepicker
+//     $("#datepicker").datepicker({
+//         onSelect: function (dateText) {
+//             function convertDateFormat(dateText) {
+//                 const dateParts = dateText.split("/");
+//                 const month = dateParts[0];
+//                 const day = dateParts[1];
+//                 const year = dateParts[2];
 
-                const formattedDate =
-                    year +
-                    "-" +
-                    month.toString().padStart(2, "0") +
-                    "-" +
-                    day.toString().padStart(2, "0");
+//                 const formattedDate =
+//                     year +
+//                     "-" +
+//                     month.toString().padStart(2, "0") +
+//                     "-" +
+//                     day.toString().padStart(2, "0");
 
-                return formattedDate;
-            }
+//                 return formattedDate;
+//             }
 
-            var formattedDate = convertDateFormat(dateText);
-            console.log("picking date: " + formattedDate);
+//             var formattedDate = convertDateFormat(dateText);
+            
 
-             var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
+//              var company_ID = localStorage.getItem("CoID");
+   
   
-    // Ajax Start!
+//     // Ajax Start!
 
-    $.ajax({
-      url:`functions/inventory/getaddinghistory.php?date=${formattedDate}&spt=${sales_point_id}`,
-      method: "POST",
-      context: document.body,
-      success: function(response) {
-        try {
-            console.log("Success Response: ", response);
+//     $.ajax({
+//       url:`functions/multistore/getTransferReport.php?date=${formattedDate}&company=${company_ID}`,
+//       method: "POST",
+//       context: document.body,
+//       success: function(response) {
+//         try {
+           
 
-            if (response.data && response.data.length > 0) {
-                 const historydata = response.data;
-                 console.log(historydata);
-                 const typereport =  "Adding History Report";
-                 printInventoryhistory(historydata,typereport);
-             }
-        } catch (e) {
-            console.error("Error handling response: ", e);
-            // Handle the error or display an error message to the user
-        }
+//             if (response.data && response.data.length > 0) {
+//                  const historydata = response.data;
+                 
+//                  const typereport =  "Transfer History Report on "+formattedDate;
+//                  printInventoryhistory(historydata,typereport);
+//              }
+//         } catch (e) {
+//             console.error("Error handling response: ", e);
+//             // Handle the error or display an error message to the user
+//         }
+//     },
+//     error: function(xhr, status, error) {
+//         console.error("ERROR Response: ", error);
+//         // Handle the error or display an error message to the user
+//     },
+//     });
+//         }
+//     });
+// });
+
+
+    
+    
+    
+    
+//     $(function () {
+//           // Initialize the date range picker
+//           $('#daterange').daterangepicker({
+//               opens: 'left',
+//               locale: {
+//                   format: 'MM/DD/YYYY'
+//               }
+//           });
+
+//           // Handle the date range selection
+//           $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+//               const startDate = picker.startDate.format('YYYY-MM-DD');
+//               const endDate = picker.endDate.format('YYYY-MM-DD');
+             
+               
+//           var company_ID = parseInt(localStorage.getItem("CoID"));
+
+
+//           // Make the AJAX request
+// $.ajax({
+//       url:`functions/multistore/getTransferReportFromTo.php?startDate=${startDate}&endDate=${endDate}&company=${company_ID}`,
+//       method: "POST",
+//       context: document.body,
+//       success: function(response) {
+//         try {
+            
+
+//             if (response.data && response.data.length > 0) {
+//                  const historydata = response.data;
+                 
+//                  const typereport =  "Transfer History Report From "+startDate+" To "+endDate;
+//                  printInventoryhistory(historydata,typereport);
+//              }
+//         } catch (e) {
+//             console.error("Error handling response: ", e);
+//             // Handle the error or display an error message to the user
+//         }
+//     },
+//     error: function(xhr, status, error) {
+//         console.error("ERROR Response: ", error);
+//         // Handle the error or display an error message to the user
+//     },
+//     });
+        
+
+
+//           });
+
+//           // Handle the button click event to open the date range picker
+//           $('#Pickdaterangebtn').on('click', function () {
+//               $('#daterange').click();
+//           });
+          
+          
+          
+//       });
+ 
+
+
+$("#AddNewTrainer").click(function () {
+  // Retrieve values from input fields
+  var fullname = $("#fullname").val();
+  var phone = $("#phone").val();
+  var address = $("#address").val();
+  var qualification = $("#qualification").val();
+  var user_id = localStorage.getItem("UserID");
+
+  
+ // Start AJAX request
+  $.ajax({
+    url: "functions/departements/addnewtrainer.php",
+    method: "POST",
+    data: {
+      dep_id: dep_id,
+      fullname: fullname,
+      phone: phone,
+      address:address,
+      qualification:qualification,
+      user_id:user_id,
+
     },
-    error: function(xhr, status, error) {
-        console.error("ERROR Response: ", error);
-        // Handle the error or display an error message to the user
+    success: function (response) {
+      $("#add_new_trainer").modal("hide");
+      $("#successmodal").modal("show");
+      setTimeout(function() {
+        location.reload();
+    }, 1000);
+    console.log(response)
     },
-    });
-        }
-    });
+    error: function (error) {
+      $("#errormodal").modal("show");
+    },
+  });
+
+});   
+
+$("#RecordCourse").click(function () {
+  // Retrieve values from input fields
+  var coursename = $("#coursename").val();
+  var coursecode = $("#coursecode").val();
+  var courseduration = $("#courseduration").val();
+  var user_id = localStorage.getItem("UserID");
+
+  
+ // Start AJAX request
+  $.ajax({
+    url: "functions/departements/addnewcourse.php",
+    method: "POST",
+    data: {
+      dep_id: dep_id,
+      coursename: coursename,
+      coursecode: coursecode,
+      courseduration:courseduration,
+      user_id:user_id,
+
+    },
+    success: function (response) {
+      $("#add_new_courses").modal("hide");
+      $("#successmodal").modal("show");
+      setTimeout(function() {
+        location.reload();
+    }, 1000);
+    console.log(response)
+    },
+    error: function (error) {
+      $("#errormodal").modal("show");
+    },
+  });
+
+});   
+
+$("#AddNewprogram").click(function () {
+  // Retrieve values from input fields
+  var programtype = $("#programtype").val();
+  var programduration = $("#programduration").val();
+  var from = $("#from").val();
+  var to = $("#to").val();
+  var user_id = localStorage.getItem("UserID");
+
+  
+ console.log(from);
+
+
+ // Start AJAX request
+  $.ajax({
+    url: "functions/departements/addnewprogram.php",
+    method: "POST",
+    data: {
+      dep_id: dep_id,
+      programtype: programtype,
+      programduration: programduration,
+      from:from,
+      to:to,
+      user_id:user_id,
+
+    },
+    success: function (response) {
+      $("#add_new_program").modal("hide");
+      $("#successmodal").modal("show");
+      setTimeout(function() {
+        location.reload();
+    }, 1000);
+    },
+    error: function (error) {
+      $("#errormodal").modal("show");
+    },
+  });
+
 });
-
-// pick date for editing
-
-
-  $(function () {
-    // Open the datepicker when the button is clicked
-    $("#pickeditButton").on("click", function () {
-        $("#datepickeredit").datepicker("show");
-    });
-
-    // Initialize the datepicker
-    $("#datepickeredit").datepicker({
-        onSelect: function (dateText) {
-            function convertDateFormat(dateText) {
-                const dateParts = dateText.split("/");
-                const month = dateParts[0];
-                const day = dateParts[1];
-                const year = dateParts[2];
-
-                const formattedDate =
-                    year +
-                    "-" +
-                    month.toString().padStart(2, "0") +
-                    "-" +
-                    day.toString().padStart(2, "0");
-
-                return formattedDate;
-            }
-
-            var formattedDate = convertDateFormat(dateText);
-            console.log("picking date: " + formattedDate);
-
-             var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
-  
-    // Ajax Start!
-
-    $.ajax({
-      url:`functions/inventory/geteditinghistory.php?date=${formattedDate}&spt=${sales_point_id}`,
-      method: "POST",
-      context: document.body,
-      success: function(response) {
-        try {
-            console.log("Success Response: ", response);
-
-            if (response.data && response.data.length > 0) {
-                 const historydata = response.data;
-                 console.log(historydata);
-                 const typereport =  "Editing History Report";
-                 printInventoryhistory(historydata,typereport);
-             }
-        } catch (e) {
-            console.error("Error handling response: ", e);
-            // Handle the error or display an error message to the user
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("ERROR Response: ", error);
-        // Handle the error or display an error message to the user
-    },
-    });
-        }
-    });
-});
-
-
-
- $(function () {
-    // Open the datepicker when the button is clicked
-    $("#pickdeleteButton").on("click", function () {
-        $("#datepickerdelete").datepicker("show");
-    });
-
-    // Initialize the datepicker
-    $("#datepickerdelete").datepicker({
-        onSelect: function (dateText) {
-            function convertDateFormat(dateText) {
-                const dateParts = dateText.split("/");
-                const month = dateParts[0];
-                const day = dateParts[1];
-                const year = dateParts[2];
-
-                const formattedDate =
-                    year +
-                    "-" +
-                    month.toString().padStart(2, "0") +
-                    "-" +
-                    day.toString().padStart(2, "0");
-
-                return formattedDate;
-            }
-
-            var formattedDate = convertDateFormat(dateText);
-            console.log("picking date: " + formattedDate);
-
-             var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
-  
-    // Ajax Start!
-
-    $.ajax({
-      url:`functions/inventory/getdeletinghistory.php?date=${formattedDate}&spt=${sales_point_id}`,
-      method: "POST",
-      context: document.body,
-      success: function(response) {
-        try {
-            console.log("Success Response: ", response);
-
-            if (response.data && response.data.length > 0) {
-                 const historydata = response.data;
-                 console.log(historydata);
-                 const typereport =  "Deleting History Report";
-                 printInventoryhistory(historydata,typereport);
-             }
-        } catch (e) {
-            console.error("Error handling response: ", e);
-            // Handle the error or display an error message to the user
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("ERROR Response: ", error);
-        // Handle the error or display an error message to the user
-    },
-    });
-        }
-    });
-});
-
-
-    
-    
-    
-    
-    
-    
-    
     
     
   
-    $("#AddNewStore").click(function () {
+    $("#AddNewDepartment").click(function () {
       // Retrieve values from input fields
-      var storename = $("#storename").val();
-      var storekeeper = $("#storekeeper").val();
-      var address = $("#storeAddress").val();
-      var phone = $("#storephone").val();
+      var department_name = $("#department_name").val();
+      var chefDepartment = $("#chefDepartment").val();
+      var cheftel = $("#cheftel").val();
   
       // Retrieve values from localStorage
       var company_ID = localStorage.getItem("CoID");
+      var spt_id = localStorage.getItem("SptID");
+      var user_id = localStorage.getItem("UserID");
  
   
       // Start AJAX request
       $.ajax({
-        url: "functions/multistore/addnewstore.php",
+        url: "functions/departements/addnewdepartements.php",
         method: "POST",
         data: {
-          storename: storename,
-          storekeeper: storekeeper,
-          phone: phone,
-          address: address,
+          department_name: department_name,
+          chefDepartment: chefDepartment,
+          cheftel: cheftel,
           company_ID: company_ID,
+          spt_id: spt_id,
+          user_id:user_id,
 
         },
         success: function (response) {
-          $("#storename").val("");
-          $("#storekeeper").val("");
-          $("#storeAddress").val("");
-          $("#storephone").val("");
-          $("#add_store_modal").modal("hide");
-          View_StoreRecord();
+          $("#department_name").val("");
+          $("#chefDepartment").val("");
+          $("#cheftel").val("");
+          $("#add_new_departement").modal("hide");
+          View_DepartmentRecord();
         },
         error: function (error) {},
       });
 
     });
   
+  
+  $("#transferBtn").click(function () {
     
- $("#editBtnSales").on("click", function() {
-        var stock_id = localStorage.getItem("stock_id");
-        var raw_material_id = localStorage.getItem("raw_material_id");
-        var purchase_date = localStorage.getItem("purchase_date");
-        var quantity = $("#editquantity").val();
-        var prices = $("#editprice").val();
-        var sales_point_id = localStorage.getItem("SptID");
-        var use_id= parseInt(localStorage.getItem("UserID"));
+       function convertDateFormat(duedate) {
+    // Create a new Date object with the selected date
+        var dateObject = new Date(duedate);
+    
+        // Extract the year, month, and day
+        var year = dateObject.getFullYear();
+        var month = ('0' + (dateObject.getMonth() + 1)).slice(-2); // Add 1 because months are zero-based
+        var day = ('0' + dateObject.getDate()).slice(-2);
+    
+        // Combine the parts into the desired format
+        var formattedDate = year + '-' + month + '-' + day;
+    
+        return formattedDate;
+    }
+  
+    
+                  // Retrieve values from input fields
+      var compnay_id = localStorage.getItem("CoID");
+      var sales_point_id = parseInt($("#salespointSelect").val());
+      var product_id = parseInt(localStorage.getItem("tras_id"));
+      var store_id = parseInt(localStorage.getItem("store_id"));
+      var box_or_carton = $("#qty").val();
+      var quantity = localStorage.getItem("item");
+      var unit = localStorage.getItem("unit");
+      var user_id = parseInt(localStorage.getItem("UserID"));
+     var duedate = $("#duedate").val(); 
+     var convertedDate = convertDateFormat(duedate);
+
+
+  
+                  // Start AJAX request
+                  $.ajax({
+                    url: "functions/multistore/transferquantity.php",
+                    method: "POST",
+                    data: {
+                      company: compnay_id,
+                      spt: sales_point_id,
+                      product_id: product_id,
+                      store_id:store_id,
+                      unit:unit,
+                      box_or_carton:box_or_carton,
+                      quantity:quantity,
+                      user_id:user_id,
+                      created_at:convertedDate,
+                    },
+                    success: function (response) {
+                      $("#transfer_modal").modal("hide");
+                      $("#successmodal").modal("show");
+                      setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                    
+                    },
+                    error: function (error) {
+                     
+                    },
+                  });
+            
+                });
+  
+  
+  
+  
+    
+ $("#editBtnStock").on("click", function() {
+        var detail_id = localStorage.getItem("detail_id");
+        var product_id = localStorage.getItem("product_id");
+        var store_id = localStorage.getItem("store_id");
+        var quantitybox = $("#editquantity").val();
+        var box = $("#editbox_or_carton").val();
+        var company_id = localStorage.getItem("CoID");
         
 
         $.ajax({
             type: "POST",
-            url: "functions/rowinventory/updateinventory.php", // Update this with the actual path to your PHP script
+            url: "functions/multistore/updatebigstock.php", // Update this with the actual path to your PHP script
             data: {
-                stock_id: stock_id,
-                raw_material_id: raw_material_id,
-                quantity: quantity,
-                purchase_date: purchase_date,
-                price_per_unity:prices,
-                spt: sales_point_id,
-                user_id: use_id,
+                detail_id: detail_id,
+                product_id: product_id,
+                store_id:store_id,
+                quantity_per_box:quantitybox,
+                box_or_carton: box,
+                company_ID: company_id,
             },
             success: function(response) {
                 if (response.message) {
-                console.log(response.message);
+               
                } else {
-                console.log("Sale purchase  updated successfully.");
+                
                 }
                 $("#edit_sales_modal").modal("hide");
-                localStorage.removeItem("raw_material_id");
-                localStorage.removeItem("purchase_date");
+                localStorage.removeItem("detail_id");
+                localStorage.removeItem("product_id");
                 $("#editquantity").val("");
-                $("#editprice").val("");
+                $("#editbox_or_carton").val("");
                 setTimeout(function() {
                 location.reload();
             }, 1000);
@@ -464,7 +585,7 @@ $(document).ready(function () {
                 
             },
             error: function(xhr, status, error) {
-                console.log("Error: " + error);
+               
                 
                 
                 
@@ -493,9 +614,9 @@ $("#deleteBtnSales").on("click", function() {
         },
         success: function(response) {
             if (response.message) {
-                console.log(response.message);
+                
             } else {
-                console.log("Sale pURCHASE AND STOCK  deleted successfully.");
+                
             }
             $("#delete_sales_modal").modal("hide");
             localStorage.removeItem("saleID");
@@ -508,7 +629,7 @@ $("#deleteBtnSales").on("click", function() {
 
         },
         error: function(error) {
-            console.log("Error: " + error);
+            
 
         }
     });
@@ -547,13 +668,13 @@ $("#deleteBtnSales").on("click", function() {
                   },
   
                   success: function (response) {
-                      console.log(response);
+                     
                       View_ProductsRecord();
                       $("#disable-product").modal("hide");
                       $("#diagMsg").html("User removed");
                   },
                   error: function (error) {
-                      console.log(error);
+                      
                   },
                   });
               });
@@ -673,28 +794,28 @@ $("#deleteBtnSales").on("click", function() {
 
   });
   
-  function View_StoreRecord() {
+  function View_DepartmentRecord() {
     // Retrieve values from localStorage
     var company_ID = localStorage.getItem("CoID");
+    var spt_id = localStorage.getItem("SptID");
   
     // Ajax Start!
 
     $.ajax({
-      url:`functions/multistore/getallCompanyStore.php?company=${company_ID}`,
+      url:`functions/departements/getallDepartments.php?company=${company_ID}&spt_id=${spt_id}`,
       method: "POST",
       context: document.body,
       success: function (response) {
         if (response) {
-          //console.log(response);
+          
           $("#storeboxes").html(response);
         } else {
-          //console.log(response);
+          
           $("#storeboxes").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {
-        // console.log("AJAX request failed!");
-        // console.log("Error:", error);
+        
       },
     });
     // Ajax End!
@@ -709,33 +830,32 @@ $("#deleteBtnSales").on("click", function() {
   
   
   
-   function View_inventoryRecordPrint() {
+   function View_inventoryRecordPrint(store_id) {
     // Retrieve values from localStorage
     var company_ID = localStorage.getItem("CoID");
-    var sales_point_id = localStorage.getItem("SptID");
+    
+    
   
     // Ajax Start!
 
     $.ajax({
-      url:`functions/inventory/getproductsandinventorysptprint.php?company=${company_ID}&spt=${sales_point_id}`,
+      url:`functions/multistore/getallCompanyStoredetailsstock.php?company=${company_ID}&store_id=${store_id}`,
       method: "POST",
       context: document.body,
       success: function (response) {
         if (response) {
-          //console.log(response);
-          const inventorydata = response;
-          const inventorytotal = response.length;
-          const typereport = "Inventory Report";
-          printInventoryReport(inventorydata, inventorytotal,typereport);
+          
+          const inventorydata = response.data;
+          const typereport = "Store Report of "+inventorydata[0].storename;
+          printInventoryReport(inventorydata,typereport);
           
         } else {
-          //console.log(response);
-        console.error('Empty or invalid data received from the server.');
+          
+
         }
       },
       error: function (xhr, status, error) {
-        // console.log("AJAX request failed!");
-        // console.log("Error:", error);
+    
       },
     });
     // Ajax End!
@@ -747,7 +867,7 @@ $("#deleteBtnSales").on("click", function() {
 // }
   
   function RemoveProductID(e) {
-    console.log(e);
+  
     localStorage.setItem("co_id", e);
   }
   
@@ -764,15 +884,14 @@ $("#deleteBtnSales").on("click", function() {
       
     }
     
-    console.log(e);
-    console.log(a);
+  
     localStorage.setItem("co_id", e);
     localStorage.setItem("currentStatus", a);
   }
   
   function SelectEditInventory(id, quantity, alert_quantity, name) {
     
-    console.log(id);
+
 
     $("#quantity").val(quantity);
     $("#alert_quantity").val(alert_quantity);
@@ -781,47 +900,62 @@ $("#deleteBtnSales").on("click", function() {
     localStorage.setItem("co_id", id);
 
   }
-  
+  function getProductTransfer(store_id,id,unit,box,qty) {
+
+
+    localStorage.setItem("tras_id", id);
+    localStorage.setItem("store_id", store_id);
+    localStorage.setItem("item", qty);
+    localStorage.setItem("unit", unit);
+
+  }
   
   function SelectDeleteInventory(e, name) {
-    console.log(e);
+   
     $("#product_name").html(name);
     localStorage.setItem("co_id", e);
     }
   
     
     
-   function getSalesID(stock_id,raw_material_id,purchase_date,quantity,price_per_unity){
-     localStorage.setItem("stock_id", stock_id);
-        localStorage.setItem("raw_material_id", raw_material_id);
-        localStorage.setItem("purchase_date", purchase_date);
+   function getSalesID(detail_id,product_id,box_or_carton,quantity,store_id){
+     localStorage.setItem("detail_id", detail_id);
+        localStorage.setItem("product_id", product_id);
+        localStorage.setItem("store_id", store_id);
+     
+        $("#editbox_or_carton").val(box_or_carton);
         $("#editquantity").val(quantity);
-        $("#editprice").val(price_per_unity);
         
-        console.log("stock_id ", stock_id);
-        console.log("raw_material_id ", raw_material_id);
-        console.log("purchase_date ", purchase_date);
-     console.log("quantity ", quantity);
-        console.log("quantity ", quantity);
+       
+        
 }
 
-function getSalesIDremove(stock_id,raw_material_id,purchase_date){
-   localStorage.setItem("stock_id", stock_id);
-        localStorage.setItem("raw_material_id", raw_material_id);
-        localStorage.setItem("purchase_date", purchase_date);
-        console.log("stock_id ", stock_id);
-        console.log("raw_material_id ", raw_material_id);
-        console.log("purchase_date ", purchase_date);
+function getSalesIDremove(detail_id,product_id,){
+   localStorage.setItem("detail_id", detail_id);
+        localStorage.setItem("product_id", product_id);
+      
+       
+        
 }
 
 
  
+
+
+
+
+
+function getAllToAssign(course_id,dep_id){
+localStorage.setItem("course_id",course_id);
+localStorage.setItem("dep_id",dep_id);
+
+}
     
     
     
     
     
-function printInventoryReport(inventorydata, inventorytotal,typereport) {
+function printInventoryReport(inventorydata,typereport) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -837,6 +971,9 @@ const c_logo = localStorage.getItem("company_logo");
 const c_color =  localStorage.getItem("company_color");
 const nameManager =  localStorage.getItem("Names");
 const salespoint =  localStorage.getItem("spt_name");
+var address = inventorydata[0].address;
+var phone = inventorydata[0].phone;
+var storekeeper = inventorydata[0].storekeeper;
 
 
 let table = '';
@@ -845,9 +982,11 @@ for (let i = 0; i < inventorydata.length; i++) {
   const item = inventorydata[i];
   table += `<tr >
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${i+1}. ${item.name}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.unit}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.box_or_carton}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.quantity}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.alert_quantity}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.last_updated}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.totalitem}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.created_at}</td>
   
 </tr>`;
  
@@ -943,14 +1082,14 @@ for (let i = 0; i < inventorydata.length; i++) {
   
               <tr>
                   <td style="padding-top:20px; font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Manager, ${nameManager} <br> Tel: ${Phone}
+                  StoreKeeper : ${storekeeper} <br> Tel: ${phone}
                 </td>
                 
                   </tr>
   
                   <tr>
                   <td style="font-size: 12px; color: rgb(6, 6, 61); font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Sales Point Location : ${salespoint}
+                  Address : ${address}
                 </td>
                   </tr>
             </tbody>
@@ -1016,13 +1155,16 @@ for (let i = 0; i < inventorydata.length; i++) {
             Product
             </th>
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
-          Quantity
+          Unit
           </th>
-  
-           
-  
+          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
+           Container
+          </th>
+          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
+          Item/Container
+          </th>
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
-            Alert Quantity
+            Total Items
             </th> 
             
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
@@ -1078,7 +1220,7 @@ for (let i = 0; i < inventorydata.length; i++) {
             
           </td>
           <td style="font-size: 14px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
-            <strong>Total Items : ${inventorytotal} </strong>
+            <strong> </strong>
           </td>
         </tr>
           
@@ -1241,8 +1383,12 @@ for (let i = 0; i < historydata.length; i++) {
   const item = historydata[i];
   table += `<tr >
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${i+1}. ${item.full_name}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.action}</td>
-  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.timestamp}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150"> ${item.product_name}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.box_or_carton}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.quantity_per_box}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150"> ${item.storename}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.sales_point_location}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.created_at}</td>
   
 </tr>`;
  
@@ -1410,8 +1556,20 @@ for (let i = 0; i < historydata.length; i++) {
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
             User
             </th>
+            <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
+            Product
+            </th>
+            <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
+                BOX/CARTON
+            </th>
+             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
+                ITEM/BOX
+            </th>
+            <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" align="center" width="150">
+            From
+            </th>
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
-          Action
+          To
           </th>
             
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">

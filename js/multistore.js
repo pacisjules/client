@@ -32,7 +32,7 @@ $(document).ready(function () {
     
     
     $("#backtostock").click(function () {
-    window.location.href = `storedetails.php?store_id=${store_id}`;
+    window.location.href = `storedetails?store_id=${store_id}`;
        
     });
     
@@ -65,12 +65,12 @@ $(document).ready(function () {
   <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707M15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707"/>
 </svg>&nbsp;Transfer</button>
         
-               <a class="nav-link active" href="purchasedetails.php?store_id=${store_id}&product_id=${item.product_id}">
+               <a class="nav-link active" href="purchasedetails?store_id=${store_id}&product_id=${item.product_id}">
                 <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:10px; margin-left: 18px;min-width: 120px;color:white;font-weight:bold;" type="button">
                     <i class="fas fa-eye"></i>&nbsp; Purchase
                 </button>
             </a>
-            <a class="nav-link active" href="transferdetails.php?store_id=${store_id}&product_id=${item.product_id}">
+            <a class="nav-link active" href="transferdetails?store_id=${store_id}&product_id=${item.product_id}">
                 <button class="btn btn-success"  rounded-circle" style="background-color:#ebdbff; border-radius:10px; margin-left: 18px;min-width:120px;color:#4A5699;font-weight:bold;" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed" viewBox="0 0 16 16">
   <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M5 7a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2z"/>

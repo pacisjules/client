@@ -27,7 +27,7 @@ $(document).ready(function () {
     
     
     $("#backtostock").click(function () {
-    window.location.href = `inventory.php?`;
+    window.location.href = `inventory?`;
        
     });
     

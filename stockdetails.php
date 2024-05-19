@@ -31,7 +31,7 @@ include('getuser.php');
                     <div class="d-flex flex-row justify-content-between align-items-center">
                      <div>
                      
-                       <a class="nav-link active" href="rowinventory.php">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
+                       <a class="nav-link active" href="rowinventory">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a> 
                      
                      <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Row Material Stock Details of <span id="customer_name"></span></h3>

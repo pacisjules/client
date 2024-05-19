@@ -69,7 +69,7 @@ while ($row = $result->fetch_assoc()) {
          <button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="RemoveProductID(`'.$myid.'`,`'.$row['product_name'].'`)"><i class="fa fa-trash"></i></button>
          
          
-            <a style="font-size: 12px;margin-left:20px;" class="nav-link active" href="standarddetails.php?session_id=' . $prod_session . '">
+            <a style="font-size: 12px;margin-left:20px;" class="nav-link active" href="standarddetails?session_id=' . $prod_session . '">
                 <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:15px;" type="button">
                     <i class="fas fa-eye" style="font-size:20px; color: white; margin-top:3px;"></i><span style="font-size:15px; color: white; margin-left:13px;">View details</span>
                 </button>

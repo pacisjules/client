@@ -90,14 +90,21 @@ $(document).ready(function () {
         </td>`; // Replace with your action buttons
         html += '</tr>';
       });
+
+      if(data.total_balance>0){
+          $('#tot_balance').css('color', 'red');
+      }else{
+          $('#tot_balance').css('color', 'green');
+      }
+      
       $('#detail_table').html(html);
       $('#customer_name').html(person_names);
       $('#custn').html(person_names);
       $('#custne').html(person_names);
-       $('#dbt_amount').html(totaldebt);
-        $('#paid_amount').html(totalpaid);
-         $('#tot_balance').html(total_balance);
-         $('#product_nam').html(name);
+     $('#dbt_amount').html(totaldebt);
+     $('#paid_amount').html(totalpaid);
+     $('#tot_balance').html(total_balance);
+     $('#product_nam').html(name);
       
     },
     error: function() {
@@ -298,6 +305,7 @@ $(document).ready(function () {
               console.log(response);
               $("#payoneitem_modal").modal("hide");
               $("#successmodal").modal("show");
+             
                 setTimeout(function() {
                       location.reload();
                   }, 1000);
@@ -312,6 +320,9 @@ $(document).ready(function () {
                   }, 1000);
           },
       });
+      
+
+      
     }else{
       $("#payoneitem_modal").modal("hide");
       $("#notallowedmodal").modal("show");
@@ -399,9 +410,7 @@ $(document).ready(function () {
                 console.log(response);
                 $("#paytranche_modal").modal("hide");
                 $("#successmodal").modal("show");
-                  setTimeout(function() {
-                        location.reload();
-                    }, 1000);
+                  
             },
             error: function (xhr, status, error) {
                 // Handle errors here, e.g., show an error message
@@ -413,6 +422,30 @@ $(document).ready(function () {
                     }, 1000);
             },
         });
+        
+        $.ajax({
+          type: "POST",
+          url: "functions/debts/sendsmsintrance.php", // Replace with the actual URL of your PHP script
+          data: {
+               id: customer_idd,
+                amount: amount,
+                descriptions: descriptions,
+                spt: sales_point_id,
+                user_id: use_id,
+              
+          },
+          success: function (response) {
+              // Handle success here, e.g., show a success message
+              console.log(response);
+           setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+          },
+          error: function (xhr, status, error) {
+              // Handle errors here, e.g., show an error message
+              console.log(error);
+          },
+      });
       }else{
         $("#paytranche_modal").modal("hide");
         $("#notallowedmodal").modal("show");
@@ -446,7 +479,7 @@ $(document).ready(function () {
                 console.log(response);
                 $("#payfull_modal").modal("hide");
                 $("#successmodal").modal("show");
-                
+                console.log(response);
                 // Reload the page after a brief delay (optional)
                 setTimeout(function() {
                     location.reload();

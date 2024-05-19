@@ -51,25 +51,31 @@ while ($row = $result->fetch_assoc()) {
         $endis = "green";
         $icon = "fa fa-check-square text-white";
     }
-
+    
+    $color="green";
+    $is_paid="Paid";
 
     if($row['Amount']>0){
       $new = $row['Amount'];
       $tot += $new;
+      $color="red";
+      $is_paid="";
     }
     
      $formattedTotalAmount = number_format($row['Amount']); 
+     
+     
 
     $value .= '
         <tr>
         <td>' . $num . '. ' . $row['names'] . '</td>
         <td>' . $row['phone'] . '</td>
         <td>' . $row['address'] . '</td>
-        <td> FRW ' . $formattedTotalAmount . '</td>
+        <td style="color:'.$color.'; font-weight:bold;"> FRW ' . $formattedTotalAmount . ' '.$is_paid.'</td>
         
         <td>' . $row['due_date'] . '</td>
         <td class="d-flex flex-row justify-content-start align-items-center">
-            <a class="nav-link active" href="debtdetails.php?customer_id=' . $myid . '">
+            <a class="nav-link active" href="debtdetails?customer_id=' . $myid . '">
                 <button class="btn btn-success"  rounded-circle" style="background-color:#040536; border-radius:15px;" type="button">
                     <i class="fas fa-eye" style="font-size:20px; color: white; margin-top:3px;"></i>
                 </button>

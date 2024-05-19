@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/message": "^1.7",
+        "guzzlehttp/psr7": "^1.8"
+    }
+}

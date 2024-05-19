@@ -101,7 +101,7 @@ while ($row = $result->fetch_assoc()) {
             <i class="fa fa-box" style="color: white; font-weight:bold;font-size:10px;"></i>&nbsp; <span style="color: white; font-weight:bold;font-size:10px;">PACKING</span> 
             </button>&nbsp;
         
-            <a class="nav-link active" href="productiondetails.php?session_id=' . $prod_session . '">
+            <a class="nav-link active" href="productiondetails?session_id=' . $prod_session . '">
                 <button class="btn btn-light"  rounded-circle" style="background-color:#a9e7e8; border-radius:5px;font-size: 5px;" type="button">
                     <i class="fas fa-eye" style="font-size:10px; color: black; margin-top:3px;"></i>&nbsp;<span style="font-size:10px; color: black;">DETAILS</span>
                 </button>

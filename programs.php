@@ -7,43 +7,17 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Store Details - SellEASEP</title>
+    <title>Programs Details - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
-   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" href="icon.jpg" type="image/x-icon">
+
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-    <script src="js/multistore.js"></script>
-    
-    
-    <script>
-       function convertAndSetDate() {
-    // Get the value of the date input
-    var selectedDate = document.getElementById('duedate').value;
-
-    // Check if a valid date is selected
-    if (selectedDate) {
-        // Convert the selected date to the desired format (YYYY-MM-DD)
-        var formattedDate = convertDateFormat(selectedDate);
-
-        // Set the formatted date back to the input field
-        document.getElementById('duedate').value = formattedDate;
-    }
-}
-   </script>
-    
-    
+    <script src="js/departements.js"></script>
 
 </head>
 
@@ -55,58 +29,34 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                     <div>
-                     
-                       <a class="nav-link active" href="multistore">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
-                     &nbsp;Back</button></a> 
-                     
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Store Name =  <span id="storename"></span></h3>
-                     <p class="text-dark mb-4" style="color:black"> Managed by = <span id="storekeeper"></span></p>
-                     <p class="text-dark mb-4" style="color:black"> Phone Contact = <span id="storephone"></span></p>
-                   </div>
-                         
+                        <div>
+                         <a class="nav-link active" href="departments">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
+                     &nbsp;Back</button></a>   
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Programs Details of <span id="departement_name"></span></h3>
+                     <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Director: <span id="chef_dept"></span></h4>
+                      <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Tel: <span id="chef_tel"></span></h4>
+                        </div>
                         
                    <div>
-                       <!--<h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Row Material Stock Details of <span id="customer_name"></span></h3>-->
+                       
+                   <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_new_program" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New Program</button>
                       
-                   </div> 
-                   
-                   
-                     
-                     
-                     
+                   </div>    
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">Store Details Information</p>
-                            <button class="btn btn-warning" style="font-size: 15px; font-weight: bold;"  id="pickDateButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
-  <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm15-1V3h-2V1h-2v2H6V1H4v2H2V0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V0h-1zM7 15v-2h2v2H7zm5-10H4V3h8v2z"/>
-  <path d="M11.354 6.354a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 0 .708L9 9.707l1.354 1.353a.5.5 0 0 0 .708-.708L9.707 10l1.353-1.354a.5.5 0 0 0 0-.708z"/>
-</svg>
-&nbsp;Pick Date Transfer Report</button>
-                            <button class="btn btn-success" style="font-size: 15px; font-weight: bold;"  id="Pickdaterangebtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-range" viewBox="0 0 16 16">
-  <path d="M1 3.5a.5.5 0 0 1 1 0V13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V3.5a.5.5 0 0 1 1 0V13a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3.5zM14 3a2 2 0 0 1 2 2V13a.5.5 0 0 1-1 0V5a1 1 0 0 0-1-1H5a.5.5 0 0 1 0-1H13z"/>
-  <path d="M7.5 11.5a.5.5 0 0 1 1 0V13a.5.5 0 0 1-1 0v-1.5zM9.5 11.5a.5.5 0 0 1 1 0V13a.5.5 0 0 1-1 0v-1.5z"/>
-  <path d="M3 1h1V0H3a2 2 0 0 0-2 2v1h1V2a1 1 0 0 1 1-1z"/>
-  <path d="M3 5h1V4H3a2 2 0 0 0-2 2v1h1V6a1 1 0 0 1 1-1z"/>
-  <path d="M3 9h1V8H3a2 2 0 0 0-2 2v1h1v-1a1 1 0 0 1 1-1z"/>
-  <path d="M12 1h1V0h-1a2 2 0 0 0-2 2v1h1V2a1 1 0 0 1 1-1z"/>
-  <path d="M12 5h1V4h-1a2 2 0 0 0-2 2v1h1V6a1 1 0 0 1 1-1z"/>
-  <path d="M12 9h1V8h-1a2 2 0 0 0-2 2v1h1v-1a1 1 0 0 1 1-1z"/>
-</svg>
-&nbsp;From To Transfer Report</button>
-                            <div>
-                                <!--<button style="font-weight: bold;background-color:#040536; color:white; border-radius:10px;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay In Full</button>-->
-                                
-                                <button class="btn btn-primary" style="font-size: 15px; font-weight: bold;"  id="storereport">Store Report</button>
-                            </div>
+                            <p class="text-primary m-0 fw-bold">Programs Details Information</p>
+                            <!--<div>-->
+                             <!-- <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getProductionDetails">Details Report</button> -->
+                            <!--<button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Debts Report</button>   -->
+                            <!--</div>-->
+                            
+                            <!--<div>-->
+                            <!--    <button class="btn btn-success" style="font-size: 15px;font-weight: bold;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay All</button>-->
+                            <!--<button class="btn btn-warning" style="font-size: 15px;font-weight: bold;" data-bs-target="#paytranche_modal" data-bs-toggle="modal">Installment</button>-->
+                            <!--</div>-->
                             
                         </div>
-                        
-                        <input type="text" id="datepicker" style="display: none;"> 
-                        <input type="text" id="daterange" style="display: none;"> 
-                        
-                        
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 text-nowrap">
@@ -118,32 +68,33 @@ include('getuser.php');
                                             </select>&nbsp;</label></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchstoredetail"></label></div>
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchprogramdetail"></label></div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Product Names</th>
-                                            <th>Unit</th>
-                                            <th>Container</th>
-                                             <th>Item/Container</th>
-                                            <th>Purchase date</th>
-                                            <th>Actions</th>
+                                            <th style="font-size: 11px;">PROGRAM TYPE</th>
+                                            <th style="font-size: 11px;">PROGRAM DURATION</th>
+                                            <th style="font-size: 11px;">LEARN FROM</th>
+                                            <th style="font-size: 11px;">LEARN TO</th>
+
+                                            <th style="font-size: 11px;">DONE AT</th>
+                                            <th style="font-size: 11px;">ACTION</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="stockdetail_table">
+                                    <tbody id="programdetail_table">
                                         
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>Product Names</strong></td>
-                                            <td><strong>Unit</strong></td>
-                                            <td><strong>Container</strong></td>
-                                            <td><strong>Item/Container</strong></td>
-                                            <td><strong>Purchase Date</strong></td>
-                                            <td><strong>Actions</strong></td>
+                                            <td style="font-size: 11px;"><strong>PROGRAM TYPE</strong></td>
+                                            <td style="font-size: 11px;"><strong>PROGRAM DURATION</strong></td>
+                                            <td style="font-size: 11px;"><strong>LEARN FROM</strong></td>
+                                            <td style="font-size: 11px;"><strong>LEARN TO</strong></td>
+                                            <td style="font-size: 11px;"><strong style="font-size: 11px;">DONE AT</strong></td>
+                                            <td style="font-size: 11px;"><strong style="font-size: 11px;">ACTION</strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -175,68 +126,6 @@ include('getuser.php');
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
-    
-    
-    
-   
-    
-      <div class="modal fade" role="dialog" tabindex="-1" id="edit_sales_modal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit This Purchase</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Here&nbsp;are for Edit Purchase.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Container/Box</label><input class="form-control" type="text" id="editbox_or_carton"></form>
-                     <form><label class="form-label" style="margin-top: 12px;">Item/Box</label><input class="form-control" type="text" id="editquantity"></form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="editBtnStock">Edit</button></div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="delete_sales_modal">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are sure you need to delete this Sale??</p>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="deleteBtnSales"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
-            </div>
-        </div>
-    </div>
-    
-    
-    <div class="modal fade" role="dialog" tabindex="-1" id="transfer_modal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Transfer Stock</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Here&nbsp; Transfer Product.</p>
-                    <form>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Sales Point:&nbsp;</label>
-                        <select class="form-control" id="salespointSelect"></select>
-                        <label class="form-label text-primary" style="margin-top: 10px;font-weight: bold;">Quantity:&nbsp;</label>
-                        <input class="form-control" type="number" id="qty" min="1">
-                        <label class="form-label" style="margin-top: 12px;">Due Date</label>
-                         <input class="form-control" type="date" id="duedate" onchange="convertAndSetDate()">
-                    </form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit" id="transferBtn">Transfer</button></div>
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    
-    
-    
     <div class="modal fade" role="dialog" tabindex="-1" id="payfull_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -247,6 +136,32 @@ include('getuser.php');
                     <p>Here&nbsp; you can pay all debts.</p>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="payalldebt">Finish</button></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="add_new_program">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New program</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; Add new program.</p>
+                    <form><label class="form-label" style="margin-top: 12px;">Program Type</label>
+                    <select class="form-control" type="text" id="programtype" required>
+                      <option value="Morning Program">Morning Program</option>
+                      <option value="Afternoon Program">Afternoon Program</option>
+                      <option value="Evening Program">Evening Program</option>
+                    </select>
+                    <label class="form-label" style="margin-top: 12px;">Program Duration</label><input class="form-control" type="text" id="programduration" value="6 months" required>
+                    <label class="form-label" style="margin-top: 12px;">From</label><input class="form-control" type="time" id="from" required>
+                    <label class="form-label" style="margin-top: 12px;">To</label><input class="form-control" type="time" id="to" required>
+                    
+                </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="AddNewprogram">Create Program</button></div>
             </div>
         </div>
     </div>
@@ -275,7 +190,7 @@ include('getuser.php');
                     <h4 class="modal-title" style="color:green;">Success!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p style="color:black;" > You are successfully Transfering ittt.!!</p>
+                    <p style="color:black;" > You are successfully Done ittt.!!</p>
                     
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">ok</button></div>
@@ -298,17 +213,20 @@ include('getuser.php');
         </div>
     </div>
     
-    <div class="modal fade" role="dialog" tabindex="-1" id="edit_product_modal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="edit_stand_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Edit This row material </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp;are for Edit Product.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Description</label><textarea class="form-control"></textarea></form>
+                    <p>Here&nbsp;are for Edit row material.</p>
+                    <form>
+                    <label class="form-label" style="margin-top: 12px;">Quantity</label>
+                    <input class="form-control" type="number" id="row_qty">
+                    </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="updaterowmaterial">Edit</button></div>
             </div>
         </div>
     </div>

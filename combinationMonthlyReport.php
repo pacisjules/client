@@ -37,7 +37,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                    <a class="nav-link active" href="multistore.php">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
+                    <a class="nav-link active" href="multistore">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a> 
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectMonthModal" type="button" style="font-size: 19px;font-weight: bold; background: rgb(0,26,53); color:white;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-month" viewBox="0 0 16 16">
   <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5V13a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1.5zm1.5-.5a.5.5 0 0 0-.5.5V13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V1a.5.5 0 0 0-.5-.5h-13zM8 12a1 1 0 0 0 0-2 1 1 0 0 0 0 2zm1-3a1 1 0 0 0-2 0v2a1 1 0 1 0 2 0v-2zm-2-6h4V2H7v1z"/>
