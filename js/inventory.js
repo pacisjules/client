@@ -263,9 +263,6 @@ $(function () {
   
   //Update Inventory
   $("#EditInventory").click(function () {
-    $("#EditInventory").html("Please wait..");
-
-
 
     var quantity = $("#quantity").val();
     var alert_quantity = $("#alert_quantity").val();
@@ -292,13 +289,14 @@ $(function () {
 
       success: function (response) {
         View_inventoryRecord(); 
+        console.log(response);
         $("#EditInventory").html("Edit Inventory");
         $("#modal_inventory").modal("hide");
         localStorage.removeItem("co_id");
       },
       error: function (error) {
-        $("#EditInventory").html("Update");
-        //console.log(error.responseText);
+        $("#EditInventory").html("error");
+        console.log(error);
       },
     });
     }else{
@@ -479,39 +477,17 @@ $(function () {
                   method: "GET", // Change method to GET to match your PHP code
                   context: document.body,
                   success: function (response) {
-                    if (response && response.length > 0) {
-                      // Iterate through the response data and build table rows
-                      $.each(response, function (index, row) {
-                        var sts = row.status == 1 ? "Active" : "Not Active";
-                        var html = `
-                          <tr>
-                            <td>${index + 1}. ${row.name}</td>
-                            <td>${row.quantity}</td>
-                            <td>${row.alert_quantity}</td>
-                            <td class="d-flex flex-row justify-content-start align-items-center">
-                              <button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditInventory('${row.id}', '${row.quantity}', '${row.alert_quantity}', '${row.name}')">
-                                <i class="fa fa-edit" style="color: rgb(255,255,255);"></i>
-                              </button>
-                              <button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectDeleteInventory('${row.id}', '${row.name}')">
-                                <i class="bi bi-trash"></i>
-                              </button>
-                              <a class="nav-link active" href="purchaseshophistory.php?product_id=${row.product_id}">  <button style="background-color: #077317; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-left:10px;font-weight:bold;font-size:10pt;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
-  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
-</svg>&nbsp;P.HISTORY</button></a>
-                            </td>  
-                          </tr>
-                        `;
-              
-                        $("#inve_table").append(html);
-                      });
+                    if (response) {
+                      //console.log(response);
+                      $("#inve_table").html(response);
                     } else {
-                      // No results found
-                      $("#inve_table").html("<tr><td colspan='7'>Not Any result</td></tr>");
+                      //console.log(response);
+                      $("#inve_table").html("Not Any result");
                     }
                   },
                   error: function (xhr, status, error) {
-                    // Handle AJAX request errors here
-                    console.error("AJAX request failed: " + error);
+                    // console.log("AJAX request failed!");
+                    // console.log("Error:", error);
                   },
                 });
                 // Ajax End!   

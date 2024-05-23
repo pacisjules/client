@@ -169,6 +169,21 @@ include('getuser.php');
         </div>
     </div>
 
+    <!-- Modal -->
+<div id="loadingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loadingModalLabel">Loading</h5>
+      </div>
+      <div class="modal-body">
+        Please wait, reconnecting...
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
     <div class="modal fade" role="dialog" tabindex="-1" id="modal_inventory">

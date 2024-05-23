@@ -14,19 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $alert_quantity = $_POST['alert_quantity'];
     
     
-    $sqlqty = "SELECT quantity,item_per_container FROM inventory WHERE  product_id=$product_id";
+    $sqlqty = "SELECT quantity FROM inventory WHERE  product_id=$product_id";
     $resultqty = $conn->query($sqlqty);
     
        $rowqty = $resultqty->fetch_assoc();
        $getqty = $rowqty['quantity'];
-
-       $item_per_container = $rowqty['item_per_container'];
-       $cont  = $quantity /$item_per_container;
     
 
     // Update the employee data into the database
-    $sql = "UPDATE inventory SET 
-           container='$cont', 
+    $sql = "UPDATE inventory SET  
            quantity='$quantity', 
            alert_quantity='$alert_quantity'  
     WHERE product_id=$product_id";

@@ -3,7 +3,7 @@
 require_once '../connection.php';
 
 // Set master path
-$masterHome = "/functions/inventory/getproductsandinventoryspt.php";
+
 header('Content-Type: application/json');
 
 
