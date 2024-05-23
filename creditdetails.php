@@ -47,8 +47,8 @@ include('getuser.php');
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Customer Information</p>
                             <div>
-                             <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button>
-                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Loans Report</button>   
+                             <!-- <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button> -->
+                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Credits Report</button>   
                             </div>
                             
                             <div>
@@ -220,13 +220,13 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Debts</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Edit This Credits</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp;are for Edit Debts.</p>
+                    <p>Here&nbsp;are for Edit Credits.</p>
                     <form><label class="form-label" style="margin-top: 12px;">Quantity</label><input class="form-control" type="text" id="editqty"><label class="form-label" style="margin-top: 12px;">Amount Due</label><input class="form-control" type="text" id="editamount"><label class="form-label" style="margin-top: 12px;">Amount Paid</label><input class="form-control" type="text" id="editamountpaid"></form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="EditDebts">Edit Debt</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="EditDebts">Edit Credit</button></div>
             </div>
         </div>
     </div>
@@ -234,10 +234,10 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove This Debts</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;">Remove This Credits</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are sure you need to delete the Debts <span id="delnames"></span> </p>
+                    <p>Are sure you need to delete the Credits <span id="delnames"></span> </p>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="RemoveDebts"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Remove Debt</button></div>
             </div>

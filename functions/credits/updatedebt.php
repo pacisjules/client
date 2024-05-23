@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // Update the debt data into the database
-    $sql = "UPDATE debts SET 
+    $sql = "UPDATE credits SET 
 
     amount='$amount', 
     amount_paid='$amount_paid', 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($conn->query($sql) === TRUE) {
         // Return a success message
         header('HTTP/1.1 201 Created');
-        echo "Debt Updated successfully.";
+        echo "credits Updated successfully.";
     } else {
         // Return an error message if the insert failed
         header('HTTP/1.1 500 Internal Server Error');

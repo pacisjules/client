@@ -232,7 +232,7 @@ $(document).ready(function () {
       
         var Quantity = $("#editqty").val();
         var amountDue = parseInt($("#editamount").val(), 10);
-    var amountPaid = parseInt($("#editamountpaid").val(), 10);
+        var amountPaid = parseInt($("#editamountpaid").val(), 10);
         var sales_point_id = localStorage.getItem("SptID"); 
          var debt_id = localStorage.getItem("debt_id"); 
          var use_type = localStorage.getItem("UserType");
@@ -241,7 +241,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "functions/debts/updatedebt.php", // Replace with the actual URL of your PHP script
+            url: "functions/credits/updatedebt.php", // Replace with the actual URL of your PHP script
             data: {
                 id: debt_id,
                 qty: Quantity,
@@ -339,7 +339,7 @@ $(document).ready(function () {
          if(use_type === "BOSS"){
           $.ajax({
             type: "POST",
-            url: "functions/debts/removedebt.php", // Replace with the actual URL of your PHP script
+            url: "functions/credits/removedebt.php", // Replace with the actual URL of your PHP script
             data: {
                 id: debt_id,
                 
@@ -2032,6 +2032,8 @@ function getDataEdit(id,name,qty,amount,amount_paid){
 function getDataRemove(id,name){
      localStorage.setItem("debt_id", id);
      localStorage.setItem("name", name);
+     console.log("debt_id ", id);
+        console.log("name ", name);
 }
 
 function getPaidDbts(id,qty,amount,amount_paid){

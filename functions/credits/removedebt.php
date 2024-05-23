@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST["id"];
 
     // Delete Employee all information
-    $sql = "DELETE FROM debts WHERE id='$id'";
+    $sql = "DELETE FROM credits WHERE id='$id'";
 
     if ($conn->query($sql) === TRUE) {
         // Return a success message
