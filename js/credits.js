@@ -408,6 +408,9 @@ $(document).ready(function () {
                 console.log(response);
                 $("#paytranche_modal").modal("hide");
                 $("#successmodal").modal("show");
+                setTimeout(function() {
+                  location.reload();
+              }, 1000);
                   
             },
             error: function (xhr, status, error) {
@@ -480,9 +483,9 @@ $(document).ready(function () {
                 $("#successmodal").modal("show");
                 console.log(response);
                 // Reload the page after a brief delay (optional)
-                // setTimeout(function() {
-                //     location.reload();
-                // }, 1000); // Reload after 2 seconds (adjust the delay as needed)
+                setTimeout(function() {
+                    location.reload();
+                }, 1000); // Reload after 2 seconds (adjust the delay as needed)
             },
             error: function (xhr, status, error) {
                 // Handle errors here, e.g., show an error message
