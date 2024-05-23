@@ -18,6 +18,7 @@ $(document).ready(function () {
   
      
       var company_ID = parseInt(localStorage.getItem("CoID"));
+      var spt = parseInt(localStorage.getItem("SptID"));
   
       // Start AJAX request
       $.ajax({
@@ -28,6 +29,7 @@ $(document).ready(function () {
           phone: phone,
           address: address,
           company: company_ID,
+          spt: spt,
           
         },
         success: function (response) {

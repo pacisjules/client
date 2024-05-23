@@ -11,10 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $phone = $_POST['phone'];
   $address = $_POST['address'];
   $company_ID = $_POST['company'];
+  $spt = $_POST['spt'];
 
   // Insert the  products
-  $sql = "INSERT INTO supplier (names, phone, address,company_ID)
-  VALUES ('$names', '$phone','$address','$company_ID')";
+  $sql = "INSERT INTO supplier (names, phone, address,company_ID,spt)
+  VALUES ('$names', '$phone','$address','$company_ID','$spt')";
 
   if ($conn->query($sql) === TRUE) {
       // Return a success message
