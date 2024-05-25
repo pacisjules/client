@@ -59,9 +59,8 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th style="font-size: 14px;">Product Name</th>
-                                            <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+            
+                                            <th style="font-size: 14px;">Quantity/Item</th>
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -84,9 +83,8 @@ include('getuser.php');
                                         <tr>
                                             <th style="font-size: 14px;">N/O</th>
                                             <th style="font-size: 14px;">Product Name</th>
-                                            <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            
+                                            <th style="font-size: 14px;">Quantity/Item</th>
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -108,9 +106,8 @@ include('getuser.php');
                                         <tr>
                                             <th style="font-size: 14px;">N/O</th>
                                             <th style="font-size: 14px;">Product Name</th>
-                                             <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            <th style="font-size: 14px;">Quantity/Item</th>
+
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -132,9 +129,8 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th style="font-size: 14px;">Product Name</th>
-                                             <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            <th style="font-size: 14px;">Quantity/Item</th>
+
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -157,9 +153,8 @@ include('getuser.php');
                                         <tr>
                                             <th style="font-size: 14px;">N/O</th>
                                             <th style="font-size: 14px;">Product Name</th>
-                                             <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            <th style="font-size: 14px;">Quantity/Item</th>
+
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -182,9 +177,8 @@ include('getuser.php');
                                         <tr>
                                             <th style="font-size: 14px;">N/O</th>
                                             <th style="font-size: 14px;">Product Name</th>
-                                             <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            <th style="font-size: 14px;">Quantity/Item</th>
+
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -208,9 +202,8 @@ include('getuser.php');
                                         <tr>
                                             <th style="font-size: 14px;">N/O</th>
                                             <th style="font-size: 14px;">Product Name</th>
-                                             <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            <th style="font-size: 14px;">Quantity/Item</th>
+
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
@@ -233,9 +226,8 @@ include('getuser.php');
                                         <tr>
                                             <th style="font-size: 14px;">N/O</th>
                                             <th style="font-size: 14px;">Product Name</th>
-                                             <th style="font-size: 14px;">Unit type</th>
-                                            <th style="font-size: 14px;">Container</th>
-                                            <th style="font-size: 14px;">Quantity/Container</th>
+                                            <th style="font-size: 14px;">Quantity/Item</th>
+
                                             <th style="font-size: 14px;">Price per Unity</th>
                                             <th style="font-size: 14px;">Total Price</th>
                                             <th style="font-size: 14px;">Store</th>
