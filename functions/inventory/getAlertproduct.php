@@ -90,7 +90,7 @@ WHERE
 
         $comp[] = '
           
-        <h4 class="small fw-bold" style='.$sty.'>'.$row['name'].'<span class="float-end">'.$perc.'</span></h4>
+        <h4 class="small fw-bold" style="color:black;">'.$row['name'].' ('.$row['quantity'].')<span class="float-end">'.$perc.'</span></h4>
         <div class="progress mb-4">
         '.$div.'
         </div>

@@ -158,16 +158,7 @@ include('getuser.php');
                                     
                                 </div>
                             </div>
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="text-primary fw-bold m-0">Inventory History List</h6>
-                            </div>
-
-                            <ul class="list-group list-group-flush" id="inventoryHistoryList">
-                            
-                            </ul>
-
-                        </div>
+                        
 
                         </div>
                         <div class="col">
