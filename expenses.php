@@ -31,7 +31,7 @@ include('getuser.php');
             <div id="content">
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid"  >
-                    <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
+                <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
                     <div style="flex-direction:row;">
                     <button style="background: rgb(0,26,53); color:white; border-radius:5px; margin-bottom:10px;"  data-bs-target="#expensesmodal" data-bs-toggle="modal">Add Expenses Type</button>
                     <button style="background: rgb(0,26,53); color:white;border-radius:5px; margin-left: 30px; margin: bottom 10px;" data-bs-target="#addexpensesmodal" data-bs-toggle="modal">Add Expenses</button>
