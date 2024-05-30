@@ -1,6 +1,9 @@
 <?php
 // Include the database connection file
 require_once '../connection.php';
+require_once '../vendor/autoload.php';
+use GuzzleHttp\Client;
+$client = new Client();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      
@@ -23,6 +26,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // Return a success message
       header('HTTP/1.1 201 Created');
       echo "Debt created successfully.";
+
+
+      $sql_query = "SELECT DT.id, DT.amount, DT.amount_paid,sum(DT.amount) as sum_amount, sum(DT.amount_paid) as sum_amount_paid, CT.names, CT.phone, CT.address, SPT.report_to_phone, SPT.report_to_email, SPT.senderid FROM debts DT, customer CT, salespoint SPT WHERE CT.customer_id=DT.customer_id AND SPT.sales_point_id=DT.sales_point_id AND DT.customer_id =? AND DT.status = 1";
+      $stmt = $conn->prepare($sql_query);
+      $stmt->bind_param("s", $customer_id);
+      $stmt->execute();
+      $sql_result = $stmt->get_result();
+      $amount_row = $sql_result->fetch_assoc();
+      $due_money=$amount_row['sum_amount'];
+      $paid_money=$amount_row['sum_amount_paid'];
+      $balance = $due_money - $paid_money;
+      $insert_money = $amount_due - $amount_paid;
+      $client_names=$amount_row['names'];
+      $message='Mukiliya wacu,  Ideni ryawe ryiyongeyeho '. number_format($insert_money) .' RWF. yose hamwe ni  '. number_format($balance) .' RWF, Murakoze! ';
+      $message_toboss=$client_names. ' Ideni rye ryiyongeyeho '. number_format($insert_money) .' RWF. yose hamwe ni '. number_format($balance) .' RWF, Murakoze! ';
+      $phone_number='+25'.$amount_row['phone'];
+      $boosphone_number='+25'.$amount_row['report_to_phone'];
+      $sender_id=$amount_row['senderid'];
+
+
+                      // Send SMS
+                      try {
+            
+                        $response = $client->post('https://api.pindo.io/v1/sms/', [
+                            'headers' => [
+                                'Authorization' => 'Bearer eyJhbGciOiJub25lIn0.eyJpZCI6InVzZXJfMDFISDc2Rkg0VjMzR1hNUjA0OThZNEc0SkoiLCJyZXZva2VkX3Rva2VuX2NvdW50IjowfQ.',
+                                'Content-Type' => 'application/json',
+                            ],
+                        'json' => [
+                            'to' => $phone_number,
+                            'text' => $message,
+                            'sender' => $sender_id, 
+                        ],
+                ]);
+                
+                 echo $response->getBody();
+            
+             $response2 = $client->post('https://api.pindo.io/v1/sms/', [
+                            'headers' => [
+                                'Authorization' => 'Bearer eyJhbGciOiJub25lIn0.eyJpZCI6InVzZXJfMDFISDc2Rkg0VjMzR1hNUjA0OThZNEc0SkoiLCJyZXZva2VkX3Rva2VuX2NvdW50IjowfQ.',
+                                'Content-Type' => 'application/json',
+                            ],
+                        'json' => [
+                            'to' => $boosphone_number,
+                            'text' => $message_toboss,
+                            'sender' => $sender_id, 
+                        ],
+                ]);
+                
+                
+                echo $response2->getBody();
+            } catch (Exception $ex) {
+                echo $ex->getMessage();
+            }
+
+
     } else {
       // Return an error message if the insert failed
       header('HTTP/1.1 500 Internal Server Error');
