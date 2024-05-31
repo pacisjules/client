@@ -55,13 +55,14 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>NEEDED BY</th>
-                                            <th>REQUISITION ITEMS</th>
-                                            <th>TOTAL AMOUNT</th>
-                                            <th>DONE BY</th>
-                                            <th>PHONE</th>
+                                            <th style="font-size: 12px;">NEEDED BY</th>
+                                            <th style="font-size: 12px;">REQUISITION ITEMS</th>
+                                            <th style="font-size: 12px;">TOTAL AMOUNT</th>
+                                            <th style="font-size: 12px;">DONE BY</th>
+                                            <th style="font-size: 12px;">PHONE</th>
+                                            <th style="font-size: 12px;">STATUS</th>
                                             <th style="font-size: 11px;">REGISTER DATE</th>
-                                            <th>ACTIONS</th>
+                                            <th style="font-size: 12px;">ACTIONS</th>
                                         </tr>
                                     </thead>
                                     <tbody id="proforma_table">
@@ -69,13 +70,15 @@ include('getuser.php');
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong>CLIENT NAME</strong></td>
-                                            <td><strong>PHONE</strong></td>
-                                            <td><strong>PROFORMA ITEMS</strong></td>
-                                            <td><strong>TOTAL AMOUNT</strong></td>
-                                            <td><strong>DONE BY</strong></td>
-                                            <td><strong style="font-size: 11px;">REGISTER DATE</strong></td>
-                                            <td><strong>ACTIONS</strong></td>
+                                            <td style="font-size: 12px;"><strong>NEEDED BY</strong></td>
+                                            <td style="font-size: 12px;"><strong>REQUISITION ITEMS</strong></td>
+                                    
+                                            <td style="font-size: 12px;"><strong>TOTAL AMOUNT</strong></td>
+                                            <td style="font-size: 12px;"><strong>DONE BY</strong></td>
+                                            <td style="font-size: 12px;"><strong>PHONE</strong></td>
+                                            <td style="font-size: 12px;"><strong>STATUS</strong></td>
+                                            <td style="font-size: 12px;"><strong style="font-size: 11px;">REGISTER DATE</strong></td>
+                                            <td style="font-size: 12px;"><strong>ACTIONS</strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>

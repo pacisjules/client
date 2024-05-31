@@ -27,13 +27,26 @@ include('getuser.php');
             <div id="content">
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid"  >
-                    <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
+                <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
+                <div style="display: flex;flex-direction: row; justify-content: space-between;" >
+               <div style="flex-direction:row;display: flex; margin-bottom:10px;">     
+                    <button  class="btn btn-primary" style="margin-right:10px;" data-bs-target="#expensesmodal" data-bs-toggle="modal">Add Expenses Type</button>
+                    <button  class="btn btn-primary" data-bs-target="#addexpensesmodal" data-bs-toggle="modal">Add Expenses</button>
+               </div>
+
+<div style="flex-direction:row; margin-bottom:10px;">
+<a href="expenses.php" class="btn btn-info ">Daily</a>
+        <a href="weeklyexpenses.php" class="btn btn-warning ">Weekly</a>
+        <a href="monthlyexpenses.php" class="btn btn-danger ">Monthly</a>
+                    </div>
+              </div> 
+                    <!-- <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
                     <div style="flex-direction:row;">
                     <button style="background: rgb(0,26,53); color:white;border-radius:5px;  margin-bottom:10px;"><a href="expenses.php" style="background: rgb(0,26,53); color:white; text-decoration:none;"><span>View Daily Expenses<span></a></button>
                     <button style="background: rgb(0,26,53); color:white;border-radius:5px;  margin-left:1.8rem; margin-bottom:10px;"><a href="weeklyexpenses.php" style="background: rgb(0,26,53); color:white; text-decoration:none;"><span>View Weekly Expenses<span></a></button>
                     <button style="background: rgb(0,26,53); color:white;border-radius:5px;  margin-left:1.8rem; margin-bottom:10px;"><a href="monthlyexpenses.php" style="background: rgb(0,26,53); color:white; text-decoration:none;"><span>View Monthly Expenses<span></a></button>
                        
-                    </div>
+                    </div> -->
                     
                     <div class="card shadow">
                         <div class="card-header py-3">

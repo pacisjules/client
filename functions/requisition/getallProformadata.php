@@ -63,16 +63,18 @@ while ($row = $result->fetch_assoc()) {
     $value .= '
 
         <tr>
-        <td>'.$num.'. '.$row['dedicated_to'].'</td>
-        <td>'.$row['tottal_item'].'</td>
-        <td>'.number_format($row['total']).' FRW</td>
-        <td>'.$row['full_name'].'</td>
-        <td>'.$row['phone'].'</td>
-        <td>'.$row['created_at'].'</td>
-        <td class="d-flex flex-row justify-content-start align-items-center">
-        <button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-print" style="color: rgb(255,255,255);"></i>&nbsp;PRINT</button>&nbsp;
-        <button class="btn btn-danger" type="button" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-trash" style="color: rgb(255,255,255);"></i>&nbsp;DELETE</button>
-       
+        <td style="font-size: 12px;">'.$num.'. '.$row['dedicated_to'].'</td>
+        <td style="font-size: 12px;">'.$row['tottal_item'].'</td>
+        <td style="font-size: 12px;">'.number_format($row['total']).' FRW</td>
+        <td style="font-size: 12px;">'.$row['full_name'].'</td>
+        <td style="font-size: 12px;">'.$row['phone'].'</td>
+        <td style="font-size: 12px;">'.$row['phone'].'</td>
+        <td style="font-size: 12px;">'.$row['created_at'].'</td>
+        
+        <td class="d-flex flex-row justify-content-start align-items-center" style="font-size: 12px; padding:10px;">
+        <button class="btn btn-success" style="font-size: 10px;"  type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-print" style="color: rgb(255,255,255);"></i>&nbsp;PRINT</button>&nbsp;
+        <button class="btn btn-danger"  style="font-size: 10px;" type="button" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-trash" style="color: rgb(255,255,255);"></i>&nbsp;DELETE</button>&nbsp;
+        <a class="nav-link active" href="requisitiondetails.php?sess_id=' . $session_id . '">  <button class="btn btn-info" style=" border: none; border-radius: 3px; padding: 5px 10px; font-size: 12px;cursor: pointer;">DETAIL</button></a>
       </td>  
         </tr>
 

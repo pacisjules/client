@@ -30,22 +30,29 @@ include('getuser.php');
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <?php include('navbar.php'); ?>
-                <div class="container-fluid"  >
+                <div class="container-fluid">
+            
+                
                 <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
-                    <div style="flex-direction:row;">
-                    <button style="background: rgb(0,26,53); color:white; border-radius:5px; margin-bottom:10px;"  data-bs-target="#expensesmodal" data-bs-toggle="modal">Add Expenses Type</button>
-                    <button style="background: rgb(0,26,53); color:white;border-radius:5px; margin-left: 30px; margin: bottom 10px;" data-bs-target="#addexpensesmodal" data-bs-toggle="modal">Add Expenses</button>
-                    <button style="background: rgb(0,26,53); color:white;border-radius:5px; margin-left:1.8rem; margin-bottom:10px; "><a href="weeklyexpenses.php"  style="background: rgb(0,26,53); color:white; text-decoration:none;"><span> View Weekly Expenses<span></a></button> 
-                    <button style="background: rgb(0,26,53); color:white;border-radius:5px; margin-left:1.8rem; margin-bottom:10px; "><a href="monthlyexpenses.php"  style="background: rgb(0,26,53); color:white; text-decoration:none;"><span> View Monthly Expenses<span></a></button> 
-                    <button style="background: rgb(0,26,53); color:white;border-radius:5px; margin-left:1.8rem; margin-bottom:10px; "><a href="yearlyexpenses.php"  style="background: rgb(0,26,53); color:white; text-decoration:none;"><span> View Yearly Expenses<span></a></button>    
+                <div style="display: flex;flex-direction: row; justify-content: space-between;" >
+               <div style="flex-direction:row;display: flex; margin-bottom:10px;">     
+                    <button  class="btn btn-primary" style="margin-right:10px;" data-bs-target="#expensesmodal" data-bs-toggle="modal">Add Expenses Type</button>
+                    <button  class="btn btn-primary" data-bs-target="#addexpensesmodal" data-bs-toggle="modal">Add Expenses</button>
+               </div>
+
+<div style="flex-direction:row; margin-bottom:10px;">
+<a href="weeklyexpenses.php" class="btn btn-info ">Weekly</a>
+        <a href="monthlyexpenses.php" class="btn btn-warning ">Monthly</a>
+        <a href="yearlyexpenses.php" class="btn btn-danger ">Yearly</a>
                     </div>
-                    
+              </div>      
                     
                     <div class="card shadow">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3" style="display:flex;justify-content:space-between;">
                             <p class=" m-0 fw-bold" style="color:rgb(0,26,53);"> Daily Expenses Records</p>
-                            
+                            <button class="btn btn-success" id="viewexpenses" style="color:white;border-radius:5px; margin-left:1.8rem; margin-bottom:10px; "><span> Print Report</span></button>    
                         </div>
+                        
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 text-nowrap">
@@ -160,6 +167,9 @@ include('getuser.php');
         </div>
     </div>
 </div>
+</div>
+
+
 <div class="modal fade" role="dialog" tabindex="-1" id="edit_expe_modal">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
