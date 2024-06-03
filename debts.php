@@ -17,14 +17,13 @@ include('getuser.php');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet" />
     <link rel="icon" href="icon.jpg" type="image/x-icon">
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <!-- Add these links to include Select2 library -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 
     <script src="js/debts.js"></script>
     
@@ -57,9 +56,16 @@ include('getuser.php');
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Loans Info</h3>
                         <div>
-                            <h4 style="color:#040536; font-weight:bold;">Total Amount Due: <span id="totaldebt"></span></h4>
-                            
-                           
+                            <h4 style="color:#040536; font-weight:bold;">Total Amount Due: <span id="totaldebt"></span></h4> 
+                        </div>
+                        <div>
+                        <button class="btn btn-danger" style="font-size: 12px; font-weight: bold;" id="getdailyDebtsall"><i class="fas fa-exclamation-circle icon debt"></i>
+    <span>Daily Debts</span></button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#selectMonthModal" type="button" style="font-size: 12px; font-weight: bold; margin-right:30px;" ><i class="fas fa-exclamation-circle icon debt"></i>
+    <span>Monthly Debts</span></button>   
+                            <button class="btn btn-info" style="font-size: 12px; font-weight: bold;" id="getdailypaidsall"><i class="fas fa-check-circle icon paid"></i>
+    <span>Daily Paid</span></button>
+                            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#selectMonthModal1" type="button" style="font-size: 12px; font-weight: bold;" id="pickpaidbutton"><i class="fas fa-check-circle icon paid"></i> <span>Monthly Paid</span></button>   
                         </div>
                     </div>
                     <div class="card shadow">
@@ -69,7 +75,6 @@ include('getuser.php');
                             <div> <button class="btn btn-primary" style="font-size: 15px; font-weight: bold;" data-bs-target="#add_newdebt_modal" data-bs-toggle="modal">Add New Loan</button> </div>
                             <div>
                              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" id="pickdebtsButton">Loans Report</button>
-                            <button class="btn btn-success" style="font-size: 15px; font-weight: bold;" id="pickpaidbutton">Paid Report</button>   
                             </div>
                             
                             </div>
@@ -192,7 +197,62 @@ include('getuser.php');
     </div>
 </div>
 
+                  
+                    <!--monthly modal-->
+                    
+<div class="modal fade" id="selectMonthModal" tabindex="-1" aria-labelledby="selectMonthModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectMonthModalLabel">Select Month</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="selectMonthForm">
+                    <div class="mb-3">
+                        <label for="monthSelect" class="form-label">Select a Month:</label>
+                        <select class="form-select" id="monthSelect" required>
+                            
+                        </select>
 
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="getMonthlyDebtsall">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                    
+<div class="modal fade" id="selectMonthModal1" tabindex="-1" aria-labelledby="selectMonthModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectMonthModalLabel">Select Month</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="selectMonthForm">
+                    <div class="mb-3">
+                        <label for="monthSelect" class="form-label">Select a Month:</label>
+                        <select class="form-select" id="monthSelectnew" required>
+                            
+                        </select>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="getMonthlyPaidsall">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">

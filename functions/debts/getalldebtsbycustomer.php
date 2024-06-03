@@ -10,7 +10,7 @@ $sess_id=$_GET['sess_id'];
 $sql = "SELECT DB.id, CST.names as person_names,CST.phone,CST.address,DB.descriptions,DB.created_date, DB.amount,DB.amount_paid, DB.due_date, DB.sales_point_id, DB.status, PD.name, DB.qty
 FROM debts DB, products PD, customer CST WHERE DB.product_id=PD.id AND DB.customer_id='$sess_id' AND DB.sales_point_id=$spt  AND CST.customer_id='$sess_id'
 GROUP BY DB.id
-ORDER BY DB.amount DESC";
+ORDER BY DB.created_date DESC";
 
 $result = mysqli_query($conn, $sql);
 $data = array();

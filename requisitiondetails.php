@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Row Material Stock Details - SellEASEP</title>
+    <title>Requisition Details - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -17,7 +17,7 @@ include('getuser.php');
     <link rel="icon" href="icon.jpg" type="image/x-icon">
 
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
-    <script src="js/rowinventory.js"></script>
+    <script src="js/requisition.js"></script>
 
 </head>
 
@@ -31,10 +31,10 @@ include('getuser.php');
                     <div class="d-flex flex-row justify-content-between align-items-center">
                      <div>
                      
-                       <a class="nav-link active" href="rowinventory">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
+                       <a class="nav-link active" href="recusition_records">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a> 
                      
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Row Material Stock Details of <span id="customer_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Requisition Details of <span id="customer_name"></span></h3>
                    </div>
                          
                         
@@ -50,7 +50,7 @@ include('getuser.php');
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">Row Material Stock Details Information</p>
+                            <p class="text-primary m-0 fw-bold">Requisition Details Information</p>
                             <!--<button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button>-->
                             <!--<div>-->
                             <!--    <button style="font-weight: bold;background-color:#040536; color:white; border-radius:10px;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay In Full</button>-->
@@ -78,10 +78,8 @@ include('getuser.php');
                                         <tr>
                                             <th>Product Names</th>
                                             <th>Quantity</th>
-                                            <th>Unity type</th>
-                                            <th>Price per unity</th>
-                                            <th>Supplier</th>
-                                            <th>Phone</th>
+                        
+                                            <th>Price/Item</th>
                                             <th>Purchase Date</th>
                                             <th>Actions</th>
                                         </tr>
@@ -93,10 +91,7 @@ include('getuser.php');
                                         <tr>
                                             <td><strong>Product Names</strong></td>
                                             <td><strong>Quantity</strong></td>
-                                            <td><strong>Unity type</strong></td>
-                                            <td><strong>Price per unity</strong></td>
-                                            <td><strong>Supplier</strong></td>
-                                            <td><strong>Phone</strong></td>
+                                            <th>Price/Item</th>
                                             <td><strong >Purchase Date</strong></td>
                                             <td><strong>Actions</strong></td>
                                         </tr>
