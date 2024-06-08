@@ -209,7 +209,16 @@ include('getuser.php');
 
                                 <label class="form-label" style="margin-top: 28px;color:black;">PRODUCT: <span id="gettedProduct" style="color:green; font-weight:bold;"></span> </label></br><label class="form-label" style="margin-top: 28px;color:black;">ADD QUANTITY </label><input class="form-control" type="number" id="purchase_qty" style="margin-top: -6px;">
                                 </br>
-                                <label class="form-label" style="margin-top: 28px;color:black;">PURCHASE PRICE </label><input class="form-control" type="number" id="purchase_price" style="margin-top: -6px;">
+                                <div class="form-group" style="display: flex;gap: 20px;">
+                                <div class="form-item" style="display: flex;flex-direction: column;align-items: center;">
+                                    <label class="form-label" for="purchase_price" style="margin-right:7rem;color:black;">PURCHASE PRICE</label>
+                                    <input class="form-control" type="number" id="purchase_price" required>
+                                </div>
+                                <div class="form-item" style="display: flex;flex-direction: column;align-items: center;">
+                                    <label class="form-label" for="selling_price" style="margin-left:7.5rem;color:black;">SELLING PRICE</label>
+                                    <input class="form-control" type="number" id="selling_price" required >
+                                </div>
+                                </div>
                                 
                                 
                                 <!-- <br />
@@ -500,7 +509,7 @@ include('getuser.php');
 
 
 
-    <script src="js/purchasePanel.js"></script>
+    <script src="js/purchasePanelfixed.js"></script>
     <!-- <script src="js/Mytablet.js"></script> -->
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

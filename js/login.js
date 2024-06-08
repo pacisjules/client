@@ -55,13 +55,15 @@ $(document).ready(function () {
                 localStorage.setItem("UserID", response.id);
                 localStorage.setItem("UserType", response.userType);
                 localStorage.setItem("companyName", response.company_name);
-                localStorage.setItem("phone", response.phone); 
                 localStorage.setItem("Email", response.email);
                 localStorage.setItem("Username", response.username);  
+                localStorage.setItem("phone", response.phone); 
                  localStorage.setItem("Names", response.names);
                  localStorage.setItem("company_logo", response.company_logo);
                  localStorage.setItem("company_color", response.company_color);
                  localStorage.setItem("spt_name", response.spt_name);
+                 localStorage.setItem("phonemana", response.phonemana); 
+                 localStorage.setItem("phoneboss", response.phoneboss); 
                  localStorage.setItem("user_category", response.user_category);
                  localStorage.setItem("zone", response.zone);
                 window.location.href = "/client";

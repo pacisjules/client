@@ -108,10 +108,12 @@ $(document).ready(function () {
 $("#addCart").click(function() {
     var qty = $("#purchase_qty").val();
     var purchaseprice = $("#purchase_price").val();
+    
 
     // Parse values to floats
     qty = parseFloat(qty);
     purchaseprice = parseFloat(purchaseprice);
+  
 
     // var c_qty = localStorage.getItem("current_quantity");
     // var price = localStorage.getItem("product_price");
@@ -149,6 +151,7 @@ $("#addCart").click(function() {
         // Clear input values and other elements
         $("#purchase_qty").val("");
         $("#purchase_price").val("");
+    
         $("#searcProductNow").val("");
         $("#gettedProduct").html("");
         // $("#gettedPrice").html("");
@@ -344,7 +347,7 @@ $("#NegoPrice").on("input", function () {
   var prices = cart.items.map(function(item) {
     return parseFloat(item.price);
   });
-  
+ 
 
   // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
@@ -847,7 +850,7 @@ function updateCalcResult() {
 
 
 
-function AddToCart(purchaseprice,  qty) {
+function AddToCart(purchaseprice,  qty,selling_price) {
     
    var id = localStorage.getItem("product_id");
     var name = localStorage.getItem("product_name");
@@ -865,7 +868,8 @@ function AddToCart(purchaseprice,  qty) {
       id: id,
       price: purchaseprice,
       name: name,
-      qty: qty
+      qty: qty,
+      selling_price:selling_price
     };
     cart.items.push(product);
 
@@ -1225,103 +1229,103 @@ function removeItemshow(e) {
 }
 
 
-function proceed_tablet_sales () {
-  $('#unhold').css('opacity', 1);
+// function proceed_tablet_sales () {
+//   $('#unhold').css('opacity', 1);
   
-  if (localStorage.getItem("cart") === null || localStorage.getItem("cart") == '{}' || localStorage.getItem("cart") == undefined) {
-    alert("Your cart is empty! Please add some products.");
-    return;
-  }else{
-    $("#savep_sell_tablet").html("Please wait..");
+//   if (localStorage.getItem("cart") === null || localStorage.getItem("cart") == '{}' || localStorage.getItem("cart") == undefined) {
+//     alert("Your cart is empty! Please add some products.");
+//     return;
+//   }else{
+//     $("#savep_sell_tablet").html("Please wait..");
 
-  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+//   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
 
-  // Extract the product IDs and quantities from the cart array
-  var productIds = cart.items.map(function(item) {
-    return parseInt(item.id);
-  });
+//   // Extract the product IDs and quantities from the cart array
+//   var productIds = cart.items.map(function(item) {
+//     return parseInt(item.id);
+//   });
 
-  var quantities = cart.items.map(function(item) {
-    return parseFloat(item.qty);
-  });
+//   var quantities = cart.items.map(function(item) {
+//     return parseFloat(item.qty);
+//   });
   
-  var prices = cart.items.map(function(item) {
-    return parseFloat(item.price);
-  });
+//   var prices = cart.items.map(function(item) {
+//     return parseFloat(item.price);
+//   });
   
-  var benes = cart.items.map(function(item) {
-    return parseFloat(item.benefit);
-  });
+//   var benes = cart.items.map(function(item) {
+//     return parseFloat(item.benefit);
+//   });
 
-  //console.log("P_IDS: "+productIds);
-  //console.log("Qty: "+quantities);
+//   //console.log("P_IDS: "+productIds);
+//   //console.log("Qty: "+quantities);
 
-  // Retrieve values from localStorage
-  var sales_point_id = localStorage.getItem("SptID");
-  var use_id = parseInt(localStorage.getItem("UserID"));
-  var paid_jk = localStorage.getItem("is_paid");
-  var customer_id = localStorage.getItem("customer_id");
-  var cust_name = localStorage.getItem("customer_names");
-  var phone = localStorage.getItem("customer_phone")
+//   // Retrieve values from localStorage
+//   var sales_point_id = localStorage.getItem("SptID");
+//   var use_id = parseInt(localStorage.getItem("UserID"));
+//   var paid_jk = localStorage.getItem("is_paid");
+//   var customer_id = localStorage.getItem("customer_id");
+//   var cust_name = localStorage.getItem("customer_names");
+//   var phone = localStorage.getItem("customer_phone")
 
 
-  // // Start AJAX request
-  $.ajax({
-    url: "functions/sales/bulksales.php",
-    method: "POST",
-    dataType: 'json',
-    data: {
-      product_id: productIds,
-      sales_point_id: sales_point_id,
-      customer_id:customer_id,
-      cust_name:cust_name,
-      phone:phone,
-      quantity: quantities,
-      price:prices,
-      benefit:benes,
-      sales_type: 1,
-      paid_status: paid_jk,
-      service_amount: 0,
-      user_id: use_id,
-    },
+//   // // Start AJAX request
+//   $.ajax({
+//     url: "functions/sales/bulksales.php",
+//     method: "POST",
+//     dataType: 'json',
+//     data: {
+//       product_id: productIds,
+//       sales_point_id: sales_point_id,
+//       customer_id:customer_id,
+//       cust_name:cust_name,
+//       phone:phone,
+//       quantity: quantities,
+//       price:prices,
+//       benefit:benes,
+//       sales_type: 1,
+//       paid_status: paid_jk,
+//       service_amount: 0,
+//       user_id: use_id,
+//     },
     
-    success: function (response) {
-      console.log("response:", response);
-      View_ProductsRecord();
-      initializeCart();
-      View_LastSalesRecord();
-      $("#savep_sell_tablet").html("Sell Done");
-      localStorage.setItem("is_paid","Paid");
+//     success: function (response) {
+//       console.log("response:", response);
+//       View_ProductsRecord();
+//       initializeCart();
+//       View_LastSalesRecord();
+//       $("#savep_sell_tablet").html("Sell Done");
+//       localStorage.setItem("is_paid","Paid");
      
-      var checkbox = document.getElementById("flexSwitchCheckChecked");
+//       var checkbox = document.getElementById("flexSwitchCheckChecked");
       
-      // Toggle the checkbox's checked state
-      checkbox.checked = false;
+//       // Toggle the checkbox's checked state
+//       checkbox.checked = false;
       
-      // $('#amadenis').hide();
-      $("#finishModal").modal('show');
-      $('#sessionid').html(response);
-      localStorage.setItem('sessionid', response);
-      localStorage.removeItem('customer_id');
-      localStorage.removeItem('customer_phone');
-      localStorage.removeItem('customer_names');
-      localStorage.removeItem('customer_address');
-      localStorage.removeItem('cart');
-      $('#subtotalPayable').html("0 Rwf");
-      $('#subtotal').html("0 Rwf");
-      $('#cartItemTableTablet').empty();
-    },
-    error: function (xhr, status, error) {
-      console.log("Error:", xhr.responseText, status);
-      $("#savep_sell_tablet").html("Sell Failed");
-      $("#savep_sell_tablet").style("backgroundColor","red");
-    },
-  });
-  }
+//       // $('#amadenis').hide();
+//       $("#finishModal").modal('show');
+//       $('#sessionid').html(response);
+//       localStorage.setItem('sessionid', response);
+//       localStorage.removeItem('customer_id');
+//       localStorage.removeItem('customer_phone');
+//       localStorage.removeItem('customer_names');
+//       localStorage.removeItem('customer_address');
+//       localStorage.removeItem('cart');
+//       $('#subtotalPayable').html("0 Rwf");
+//       $('#subtotal').html("0 Rwf");
+//       $('#cartItemTableTablet').empty();
+//     },
+//     error: function (xhr, status, error) {
+//       console.log("Error:", xhr.responseText, status);
+//       $("#savep_sell_tablet").html("Sell Failed");
+//       $("#savep_sell_tablet").style("backgroundColor","red");
+//     },
+//   });
+//   }
 
 
   
-};
+// };
 
 
 function printInvoiceFunc() {

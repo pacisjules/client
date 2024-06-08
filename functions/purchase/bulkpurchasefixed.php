@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $supplier_id = $_POST['supplier_id'];
         $quantities = $_POST['quantity'];
         $customer_prices = $_POST['price'];
+        $selling_prices = $_POST['selling_price'];
         $sales_type = $_POST['sales_type'];
         $paid_status = $_POST['paid_status'];
         $user_id = $_POST['user_id'];
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $product_id = $product_ids[$i];
                 $quantity = $quantities[$i];
                 $custom_price = $customer_prices[$i];
-              
+                $selling_price = $selling_prices[$i];
                 //$gresult [] = "ID: $product_id QTY: $quantity Type: $sales_type";
 
 
@@ -80,11 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $total_amount = $quantity * $custom_price;
                         $purchase_price = $custom_price;
                         $remain_quantity = $current_inventory_quantity + $quantity;  
-                     
+                        $BENEFIT = $selling_price - $purchase_price ;
                         // Perform calculations
                         
     
-                        $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id COMPANY_ID: $company_ID  SUPPLIER_ID:$supplier_id  QTY: $quantity SP: $purchase_price TM: $total_amount STP: $sales_type STATUS: $paid_status ";
+                        $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id COMPANY_ID: $company_ID  SUPPLIER_ID:$supplier_id  QTY: $quantity SP: $purchase_price  SEP:$selling_price TM: $total_amount STP: $sales_type STATUS: $paid_status ";
                         
                         
                         // Insert sales record
@@ -111,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             VALUES ('$product_id','$quantity',5,'$company_ID','$sales_point_id')";
                             $conn->query($sqlInventory);
 
-                            $sqlproducts = "UPDATE products SET price = $purchase_price WHERE id = $product_id";
+                            $sqlproducts = "UPDATE products SET price = $selling_price, benefit= $BENEFIT WHERE id = $product_id";
                             $conn->query($sqlproducts);
                             
     
@@ -147,11 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $total_amount = $quantity * $custom_price;
                     $purchase_price = $custom_price;
                     $remain_quantity = $current_inventory_quantity + $quantity;  
-
+                    $BENEFIT = $selling_price - $purchase_price ;
                     // Perform calculations
                     
 
-                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id COMPANY_ID: $company_ID  SUPPLIER_ID:$supplier_id  QTY: $quantity SP: $purchase_price  TM: $total_amount STP: $sales_type STATUS: $paid_status ";
+                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id COMPANY_ID: $company_ID  SUPPLIER_ID:$supplier_id  QTY: $quantity SP: $purchase_price   SEP:$selling_price  TM: $total_amount STP: $sales_type STATUS: $paid_status ";
                     
                     
                     // Insert sales record
@@ -177,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $sqlInventory = "UPDATE inventory SET quantity = $remain_quantity WHERE product_id = $product_id";
                         $conn->query($sqlInventory);
 
-                        $sqlproducts = "UPDATE products SET price = $purchase_price WHERE id = $product_id";
+                        $sqlproducts = "UPDATE products SET price = $selling_price, benefit= $BENEFIT WHERE id = $product_id";
                         $conn->query($sqlproducts);
                         
 

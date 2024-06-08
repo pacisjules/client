@@ -300,7 +300,7 @@ include('getuser.php');
                         <div style="margin-left: 31px;width: 40%;">
 
 
-                            <form><label class="form-label">Search Product</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
+                            <form><label class="form-label">SEARCH PRODUCT</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
 
 
                                 <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseach">
@@ -311,10 +311,13 @@ include('getuser.php');
 
 
 
-                                <label class="form-label" style="margin-top: 28px;">Product: <span id="gettedProduct"></span> &nbsp;&nbsp;</label><label class="form-label" style="padding-top: 0px;margin-top: 14px;font-weight: bold;">Price: <span id="gettedPrice"></span> Cqty: <span id="gettedCQuantity"></span></label><input class="form-control" type="number" id="Sales_qty" style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px; color:black;">PRODUCT: <span id="gettedProduct" style="font-weight:bold; color:blue;"></span> &nbsp;&nbsp;</label><label class="form-label" style="padding-top: 0px;margin-top: 14px;font-weight: bold;color:black;">PURCHASED : <span id="gettedPrice" style="font-weight:bold; color:green;"></span> Quantity: <span id="gettedCQuantity" style="font-weight:bold; color:red;"></span></label><input class="form-control" type="number" id="Sales_qty" style="margin-top: -6px;">
                                 
                                 <br />
-                                <div class="form-check form-switch" id="chow ">
+                                <label class="form-label" style="margin-top: 28px; color:black;">PRICE: </label>
+                                <input class="form-control" type="number" id="NegoPrice" style="margin-top: -6px;">
+
+                                <!-- <div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchPriceChecked" onchange="showNegotiablePrice()">
                                     <label class="form-check-label" for="flexSwitchPriceChecked">Add Negotiable Price</label>
                                         <br />
@@ -322,7 +325,7 @@ include('getuser.php');
                                         <div class="input-group mb-3" id="NegotiablePrice" style="display: none; transition: ease-in-out 0.2s; flex-direction:column;">
                                          <input class="form-control" style="width:90%;" type="number"  id="NegoPrice"></div>
 
-                                </div>
+                                </div> -->
                                 <label class="form-label" style="margin-top: 28px;"> <span id="calc_result"></span> &nbsp;&nbsp;</label>
 
 

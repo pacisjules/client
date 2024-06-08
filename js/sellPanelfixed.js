@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var session_id = getParameterByName('session_id'); 
+  
 //   function checkInternetConnection() {
 //     fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
 //         .then(response => {
@@ -16,76 +16,18 @@ $(document).ready(function () {
 // setInterval(checkInternetConnection, 500);
 
 
-var idpro = 0;
+
   
   // localStorage.setItem("temporary_hold",[]);
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
-  View_AllProformaRecord();
-  // getSelected();
+  View_DaySalesRecord();
+  getSelected();
   View_LastSalesRecord();
   View_ProductsRecord();
-  // addCartTablet();
+  addCartTablet();
   //holded_carts();
   setOldCart();
-
-
-
-
-
-
-
-
-
-
-
-  $.ajax({
-    url: `functions/production/getallProductionbySession.php?session_id=${session_id}&company_id=${company_id}`,
-    method: 'GET',
-    success: function(data) {
-      // Handle the data received from the AJAX request and display it in the table
-      var html = '';
-      var product_name = data.data[0].product_name;
-                              
-      $.each(data.data, function(index, item) {
-          
-        html += '<tr>';
-        html += '<td>' + item.raw_material_name + '</td>';
-        html += '<td>' + item.quantity + '</td>';
-        html += '<td> Frw ' + item.unit + '</td>';
-        html += '<td>' + item.created_at + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.raw_material_name}','${item.quantity}','${item.unit}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.raw_material_name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
-        html += '</tr>';
-      });
-      $('#detail_table').html(html);
-      $('#product_name').html(product_name);
-      $('#custn').html(product_name);
-      
-    },
-    error: function() {
-      console.log('An error occurred while fetching debt details.');
-    }
-  });
- 
- 
- 
- 
- 
- 
- 
- 
- 
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, '\\$&');
-  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-      results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
-
   
   
   
@@ -162,28 +104,56 @@ function getParameterByName(name, url) {
 
 $("#addCart").click(function() {
     var qty = $("#Sales_qty").val();
-    var product = $("#proformaproduct").val();
-    var price = $("#pricepro").val();
-    
-   
+    var negoPrice = $("#NegoPrice").val();
 
     // Parse values to floats
     qty = parseFloat(qty);
+    negoPrice = parseFloat(negoPrice);
 
-  
+    var c_qty = localStorage.getItem("current_quantity");
+    var price = localStorage.getItem("product_price");
+    var benefit = localStorage.getItem("product_benefit");
+
+    // Parse stored values to floats
+    c_qty = parseFloat(c_qty);
+    price = parseFloat(price);
+    benefit = parseFloat(benefit);
+
+    // Check if qty is a valid number and greater than 0
+    if (isNaN(qty) || qty <= 0) {
+        $("#calc_result").html("Please enter a valid quantity.");
+    } else if (c_qty < qty) {
+        $("#calc_result").html("You entered more quantity than stock!");
+    } else {
+        // Define variables to hold the calculated values
+        var benefits, realprice;
+
+        // Check if Negoprice is a valid number
+        if (!isNaN(negoPrice)) {
+            // Update calculation if Negoprice is a valid number
+            var ikiranguzo =  price - benefit;
+            benefits = negoPrice - ikiranguzo ;
+            realprice = negoPrice;
+        } else {
+            // Use regular price and benefit if Negoprice is not a valid number
+            benefits = benefit;
+            realprice = price;
+        }
+
         // If all checks pass, proceed with adding to cart
-        AddToCart(product, price, qty);
+        AddToCart(realprice, benefits, qty);
 
         // Clear input values and other elements
         $("#Sales_qty").val("");
-
-        $("#proformaproduct").val("");
-        $("#CustomerName").val("");
-        $("#pricepro").val("");
+        $("#NegoPrice").val("");
+        $("#searcProductNow").val("");
+        $("#gettedProduct").html("");
+        $("#gettedPrice").html("");
+        $("#gettedCQuantity").html("");
 
         // Clear any previous error messages
         $("#calc_result").html("");
-    
+    }
 });
 
 
@@ -200,15 +170,6 @@ $("#printRec").click(function() {
   printInvoiceFunc();
 
  });
-
-
- $("#printpro").click(function() {
-  printInvoiceFunc();
-
-  $("#modal_inventory").modal('hide');
-
- });
-
 
 
 
@@ -369,8 +330,8 @@ $("#NegoPrice").on("input", function () {
   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
 
   // Extract the product IDs and quantities from the cart array
-  var productnames = cart.items.map(function(item) {
-    return item.proforma_pro;
+  var productIds = cart.items.map(function(item) {
+    return parseInt(item.id);
   });
 
   var quantities = cart.items.map(function(item) {
@@ -381,43 +342,66 @@ $("#NegoPrice").on("input", function () {
     return parseFloat(item.price);
   });
   
+  var benes = cart.items.map(function(item) {
+    return parseFloat(item.benefit);
+  });
 
-  console.log("P_IDS: "+productnames);
+  //console.log("P_IDS: "+productIds);
   //console.log("Qty: "+quantities);
+
+  // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
   var use_id = parseInt(localStorage.getItem("UserID"));
-  
-
-  var cust_name = $("#CustomerName").val();
-  
+  var paid_jk = localStorage.getItem("is_paid");
+  var customer_id = localStorage.getItem("customer_id");
+  var cust_name = localStorage.getItem("customer_names");
+  var phone = localStorage.getItem("customer_phone")
 
 
   // // Start AJAX request
   $.ajax({
-    url: "functions/requisition/makeRequisition.php",
+    url: "functions/sales/bulksales.php",
     method: "POST",
     dataType: 'json',
     data: {
-      product_id: productnames,
+      product_id: productIds,
       sales_point_id: sales_point_id,
+      customer_id:customer_id,
       cust_name:cust_name,
+      phone:phone,
       quantity: quantities,
       price:prices,
+      benefit:benes,
+      sales_type: 1,
+      paid_status: paid_jk,
+      service_amount: 0,
       user_id: use_id,
     },
-    
     
     success: function (response) {
       console.log("response:", response);
       initializeCart();
+      View_LastSalesRecord();
+      $("#savep_sell").html("Sell Done");
+      localStorage.setItem("is_paid","Paid");
+     
+      var checkbox = document.getElementById("flexSwitchCheckChecked");
       
-      $("#savep_sell").html("Proforma Done");
-   
+      // Toggle the checkbox's checked state
+      checkbox.checked = false;
+      
       // $('#amadenis').hide();
       $("#finishModal").modal('show');
       $('#sessionid').html(response);
       localStorage.setItem('sessionid', response);
-    
+      localStorage.removeItem('customer_id');
+      localStorage.removeItem('customer_phone');
+      localStorage.removeItem('customer_names');
+      localStorage.removeItem('customer_address');
+      $("#searchCustomerNow").html("");
+      $("#getnames").html("");
+      $("#getphone").html("");
+      $("#getaddress").html("");
     },
     error: function (xhr, status, error) {
       console.log("Error:", xhr.responseText, status);
@@ -482,7 +466,8 @@ $("#NegoPrice").on("input", function () {
         // console.log("Error:", error);
       },
     });
-    // Ajax End
+    // Ajax End!
+
 
     
  });
@@ -494,28 +479,60 @@ $("#NegoPrice").on("input", function () {
 
 });
 
-function View_AllProformaRecord() {
- 
+function View_DaySalesRecord() {
+  const currentDate = new Date();
+  const montly = currentDate.getMonth();
+  const date = currentDate.getDate();
+  const year = currentDate.getFullYear();
+  const formattedDate =
+    year +
+    "-" +
+    (montly + 1).toString().padStart(2, "0") +
+    "-" +
+    date.toString().padStart(2, "0");
+
+  const formatDate = (myDate) => {
+    const dateParts = myDate.split("-");
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+
+    const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }
+    );
+
+    return formattedDate;
+  };
+
+  $("#dateShow").html(formatDate(formattedDate));
+
+  // Retrieve values from localStorage
+  var company_ID = localStorage.getItem("CoID");
   var sales_point_id = localStorage.getItem("SptID");
 
   // Ajax Start!
 
   $.ajax({
-    url: `functions/requisition/getallProformadata.php?spt=${sales_point_id}`,
+    url: `functions/sales/getalldaysaleswithcompanyspt.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
     method: "POST",
     context: document.body,
     success: function (response) {
       if (response) {
         //console.log(response);
-        $("#proforma_table").html(response);
+        $("#sells_table").html(response);
       } else {
         //console.log(response);
-        $("#proforma_table").html("Not Any result");
+        $("#sells_table").html("Not Any result");
       }
     },
     error: function (xhr, status, error) {
-      console.log("AJAX request failed!");
-      console.log("Error:", error);
+      // console.log("AJAX request failed!");
+      // console.log("Error:", error);
     },
   });
   // Ajax End!
@@ -701,46 +718,46 @@ function View_LastSalesRecord() {
 
 
 function getSelected(id,name,price,benefit,C_Qty) {
-  // console.log(name);
+  console.log(name);
   
-  // $("#gettedProduct").html(name);
+  $("#gettedProduct").html(name);
 
-  // $("#gettedPrice").html(
-  //   new Intl.NumberFormat("en-US", {
-  //     style: "currency",
-  //     currency: "RWF",
-  //   }).format(price)
-  // );
+  $("#gettedPrice").html(
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "RWF",
+    }).format(price)
+  );
 
-  // $("#gettedCQuantity").html(C_Qty);
+  $("#gettedCQuantity").html(C_Qty);
 
-  // $("#Up_benefit").val(benefit);
+  $("#Up_benefit").val(benefit);
   
   
 
-  // //$("#product_name").html(benefit);
+  //$("#product_name").html(benefit);
 
-  // $("#getseach").html('');
+  $("#getseach").html('');
 
-  // localStorage.setItem("product_id", id);
-  // localStorage.setItem("product_price", price);
-  // localStorage.setItem("product_benefit", benefit);
-  // localStorage.setItem("product_name", name);
-  // localStorage.setItem("current_quantity", C_Qty);
+  localStorage.setItem("product_id", id);
+  localStorage.setItem("product_price", price);
+  localStorage.setItem("product_benefit", benefit);
+  localStorage.setItem("product_name", name);
+  localStorage.setItem("current_quantity", C_Qty);
 }
 
 function getSelectedCustomer(customer_id,names,phone,address) {
   console.log(names);
 
-  // $("#getnames").html(names);
-  // $("#getphone").html(phone);
-  // $("#getaddress").html(address);
-  // $("#getsearchCustomer").html('');
+  $("#getnames").html(names);
+  $("#getphone").html(phone);
+  $("#getaddress").html(address);
+  $("#getsearchCustomer").html('');
 
-  // localStorage.setItem("customer_id", customer_id);
-  // localStorage.setItem("customer_names", names);
-  // localStorage.setItem("customer_phone", phone);
-  // localStorage.setItem("customer_address", address);
+  localStorage.setItem("customer_id", customer_id);
+  localStorage.setItem("customer_names", names);
+  localStorage.setItem("customer_phone", phone);
+  localStorage.setItem("customer_address", address);
  
 }
 
@@ -853,11 +870,12 @@ function updateCalcResult() {
 
 
 
-function AddToCart(proforma_pro, price, qty) {
+function AddToCart(realprice, benefit, qty) {
     
- 
+   var id = localStorage.getItem("product_id");
+    var name = localStorage.getItem("product_name");
 
-    if (!proforma_pro || !price || !qty) {
+    if (!id || !realprice || !benefit || !name || !qty) {
         console.log("Product information is incomplete. Cannot add to cart.");
         return;
     }
@@ -867,8 +885,10 @@ function AddToCart(proforma_pro, price, qty) {
 
 
     var product = {
-      proforma_pro: proforma_pro,
-      price: price,
+      id: id,
+      price: realprice,
+      benefit: benefit,
+      name: name,
       qty: qty
     };
     cart.items.push(product);
@@ -877,7 +897,7 @@ function AddToCart(proforma_pro, price, qty) {
 
   // Create a new table row with the product data
   var newRow = $('<tr></tr>');
-  newRow.append('<td>' + proforma_pro + '</td>');
+  newRow.append('<td>' + name + '</td>');
   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RWF",
@@ -887,6 +907,8 @@ function AddToCart(proforma_pro, price, qty) {
     style: "currency",
     currency: "RWF",
   }).format(product.price * qty) + '</td>');
+  newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + id + '" type="button">  <i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button></td>');
+
   // Append the new row to the table
   $('#cartItemTable').append(newRow);
 
@@ -904,87 +926,92 @@ function AddToCart(proforma_pro, price, qty) {
     currency: "RWF",
   }).format(totalAmount));
 
+  // Optional: Log the updated cart array for debugging
+  localStorage.removeItem("product_id");
+  localStorage.removeItem("product_price");
+  localStorage.removeItem("product_benefit");
+  localStorage.removeItem("product_name");
   console.log(cart);
 }
 
 
-// function AddToCartTablet(id,namepro,realprice, benefits, qty) {
+function AddToCartTablet(id,namepro,realprice, benefits, qty) {
     
   
 
-//    if (!id || !realprice || !benefits || !namepro || !qty) {
-//        console.log("Product information is incomplete. Cannot add to cart.");
-//        return;
-//    }
+   if (!id || !realprice || !benefits || !namepro || !qty) {
+       console.log("Product information is incomplete. Cannot add to cart.");
+       return;
+   }
    
-//  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+ var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
  
  
 
 
-//    var product = {
-//      id: id,
-//      price: realprice,
-//      benefit: benefits,
-//      name: namepro,
-//      qty: qty
-//    };
-//    cart.items.push(product);
+   var product = {
+     id: id,
+     price: realprice,
+     benefit: benefits,
+     name: namepro,
+     qty: qty
+   };
+   cart.items.push(product);
 
-//  localStorage.setItem("cart", JSON.stringify(cart));
+ localStorage.setItem("cart", JSON.stringify(cart));
 
-//  $('#items_number').html(cart.items.length);
+ $('#items_number').html(cart.items.length);
 
-//  // Create a new table row with the product data
-//  var newRow = $('<tr></tr>');
-//  newRow.append('<td>' + product.name + '</td>');
-//  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-//    style: "currency",
-//    currency: "RWF",
-//  }).format(product.price) + '</td>');
-//  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-//    style: "currency",
-//    currency: "RWF",
-//  }).format(product.price * product.qty) + '</td>');
-//  newRow.append(`<td class="actBtn">
-//  <div class="actBtnIn"  onclick="decreaseQtyshow(${product.id})">
-//  <img src="styles/icons/minus-sign.png" alt="" srcset="">
-//  </div>
-//  <div class="actBtnInTotal">
-//      <p>${product.qty}</p>
-//  </div> 
-//  <div class="actBtnIn"  onclick="increaseQtyshow(${product.id})">
-//  <img src="styles/icons/plus.png" alt="" srcset="">
-//  </div>
-//  <div class="actBtnIn" onclick="removeItemshow(${product.id})">
-//  <img src="styles/icons/remove.png" alt="" srcset="">
-//  </div>
-// </td>`)
+ // Create a new table row with the product data
+ var newRow = $('<tr></tr>');
+ newRow.append('<td>' + product.name + '</td>');
+ newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+ }).format(product.price) + '</td>');
+ newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+ }).format(product.price * product.qty) + '</td>');
+ newRow.append(`<td class="actBtn">
+ <div class="actBtnIn"  onclick="decreaseQtyshow(${product.id})">
+ <img src="styles/icons/minus-sign.png" alt="" srcset="">
+ </div>
+ <div class="actBtnInTotal">
+     <p>${product.qty}</p>
+ </div> 
+ <div class="actBtnIn"  onclick="increaseQtyshow(${product.id})">
+ <img src="styles/icons/plus.png" alt="" srcset="">
+ </div>
+ <div class="actBtnIn" onclick="removeItemshow(${product.id})">
+ <img src="styles/icons/remove.png" alt="" srcset="">
+ </div>
+</td>`)
 
-//  // Append the new row to the table
-//  $('#cartItemTableTablet').append(newRow);
+ // Append the new row to the table
+ $('#cartItemTableTablet').append(newRow);
 
-//  // Calculate total amount
-//  var totalAmount = 0;
-//  for (var i = 0; i < cart.items.length; i++) {
-//    var item = cart.items[i];
-//    var itemTotal = item.price * item.qty;
-//    totalAmount += itemTotal;
-//  }
+ // Calculate total amount
+ var totalAmount = 0;
+ for (var i = 0; i < cart.items.length; i++) {
+   var item = cart.items[i];
+   var itemTotal = item.price * item.qty;
+   totalAmount += itemTotal;
+ }
 
-//  // Display the total amount
-//  $("#subtotal").text(new Intl.NumberFormat("en-US", {
-//    style: "currency",
-//    currency: "RWF",
-//  }).format(totalAmount));
+ // Display the total amount
+ $("#subtotal").text(new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+ }).format(totalAmount));
 
-//  $("#subtotalPayable").text(new Intl.NumberFormat("en-US", {
-//   style: "currency",
-//   currency: "RWF",
-// }).format(totalAmount));
+ $("#subtotalPayable").text(new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "RWF",
+}).format(totalAmount));
 
-//  console.log(cart);
-// }
+ console.log(cart);
+}
 
 
 
@@ -997,7 +1024,7 @@ function updateCartDisplay(cart) {
   // Loop through the cart items and update the table
   cart.items.forEach(item => {
     var newRow = $('<tr></tr>');
-    newRow.append('<td>' + item.proforma_pro + '</td>');
+    newRow.append('<td>' + item.name + '</td>');
     newRow.append('<td>' + new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "RWF",
@@ -1007,7 +1034,8 @@ function updateCartDisplay(cart) {
       style: "currency",
       currency: "RWF",
     }).format(parseFloat(item.price) * parseFloat(item.qty)) + '</td>');
-    
+    newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + item.id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + item.id + '" type="button"><i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + item.id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button </td>');
+
     // Append the new row to the table
     $('#cartItemTable').append(newRow);
   });
@@ -1083,60 +1111,60 @@ function updateCartDisplaytablet(cart) {
 
 
 
-// function addCartTablet(id, namepro, p_c_qty, p_price, p_benefit) {
+function addCartTablet(id, namepro, p_c_qty, p_price, p_benefit) {
 
-// $('#unhold').css('opacity', 0);
-// console.log(id)
-// var qty = 1;
-// var negoPrice = $("#NegoPrice").val();
+$('#unhold').css('opacity', 0);
+console.log(id)
+var qty = 1;
+var negoPrice = $("#NegoPrice").val();
 
-// // Parse values to floats
-// qty = parseFloat(qty);
-// negoPrice = parseFloat(negoPrice);
+// Parse values to floats
+qty = parseFloat(qty);
+negoPrice = parseFloat(negoPrice);
 
-// var c_qty = p_c_qty;
-// var price = p_price;
-// var benefit = p_benefit;
+var c_qty = p_c_qty;
+var price = p_price;
+var benefit = p_benefit;
 
-// // Parse stored values to floats
-// c_qty = parseFloat(c_qty);
-// price = parseFloat(price);
-// benefit = parseFloat(benefit);
+// Parse stored values to floats
+c_qty = parseFloat(c_qty);
+price = parseFloat(price);
+benefit = parseFloat(benefit);
 
-// // Check if qty is a valid number and greater than 0
-// if (isNaN(qty) || qty <= 0) {
-//     alert("Please enter a valid quantity.");
-// } else if (c_qty < qty) {
-//     alert("You entered more quantity than stock!");
-// } else {
-//     // Define variables to hold the calculated values
-//     var benefits, realprice;
+// Check if qty is a valid number and greater than 0
+if (isNaN(qty) || qty <= 0) {
+    alert("Please enter a valid quantity.");
+} else if (c_qty < qty) {
+    alert("You entered more quantity than stock!");
+} else {
+    // Define variables to hold the calculated values
+    var benefits, realprice;
 
-//     // Check if Negoprice is a valid number
-//     if (!isNaN(negoPrice)) {
-//         // Update calculation if Negoprice is a valid number
-//         var ikiranguzo =  price - benefit;
-//         benefits = negoPrice - ikiranguzo ;
-//         realprice = negoPrice;
-//     } else {
-//         // Use regular price and benefit if Negoprice is not a valid number
-//         benefits = benefit;
-//         realprice = price;
-//     }
+    // Check if Negoprice is a valid number
+    if (!isNaN(negoPrice)) {
+        // Update calculation if Negoprice is a valid number
+        var ikiranguzo =  price - benefit;
+        benefits = negoPrice - ikiranguzo ;
+        realprice = negoPrice;
+    } else {
+        // Use regular price and benefit if Negoprice is not a valid number
+        benefits = benefit;
+        realprice = price;
+    }
 
-//     // If all checks pass, proceed with adding to cart
-//     // AddToCartTablet(id,namepro,realprice, benefits, qty);
+    // If all checks pass, proceed with adding to cart
+    AddToCartTablet(id,namepro,realprice, benefits, qty);
 
-//     // // Clear input values and other elements
-//     // $("#Sales_qty").val("");
-//     // $("#NegoPrice").val("");
-//     // $("#searcProductNow").val("");
-//     // $("#gettedProduct").html("");
-//     // $("#gettedPrice").html("");
-//     // $("#gettedCQuantity").html("");
+    // // Clear input values and other elements
+    // $("#Sales_qty").val("");
+    // $("#NegoPrice").val("");
+    // $("#searcProductNow").val("");
+    // $("#gettedProduct").html("");
+    // $("#gettedPrice").html("");
+    // $("#gettedCQuantity").html("");
 
-//   }
-// }
+  }
+}
 
 function decreaseQtyshow(e) {
   var itemId = e;
@@ -1255,7 +1283,7 @@ function proceed_tablet_sales () {
   // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
   var use_id = parseInt(localStorage.getItem("UserID"));
-  
+  var paid_jk = localStorage.getItem("is_paid");
   var customer_id = localStorage.getItem("customer_id");
   var cust_name = localStorage.getItem("customer_names");
   var phone = localStorage.getItem("customer_phone")
@@ -1263,7 +1291,7 @@ function proceed_tablet_sales () {
 
   // // Start AJAX request
   $.ajax({
-    url: "functions/proforma/makeProforma.php",
+    url: "functions/sales/bulksales.php",
     method: "POST",
     dataType: 'json',
     data: {
@@ -1276,6 +1304,8 @@ function proceed_tablet_sales () {
       price:prices,
       benefit:benes,
       sales_type: 1,
+      paid_status: paid_jk,
+      service_amount: 0,
       user_id: use_id,
     },
     
@@ -1284,7 +1314,7 @@ function proceed_tablet_sales () {
       View_ProductsRecord();
       initializeCart();
       View_LastSalesRecord();
-      $("#savep_sell_tablet").html("Proforma Done");
+      $("#savep_sell_tablet").html("Sell Done");
       localStorage.setItem("is_paid","Paid");
      
       var checkbox = document.getElementById("flexSwitchCheckChecked");
@@ -1330,20 +1360,19 @@ function printInvoiceFunc() {
 
   // Ajax request to fetch sales data
   $.ajax({
-      url: `functions/requisition/printInvoice.php?sess_id=${ssess}`,
+      url: `functions/sales/printInvoice.php?sess_id=${ssess}`,
       method: 'GET',
       dataType: 'json',
       success: function(data) {
           if (data && data.data && data.data.length > 0) {
               const salesdata = data.data;
-              const date = data.data[0].created_at;
-              const customer_name = data.data[0].customer_name;
-              const doneby = data.data[0].full_name;
+              const date = data.data[0].created_time;
+              const customer = data.data[0].cust_name;
               const phone = data.data[0].phone;
               const sumtotal = data.sumtotal;
-              const typereport = " PURCHASE REQUISITION";
-              
-              printInvoice(salesdata, typereport, sumtotal,date,customer_name,phone,doneby);
+              const typereport = "Selleasep Receipt";
+              console.log("customer : ",customer);
+              printInvoice(salesdata, typereport, sumtotal,date,customer,phone);
           } else {
               console.error('Empty or invalid data received from the server.');
           }
@@ -1731,7 +1760,7 @@ function setOldCart(){
 
 
 
-function printInvoice(salesdata,typereport,sumtotal,date,customer_name,phone,doneby) {
+function printInvoice(salesdata,typereport,sumtotal,date,customer,phone) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -1742,7 +1771,8 @@ const day = String(currentDate.getDate()).padStart(2, '0');
 const formattedDate = `${year}-${month}-${day}`;
 
 const c_name = localStorage.getItem("companyName");
-const Phone =  localStorage.getItem("phone");
+const Phone =  localStorage.getItem("phoneboss");
+const Phonemana =  localStorage.getItem("phonemana");
 const c_logo = localStorage.getItem("company_logo");
 const c_color =  localStorage.getItem("company_color");
 const nameManager =  localStorage.getItem("Names");
@@ -1759,8 +1789,8 @@ for (let i = 0; i < salesdata.length; i++) {
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RWF",
-}).format(parseFloat(item.price))}</td>
-
+}).format(parseFloat(item.sales_price))}</td>
+  <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color:${ item.paid_status == "Paid" ? "green" : "red" }; font-weight: bold;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.paid_status}</td>
   <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RWF",
@@ -1859,8 +1889,8 @@ for (let i = 0; i < salesdata.length; i++) {
           </tr>
   
               <tr>
-                  <td style="padding-top:20px; font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Done By: ${doneby} <br> Tel: ${phone}
+                  <td style="padding-top:20px; font-size: 12px; color: #1f0c57; font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
+                  Done By : ${nameManager} <br> Tel: ${Phone} , ${Phonemana}
                 </td>
                 
                   </tr>
@@ -1869,11 +1899,7 @@ for (let i = 0; i < salesdata.length; i++) {
                   <td style="font-size: 12px; color: rgb(6, 6, 61); font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
                   Sales Point Location : ${salespoint}
                 </td>
-                </tr>
-                </br>
-                <tr>
-               
-                  
+                  </tr>
             </tbody>
           </table>
           <table width="220" border="0" cellpadding="0" cellspacing="0" align="right" class="col">
@@ -1898,11 +1924,16 @@ for (let i = 0; i < salesdata.length; i++) {
               </tr>
               <tr>
                 <td style="font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                  <strong>Needed by : ${customer_name}</strong>
+                  <strong>Customer : ${customer}</strong>
+                </td>
+              <tr>
+              <tr>
+                <td style="font-size: 17px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
+                  <strong>phone : ${phone}</strong>
                 </td>
               <tr>
                 <td style="font-size: 16px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                  <small>Done On : ${date}</small>
+                  <small>Receipt Date : ${date}</small>
                 </td>
               </tr>
             </tbody>
@@ -1950,12 +1981,14 @@ for (let i = 0; i < salesdata.length; i++) {
             Price
             </th> 
             
-            
+            <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
+            Paid Status
+            </th>
   
             <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
             Sales Amount
             </th>
-        
+          
           
           ${table}
           
@@ -2139,10 +2172,7 @@ for (let i = 0; i < salesdata.length; i++) {
 
 
 
-function SelectSessionToPrint(session){
-  console.log("session id :", session);
-  localStorage.setItem("sessionid",session);
-}
+
 
 
   

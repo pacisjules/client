@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Purchase Panel - SellEASEP</title>
+    <title>POS - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -93,6 +93,104 @@ include('getuser.php');
 </head>
 
 <body id="page-top">
+<div id="tablet">
+<div class="top">
+    <div>
+        <h1 style="margin-top:8pt;">Selleasep POS</h1>
+        <p style="font-size:10pt; margin-top:-10pt;">Please use View menu then Reload when no data found</p>
+    </div>
+    <div>
+        <div class="searcher">
+            <input type="text" oninput="setSearch(this.value)" placeholder="Search products......." >
+            <img src="styles/icons/search.png" alt="" srcset="">
+        </div>
+    </div>
+    <div class="infos">
+        <div class="btns">
+            <img src="styles/icons/refresh.png" alt="" srcset="" onclick="setOldCart()">
+            <!-- <img src="styles/icons/refresh.png" alt="" srcset="" onclick="refreshPage()"> -->
+        </div>
+        <div class="btns">
+            <img id="wifi_status" src="styles/icons/wifiOn.png" alt="" srcset="">
+        </div>
+        <div class="rightExit" id="Exit">
+            <img src="styles/icons/switch.png" alt="" srcset="">
+        </div>
+    </div>
+</div>
+
+<div class="down">
+    <div class='LeftSide'>
+       <div class="clbtns">
+       <a href="index.php"><img src="styles/icons/home.png" alt="" srcset="">
+        <p>Home</p></a>
+       </div>
+       <div class="clbtns">
+       <a href="product.php"><img src="styles/icons/features.png" alt="" srcset="">
+        <p>Products</p></a>
+       </div>
+       <div class="clbtns">
+       <a href="sales.php"><img src="styles/icons/direct-marketing.png" alt="" srcset="">
+        <p>Sales</p></a>
+       </div> 
+    </div>
+    <div class='MiddleSide'>
+        <div class="category">
+        <ul id="categorylist">
+            <!-- <li>All</li>
+
+            <li>Soft Drinks</li>
+            <li>Juice Drinks</li>
+            <li>Snacks Food</li>
+            <li>Cooked Food</li> -->
+        </ul>
+        </div>
+        <div class="products" id="productslist">
+        </div>
+    </div>
+    <div class='RightSide'>
+        <div class="bodyTable">
+            <div class="Title"><span id="items_number">0</span> Item(s) Listed in basket, <span id="holds_number">0 Hold</span> <span id="unhold" onclick="holded_carts()">UNHOLD</span></div>
+<div>     
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+<th>Total</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="cartItemTableTablet">
+
+</tbody>
+</table></div>   
+        </div>
+        <div class="payment">
+            <div class="calc">
+                
+            <h2>Payable Amount</h2>
+            <h3 id="subtotal">0 Rwf</h3>
+        
+        </div>
+            <div class="calc">
+            <h2>Tax</h2>
+            <h3>0 Rwf</h3>
+            </div>
+            <div class="calc">
+            <h2>Payable Amount</h2>
+            <h3 id="subtotalPayable">0 Rwf</h3>
+            </div>
+
+            <div class="calcBtns">
+                <button id="holdp_sell_tablet" onclick="hold_tablet_sales()">Hold Order</button>
+                <button id="savep_sell_tablet" onclick="proceed_tablet_sales()">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
     <div id="wrapper">
         <?php include('sidebar.php'); ?>
         <div class="d-flex flex-column" id="content-wrapper">
@@ -100,7 +198,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">PURCHASE PANEL</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Sales Panel</h3>
                     </div>
                     <div class="d-flex">
                         
@@ -109,13 +207,19 @@ include('getuser.php');
                                 <p class="text-primary m-0 fw-bold">Make Cart</p>
                             </div>
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 text-nowrap">
+
                                 
+                                    </div>
+                                  
+                                </div>
                                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                     <table class="table my-0" id="dataTable">
                                         <thead>
                                             <tr>
                                                 <th>Product name</th>
-                                                <th>Purchase/Price</th>
+                                                <th>Price</th>
                                                 <th>Qty</th>
                                                 <th>Total</th>
                                                 <th>Actions</th>
@@ -140,7 +244,7 @@ include('getuser.php');
                                 </div>
                                 
                                  <div class="input-group mb-3" id="amadenis" style="transition: ease-in-out 0.2s; flex-direction:column;">
-                                           <label>Search Supplier</label><br /><input class="form-control" style="width:90%;" type="text" placeholder="Search Supplier ....." id="searchCustomerNow">
+                                           <label>Search Customer</label><br /><input class="form-control" style="width:90%;" type="text" placeholder="Search Customer ....." id="searchCustomerNow">
 
 
                                             <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;width:90%;" id="getsearchCustomer">
@@ -148,17 +252,17 @@ include('getuser.php');
                                             </div>
                                             <br />
                                             <div style="flex-direction:row;color:black;">
-                                            <label>Supplier Names : </label> <span id="getnames"></span> , Tel: <span id="getphone"></span>  , Address: <span id="getaddress"></span></div><br />
+                                            <label>Customer Names : </label> <span id="getnames"></span> , Tel: <span id="getphone"></span>  , Address: <span id="getaddress"></span></div><br />
                                            <!--<div style="flex-direction:row;"> <label>Phone Number :</label> <span id="getphone"></span></div>-->
                                            <!--<div style="flex-direction:row;">  <label>Address : </label> <span id="getaddress"></span> </div> <br />  -->
-                                           <div style="flex-direction:row;">  <button class="btn btn-primary" type="button"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Supplier</button> </div> 
+                                           <div style="flex-direction:row;">  <button class="btn btn-primary" type="button"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Customer</button> </div> 
                                             
                                         </div>
 
 
-                               </br><div class="form-check form-switch" id="chow ">
+                                <div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="showAmadenis()">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked" style="font-weight:bold;">Approve Credit</label>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Approve Debts</label>
                                     <!--<br />-->
                                     <!--<form>-->
 
@@ -188,7 +292,7 @@ include('getuser.php');
                                 
                                 <div class="d-flex justify-content-end" style="margin-top: -3rem;"><button class="btn btn-dark" type="button" id="savep_sell" style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 20px;margin-bottom: 15px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-plus-fill">
                                             <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path>
-                                        </svg>&nbsp; &nbsp;PURCHASE NOW</button>
+                                        </svg>&nbsp; &nbsp;SALE NOW</button>
                                 </div>
                                 
                             </div>
@@ -196,7 +300,7 @@ include('getuser.php');
                         <div style="margin-left: 31px;width: 40%;">
 
 
-                            <form><label class="form-label" style="color:black;">SEARCH PRODUCT</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
+                            <form><label class="form-label">SEARCH PRODUCT</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
 
 
                                 <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseach">
@@ -207,12 +311,9 @@ include('getuser.php');
 
 
 
-                                <label class="form-label" style="margin-top: 28px;color:black;">PRODUCT: <span id="gettedProduct" style="color:green; font-weight:bold;"></span> </label></br><label class="form-label" style="margin-top: 28px;color:black;">ADD QUANTITY </label><input class="form-control" type="number" id="purchase_qty" style="margin-top: -6px;">
-                                </br>
-                                <label class="form-label" style="margin-top: 28px;color:black;">PURCHASE PRICE </label><input class="form-control" type="number" id="purchase_price" style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px; color:black;">PRODUCT: <span id="gettedProduct" style="font-weight:bold; color:blue;"></span> &nbsp;&nbsp;</label><label class="form-label" style="padding-top: 0px;margin-top: 14px;font-weight: bold;color:black;">PRICE : <span id="gettedPrice" style="font-weight:bold; color:green;"></span> Quantity: <span id="gettedCQuantity" style="font-weight:bold; color:red;"></span></label><input class="form-control" type="number" id="Sales_qty" style="margin-top: -6px;">
                                 
-                                
-                                <!-- <br />
+                                <br />
                                 <div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchPriceChecked" onchange="showNegotiablePrice()">
                                     <label class="form-check-label" for="flexSwitchPriceChecked">Add Negotiable Price</label>
@@ -222,7 +323,7 @@ include('getuser.php');
                                          <input class="form-control" style="width:90%;" type="number"  id="NegoPrice"></div>
 
                                 </div>
-                                <label class="form-label" style="margin-top: 28px;"> <span id="calc_result"></span> &nbsp;&nbsp;</label> -->
+                                <label class="form-label" style="margin-top: 28px;"> <span id="calc_result"></span> &nbsp;&nbsp;</label>
 
 
 
@@ -239,10 +340,22 @@ include('getuser.php');
                     
                     <div class="card shadow" style="margin-top: 20px;">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Current Purchase Records</p>
+                            <p class="text-primary m-0 fw-bold">Current Sales Informations</p>
                         </div>
                         <div class="card-body">
-                           
+                            <div class="row">
+                                <div class="col-md-6 text-nowrap">
+                                    <div id="dataTable_length-1" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
+                                                <option value="10" selected="">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>&nbsp;</label></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter-1"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+                                </div>
+                            </div>
                             <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
@@ -278,7 +391,22 @@ include('getuser.php');
 
 
                             
-                            
+                            <div class="row">
+                                <div class="col-md-6 align-self-center">
+                                    <p id="dataTable_info-1" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -298,10 +426,10 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add New supplier</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Add New Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; Add new supplier.</p>
+                    <p>Here&nbsp; Add new Customer.</p>
                     <form>
                         <label class="form-label" style="margin-top: 12px;">Full Names</label>
                         <input class="form-control" type="text" id="names">
@@ -500,8 +628,8 @@ include('getuser.php');
 
 
 
-    <script src="js/purchasePanel.js"></script>
-    <!-- <script src="js/Mytablet.js"></script> -->
+    <script src="js/sellPanelfixed.js"></script>
+    <script src="js/Mytablet.js"></script>
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

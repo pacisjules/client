@@ -112,33 +112,27 @@ $("#addCart").click(function() {
 
     var c_qty = localStorage.getItem("current_quantity");
     var price = localStorage.getItem("product_price");
-    var benefit = localStorage.getItem("product_benefit");
+    
 
     // Parse stored values to floats
     c_qty = parseFloat(c_qty);
     price = parseFloat(price);
-    benefit = parseFloat(benefit);
+    negoPrice = parseFloat(negoPrice);
 
     // Check if qty is a valid number and greater than 0
     if (isNaN(qty) || qty <= 0) {
         $("#calc_result").html("Please enter a valid quantity.");
+        $("#calc_result").css("color","red");
     } else if (c_qty < qty) {
         $("#calc_result").html("You entered more quantity than stock!");
+        $("#calc_result").css("color","red");
     } else {
         // Define variables to hold the calculated values
-        var benefits, realprice;
-
-        // Check if Negoprice is a valid number
-        if (!isNaN(negoPrice)) {
-            // Update calculation if Negoprice is a valid number
-            var ikiranguzo =  price - benefit;
-            benefits = negoPrice - ikiranguzo ;
-            realprice = negoPrice;
-        } else {
-            // Use regular price and benefit if Negoprice is not a valid number
-            benefits = benefit;
-            realprice = price;
-        }
+      
+          
+          var benefits = negoPrice - price ;
+          var realprice = negoPrice;
+        
 
         // If all checks pass, proceed with adding to cart
         AddToCart(realprice, benefits, qty);
@@ -398,6 +392,10 @@ $("#NegoPrice").on("input", function () {
       localStorage.removeItem('customer_phone');
       localStorage.removeItem('customer_names');
       localStorage.removeItem('customer_address');
+      $("#searchCustomerNow").html("");
+      $("#getnames").html("");
+      $("#getphone").html("");
+      $("#getaddress").html("");
     },
     error: function (xhr, status, error) {
       console.log("Error:", xhr.responseText, status);
@@ -784,14 +782,14 @@ function updateCalcResult() {
     var qty = $("#Sales_qty").val();
     var c_qty = localStorage.getItem("current_quantity");
     var price = localStorage.getItem("product_price");
-    var benefit = localStorage.getItem("product_benefit");
+  
     var TypeUser = localStorage.getItem("UserType");
 
     // Parse values to floats
     qty = parseFloat(qty);
     c_qty = parseFloat(c_qty);
     price = parseFloat(price);
-    benefit = parseFloat(benefit);
+   
 
     // Check if qty is a valid number and greater than 0
     // if (isNaN(qty) || qty <= 0) {
@@ -803,7 +801,6 @@ function updateCalcResult() {
     }else{
    
    
-    var useNegotiablePrice = $("#flexSwitchPriceChecked").is(":checked");
     var Negoprice = $("#NegoPrice").val();
 
     // Parse Negoprice to float
@@ -814,38 +811,15 @@ function updateCalcResult() {
     //     return;
     // }
 
-    var total, total_benefit;
+    var total, total_benefit,bene;
 
     // Calculation with both price and Negoprice
-    total = qty * price;
-    total_benefit = qty * benefit;
+    total = qty * Negoprice;
+    bene = Negoprice - price;
+    total_benefit = qty * bene;
 
-    if (useNegotiablePrice) {
-        // Update calculation if NegoPrice is checked
-        var ikiranguzo = price - benefit;
-        var beneperc = Negoprice - ikiranguzo ;
-        total = qty * Negoprice;
-        total_benefit = qty * beneperc;
-        
-        if (TypeUser === "BOSS") {
-            if(total_benefit<0){
-              $("#calc_result").css("color","red");  
-              $("#calc_result").html(
-            "Total Amount: " + total + " and Benefit: " + total_benefit +" (LOSS)"
-        );  
-            }else{
-              $("#calc_result").css("color","green");   
-             $("#calc_result").html(
-            "Total Amount: " + total + " and Benefit: " + total_benefit
-        );   
-            }
-        
-    } else {
-        $("#calc_result").html("Total Amount: " + total);
-    }
-    }else{
-       total = qty * price;
-    total_benefit = qty * benefit;
+  
+
     
     if (TypeUser === "BOSS") {
         $("#calc_result").html(
@@ -856,7 +830,7 @@ function updateCalcResult() {
     }
     
     
-    }
+   
 
      
     }
@@ -1767,7 +1741,8 @@ const day = String(currentDate.getDate()).padStart(2, '0');
 const formattedDate = `${year}-${month}-${day}`;
 
 const c_name = localStorage.getItem("companyName");
-const Phone =  localStorage.getItem("phone");
+const Phone =  localStorage.getItem("phoneboss");
+const Phonemana =  localStorage.getItem("phonemana");
 const c_logo = localStorage.getItem("company_logo");
 const c_color =  localStorage.getItem("company_color");
 const nameManager =  localStorage.getItem("Names");
@@ -1884,8 +1859,8 @@ for (let i = 0; i < salesdata.length; i++) {
           </tr>
   
               <tr>
-                  <td style="padding-top:20px; font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Manager, ${nameManager} <br> Tel: ${Phone}
+                  <td style="padding-top:20px; font-size: 12px; color: #1f0c57; font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
+                  Done By : ${nameManager} <br> Tel: ${Phone} , ${Phonemana}
                 </td>
                 
                   </tr>
