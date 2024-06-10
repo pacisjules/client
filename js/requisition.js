@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var session_id = getParameterByName('session_id'); 
+  var session_id = getParameterByName('sess_id'); 
 //   function checkInternetConnection() {
 //     fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
 //         .then(response => {
@@ -21,8 +21,8 @@ var idpro = 0;
   // localStorage.setItem("temporary_hold",[]);
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
-  View_AllProformaRecord();
-  // getSelected();
+  View_AllRequisitionRecord();
+  populateSalespoints();
   View_LastSalesRecord();
   View_ProductsRecord();
   // addCartTablet();
@@ -40,41 +40,35 @@ var idpro = 0;
 
 
   $.ajax({
-    url: `functions/production/getallProductionbySession.php?session_id=${session_id}&company_id=${company_id}`,
+    url: `functions/requisition/printInvoice.php?sess_id=${session_id}`,
     method: 'GET',
+    dataType: 'json',
     success: function(data) {
-      // Handle the data received from the AJAX request and display it in the table
-      var html = '';
-      var product_name = data.data[0].product_name;
-                              
-      $.each(data.data, function(index, item) {
-          
-        html += '<tr>';
-        html += '<td>' + item.raw_material_name + '</td>';
-        html += '<td>' + item.quantity + '</td>';
-        html += '<td> Frw ' + item.unit + '</td>';
-        html += '<td>' + item.created_at + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.raw_material_name}','${item.quantity}','${item.unit}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.raw_material_name}')" "><i class="fa fa-trash"></i></button></td>`; // Replace with your action buttons
-        html += '</tr>';
-      });
-      $('#detail_table').html(html);
-      $('#product_name').html(product_name);
-      $('#custn').html(product_name);
-      
+        // Handle the data received from the AJAX request and display it in the table
+        var html = '';
+        var location = data.data[0].location;
+
+        $.each(data.data, function(index, item) {
+            html += '<tr>';
+            html += '<td>' + item.Product_Name + '</td>';
+            html += '<td>' + item.quantity + '</td>';
+            html += '<td> Frw ' + item.price + '</td>';
+            html += '<td> Frw ' + item.total_amount + '</td>';
+            html += '<td>' + item.created_at + '</td>';
+            html += `<td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_Requisition_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.Product_Name}','${item.quantity}','${item.price}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_Requisistion_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.Product_Name}')"><i class="fa fa-trash"></i></button></td>`;
+            html += '</tr>';
+        });
+        $('#detail_table').html(html);
+        $('#product_name').html(location);
     },
-    error: function() {
-      console.log('An error occurred while fetching debt details.');
+    error: function(xhr, status, error) {
+        console.error('An error occurred while fetching requisition details: ', status, error);
     }
-  });
+});
+
  
  
- 
- 
- 
- 
- 
- 
- 
+  
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -131,8 +125,109 @@ function getParameterByName(name, url) {
   
     
   
+    $("#Editrequisition").click(function () {
+     
+      var editproduct = $("#editproduct").val();
+      var editquantity = $("#editquantity").val();
+      var editprice = $("#editprice").val();
+  
+      var req_id = parseInt(localStorage.getItem("idrequi"));
+  
+      //Ajax Start!
+      $.ajax({
+        url: "functions/requisition/updateRequisition.php",
+        method: "POST",
+  
+        data: {
+            req_id:req_id,
+            editproduct:editproduct,
+            editquantity:editquantity,
+            editprice:editprice,
+            
+        },
+  
+        success: function (response) {
+          $("#edit_Requisition_modal").modal("hide");
+          localStorage.removeItem("idrequi");
+          $("#successmodal").modal("show");
+          setTimeout(function() {
+            location.reload();
+        }, 1000);
+
+        },
+        error: function (error) {
+          $("#edit_Requisition_modal").modal("hide");
+          $("#errormodal").modal("show");
+          console.log(error.responseText);
+        },
+      });
+    });
+  
+    $("#approvebtn").click(function () {
+     
+  
+      var sess_id = localStorage.getItem("sessionid");
+  
+      //Ajax Start!
+      $.ajax({
+        url: "functions/requisition/ApproveRequisition.php",
+        method: "POST",
+  
+        data: {
+            sess_id:sess_id,
+            status:2,   
+        },
+  
+        success: function (response) {
+          console.log(response);
+          $("#modal_approve").modal("hide");
+          localStorage.removeItem("sessionid");
+          $("#successmodal").modal("show");
+          setTimeout(function() {
+            location.reload();
+        }, 1000);
+
+        },
+        error: function (error) {
+          $("#modal_approve").modal("hide");
+          $("#errormodal").modal("show");
+          console.log(error.responseText);
+        },
+      });
+    });
   
   
+    
+    $("#deleteBtnRequisition").click(function () {
+  
+      var req_id = parseInt(localStorage.getItem("idrequi"));
+  
+      //Ajax Start!
+      $.ajax({
+        url: "functions/requisition/DeleteRequisition.php",
+        method: "POST",
+  
+        data: {
+            req_id:req_id,
+            
+        },
+  
+        success: function (response) {
+          $("#delete_Requisistion_modal").modal("hide");
+          localStorage.removeItem("idrequi");
+          $("#successmodal").modal("show");
+          setTimeout(function() {
+            location.reload();
+        }, 1000);
+
+        },
+        error: function (error) {
+          $("#delete_Requisistion_modal").modal("hide");
+          $("#errormodal").modal("show");
+          console.log(error.responseText);
+        },
+      });
+    });
   
   
   
@@ -384,11 +479,11 @@ $("#NegoPrice").on("input", function () {
 
   console.log("P_IDS: "+productnames);
   //console.log("Qty: "+quantities);
-  var sales_point_id = localStorage.getItem("SptID");
+  var company = localStorage.getItem("CoID");
   var use_id = parseInt(localStorage.getItem("UserID"));
   
 
-  var cust_name = $("#CustomerName").val();
+  var spt_id = $("#salespointSelect").val();
   
 
 
@@ -399,8 +494,8 @@ $("#NegoPrice").on("input", function () {
     dataType: 'json',
     data: {
       product_id: productnames,
-      sales_point_id: sales_point_id,
-      cust_name:cust_name,
+      company: company,
+      spt_id:spt_id,
       quantity: quantities,
       price:prices,
       user_id: use_id,
@@ -411,7 +506,7 @@ $("#NegoPrice").on("input", function () {
       console.log("response:", response);
       initializeCart();
       
-      $("#savep_sell").html("Proforma Done");
+      $("#savep_sell").html("Done");
    
       // $('#amadenis').hide();
       $("#finishModal").modal('show');
@@ -421,7 +516,7 @@ $("#NegoPrice").on("input", function () {
     },
     error: function (xhr, status, error) {
       console.log("Error:", xhr.responseText, status);
-      $("#savep_sell").html("Sell Failed");
+      $("#savep_sell").html("Failed");
       $("#savep_sell").style("backgroundColor","red");
     },
   });
@@ -494,14 +589,14 @@ $("#NegoPrice").on("input", function () {
 
 });
 
-function View_AllProformaRecord() {
+function View_AllRequisitionRecord() {
  
-  var sales_point_id = localStorage.getItem("SptID");
+  var company = localStorage.getItem("CoID");
 
   // Ajax Start!
 
   $.ajax({
-    url: `functions/requisition/getallProformadata.php?spt=${sales_point_id}`,
+    url: `functions/requisition/getallProformadata.php?company_id=${company}`,
     method: "POST",
     context: document.body,
     success: function (response) {
@@ -1337,13 +1432,15 @@ function printInvoiceFunc() {
           if (data && data.data && data.data.length > 0) {
               const salesdata = data.data;
               const date = data.data[0].created_at;
-              const customer_name = data.data[0].customer_name;
+              const status = data.data[0].status;
               const doneby = data.data[0].full_name;
               const phone = data.data[0].phone;
+              const location = data.data[0].location;
               const sumtotal = data.sumtotal;
+              
               const typereport = " PURCHASE REQUISITION";
               
-              printInvoice(salesdata, typereport, sumtotal,date,customer_name,phone,doneby);
+              printInvoice(salesdata, typereport, sumtotal,date,status,phone,doneby,location);
           } else {
               console.error('Empty or invalid data received from the server.');
           }
@@ -1358,6 +1455,22 @@ function printInvoiceFunc() {
 
 
 
+function populateSalespoints() {
+  var company_ID = parseInt(localStorage.getItem("CoID"));
+
+  $.ajax({
+      url: "functions/multistore/getallCompanySalesPoints.php",
+      method: "GET", // Change to GET method
+      data: { company: company_ID },
+      success: function (response) {
+          console.log("sales point : ",response);
+          $("#salespointSelect").html(response);
+      },
+      error: function (error) {
+          console.log("Error : ",error);
+      }
+  });
+}
 
 
 
@@ -1731,7 +1844,7 @@ function setOldCart(){
 
 
 
-function printInvoice(salesdata,typereport,sumtotal,date,customer_name,phone,doneby) {
+function printInvoice(salesdata,typereport,sumtotal,date,status,phone,doneby,location) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -1866,8 +1979,8 @@ for (let i = 0; i < salesdata.length; i++) {
                   </tr>
   
                   <tr>
-                  <td style="font-size: 12px; color: rgb(6, 6, 61); font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
-                  Sales Point Location : ${salespoint}
+                  <td style="font-size: 16px; color: rgb(6, 6, 61); font-family: 'Open Sans', sans-serif;   vertical-align: top; text-align: left;">
+                  ASKED BY : ${location}
                 </td>
                 </tr>
                 </br>
@@ -1897,8 +2010,8 @@ for (let i = 0; i < salesdata.length; i++) {
                 <td height="20"></td>
               </tr>
               <tr>
-                <td style="font-size: 18px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                  <strong>Needed by : ${customer_name}</strong>
+                <td style="font-size: 18px; color: ${ status == 1 ? "orange" : "green" }; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
+                  <strong>STATUS : ${ status == 1 ? 'PENDING' : 'APPROVED' }</strong>
                 </td>
               <tr>
                 <td style="font-size: 16px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
@@ -2144,6 +2257,18 @@ function SelectSessionToPrint(session){
   localStorage.setItem("sessionid",session);
 }
 
+
+function getSalesID(id, product, qty, price){
+  localStorage.setItem("idrequi",id);
+  $("#editproduct").val(product);
+  $("#editquantity").val(qty);
+  $("#editprice").val(price);
+}
+
+function getSalesIDremove(id, product){
+  localStorage.setItem("idrequi",id);
+  console.log("want delete ?? ", product)
+}
 
   
   

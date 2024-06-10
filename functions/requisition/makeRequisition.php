@@ -21,12 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         // Get the form data
         $product_ids = $_POST['product_id'];
-        $sales_point_id = $_POST['sales_point_id'];
-        $cust_name = $_POST['cust_name'];
+        $company = $_POST['company'];
+        $spt_id = $_POST['spt_id'];
         $quantities = $_POST['quantity'];
         $customer_prices = $_POST['price'];
         $user_id = $_POST['user_id'];
         $currentDate = date("Y-m-d");
+        
 
 
         if (is_array($product_ids)) {
@@ -45,12 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Perform calculations
                     
 
-                    $gresult [] ="PRODUCT: $product_name SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id  CUSTOMER: $cust_name  QTY: $quantity SP: $custom_price TM: $total_amount   ";
+                    $gresult [] ="PRODUCT: $product_name SESSION: $Session_sale_ID USER: $user_id COMPANY: $company  SPT: $spt_id  QTY: $quantity SP: $custom_price TM: $total_amount   ";
                     
                     
                     // Insert sales record
-                    $sql = "INSERT INTO `requisition`( `sess_id`, `user_id`, `dedicated_to`, `product_name`, `spt_id`, `quantity`, `price`, `total`) 
-                    VALUES ('$Session_sale_ID','$user_id','$cust_name','$product_name','$sales_point_id','$quantity','$custom_price','$total_amount')";
+                    $sql = "INSERT INTO `requisition`( `sess_id`, `user_id`, `spt_id`, `product_name`, `company_id`, `quantity`, `price`, `total`,status) 
+                    VALUES ('$Session_sale_ID','$user_id','$spt_id','$product_name','$company','$quantity','$custom_price','$total_amount',1)";
 
 
 

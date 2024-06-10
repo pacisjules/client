@@ -141,9 +141,9 @@ include('getuser.php');
                                 </div>
                                 
                                     <div class="input-group mb-3" id="amadenisss" style="transition: ease-in-out 0.2s; flex-direction:column;">
-                                           <label>Needed by</label>
-                                           <input class="form-control" style="width:90%;" type="text" placeholder="Type  name" id="CustomerName"><br />
-                                           
+                                           <label>Sales Point by</label><br />
+                                           <!-- <input class="form-control" style="width:90%;" type="text" placeholder="Type  name" id="CustomerName"><br /> -->
+                                           <select class="form-control" style="width:90%;" id="salespointSelect"></select><br />
                                            
 
                                     </div>

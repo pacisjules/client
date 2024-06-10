@@ -34,7 +34,7 @@ include('getuser.php');
                        <a class="nav-link active" href="recusition_records">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:10px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a> 
                      
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Requisition Details of <span id="customer_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Requisition Details of <span id="product_name"></span></h3>
                    </div>
                          
                         
@@ -78,8 +78,8 @@ include('getuser.php');
                                         <tr>
                                             <th>Product Names</th>
                                             <th>Quantity</th>
-                        
                                             <th>Price/Item</th>
+                                            <th>TOTAL</th>
                                             <th>Purchase Date</th>
                                             <th>Actions</th>
                                         </tr>
@@ -128,33 +128,62 @@ include('getuser.php');
     
     
     
-    
-    
-      <div class="modal fade" role="dialog" tabindex="-1" id="edit_sales_modal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Purchase</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="color:green;">Success!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp;are for Edit Purchase.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Quantity</label><input class="form-control" type="text" id="editquantity"></form>
-                     <form><label class="form-label" style="margin-top: 12px;">Price per Unity</label><input class="form-control" type="text" id="editprice"></form>
+                    <p style="color:black;" > You are successfully Done ittt.!!</p>
+                    
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="editBtnSales">Edit</button></div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">ok</button></div>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="delete_sales_modal">
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="errormodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">Error!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > Something went wrong in paying debts in Installments.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
+            </div>
+        </div>
+    </div>
+    
+      <div class="modal fade" role="dialog" tabindex="-1" id="edit_Requisition_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit This Requisition</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp;are for Edit Requisition.</p>
+                    <form><label class="form-label" style="margin-top: 12px;">Product</label><input class="form-control" type="text" id="editproduct"></form>
+                    <form><label class="form-label" style="margin-top: 12px;">Quantity</label><input class="form-control" type="number" id="editquantity"></form>
+                     <form><label class="form-label" style="margin-top: 12px;">Price per Unity</label><input class="form-control" type="number" id="editprice"></form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="Editrequisition">Edit</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="delete_Requisistion_modal">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;">Remove Requisition</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are sure you need to delete this Sale??</p>
+                    <p>Are sure you need to delete this Requisition??</p>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="deleteBtnSales"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="deleteBtnRequisition"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
             </div>
         </div>
     </div>

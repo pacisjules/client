@@ -4,12 +4,12 @@ require_once '../connection.php';
 header('Content-Type: application/json');
 
 // Get the session ID from the query parameters
-$spt = $_GET['spt'];
+$company_id = $_GET['company_id'];
 
 // Check if the session ID is set
-if (!isset($spt)) {
+if (!isset($company_id)) {
     http_response_code(400); // Bad request
-    echo json_encode(array("error" => "Spt is missing"));
+    echo json_encode(array("error" => "COMPANY is missing"));
     exit();
 }
 
@@ -19,6 +19,7 @@ SELECT DISTINCT
 PR.id,
 PR.sess_id,
 PR.dedicated_to,
+PR.status,
 PR.product_name,
 CONCAT(EP.first_name,' ',EP.last_name) AS full_name,
 EP.phone,
@@ -40,7 +41,7 @@ JOIN employee EP ON
 PR.user_id = EP.user_id
 
 WHERE
-PR.spt_id = $spt
+PR.company_id = $company_id
 GROUP BY
 PR.sess_id
 ORDER BY
@@ -59,22 +60,31 @@ while ($row = $result->fetch_assoc()) {
     $session_id = $row['sess_id'];
     $num+=1;
 
+    if($row['status']==1){
+      $color="orange";
+      $message="Pending";
+    }else if($row['status']==2){
+      $color="green";
+      $message="Approved";
+    }
+
    
     $value .= '
 
         <tr>
-        <td style="font-size: 12px;">'.$num.'. '.$row['dedicated_to'].'</td>
+        <td style="font-size: 12px;">'.$num.'. '.$row['location'].'</td>
         <td style="font-size: 12px;">'.$row['tottal_item'].'</td>
         <td style="font-size: 12px;">'.number_format($row['total']).' FRW</td>
         <td style="font-size: 12px;">'.$row['full_name'].'</td>
         <td style="font-size: 12px;">'.$row['phone'].'</td>
-        <td style="font-size: 12px;">'.$row['phone'].'</td>
+        <td style="font-size: 14px; font-weight:bold; color:'.$color.';">'.$message.'</td>
         <td style="font-size: 12px;">'.$row['created_at'].'</td>
         
         <td class="d-flex flex-row justify-content-start align-items-center" style="font-size: 12px; padding:10px;">
+        <button class="btn btn-primary" style="font-size: 10px;"  type="button" data-bs-target="#modal_approve" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-print" style="color: rgb(255,255,255);"></i>&nbsp;APPROVE</button>&nbsp;
         <button class="btn btn-success" style="font-size: 10px;"  type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-print" style="color: rgb(255,255,255);"></i>&nbsp;PRINT</button>&nbsp;
         <button class="btn btn-danger"  style="font-size: 10px;" type="button" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectSessionToPrint(`'.$session_id.'`)"><i class="fa fa-trash" style="color: rgb(255,255,255);"></i>&nbsp;DELETE</button>&nbsp;
-        <a class="nav-link active" href="requisitiondetails.php?sess_id=' . $session_id . '">  <button class="btn btn-info" style=" border: none; border-radius: 3px; padding: 5px 10px; font-size: 12px;cursor: pointer;">DETAIL</button></a>
+        <a class="nav-link active" href="requisitiondetails?sess_id=' . $session_id . '">  <button class="btn btn-info" style=" border: none; border-radius: 3px; padding: 5px 10px; font-size: 12px;cursor: pointer;">DETAIL</button></a>
       </td>  
         </tr>
 

@@ -31,7 +31,7 @@
     position: fixed;
     z-index: 900;
     background-color: white;
-    display: none;
+    display: flex;
     overflow: hidden;
     justify-content: flex-start;
     flex-direction: column;

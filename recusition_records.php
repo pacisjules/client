@@ -160,6 +160,52 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="modal_approve">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold;">Approve Requisition </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here you can approve this Requisition details</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="button" id="approvebtn">APPROVE</button></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Success!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > You are successfully Done ittt.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">ok</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="errormodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">Error!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > Something went wrong in paying debts in Installments.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="delete-modal">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
