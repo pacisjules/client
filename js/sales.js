@@ -1663,11 +1663,21 @@ function View_DaySalesRecord() {
               `;
               $("#totalexcel").html(totexcel);
               
-              }else if(usertype==="Manager"){
+              }else{
 
                
-               $("#btnsalesType").html(" ");
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Sales Record ,At <span>${formattedDate}</span></p>
+                <div>
 
+ <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+      
+      User Report </button>
+               </div>
+               <div>
+               `;
+               
+               $("#btnsalesType").html(btntype);
+                   
 
                 tot += `
               <tr>
@@ -1699,40 +1709,7 @@ function View_DaySalesRecord() {
               `;
               $("#totalexcel").html(totexcel);
               
-              }else{
-
-               
-                $("#btnsalesType").html(" ");
- 
- 
-                 tot += `
-               <tr>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"></td>
-               </tr>`;
-               $("#totalam").html(tot);
-               
-               totexcel += `
-               
-               <tr>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></td>
-                   <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong> </td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-               </tr>
-               
-               `;
-               $("#totalexcel").html(totexcel);
-               
-               }
+              }
              
               
               
@@ -2269,6 +2246,14 @@ function View_YesterdaySalesRecord() {
               }else{
 
                 btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yesterday Sales Record ,At <span>${formattedDate}</span></p>
+               
+               <div>
+               
+               <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_nowyest" data-bs-toggle="modal">
+      
+      User Report </button>
+               </div>
+               
                 `;
                
                $("#btnsalesType").html(btntype);
@@ -2279,7 +2264,10 @@ function View_YesterdaySalesRecord() {
                 tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
+                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(sumtotal))}</strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"></td>
