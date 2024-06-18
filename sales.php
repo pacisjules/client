@@ -279,6 +279,64 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="user_report_now">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">List of users</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <table class="table my-0" id="excelPickedTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 14px;">N/O</th>
+                                            <th style="font-size: 14px;">User Name</th>
+                                            <th style="font-size: 14px;">User Type</th>
+                                            <th style="font-size: 14px;">Action</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody id="user_info">
+                                       
+                                    </tbody>
+                                </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="user_report_nowyest">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">List of users</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <table class="table my-0" id="excelPickedTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 14px;">N/O</th>
+                                            <th style="font-size: 14px;">User Name</th>
+                                            <th style="font-size: 14px;">User Type</th>
+                                            <th style="font-size: 14px;">Action</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody id="user_infoyest">
+                                       
+                                    </tbody>
+                                </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="edit_sales_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">

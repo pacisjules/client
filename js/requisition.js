@@ -167,8 +167,10 @@ function getParameterByName(name, url) {
      
   
       var sess_id = localStorage.getItem("sessionid");
-  
-      //Ajax Start!
+      var UserType = localStorage.getItem("UserType");
+
+      if(UserType=== 'BOSS'){
+        //Ajax Start!
       $.ajax({
         url: "functions/requisition/ApproveRequisition.php",
         method: "POST",
@@ -194,6 +196,12 @@ function getParameterByName(name, url) {
           console.log(error.responseText);
         },
       });
+      }else{
+        $("#modal_approve").modal("hide");
+        $("#errormodal").modal("show");
+      }
+  
+      
     });
   
   

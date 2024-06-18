@@ -2,6 +2,8 @@ $(document).ready(function () {
   View_DaySalesRecord(); 
   View_YearSalesRecord();
   populateMonthDropdown();
+  View_USERRecord();
+  View_USERRecordyest();
   $("#weeklysales").click(function () {
   
     View_WeekSalesRecord();
@@ -84,6 +86,7 @@ $(function () {
                     <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
       
       Debts Sales </button>
+      
                      </div>
                     
                     <div>
@@ -372,6 +375,7 @@ $(function () {
                <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
  
  Debts Sales </button>
+ 
                 </div>
                 <div>
                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchpickeddatesalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
@@ -1608,6 +1612,10 @@ function View_DaySalesRecord() {
                <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
  
  Debts Sales </button>
+
+ <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+      
+      User Report </button>
                </div>
                <div>
                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
@@ -1841,6 +1849,280 @@ function View_DaySalesRecord() {
   // Ajax End!
 }
 
+function viewusersalesreport(id) {
+ console.log(id);
+  const currentDate = new Date();
+  const montly = currentDate.getMonth();
+  const date = currentDate.getDate();
+  const year = currentDate.getFullYear();
+  const formattedDate =
+  year +
+  "-" +
+  (montly + 1).toString().padStart(2, "0") +
+  "-" +
+  date.toString().padStart(2, "0");
+
+  console.log('NEW TEST', formattedDate);
+
+
+  const formatDate = (myDate) => {
+    const dateParts = myDate.split("-");
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+
+    const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }
+    );
+
+    return formattedDate;
+  };
+
+  // Retrieve values from localStorage
+ 
+  var sales_point_id = localStorage.getItem("SptID");
+
+  // Ajax Start!
+
+  $.ajax({
+    url:`functions/sales/getalldaysaleswithcompanysptuser.php?date=${formattedDate}&spt=${sales_point_id}&user_id=${id}`,
+    method: "POST",
+    context: document.body,
+    success: function(response) {
+      try {
+     //     console.log("Success Response: ", response);
+
+          if (response) {
+              
+            let tot = "";
+              let btntype = "";
+              let excel = "";
+              let totexcel = ""; 
+
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Sales Record ,At <span>${formattedDate}</span></p>
+                <div>
+                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+ 
+ Paid Sales </button>
+               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+ 
+ Debts Sales </button>
+
+ <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+      
+      User Report </button>
+               </div>
+               <div>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
+ 
+ Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailySales_data');"><i class="fa fa-file-excel"></i>
+ 
+ Export in Excel </button>  </div>`;
+               
+               $("#btnsalesType").html(btntype);
+
+
+
+
+              //  tot += `
+              // <tr>
+              //     <td style="font-size: 14px;"><strong></strong></td>
+              //     <td style="font-size: 14px;"><strong></strong></td>
+              //     <td style="font-size: 14px;"><strong></strong></td>
+              //     <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
+              //         style: "currency",
+              //         currency: "RWF",
+              //     }).format(parseFloat(sumtotal))}</strong></td>
+              //     <td style="font-size: 14px;"></td>
+              //     <td style="font-size: 14px;"><strong>Gross Profit: ${new Intl.NumberFormat("en-US", {
+              //         style: "currency",
+              //         currency: "RWF",
+              //     }).format(parseFloat(sumbenefit))}</strong></td>
+              //     <td style="font-size: 14px;"></td>
+              // </tr>`;
+              // $("#totalam").html(tot);
+              
+              //  totexcel += `
+              
+              // <tr>
+              //     <td style="font-size: 14px;"><strong></strong></td>
+              //     <td style="font-size: 14px;"><strong></strong></td>
+              //     <td style="font-size: 14px;"><strong></td>
+              //     <td style="font-size: 14px;"></td>
+              //     <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+              //     <td style="font-size: 14px;"><strong>${parseFloat(sumbenefit)}</strong> </td>
+              //     <td style="font-size: 14px;"><strong></strong></td>
+              // </tr>
+              
+              // `;
+              // $("#totalexcel").html(totexcel);
+              
+
+              $("#sells_table").html(response); // Set the HTML content of the table
+                // Set the HTML content of the table
+          } else {
+              $("#sells_table").html("No results");
+              $("#excel_table").html("No results"); 
+          }
+
+          $("#user_report_now").modal("hide");
+      } catch (e) {
+          console.error("Error handling response: ", e);
+          // Handle the error or display an error message to the user
+      }
+  },
+  error: function(xhr, status, error) {
+      console.error("ERROR Response: ", error);
+      // Handle the error or display an error message to the user
+  },
+  });
+  // Ajax End!
+}
+
+function viewusersalesreportyest(id) {
+  console.log(id);
+  const currentDate = new Date();
+  const yesterday = new Date(currentDate);
+  yesterday.setDate(currentDate.getDate() - 1);
+  
+  const montly = yesterday.getMonth();
+  const date = yesterday.getDate();
+  const year = yesterday.getFullYear();
+  const formattedDate =
+  year +
+  "-" +
+  (montly + 1).toString().padStart(2, "0") +
+  "-" +
+  date.toString().padStart(2, "0");
+
+
+  const formatDate = (myDate) => {
+    const dateParts = myDate.split("-");
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+
+    const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }
+    );
+
+    return formattedDate;
+  };
+
+ 
+   // Retrieve values from localStorage
+  
+   var sales_point_id = localStorage.getItem("SptID");
+ 
+   // Ajax Start!
+ 
+   $.ajax({
+     url:`functions/sales/getalldaysaleswithcompanysptuser.php?date=${formattedDate}&spt=${sales_point_id}&user_id=${id}`,
+     method: "POST",
+     context: document.body,
+     success: function(response) {
+       try {
+      //     console.log("Success Response: ", response);
+ 
+           if (response) {
+               
+             let tot = "";
+               let btntype = "";
+               let excel = "";
+               let totexcel = ""; 
+ 
+                 btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Yesterday Sales Record ,At <span>${formattedDate}</span></p>
+                 <div>
+                 <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+  
+  Paid Sales </button>
+                <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+  
+  Debts Sales </button>
+ 
+  <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_nowyest" data-bs-toggle="modal">
+       
+       User Report </button>
+                </div>
+                <div>
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
+  
+  Export in Pdf </button>
+                <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailySales_data');"><i class="fa fa-file-excel"></i>
+  
+  Export in Excel </button>  </div>`;
+                
+                $("#btnsalesType").html(btntype);
+ 
+ 
+ 
+ 
+               //  tot += `
+               // <tr>
+               //     <td style="font-size: 14px;"><strong></strong></td>
+               //     <td style="font-size: 14px;"><strong></strong></td>
+               //     <td style="font-size: 14px;"><strong></strong></td>
+               //     <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
+               //         style: "currency",
+               //         currency: "RWF",
+               //     }).format(parseFloat(sumtotal))}</strong></td>
+               //     <td style="font-size: 14px;"></td>
+               //     <td style="font-size: 14px;"><strong>Gross Profit: ${new Intl.NumberFormat("en-US", {
+               //         style: "currency",
+               //         currency: "RWF",
+               //     }).format(parseFloat(sumbenefit))}</strong></td>
+               //     <td style="font-size: 14px;"></td>
+               // </tr>`;
+               // $("#totalam").html(tot);
+               
+               //  totexcel += `
+               
+               // <tr>
+               //     <td style="font-size: 14px;"><strong></strong></td>
+               //     <td style="font-size: 14px;"><strong></strong></td>
+               //     <td style="font-size: 14px;"><strong></td>
+               //     <td style="font-size: 14px;"></td>
+               //     <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+               //     <td style="font-size: 14px;"><strong>${parseFloat(sumbenefit)}</strong> </td>
+               //     <td style="font-size: 14px;"><strong></strong></td>
+               // </tr>
+               
+               // `;
+               // $("#totalexcel").html(totexcel);
+               
+ 
+               $("#sells_table").html(response); // Set the HTML content of the table
+                 // Set the HTML content of the table
+           } else {
+               $("#sells_table").html("No results");
+               $("#excel_table").html("No results"); 
+           }
+ 
+           $("#user_report_nowyest").modal("hide");
+       } catch (e) {
+           console.error("Error handling response: ", e);
+           // Handle the error or display an error message to the user
+       }
+   },
+   error: function(xhr, status, error) {
+       console.error("ERROR Response: ", error);
+       // Handle the error or display an error message to the user
+   },
+   });
+   // Ajax End!
+ }
+
 
 
 function View_YesterdaySalesRecord() {
@@ -1934,6 +2216,9 @@ function View_YesterdaySalesRecord() {
                <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchyesterdaysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
  
  Debts Sales </button>
+ <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_nowyest" data-bs-toggle="modal">
+      
+      User Report </button>
                 </div>
                 
                 
@@ -4402,6 +4687,69 @@ function redirectToMonthlySales() {
 
 
 
+
+      function View_USERRecord() {
+        // Retrieve values from localStorage
+        var company_ID = localStorage.getItem("CoID");
+        var sales_point_id = localStorage.getItem("SptID");
+      
+        // Ajax Start!
+        $.ajax({
+          url: `functions/user/getalluserSPT.php?company=${company_ID}&spt=${sales_point_id}`,
+          method: "POST",
+          context: document.body,
+          success: function (response) {
+            if (response) {
+              console.log(response);
+              $("#user_info").html(response);
+            } else {
+              console.log(response);
+              $("#user_info").html("Not Any result");
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log("AJAX request failed!");
+            console.log("Error:", error);
+          },
+        });
+        // Ajax End!
+      }
+
+      function  View_USERRecordyest() {
+        // Retrieve values from localStorage
+        var company_ID = localStorage.getItem("CoID");
+        var sales_point_id = localStorage.getItem("SptID");
+      
+        // Ajax Start!
+        $.ajax({
+          url: `functions/user/getalluserSPTYEST.php?company=${company_ID}&spt=${sales_point_id}`,
+          method: "POST",
+          context: document.body,
+          success: function (response) {
+            if (response) {
+              console.log(response);
+              $("#user_infoyest").html(response);
+            } else {
+              console.log(response);
+              $("#user_infoyest").html("Not Any result");
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log("AJAX request failed!");
+            console.log("Error:", error);
+          },
+        });
+        // Ajax End!
+      }
+
+
+     
+
+
+
+
+
+
       function getrightstoremodalweek(storekeeper,sale_id){
         console.log("Store keeper", storekeeper);
 
@@ -4442,4 +4790,11 @@ function redirectToMonthlySales() {
         
       }
 
+      // function viewusersalesreport(id){
+      //   View_userSalesRecord(id);
+      // }
+
+
+
+      
   

@@ -27,7 +27,7 @@ SU.names,
 SU.phone
 FROM
 purchase SL
-JOIN supplier SU ON
+LEFT JOIN supplier SU ON
 SL.supplier_id = SU.supplier_id    
 LEFT JOIN products RW ON
 SL.product_id = RW.id
