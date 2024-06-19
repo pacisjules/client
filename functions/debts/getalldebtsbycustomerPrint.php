@@ -8,7 +8,7 @@ $sess_id=$_GET['sess_id'];
 
 // Retrieve all products and inventory for the given company and sales point
 $sql = "SELECT DB.id, CST.names as person_names,CST.phone,CST.address,DB.descriptions,DB.created_date, DB.amount,DB.amount_paid, DB.due_date, DB.sales_point_id, DB.status, PD.name, DB.qty
-FROM debts DB, products PD, customer CST WHERE DB.product_id=PD.id AND DB.customer_id='$sess_id' AND DB.sales_point_id=$spt  AND CST.customer_id='$sess_id'
+FROM debts DB, products PD, customer CST WHERE  DB.status=1 AND DB.product_id=PD.id AND DB.customer_id='$sess_id' AND DB.sales_point_id=$spt  AND CST.customer_id='$sess_id'
 GROUP BY DB.id
 ORDER BY DB.amount DESC";
 
@@ -24,11 +24,11 @@ $comp = array();
 
 while ($row = $result->fetch_assoc()) {
 
-
+$balance = $row['amount'] - $row['amount_paid'];
      $item = array(
         'id'=> $row['id'],
         'due_date' => $row['due_date'],
-        'amount' => $row['amount'],
+        'amount' => $balance,
         'name' => $row['name'],
         'qty' => $row['qty'],
     );

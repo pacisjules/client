@@ -569,7 +569,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
           const total_paidcust = response.total_paidcust;
           const total_balance = response.total_balance;
           const typereport = " Customer Debts Report";
-          printOnlyCustomerDebts(debtdata,typereport,names,phone,address,total_debtcust,total_paidcust,total_balance);
+          printOnlyCustomerDebts(debtdata,typereport,names,phone,address,total_balance);
       
     },
     error: function(error) {
@@ -1748,7 +1748,7 @@ for (let i = 0; i < debtdata.length; i++) {
 
 
 
-function  printOnlyCustomerDebts(debtdata,typereport,names,phone,address,total_debtcust,total_paidcust,total_balance) {
+function  printOnlyCustomerDebts(debtdata,typereport,names,phone,address,total_balance) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -1938,30 +1938,13 @@ for (let i = 0; i < debtdata.length; i++) {
             <tbody>
               <tr>
                 <td style="font-size: 16px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                  <strong>Amount Due: ${new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "RWF",
-          }).format(parseFloat(total_debtcust))}</strong>
-                </td>
-              </tr>
-              
-              <tr>
-                <td style="font-size: 16px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                  <strong>Amount Paid: ${new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "RWF",
-          }).format(parseFloat(total_paidcust))}</strong>
-                </td>
-              </tr>
-              
-              <tr>
-                <td style="font-size: 16px; color: #1f0c57; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                   <strong>Balance: ${new Intl.NumberFormat("en-US", {
+                  <strong>Debts Total Amount: ${new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "RWF",
           }).format(parseFloat(total_balance))}</strong>
                 </td>
-              </tr> 
+              </tr>
+             
               
             </tbody>
           </table>
