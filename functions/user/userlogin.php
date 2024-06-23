@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //SetTime
     $date_time = date('Y-m-d H:i:s');
     
+   
+
+    
     // Check if the username or email exists in the database
     $sql = "SELECT * FROM users WHERE username='$username' OR email='$username'";
     $result = $conn->query($sql);
@@ -50,6 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultsa = $conn->query($sqlsa);
         $rowsa = $resultsa->fetch_assoc();
 
+        $sqlog = "INSERT INTO `loginfo`(`user_id`,`login_time`, `sales_point_id`) 
+        VALUES ('$id','$date_time','$sal') ";
+        $resultlog = $conn->query($sqlog);
+
         //Set History
         //AddHistory($row['id'],"User Login",$rowInfos['sales_point_id'] );
         
@@ -80,6 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo $json;
         
         $_SESSION['user_id'] = $id;
+        $_SESSION['Logged_on'] = $date_time;
+
+
         
         //exit();
     } else {

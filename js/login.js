@@ -59,6 +59,7 @@ $(document).ready(function () {
                 localStorage.setItem("Username", response.username);  
                 localStorage.setItem("phone", response.phone); 
                  localStorage.setItem("Names", response.names);
+                 localStorage.setItem("Logged_on", response.Logged_on);
                  localStorage.setItem("company_logo", response.company_logo);
                  localStorage.setItem("company_color", response.company_color);
                  localStorage.setItem("spt_name", response.spt_name);

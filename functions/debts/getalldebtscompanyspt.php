@@ -23,6 +23,7 @@ customer CU ON DE.customer_id = CU.customer_id
 WHERE
 DE.sales_point_id = $spt
 GROUP BY DE.customer_id
+ORDER BY Amount DESC
 ";
 
 $value = "";
