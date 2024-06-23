@@ -53,7 +53,7 @@ FROM debts DB,
      WHERE 
       DB.customer_id='$sess_id' 
      AND DB.sales_point_id=$spt 
-     AND CST.customer_id='$sess_id' 
+     AND CST.customer_id='$sess_id' AND
      DB.status=1
      ";
         
