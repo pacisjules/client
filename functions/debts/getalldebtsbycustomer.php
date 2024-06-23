@@ -54,6 +54,7 @@ FROM debts DB,
       DB.customer_id='$sess_id' 
      AND DB.sales_point_id=$spt 
      AND CST.customer_id='$sess_id' 
+     DB.status=1
      ";
         
 $sumResult = $conn->query($sqltot);

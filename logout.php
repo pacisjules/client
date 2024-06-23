@@ -15,8 +15,8 @@ $user_id = $_SESSION['user_id'];
 $login_time = $_SESSION['Logged_on'];
 // Database connection parameters
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "u774778522_sell_user_db";
+$password = "Ishimuko@123";
 $dbname = "u774778522_selleasep_db";
 
 // Create connection
