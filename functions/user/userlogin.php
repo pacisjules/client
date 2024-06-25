@@ -33,6 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        $comp =  $row['company_ID'];
        $sal =  $row['salepoint_id'];
        $usercategory =  $row['user_category'];
+       $usershift =  $row['shift_id'];
+       $realshift = 0;
+       if( $usershift>0){
+        $realshift = $usershift;
+       }else{
+        $realshift = 0;
+       }
         
         header('HTTP/1.1 201 Login Successful');
         //Get others users information
@@ -71,7 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'names'=>$rowInfos['first_name']." ".$rowInfos['last_name'],
             'salepoint_id'=>$rowInfos['sales_point_id'],
             'userType'=>$row['userType'],
-            'user_category'=>$usercategory,
+            'user_category'=>$usercategory, 
+            'usershift'=> $realshift,
             'Logged_on'=>$date_time,
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],

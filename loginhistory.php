@@ -29,12 +29,12 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">SHIFT INFO</h3>
-                        <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;ADD NEW SHIFT</button>
+                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">LOGIN HISTORY</h3>
+                        <!-- <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;ADD NEW SHIFT</button> -->
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">SHIFT INFORMATION</p>
+                            <p class="text-primary m-0 fw-bold">LOGIN INFORMATION</p>
                             
                         </div>
                         <div class="card-body">
@@ -55,19 +55,23 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th style="font-size: 11px;">SHIFT NAMES</th>
-                                            
-                                            <th style="font-size: 11px;">ACTION</th>
+                                            <th style="font-size: 11px;">USER</th>
+                                            <th style="font-size: 11px;">LOGIN TIME</th>
+                                            <th style="font-size: 11px;">LOGOUT TIME</th>
+                                            <!-- <th style="font-size: 11px;">SALES POINT</th>
+                                            <th style="font-size: 11px;">ACTION</th> -->
                                         </tr>
                                     </thead>
-                                    <tbody id="shift_table">
+                                    <tbody id="info_table">
                                         
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td><strong style="font-size: 11px;">SHIFT NAMES</strong></td>
-                    
-                                            <td><strong style="font-size: 11px;">ACTION</strong></td>
+                                            <td><strong style="font-size: 11px;">USER</strong></td>
+                                            <td><strong style="font-size: 11px;">LOGIN TIME</strong></td>
+                                            <td><strong style="font-size: 11px;">LOGOUT TIME</strong></td>
+                                            <!-- <td><strong style="font-size: 11px;">SALES POINT</strong></td>
+                                            <td><strong style="font-size: 11px;">ACTION</strong></td> -->
                                         </tr>
                                     </tfoot>
                                 </table>

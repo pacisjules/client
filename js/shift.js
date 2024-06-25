@@ -1,46 +1,112 @@
 $(document).ready(function () {
-    
+  var shift_id = getParameterByName('shift_id');  
   
   
   View_LoginRecords(); 
+  View_shiftRecords(); 
 
     SelectEditCustomer();
     SelectDeleteCustomer();
     
+    $("#backtostock").click(function () {
+      window.location.href = `shift`;
+         
+      });
+
+
+      
+  var company_ID = localStorage.getItem("CoID");
+
+  // Make an AJAX request to fetch data by customer_id
+  $.ajax({
+    url: `functions/shift/getalluserbyshift.php?company=${company_ID}&shift_id=${shift_id}`,
+    method: 'GET',
+    success: function(data) {
+      // Handle the data received from the AJAX request and display it in the table
+      var html = '';
+      var shiftname = data.data[0].shift_name;
+ 
+       var num = 0;                       
+      $.each(data.data, function(index, item) {
+        num += 1; 
+          
+        html += '<tr>';
+        html += '<td>'+num+'. ' + item.first_name + '</td>';
+        html += '<td>' + item.last_name + '</td>';
+        html += '<td>' + item.username + '</td>';
+        html += '<td>' + item.email + '</td>';
+        html += '<td>' + item.phone + '</td>';
+        html += '<td>' + item.category_name + '</td>';
+        html += `<td class="d-flex flex-row justify-content-start align-items-center">
+        <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.shift_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.shift_id}')" "><i class="fa fa-trash"></i></button>     
+               
+         </td> `; 
+        html += '</tr>';
+      });
+      $('#usershift_table').html(html);
+      $('#shiftname').html(shiftname);
+      
+    },
+    error: function() {
+      alert('An error occurred while fetching user shift details.');
+    }
+  });
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Function to get URL query parameters
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+    
  
   
-    $("#addcustomer").click(function () {
+    $("#addSHIFT").click(function () {
       // Retrieve values from input fields
       var names = $("#names").val();
-      var phone = $("#phone").val();
-      var address = $("#address").val();
-     
-  
      
       var sales_point_id = localStorage.getItem("SptID");
+      var company = localStorage.getItem("CoID");
   
       // Start AJAX request
       $.ajax({
-        url: "functions/customer/addnewcustomer.php",
+        url: "functions/shift/addnewSHIFT.php",
         method: "POST",
         data: {
           names: names,
-          phone: phone,
-          address: address,
           spt: sales_point_id,
+          company:company,
           
         },
         success: function (response) {
           $("#names").val("");
-          $("#phone").val("");
-          $("#address").val("");
           $("#add_customer_modal").modal("hide");
-          View_customerRecord();
+          View_shiftRecords();
         },
         error: function (error) {},
       });
   
-      $("#addcustomer").html("Please wait.."); // Update another element's text (saveNewUser)
+      $("#addSHIFT").html("Please wait.."); // Update another element's text (saveNewUser)
     });
   
     
@@ -221,6 +287,33 @@ $(document).ready(function () {
         } else {
           //console.log(response);
           $("#info_table").html("Not Any result");
+        }
+      },
+      error: function (xhr, status, error) {
+        // console.log("AJAX request failed!");
+        // console.log("Error:", error);
+      },
+    });
+    // Ajax End!
+  }
+
+  function View_shiftRecords() {
+    // Retrieve values from localStorage
+    var sales_point_id = localStorage.getItem("SptID");
+  
+    // Ajax Start!
+
+    $.ajax({
+      url:`functions/shift/getallshift.php?spt=${sales_point_id}`,
+      method: "POST",
+      context: document.body,
+      success: function (response) {
+        if (response) {
+          console.log(response);
+          $("#shift_table").html(response);
+        } else {
+          //console.log(response);
+          $("#shift_table").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {

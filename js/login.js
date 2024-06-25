@@ -66,6 +66,7 @@ $(document).ready(function () {
                  localStorage.setItem("phonemana", response.phonemana); 
                  localStorage.setItem("phoneboss", response.phoneboss); 
                  localStorage.setItem("user_category", response.user_category);
+                 localStorage.setItem("usershift", response.usershift);
                  localStorage.setItem("zone", response.zone);
                 window.location.href = "/client";
                 $('#lgnbtn').html('Login');

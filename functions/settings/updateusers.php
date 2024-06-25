@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $username = $_POST['username'];
     $user_category = $_POST['user_category'];
+    $user_shift = $_POST['user_shift'];
 
 
     // Update the employee data into the database
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // Update the employee data into the database
-    $sqlUser = "UPDATE users SET username='$username', user_category='$user_category' 
+    $sqlUser = "UPDATE users SET username='$username', user_category='$user_category',shift_id='$user_shift' 
     WHERE id=$user_id";
 
 

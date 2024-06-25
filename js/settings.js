@@ -7,6 +7,7 @@ $(document).ready(function () {
   View_company_users();
   View_salespointRecord();
   SelectEdisalespoint();
+  View_shift();
 
 
   $("#VisitSalesPointBtn").click(function () {
@@ -41,6 +42,7 @@ $(document).ready(function () {
     var email = $("#email").val();
     var username = $("#username").val();
     var user_category = $("#user_category").val();
+    var user_shift = $("#user_shift").val();
 
     var company_id = localStorage.getItem("CoID");
     var user_id = parseInt(localStorage.getItem("select_user_id"));
@@ -57,6 +59,7 @@ $(document).ready(function () {
         email: email,
         username: username,
         user_category: user_category,
+        user_shift: user_shift,
         company_id: company_id,
         user_id: user_id,
       },
@@ -369,14 +372,15 @@ function View_company_permission() {
 
 
 
-  function SelectEditUsers(user_id, first_name, last_name, username, email, phone, user_category) {
+  function SelectEditUsers(user_id, first_name, last_name, username, email, phone, user_category,user_shift) {
     console.log(user_id);
     console.log(first_name);
     console.log(last_name);
     console.log(phone);
     console.log(email);
     console.log(username);
-    console.log(user_category);
+    console.log(user_shift);
+    
 
     $("#first_name").val(first_name);
     $("#last_name").val(last_name);
@@ -384,6 +388,8 @@ function View_company_permission() {
     $("#email").val(email);
     $("#username").val(username);
     $("#user_category").val(user_category);
+    $("#user_shift").val(user_shift);
+    
 
    localStorage.setItem("select_user_id", user_id);
 }
@@ -422,6 +428,35 @@ function View_company_category_forselect() {
           $("#categories").html("Not Any result");
           $("#user_category").html("Not Any result");
           $("#cat_id").html("Not Any result");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("AJAX request failed!");
+        console.log("Error:", error);
+      },
+    });
+    // Ajax End!
+  }
+
+
+  function View_shift() {
+    // Retrieve values from localStorage
+    var company = localStorage.getItem("CoID");
+  
+    // Ajax Start!
+  
+    $.ajax({
+      url: `functions/settings/getusershift.php?company=${company}`,
+      method: "POST",
+      context: document.body,
+      success: function (response) {
+        if (response) {
+          console.log(response);
+          $("#user_shift").html(response);
+        
+        } else {
+          console.log(response);
+          $("#user_shift").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {

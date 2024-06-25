@@ -421,6 +421,8 @@ include('getuser.php');
 
                         <label class="form-label" style="margin-top: 10px;">Category</label>
                         <select class="form-control" id="user_category"></select>
+                        <label class="form-label" style="margin-top: 10px;">User Shift</label>
+                        <select class="form-control" id="user_shift"></select>
 
                     </form>
                 </div>

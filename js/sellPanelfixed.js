@@ -355,7 +355,8 @@ $("#NegoPrice").on("input", function () {
   var paid_jk = localStorage.getItem("is_paid");
   var customer_id = localStorage.getItem("customer_id");
   var cust_name = localStorage.getItem("customer_names");
-  var phone = localStorage.getItem("customer_phone")
+  var phone = localStorage.getItem("customer_phone");
+  var usershift = localStorage.getItem("usershift");
 
 
   // // Start AJAX request
@@ -376,6 +377,7 @@ $("#NegoPrice").on("input", function () {
       paid_status: paid_jk,
       service_amount: 0,
       user_id: use_id,
+      usershift: usershift,
     },
     
     success: function (response) {
@@ -1286,7 +1288,8 @@ function proceed_tablet_sales () {
   var paid_jk = localStorage.getItem("is_paid");
   var customer_id = localStorage.getItem("customer_id");
   var cust_name = localStorage.getItem("customer_names");
-  var phone = localStorage.getItem("customer_phone")
+  var phone = localStorage.getItem("customer_phone");
+  var usershift = localStorage.getItem("usershift");
 
 
   // // Start AJAX request
@@ -1307,6 +1310,7 @@ function proceed_tablet_sales () {
       paid_status: paid_jk,
       service_amount: 0,
       user_id: use_id,
+      usershift:usershift,
     },
     
     success: function (response) {

@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $paid_status = $_POST['paid_status'];
         $service_amount = $_POST['service_amount'];
         $user_id = $_POST['user_id'];
+        $usershift = $_POST['usershift'];
         $currentDate = date("Y-m-d");
 
 
@@ -96,12 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Perform calculations
                     
 
-                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount STP: $sales_type STATUS: $paid_status TB:$total_benefit";
+                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id  SHIFT: $usershift SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount STP: $sales_type STATUS: $paid_status TB:$total_benefit";
                     
                     
                     // Insert sales record
-                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`, `total_benefit`, `sales_type`, `paid_status`)
-                    VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$total_benefit','$sales_type','$paid_status')";
+                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`, `total_benefit`, `sales_type`, `paid_status`,usershift)
+                    VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$total_benefit','$sales_type','$paid_status','$usershift')";
 
 
 
