@@ -68,7 +68,15 @@ $(document).ready(function () {
                  localStorage.setItem("user_category", response.user_category);
                  localStorage.setItem("usershift", response.usershift);
                  localStorage.setItem("zone", response.zone);
-                window.location.href = "/client";
+
+                 console.log(response.countlogins);
+                 
+                 if (response.countlogins== 0) {
+                  window.location.href = "/client/activateshift";
+                 }else {
+                  window.location.href = "/client";
+                 }
+
                 $('#lgnbtn').html('Login');
 
                 

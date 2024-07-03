@@ -8,6 +8,7 @@ $(document).ready(function () {
  GetInventoryHistoryList();
  GetInventoryAlert();
  getsalespoint();
+ Gettotalofcashier();
 
 
 $("#generateProfo").click(function () {
@@ -158,6 +159,37 @@ function getsalespoint() {
 });
 
 
+}
+
+
+
+
+function Gettotalofcashier() {
+
+  // Retrieve values from localStorage
+  var sales_point_id = localStorage.getItem("SptID");
+  var user_id = localStorage.getItem("UserID");
+  
+
+  // Ajax Start!
+  $.ajax({
+      url: `functions/sales/sumofcashier.php?user_id=${user_id}&spt=${sales_point_id}`,
+      method: "GET",
+      context: document.body,
+      success: function (response) {
+          if (response) {
+              console.log(response);
+              $("#expectedCash").html(response.data[0].total);
+              $("#cashiername").html(response.data[0].username);
+          } else {
+              $("#expectedCash").html("error");
+          }
+      },
+      error: function (xhr, status, error) {
+          console.log("Error:", error);
+      },
+  });
+  // Ajax End!
 }
 
 

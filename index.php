@@ -28,7 +28,9 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0" style="font-weight: bold;">Dashboard Your Sales Point management</h3><button class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="generateProfo"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Print Proforma</button>
+                        <h3 class="text-dark mb-0" style="font-weight: bold;">Dashboard Your Sales Point management</h3>
+                        <button class="btn btn-warning btn-sm d-none d-sm-inline-block" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fas fa-times close-icon"></i>&nbsp;Cashier Shift closing</button>
+                        <button class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="generateProfo"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Print Proforma</button>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-xl-3 mb-4">
@@ -218,10 +220,35 @@ include('getuser.php');
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>
+                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2024</span></div>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="add_customer_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">CASHIER SHIFT CLOSING OF TOTAL: <span id="expectedCash" style="color:green;"></span> BY <span id="cashiername" style="color:blue;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp; Close This Shift.</p>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Cash in hand</label>
+                        <input class="form-control" type="number" default="0" id="cashinhand">
+                        <label class="form-label" style="margin-top: 12px;">Mobile money</label>
+                        <input class="form-control" type="number" default="0" id="mobilemoney">
+                        <label class="form-label" style="margin-top: 12px;">Bank Card</label>
+                        <input class="form-control" type="number" default="0" id="bank">
+                        
+                        </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="closingcase">Close</button></div>
+            </div>
+        </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/chart.min.js"></script>

@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     //SetTime
     $date_time = date('Y-m-d H:i:s');
+    $date_time_log = date('Y-m-d');
     
    
 
@@ -60,6 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultsa = $conn->query($sqlsa);
         $rowsa = $resultsa->fetch_assoc();
 
+        $sqlscount = "SELECT COUNT(*) AS count FROM loginfo WHERE login_time LIKE '%$date_time_log%' and user_id=$id ";
+        $resultscount = $conn->query($sqlscount);
+        $logincounts = $resultscount->fetch_assoc();
+
         $sqlog = "INSERT INTO `loginfo`(`user_id`,`login_time`, `sales_point_id`) 
         VALUES ('$id','$date_time','$sal') ";
         $resultlog = $conn->query($sqlog);
@@ -81,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'user_category'=>$usercategory, 
             'usershift'=> $realshift,
             'Logged_on'=>$date_time,
+            'countlogins'=>$logincounts['count'],
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],
             'spt_name'=>$rowsa['location'],
@@ -96,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         $_SESSION['user_id'] = $id;
         $_SESSION['Logged_on'] = $date_time;
-
+        $_SESSION['countlogins'] = $logincounts['count'];
 
         
         //exit();

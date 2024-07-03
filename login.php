@@ -2,11 +2,17 @@
 error_reporting(0);
 session_start();
 $user_id = $_SESSION['user_id'];
+$countlogins = $_SESSION['countlogins'];
 
     if (empty($user_id)) {
         echo "";
     }else{
-        header("Location:/client/");
+        if($countlogins<1){
+            header("Location:/client/activateshift");  
+        }else {
+            header("Location:/client/");
+        }
+        
     }
 ?>
 
