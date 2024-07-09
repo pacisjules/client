@@ -29,8 +29,9 @@ include('getuser.php');
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
                         <h3 class="text-dark mb-0" style="font-weight: bold;">Dashboard Your Sales Point management</h3>
-                        <button class="btn btn-warning btn-sm d-none d-sm-inline-block" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fas fa-times close-icon"></i>&nbsp;Cashier Shift closing</button>
-                        <button class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="generateProfo"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Print Proforma</button>
+                        <button class="btn btn-success" style="font-weight: bold;color:white;" type="button" id="activateShiftButton"><i class="fas fa-play"></i>&nbsp;Activate Shift</button>
+                        <button class="btn btn-warning" style="font-weight: bold;color:black;" id="closeShiftButton" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fas fa-times close-icon"></i>&nbsp;Cashier Shift Closing</button>
+                       <a href="allshift_report"> <button class="btn btn-primary" style="font-weight: bold;color:white;" role="button" ><i class="fas fa-file-alt"></i>&nbsp;Shift Report</button></a>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-xl-3 mb-4">
@@ -232,7 +233,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title">CASHIER SHIFT CLOSING OF TOTAL: <span id="expectedCash" style="color:green;"></span> BY <span id="cashiername" style="color:blue;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <p class="modal-title">CASHIER SHIFT CLOSING OF TOTAL: <span id="expectedCash" style="color:green;font-weight:bold;"></span> BY <span id="cashiername" style="color:blue;font-weight:bold;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Close This Shift.</p>
@@ -247,6 +248,50 @@ include('getuser.php');
                         </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="closingcase">Close</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Success!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black; font-size:20px; font-weight:bold;" > You are successfully Close Your Shift Case.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">ok</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="errormodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">Error!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > Something went wrong Check well.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="activatemodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">Ooopss!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > Your Shift is not yet closed, you can not activate another.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ $(document).ready(function () {
   
   View_LoginRecords(); 
   View_shiftRecords(); 
+  View_allusershiftRecords();
 
     SelectEditCustomer();
     SelectDeleteCustomer();
@@ -324,7 +325,32 @@ $(document).ready(function () {
     // Ajax End!
   }
 
+  function View_allusershiftRecords() {
+    // Retrieve values from localStorage
+    var sales_point_id = localStorage.getItem("SptID");
+  
+    // Ajax Start!
 
+    $.ajax({
+      url:`functions/sales/getallusershift.php?spt=${sales_point_id}`,
+      method: "POST",
+      context: document.body,
+      success: function (response) {
+        if (response) {
+          console.log(response);
+          $("#usershift_table").html(response);
+        } else {
+          //console.log(response);
+          $("#usershift_table").html("Not Any result");
+        }
+      },
+      error: function (xhr, status, error) {
+        // console.log("AJAX request failed!");
+        // console.log("Error:", error);
+      },
+    });
+    // Ajax End!
+  }
   
  
   

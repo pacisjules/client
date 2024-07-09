@@ -71,7 +71,7 @@ $(document).ready(function () {
 
                  console.log(response.countlogins);
                  
-                 if (response.countlogins== 0) {
+                 if (response.countlogins== 0 || response.shiftcounts==0) {
                   window.location.href = "/client/activateshift";
                  }else {
                   window.location.href = "/client";

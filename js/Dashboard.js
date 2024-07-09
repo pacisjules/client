@@ -16,6 +16,93 @@ $("#generateProfo").click(function () {
   printDebtRecognitionProforma(); 
 });
 
+$("#activateShiftButton").click(function () {
+  var user_id = localStorage.getItem("UserID");
+
+
+  $.ajax({
+    url: `functions/sales/countactiveshift.php?user_id=${user_id}`,
+    method: "GET",
+    context: document.body,
+    success: function (response) {
+            
+            if (response.data[0].countshift === "0") {
+              window.location.href = "/client/activateshift";
+           
+          } else {
+            $("#activatemodal").modal("show");
+           
+          }
+          
+    },
+    error: function (xhr, status, error) {
+        console.log("Error:", error);
+    },
+});
+
+});
+
+
+
+
+
+$("#closingcase").click(function () {
+
+var cashinhand = $("#cashinhand").val();
+  var mobilemoney = $("#mobilemoney").val();
+  var bank = $("#bank").val();
+  var record_id = localStorage.getItem("record_id");
+  var total = localStorage.getItem("total");
+  var salesnumber = localStorage.getItem("salesnumber");
+  var user_id = localStorage.getItem("UserID");
+  var spt = localStorage.getItem("SptID");
+  var totalcheck = parseFloat(cashinhand) + parseFloat(mobilemoney) + parseFloat(bank);
+  console.log(totalcheck);
+  if(total==0 || totalcheck < total || totalcheck > total){
+    $("#add_customer_modal").modal("hide");
+    $("#errormodal").modal("show");
+  }else{
+
+    // Start AJAX request
+  $.ajax({
+    url: "functions/sales/closingshifttask.php",
+    method: "POST",
+    data: {
+      cashinhand: cashinhand,
+      mobilemoney: mobilemoney,
+      bank: bank,
+      spt: spt,
+      record_id: record_id,
+      total: total,
+      salesnumber: salesnumber,
+      user_id: user_id,
+      
+    },
+    success: function (response) {
+      console.log(response);
+      $("#cashinhand").val("");
+      $("#mobilemoney").val("");
+      $("#bank").val("");
+      $("#add_customer_modal").modal("hide");
+      $("#successmodal").modal("show");
+        setTimeout(function() {
+                      location.reload();
+                  }, 2000);
+    },
+    error: function (error) {
+      console.log(error);
+      $("#errormodal").modal("show");
+    },
+  });
+  }
+  // Retrieve values from input fields
+  
+
+  
+
+  
+});
+
 
 
 });
@@ -180,7 +267,19 @@ function Gettotalofcashier() {
           if (response) {
               console.log(response);
               $("#expectedCash").html(response.data[0].total);
+              if (response.data[0].username === null) {
+                $("#cashiername").html("Shift Closed");
+             
+            } else {
               $("#cashiername").html(response.data[0].username);
+             
+            }
+            
+
+              localStorage.setItem("total", response.data[0].total);
+              localStorage.setItem("record_id", response.data[0].record_id);
+              localStorage.setItem("salesnumber", response.data[0].salesnumber);
+
           } else {
               $("#expectedCash").html("error");
           }

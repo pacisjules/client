@@ -65,6 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultscount = $conn->query($sqlscount);
         $logincounts = $resultscount->fetch_assoc();
 
+        $sqlscountshift = "SELECT COUNT(*) AS countshift FROM shift_records WHERE user_id=$id AND shift_status=1";
+        $resultscountshift = $conn->query($sqlscountshift);
+        $shiftcounts = $resultscountshift->fetch_assoc();
+
         $sqlog = "INSERT INTO `loginfo`(`user_id`,`login_time`, `sales_point_id`) 
         VALUES ('$id','$date_time','$sal') ";
         $resultlog = $conn->query($sqlog);
@@ -87,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'usershift'=> $realshift,
             'Logged_on'=>$date_time,
             'countlogins'=>$logincounts['count'],
+            'shiftcounts'=>$shiftcounts['countshift'],
             'company_logo'=>$rowComp['logo'],
             'company_color'=>$rowComp['color'],
             'spt_name'=>$rowsa['location'],
@@ -103,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['user_id'] = $id;
         $_SESSION['Logged_on'] = $date_time;
         $_SESSION['countlogins'] = $logincounts['count'];
+
 
         
         //exit();
