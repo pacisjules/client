@@ -7,16 +7,17 @@ $user_id = $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        
         $start = date('Y-m-d H:i:s');
+        $servername = "86.38.202.52";
         // $servername = "localhost";
-        // $username = "u774778522_sell_user_db";
-        // $password = "Ishimuko@123";
-        // $dbname = "u774778522_selleasep_db"; 
-
-
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "u774778522_sell_user_db";
+        $password = "Ishimuko@123";
         $dbname = "u774778522_selleasep_db";
+
+
+        // $servername = "localhost";
+        // $username = "root";
+        // $password = "";
+        // $dbname = "u774778522_selleasep_db";
 
         // Insert the shift record into the database
         $conn = new mysqli($servername, $username, $password, $dbname);
