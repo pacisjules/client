@@ -73,6 +73,7 @@ include('getuser.php');
                             <p style="color:#040536; font-weight:bold;" >Loans Information</p>
                             
                             <div> <button class="btn btn-primary" style="font-size: 15px; font-weight: bold;" data-bs-target="#add_newdebt_modal" data-bs-toggle="modal">Add New Loan</button> </div>
+                            <div> <a href="addnewdebts"><button class="btn btn-warning" style="font-size: 15px; font-weight: bold;">Record More</button></a> </div>
                             <div>
                              <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" id="pickdebtsButton">Loans Report</button>
                             </div>

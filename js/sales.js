@@ -96,6 +96,16 @@ $(function () {
                     `;
                     
                     $("#btnsalesType").html(btntype);
+                    $("#totalup").html(new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                    }).format(sumtotal));
+    
+                    $("#labeup").html("Benefit : ");
+                    $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                    }).format(sumbenefit));
 
                    tot += `<tr>
                   <td style="font-size: 14px;"><strong></strong></td>
@@ -384,7 +394,16 @@ $(function () {
                `;
                
                $("#btnsalesType").html(btntype);
+               $("#totalup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumtotal));
 
+              $("#labeup").html("Benefit : ");
+              $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumbenefit));
 
 
 
@@ -428,7 +447,7 @@ $(function () {
                `;
                
                $("#btnsalesType").html(btntype);
-
+              
 
 
                 tot += `
@@ -696,7 +715,17 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                 `;
                 
                 $("#btnsalesType").html(btntype);
+                $("#totalup").html(new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "RWF",
+                }).format(sumtotal));
 
+                $("#labeup").html("Benefit : ");
+                $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "RWF",
+                }).format(sumbenefit));
+             
 
 
                    tot += `<tr>
@@ -972,7 +1001,16 @@ Debts Sales </button>
               `;
               
               $("#btnsalesType").html(btntype);
+              $("#totalup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumtotal));
 
+              $("#labeup").html("Benefit : ");
+              $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumbenefit));
 
 
                 tot += `<tr>
@@ -1626,6 +1664,16 @@ function View_DaySalesRecord() {
  Export in Excel </button>  </div>`;
                
                $("#btnsalesType").html(btntype);
+               $("#totalup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumtotal));
+
+              $("#labeup").html("Benefit : ");
+              $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumbenefit));
 
 
 
@@ -2205,7 +2253,16 @@ function View_YesterdaySalesRecord() {
  Export in Excel </button></div>`;
                
                $("#btnsalesType").html(btntype);
+               $("#totalup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumtotal));
 
+              $("#labeup").html("Benefit : ");
+              $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumbenefit));
 
 
 
@@ -2505,7 +2562,16 @@ console.log(week);
                `;
                
                $("#btnsalesType").html(btntype);
+               $("#totalup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumtotal));
 
+              $("#labeup").html("Benefit : ");
+              $("#benefitup").html(new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "RWF",
+              }).format(sumbenefit));
                    
                 tot += `<tr>
                     <td style="font-size: 14px;"><strong></strong></td>

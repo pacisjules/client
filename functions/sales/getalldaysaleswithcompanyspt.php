@@ -94,7 +94,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Calculate sumtotal and sumbenefit
-$sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal, SUM(total_benefit) AS sumbenefit FROM sales 
+$sumTotalQuery = "SELECT IFNULL(SUM(total_amount),0) AS sumtotal, IFNULL(SUM(total_benefit),0) AS sumbenefit FROM sales 
                  WHERE created_time LIKE '$righttime%' AND sales_point_id = $spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
