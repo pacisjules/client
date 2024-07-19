@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  var shift_id = getParameterByName('shift_id');  
+  var shift_id = getParameterByName('shift_id'); 
+  var from = getParameterByName('from'); 
+  var to = getParameterByName('to');  
   
   
   View_LoginRecords(); 
@@ -17,43 +19,80 @@ $(document).ready(function () {
 
       
   var company_ID = localStorage.getItem("CoID");
+  var spt = localStorage.getItem("SptID");
 
   // Make an AJAX request to fetch data by customer_id
+  // $.ajax({
+  //   url: `functions/shift/getalluserbyshift.php?company=${company_ID}&shift_id=${shift_id}`,
+  //   method: 'GET',
+  //   success: function(data) {
+  //     // Handle the data received from the AJAX request and display it in the table
+  //     var html = '';
+  //     var shiftname = data.data[0].shift_name;
+ 
+  //      var num = 0;                       
+  //     $.each(data.data, function(index, item) {
+  //       num += 1; 
+          
+  //       html += '<tr>';
+  //       html += '<td>'+num+'. ' + item.first_name + '</td>';
+  //       html += '<td>' + item.last_name + '</td>';
+  //       html += '<td>' + item.username + '</td>';
+  //       html += '<td>' + item.email + '</td>';
+  //       html += '<td>' + item.phone + '</td>';
+  //       html += '<td>' + item.category_name + '</td>';
+  //       html += `<td class="d-flex flex-row justify-content-start align-items-center">
+  //       <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.shift_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+  //       <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.shift_id}')" "><i class="fa fa-trash"></i></button>     
+               
+  //        </td> `; 
+  //       html += '</tr>';
+  //     });
+  //     $('#usershift_table').html(html);
+  //     $('#shiftname').html(shiftname);
+      
+  //   },
+  //   error: function() {
+  //     alert('An error occurred while fetching user shift details.');
+  //   }
+  // });
+    
+
+
+
   $.ajax({
-    url: `functions/shift/getalluserbyshift.php?company=${company_ID}&shift_id=${shift_id}`,
+    url: `functions/sales/getallShiftSales.php?company=${company_ID}&spt=${spt}&startDate=${from}&endDate=${to}`,
     method: 'GET',
     success: function(data) {
       // Handle the data received from the AJAX request and display it in the table
       var html = '';
-      var shiftname = data.data[0].shift_name;
  
        var num = 0;                       
       $.each(data.data, function(index, item) {
         num += 1; 
           
         html += '<tr>';
-        html += '<td>'+num+'. ' + item.first_name + '</td>';
-        html += '<td>' + item.last_name + '</td>';
-        html += '<td>' + item.username + '</td>';
-        html += '<td>' + item.email + '</td>';
-        html += '<td>' + item.phone + '</td>';
-        html += '<td>' + item.category_name + '</td>';
+        html += '<td>'+num+'. ' + item.Product_Name + '</td>';
+        html += '<td>' + item.quantity + '</td>';
+        html += '<td>' + item.sales_price + '</td>';
+        html += '<td>' + item.total_amount + '</td>';
+        html += '<td>' + item.created_time + '</td>';
+        html += '<td>' + item.paid_status + '</td>';
         html += `<td class="d-flex flex-row justify-content-start align-items-center">
-        <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.id}','${item.shift_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
-        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.id}','${item.shift_id}')" "><i class="fa fa-trash"></i></button>     
+        <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.sale_id}')" "><i class="fa fa-trash"></i></button>     
                
          </td> `; 
         html += '</tr>';
       });
-      $('#usershift_table').html(html);
-      $('#shiftname').html(shiftname);
+      $('#shift_detail').html(html);
+    
       
     },
     error: function() {
       alert('An error occurred while fetching user shift details.');
     }
   });
-    
 
 
 

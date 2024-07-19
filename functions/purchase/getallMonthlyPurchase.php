@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 //Get all sales by date
 
-$comID = $_GET['company'];
+$spt = $_GET['spt'];
 $startDate = $_GET['startDate'];
 $endDate = $_GET['endDate'];
 
@@ -44,7 +44,7 @@ SL.spt_id = SP.sales_point_id
 WHERE
     SL.purchase_date >= '$startDate 00:00:00' 
     AND SL.purchase_date <= '$endDate 23:59:59' 
-    AND SL.company_ID = $comID
+    AND SL.spt_id = $spt
 GROUP BY
     SL.id
 ORDER BY
@@ -85,7 +85,7 @@ $sumTotalQuery = "SELECT SUM(total_price) AS sumtotal FROM purchase
 WHERE
     purchase_date >= '$startDate 00:00:00' 
     AND purchase_date <= '$endDate 23:59:59' 
-    AND  company_ID = $comID";
+    AND  spt_id = $spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
 $sumtotal = $sumRow['sumtotal'];

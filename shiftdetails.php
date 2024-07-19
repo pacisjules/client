@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>All Shift Report - SellEASEP</title>
+    <title>Standard Details - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -29,12 +29,31 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">User Shift Report</h3>
-
+                        <div>
+                         <a class="nav-link active" href="allshift_report">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
+                     &nbsp;Back</button></a>   
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Standard Details of <span id="product_name"></span></h3>
+                        </div>
+                        
+                   <!--<div>-->
+                       
+                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Amount Due: <span id="dbt_amount" ></span></h4>-->
+                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Paid Amount: <span id="paid_amount"></span></h4>-->
+                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Balance: <span id="tot_balance"></span></h4>-->
+                   <!--</div>     -->
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">USER SHIFT INFORMATION</p>
+                            <p class="text-primary m-0 fw-bold">Standard Details Information</p>
+                            <!--<div>-->
+                             <!-- <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getProductionDetails">Details Report</button> -->
+                            <!--<button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Debts Report</button>   -->
+                            <!--</div>-->
+                            
+                            <!--<div>-->
+                            <!--    <button class="btn btn-success" style="font-size: 15px;font-weight: bold;" data-bs-target="#payfull_modal" data-bs-toggle="modal">Pay All</button>-->
+                            <!--<button class="btn btn-warning" style="font-size: 15px;font-weight: bold;" data-bs-target="#paytranche_modal" data-bs-toggle="modal">Installment</button>-->
+                            <!--</div>-->
                             
                         </div>
                         <div class="card-body">
@@ -53,35 +72,21 @@ include('getuser.php');
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
-                                    <thead>
+                                <thead>
                                         <tr>
-                                            <th>User Names</th>
-                                            <th>Amount</th>
-                                            <th>Cash</th>
-                                            <th >Mobile Money</th>
-                                            <th >Bank</th>
-                                            <th >From</th>
-                                            <th >To</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th style="font-size: 14px;">Name</th>
+                                            <th style="font-size: 14px;">Quantity</th>
+                                            <th style="font-size: 14px;">Price</th>
+                                            
+                                            <th style="font-size: 14px;">Total amount</th>
+                                            <th style="font-size: 14px;">Status</th>
+                                            <th style="font-size: 14px;">Sold time</th>
+                                            <th style="font-size: 14px;">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="usershift_table">
+                                    <tbody id="shift_detail">
                                         
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td><strong>User Names</strong></td>
-                                            <td><strong>Amount</strong></td>
-                                            <td><strong>Cash</strong></td>
-                                            <td><strong>Mobile Money</strong></td>
-                                            <td><strong>Bank</strong></td>
-                                            <td><strong>From</strong></td>
-                                            <td><strong>To</strong></td>
-                                            <td><strong>Status</strong></td>
-                                            <td><strong>Action</strong></td>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                             <div class="row">
@@ -111,39 +116,81 @@ include('getuser.php');
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="add_customer_modal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="payfull_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add New Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Pay In full all debts of <span id="custn"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; Add new Customer.</p>
-                    <form>
-                        <label class="form-label" style="margin-top: 12px;">Full Names</label>
-                        <input class="form-control" type="text" id="names">
-                        <label class="form-label" style="margin-top: 12px;">Phone Number</label>
-                        <input class="form-control" type="text" id="phone">
-                        <label class="form-label" style="margin-top: 12px;">Address</label>
-                        <input class="form-control" type="text" id="address">
-                        
-                        </form>
+                    <p>Here&nbsp; you can pay all debts.</p>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="addcustomer">Save</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="payalldebt">Finish</button></div>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="edit_product_modal">
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="paytranche_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">Pay debts of <span id="custne"></span> in Installments</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp;are for Edit Product.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="text"><label class="form-label" style="margin-top: 12px;">Description</label><textarea class="form-control"></textarea></form>
+                    <p>Here&nbsp; you can pay debts in Installments.</p>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Enter Amount</label>
+                        <input class="form-control" type="number" id="amountpaid">
+                    </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="paytranchedebt">Finish</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:green;">Success!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > You are successfully Done ittt.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">ok</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="errormodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">Error!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" > Something went wrong in paying debts in Installments.!!</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Ok</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="edit_stand_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit This row material </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp;are for Edit row material.</p>
+                    <form>
+                    <label class="form-label" style="margin-top: 12px;">Quantity</label>
+                    <input class="form-control" type="number" id="row_qty">
+                    </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="updaterowmaterial">Edit</button></div>
             </div>
         </div>
     </div>

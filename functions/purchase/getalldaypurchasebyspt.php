@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 // Get the date, company ID, and sales point ID from the query parameters
 $date = $_GET['date'];
-$company_ID = $_GET['company'];
+$spt = $_GET['spt'];
 
 // SQL query to fetch daily sales records
 $sql = "
@@ -39,7 +39,7 @@ LEFT JOIN salespoint SP ON
 SL.spt_id = SP.sales_point_id
 WHERE
     SL.purchase_date LIKE '$date%'
-    AND SL.company_ID = $company_ID
+    AND SL.spt_id = $spt
 GROUP BY
     SL.id
 ORDER BY
@@ -77,7 +77,7 @@ while ($row = $result->fetch_assoc()) {
 
 // Calculate sumtotal and sumbenefit
 $sumTotalQuery = "SELECT SUM(total_price) AS sumtotal FROM purchase 
-                 WHERE purchase_date LIKE '$date%' AND company_ID =$company_ID";
+                 WHERE purchase_date LIKE '$date%' AND spt_id =$spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
 $sumtotal = $sumRow['sumtotal'];

@@ -31,12 +31,12 @@ $(function () {
               console.log("from "+startDate);
                console.log("to "+endDate);
                
-          var company_ID = parseInt(localStorage.getItem("CoID"));
+          var spt = parseInt(localStorage.getItem("SptID"));
 
 
           // Make the AJAX request
   $.ajax({
-      url: `functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${startDate}&endDate=${endDate}`,
+      url: `functions/purchase/getallMonthlyPurchase.php?spt=${spt}&startDate=${startDate}&endDate=${endDate}`,
       method: "POST",
       context: document.body,
       success: function(response) {
@@ -205,12 +205,12 @@ $(function () {
               
           var formattedDate = convertDateFormat(dateText);    
               // Retrieve values from localStorage
-  var company_ID = parseInt(localStorage.getItem("CoID"));
+  var spt = parseInt(localStorage.getItem("SptID"));
 
   // Ajax Start!
 
   $.ajax({
-    url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&company=${company_ID}`,
+    url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&spt=${spt}`,
     method: "POST",
     context: document.body,
     success: function(response) {
@@ -375,14 +375,14 @@ $(function () {
     
 
   const selectedMonth = $("#monthSelect").val();
-  var company_ID = parseInt(localStorage.getItem("CoID"));
+  var spt = parseInt(localStorage.getItem("SptID"));
   localStorage.removeItem("monthSelect");
 
   console.log("Selected Month: " + selectedMonth);
 
 
   // Check if any of these values is undefined or empty
-  if (!selectedMonth ||  !company_ID) {
+  if (!selectedMonth ||  !spt) {
       console.error("One or more required values are missing. Unable to make the AJAX request.");
       return; // Exit the function to prevent the AJAX request
   }
@@ -402,7 +402,7 @@ $(function () {
 
   // Make the AJAX request
   $.ajax({
-      url: `functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
+      url: `functions/purchase/getallMonthlyPurchase.php?spt=${spt}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
       method: "POST",
       context: document.body,
       success: function(response) {
@@ -535,14 +535,14 @@ $("#selectMonthModal").modal("hide");
 
 $("#retrieveYearlyData").on("click", function () {
 const selectedYear = $("#yearSelect").val();
- var company_ID = parseInt(localStorage.getItem("CoID"));
+ var spt = parseInt(localStorage.getItem("SptID"));
 localStorage.removeItem("yearSelect");
 
 console.log("Selected Year: " + selectedYear);
 
 
 // Check if any of these values is undefined or empty
-if (!selectedYear || !company_ID) {
+if (!selectedYear || !spt) {
     console.error("One or more required values are missing. Unable to make the AJAX request.");
     return; // Exit the function to prevent the AJAX request
 }
@@ -556,7 +556,7 @@ console.log("End Date: " + endDate);
 
 // Make the AJAX request
 $.ajax({
-    url: `functions/purchase/getallMonthlyPurchase.php?company=${company_ID}&startDate=${startDate}&endDate=${endDate}`,
+    url: `functions/purchase/getallMonthlyPurchase.php?spt=${spt}&startDate=${startDate}&endDate=${endDate}`,
     method: "POST",
     context: document.body,
     success: function(response) {
@@ -863,12 +863,12 @@ function View_DayPurchaseRecord() {
   };
 
   // Retrieve values from localStorage
-  var company_ID = parseInt(localStorage.getItem("CoID"));
+  var spt = parseInt(localStorage.getItem("SptID"));
 
   // Ajax Start!
 
   $.ajax({
-    url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&company=${company_ID}`,
+    url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&spt=${spt}`,
     method: "POST",
     context: document.body,
     success: function(response) {
@@ -1032,12 +1032,12 @@ function View_YesterdaySalesRecord() {
   };
 
   // Retrieve values from localStorage
-  var company_ID = parseInt(localStorage.getItem("CoID"));
+  var spt = parseInt(localStorage.getItem("SptID"));
 
   // Ajax Start!
 
   $.ajax({
-    url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&company=${company_ID}`,
+    url:`functions/purchase/getalldaypurchasebyspt.php?date=${formattedDate}&spt=${spt}`,
     method: "POST",
     context: document.body,
     success: function(response) {
@@ -1196,11 +1196,11 @@ const day = currentDate.getDate();
 const week = getWeekNumber(year, month, day);
 console.log(week);
 
-  var company_ID = parseInt(localStorage.getItem("CoID"));
+  var spt = parseInt(localStorage.getItem("SptID"));
 
   // Ajax Start!
   $.ajax({
-      url: `functions/purchase/getalldaypurchasewithcompanysptweek.php?company=${company_ID}&week=${week}`,
+      url: `functions/purchase/getalldaypurchasewithcompanysptweek.php?spt=${spt}&week=${week}`,
       method: "POST",
       context: document.body,
       success: function(response) {
