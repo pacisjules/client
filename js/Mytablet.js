@@ -26,7 +26,7 @@ $("#ShowTablet").click(function(){
         method: "GET", // Change to GET method
         data: { company: company_ID },
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             $("#categorylist").html(response);
         },
         error: function (error) {

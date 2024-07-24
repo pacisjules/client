@@ -38,14 +38,14 @@ $num = 0;
 
 while ($row = $result->fetch_assoc()) {
     if ($row['Sales_Count'] <= 1) {
-        $msg = "Sale";
+        $msg = "sale";
     } else {
-        $msg = "Sales";
+        $msg = "sales";
     }
 
     $comp[] = '
-    <div class="text-uppercase text-primary fw-bold text-xs mb-1"> Weekly Earnings : <span>'.$row['Sales_Count'].'</span>  '.$msg.'</div>
-    <div class="text-dark fw-bold h5 mb-0">Tolal : RWF <span>'.number_format($row['Total_sales_Amount']).'</span></div>
+    <div class="text-uppercase text-primary fw-bold text-xs mb-1" > Weekly Earnings : <span>'.$row['Sales_Count'].' </span>  </div>
+    <div class="text-dark fw-bold mb-0">Tolal: RWF <span>'.number_format($row['Total_sales_Amount']).'</span></div>
     ';
 }
 

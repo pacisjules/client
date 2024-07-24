@@ -16,16 +16,16 @@ $(document).ready(function () {
       context: document.body,
       success: function (response) {
         if (response) {
-          console.log(response);
+          // console.log(response);
           $("#all_menu").html(response);
         } else {
-          console.log(response);
+          // console.log(response);
           $("#all_menu").html("Not Any result");
         }
       },
       error: function (xhr, status, error) {
-        console.log("AJAX request failed!");
-        console.log("Error:", error);
+        // console.log("AJAX request failed!");
+        // console.log("Error:", error);
       },
     });
     // Ajax End!

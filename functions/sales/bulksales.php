@@ -3,7 +3,7 @@
 // Include the database connection file
 require_once '../connection.php';
 header('Content-Type: application/json');
-
+session_start();
 $length = 12; // Length of the random string
 $randomString = base64_encode(random_bytes($length));
 
@@ -13,11 +13,23 @@ $randomString = preg_replace('/[^a-zA-Z0-9]/', '', $randomString);
 // Trim the string to the desired length
 $Session_sale_ID = substr($randomString, 0, $length);
 
+
+
+
 $response = array(); // Initialize the response array
 $gresult=array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the JSON data
     $jsonData = json_decode(file_get_contents('php://input'), true);
+
+
+        $shift_rec=0;
+
+        if(empty($_SESSION['shift_record_id'])){
+            $shift_rec=0;
+        }else{
+            $shift_rec=$_SESSION['shift_record_id'];
+        }
     
         // Get the form data
         $product_ids = $_POST['product_id'];
@@ -32,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $paid_status = $_POST['paid_status'];
         $service_amount = $_POST['service_amount'];
         $user_id = $_POST['user_id'];
-        $usershift = $_POST['usershift'];
+        $usershift = $shift_rec;
         $currentDate = date("Y-m-d");
 
 
@@ -101,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     
                     // Insert sales record
-                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`, `total_benefit`, `sales_type`, `paid_status`,usershift)
+                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`, `total_benefit`, `sales_type`, `paid_status`,usershift_record)
                     VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$total_benefit','$sales_type','$paid_status','$usershift')";
 
 

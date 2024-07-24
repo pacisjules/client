@@ -69,15 +69,38 @@ $(document).ready(function () {
                  localStorage.setItem("usershift", response.usershift);
                  localStorage.setItem("zone", response.zone);
 
-                 console.log(response.countlogins);
-                 
-                 if (response.countlogins== 0 || response.shiftcounts==0) {
-                  window.location.href = "/client/activateshift";
-                 }else {
-                  window.location.href = "/client";
-                 }
+                 localStorage.setItem("shiftstart", response.shiftstart);
+                 localStorage.setItem("shiftend", response.shiftend);
+                 localStorage.setItem("shift_name", response.shift_name);
+                 localStorage.setItem("shift_type", response.shift_type);
 
-                $('#lgnbtn').html('Login');
+                 //console.log(response.countlogins);
+                 
+                if (response.usershift == 0) {
+                  window.location.href = "/client";
+                } 
+                else if (
+                  response.count_shifts == 1 &&
+                  response.shift_status == 2 &&
+                  response.usershift !== 0
+                ) 
+                {
+                  window.location.href = "/client/shiftending";
+                }
+
+                else if (
+                  response.countlogins == 0 ||
+                  response.shiftcounts == 0 
+                ) 
+                {
+                  window.location.href = "/client/activateshift";
+                } 
+                
+                else {
+                  window.location.href = "/client";
+                }
+
+                $("#lgnbtn").html("Login");
 
                 
                 //console.log(response.salepoint_id);

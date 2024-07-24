@@ -532,6 +532,7 @@ function View_company_category_forselect() {
   function SelectEdisalespoint(id){
     console.log(id);
     localStorage.setItem("salespointid",id);
+    localStorage.setItem("SptID",id);
   }
   
   function SelectEditCustomer(id,name,cat_id,page_id){

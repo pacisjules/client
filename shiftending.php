@@ -14,32 +14,16 @@
 </head>
 <body>
     <center>
-        <h1 class="text-dark mb-0" style="font-weight: bold; margin-top:10rem;">Shift Activation Panel</h1>
-        <h2 class="text-dark mb-0" style="font-weight: bold; margin-top:1rem;">Welcome, <span id="user_names"></span></h2>
-        <br/>
-        <div style="width: 30rem; height: 10rem; font-weight: bold; border: 1px solid green; padding: 2rem; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
-        <p>Shift: <span id="shiftname"></span></p>
-        <p>Period: <span id="period"></span></p>
-        <p>Start on  <span id="shiftstart" class="badge bg-primary"></span> End on  <span id="shiftend" class="badge bg-success"></span></p>
+        <h1 class="text-dark mb-0" style="font-weight: bold; margin-top:10rem;">Your current shift has been closed</h1>
+        <h2 class="text-dark mb-0" style="font-weight: bold; margin-top:1rem;">Please contact your manager to expand a current shift</span></h2>
+        <br>
+        <div class="text-center">
+            <a class="btn btn-primary btn-lg" href="logout.php" role="button">Back to Login</a>
         </div>
-        <button class="btn btn-success"  style="font-weight: bold; margin-top:3rem; color:white;" data-bs-target="#add_customer_modal" data-bs-toggle="modal" >Activate Shift</button>
+       
     </center>
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="add_customer_modal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Warning</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to activate this shift?</p>
-                    <p>If you want press Yes else press No</p>
-                    
-                </div>
-                <div class="modal-footer"> <button class="btn btn-success" type="button" style="color:white;" id="activateShiftButton">YES</button> <button class="btn btn-danger" type="button" data-bs-dismiss="modal">NO</button></div>
-            </div>
-        </div>
-    </div>
+    
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

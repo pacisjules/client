@@ -1,13 +1,13 @@
 <?php
 
 //Server Connection
-$servername = "86.38.202.52";
+// $servername = "86.38.202.52";
 
 
-// $servername = "localhost";
-$username = "u774778522_sell_user_db";
+$servername = "localhost";
+$username = "u774778522_sell_user_dbs";
 $password = "Ishimuko@123";
-$dbname = "u774778522_selleasep_db";
+$dbname = "u774778522_selleasep_dbs";
 
 
 //localhost Connection

@@ -28,41 +28,44 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0" style="font-weight: bold;">Dashboard Your Sales Point management</h3>
-                        <button class="btn btn-success" style="font-weight: bold;color:white;" type="button" id="activateShiftButton"><i class="fas fa-play"></i>&nbsp;Activate Shift</button>
+                        <h3 class="text-dark mb-0" style="font-weight: bold; font-size: 18px;">Dashboard Your Sales Point management <span id="salespointlocation" class="badge bg-success rounded" style="color:white;font-weight:bold;font-size:13px; text-transform: uppercase; margin-bottom: 10px;"></span> <span class="badge bg-danger rounded" id="shiftnames"></span></h3>
+                        <!-- <button class="btn btn-success" style="font-weight: bold;color:white;" type="button" id="activateShiftButton"><i class="fas fa-play"></i>&nbsp;Activate Shift</button> -->
                         <button class="btn btn-warning" style="font-weight: bold;color:black;" id="closeShiftButton" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fas fa-times close-icon"></i>&nbsp;Cashier Shift Closing</button>
-                       <a href="allshift_report"> <button class="btn btn-primary" style="font-weight: bold;color:white;" role="button" ><i class="fas fa-file-alt"></i>&nbsp;Shift Report</button></a>
+                       <a id="allshift_report" href="allshift_report"> <button class="btn btn-primary" style="font-weight: bold;color:white;" role="button" ><i class="fas fa-file-alt"></i>&nbsp;Shift Report</button></a>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-primary py-2">
+                    
+
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    
+                    <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily">
+                            <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2" id="getdaily">
                                             
                                         </div>
-                                        <div class="col-auto"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-discount fa-2x text-gray-300">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <line x1="9" y1="15" x2="15" y2="9"></line>
-                                                <circle cx="9.5" cy="9.5" r=".5" fill="currentColor"></circle>
-                                                <circle cx="14.5" cy="14.5" r=".5" fill="currentColor"></circle>
-                                                <path d="M5 7.2a2.2 2.2 0 0 1 2.2 -2.2h1a2.2 2.2 0 0 0 1.55 -.64l.7 -.7a2.2 2.2 0 0 1 3.12 0l.7 .7a2.2 2.2 0 0 0 1.55 .64h1a2.2 2.2 0 0 1 2.2 2.2v1a2.2 2.2 0 0 0 .64 1.55l.7 .7a2.2 2.2 0 0 1 0 3.12l-.7 .7a2.2 2.2 0 0 0 -.64 1.55v1a2.2 2.2 0 0 1 -2.2 2.2h-1a2.2 2.2 0 0 0 -1.55 .64l-.7 .7a2.2 2.2 0 0 1 -3.12 0l-.7 -.7a2.2 2.2 0 0 0 -1.55 -.64h-1a2.2 2.2 0 0 1 -2.2 -2.2v-1a2.2 2.2 0 0 0 -.64 -1.55l-.7 -.7a2.2 2.2 0 0 1 0 -3.12l.7 -.7a2.2 2.2 0 0 0 .64 -1.55v-1"></path>
-                                            </svg></div>
+                                        <div class="col-auto"><i class="fas fa-cash-register fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card shadow border-start-primary py-2" style="padding-top: 2px;margin-top: 12px;">
+                    </div>
+
+
+                        <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily1">
+                            <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2" id="getWeekly">
                                             
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                        <div class="col-auto"><i class="fas fa-cash-register fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xl-3 mb-4">
+
+
+                        <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily2">
                             <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
                                     <div class="row align-items-center no-gutters">
@@ -74,46 +77,59 @@ include('getuser.php');
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-info py-2">
+
+
+                        <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily5">
+                            <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
                                     <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Sales Point</span></div>
-                                            <div class="row g-0 align-items-center">
-                                                <span id="salespointlocation" style="color:black;font-weight:bold;font-size:15px;"></span>
-                                            </div> 
+                                    <div class="text-uppercase text-success fw-bold text-xs mb-1"><span style="min-width: 43px;">Current Shift by: <span id="cashiernamepoint">...</span></span></div>
+                                        
+                                        <div class="col me-2" style="font-weight: bold" id="getcurrentcash">
+                                            <p id="expectedCash"></p>
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
+
+                                       
+                                        <div class="col-auto"><i class="fas fa-cash-register fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-warning py-2">
+
+
+                        <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily3">
+                            <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span style="min-width: 43px;">Total Selling Stock</span></div>
-                                            <div class="text-dark fw-bold h5 mb-0" >
-                                                <span id="getSellStock"> 
-                                                 RWF
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
-                                    </div>
                                     <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span style="min-width: 43px;">Total Benefit Stock</span></div>
-                                            <div class="text-dark fw-bold h5 mb-0"><span id="getBenefitStock"> </span></div>
+                                    <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span style="min-width: 43px;">Total Selling Stock</span></div>
+                                        <div class="col me-2" style="font-weight: bold" id="getSellStock">
+                                            
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
+                                        <div class="col-auto"><i class="fas fa-cash-register fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily4">
+                            <div class="card shadow border-start-success py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                    <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span style="min-width: 43px;">Total Benefit Stock</span></div>
+                                        <div class="col me-2" style="font-weight: bold" id="getBenefitStock">
+                                            
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-cash-register fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+
+
+
+
                     <div class="row">
                         <div class="col-lg-7 col-xl-8">
                             <div class="card shadow mb-4">
@@ -233,11 +249,13 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title">CASHIER SHIFT CLOSING OF TOTAL: <span id="expectedCash" style="color:green;font-weight:bold;"></span> BY <span id="cashiername" style="color:blue;font-weight:bold;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <p class="modal-title">CASHIER SHIFT CLOSING BY <span id="cashiername" style="color:blue;font-weight:bold;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; Close This Shift.</p>
-                    <form>
+                    <p>Are you sure you want to Close This Shift.</p>
+                    <p>If you close this shift you will not be able to reopen it</p>
+                    <p>If Yes press Close Shift else press Cancel</p>
+                    <!-- <form>
                         <label class="form-label" style="margin-top: 12px;">Cash in hand</label>
                         <input class="form-control" type="number" default="0" id="cashinhand">
                         <label class="form-label" style="margin-top: 12px;">Mobile money</label>
@@ -245,12 +263,30 @@ include('getuser.php');
                         <label class="form-label" style="margin-top: 12px;">Bank Card</label>
                         <input class="form-control" type="number" default="0" id="bank">
                         
-                        </form>
+                        </form> -->
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="closingcase">Close</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-warning" type="button" data-bs-target="#closingmodal" data-bs-toggle="modal">Close Shift</button></div>
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="closingmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">CLOSING MY SHIFT DAY...<span id="cashiername" style="color:blue;font-weight:bold;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <center><h2>CASHIER SHIFT CLOSING APPROVAL<span id="cashiername" style="color:blue;font-weight:bold;"></span></h2>
+                <p>If Yes press YES else NO to cancel</p></center>
+                </div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">NO</button><button class="btn btn-success" type="button" id="closingcase"><span  style="color:white;font-weight:bold;">YES</span></button></div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="successmodal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">

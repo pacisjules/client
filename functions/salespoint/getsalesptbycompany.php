@@ -7,10 +7,12 @@ $company_ID = $_GET['company'];
 
 // Retrieve all products and inventory for the given company and sales point
 $sql = "SELECT * FROM salespoint SA, companies CO WHERE SA.company_ID=CO.id AND SA.company_ID=$company_ID";
-
 $result = mysqli_query($conn, $sql);
 
 $rows = array(); // Initialize an empty array to store the data
+
+
+
 
 while ($row = $result->fetch_assoc()) {
     $rows[] = array(

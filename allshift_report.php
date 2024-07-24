@@ -160,27 +160,28 @@ include('getuser.php');
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal_inventory">
+    
+    
+    <div class="modal fade" role="dialog" tabindex="-1" id="shiftmodal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Edit Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; color: orangered;">Warning Message</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                <p>Are sure you need to expand shift time for this user <span id="usernames"></span> ?.</p>
+                <p>If you want press YES else press NO</p>
                     
-                     <form>
-                        <label class="form-label" style="margin-top: 10px;">Full Names</label>
-                        <input class="form-control" type="text" id="editnames"> <!-- Use type="text" for text input -->
-                        <label class="form-label" style="margin-top: 10px;">Phone Number</label>
-                        <input class="form-control" type="text" id="editphone"> <!-- Use type="text" for text input -->
-                        <label class="form-label" style="margin-top: 10px;">Address</label>
-                        <input class="form-control" type="text" id="editaddress"> <!-- Use type="text" for text input -->
-                    </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button" id="EditCustomer">Edit Customer</button></div>
+                <div class="modal-footer" style="font-weight: bold;"><button class="btn btn-light" type="button" data-bs-dismiss="modal">NO</button><button class="btn btn-success" type="button" id="expandSHIFT">YES</button></div>
             </div>
         </div>
     </div>
+
+
+
+
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>

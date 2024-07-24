@@ -51,8 +51,8 @@ SL.sales_point_id=$spt AND SL.created_time LIKE '$date %'
 
       $comp[] = '
       
-      <div class="text-uppercase text-primary fw-bold text-xs mb-1">Daily Earnings :  <span>'.$row['Sales_Count'].' </span>'.$msg.'</div>
-      <div class="text-dark fw-bold h5 mb-0">Total : <span>Rwf '.number_format($row['Totat_sales_Amount']).'</span></div>
+      <div class="text-uppercase text-primary fw-bold text-xs mb-1">Daily Earnings :  <span>'.$row['Sales_Count'].' </span></div>
+      <div class="text-dark fw-bold mb-0">Total: <span>Rwf '.number_format($row['Totat_sales_Amount']).'</span></div>
       
       ';
 

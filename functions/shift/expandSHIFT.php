@@ -7,21 +7,16 @@ require_once '../connection.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Get the form data
-  $names  = $_POST['names'];
-  $spt = $_POST['spt'];
-  $company = $_POST['company'];
-  $starttime= $_POST['starttime'];
-  $endtime = $_POST['endtime'];
+  $shiftid  = $_POST['shift_id'];
 
+  //
+  $sql = "UPDATE shift_records SET end='0000-00-00 00:00:00', shift_status=1 WHERE record_id=$shiftid";
+  $sqlclose = "DELETE FROM close_checkout  WHERE shiftrecord_id=$shiftid";
 
-  // Insert the  products
-  $sql = "INSERT INTO shift (names,spt,company, shiftstart, shiftend)
-  VALUES ('$names', '$spt','$company', '$starttime', '$endtime')";
-
-  if ($conn->query($sql) === TRUE) {
+  if ($conn->query($sql) === TRUE && $conn->query($sqlclose) === TRUE) {
       // Return a success message
       header('HTTP/1.1 201 Created');
-      echo "SHIFT addded successfully.";
+      echo "SHIFT expanded successfully. $shiftid";
   } else {
       // Return an error message if the insert failed
       header('HTTP/1.1 500 Internal Server Error');

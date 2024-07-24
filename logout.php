@@ -5,6 +5,7 @@
 
 
 <?php
+include('functions/connection.php');
 // session_start();
 // $user_id = $_SESSION['user_id'];
 // $login_time = $_SESSION['Logged_on'];
@@ -13,12 +14,12 @@
 session_start();
 $user_id = $_SESSION['user_id'];
 $login_time = $_SESSION['Logged_on'];
-// Database connection parameters
-$servername = "86.38.202.52";
-// $servername = "localhost";
-$username = "u774778522_sell_user_db";
-$password = "Ishimuko@123";
-$dbname = "u774778522_selleasep_db";
+// // Database connection parameters
+// $servername = "86.38.202.52";
+// // $servername = "localhost";
+// $username = "u774778522_sell_user_db";
+// $password = "Ishimuko@123";
+// $dbname = "u774778522_selleasep_db";
 
 
 //

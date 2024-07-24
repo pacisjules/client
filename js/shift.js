@@ -2,14 +2,15 @@ $(document).ready(function () {
   var shift_id = getParameterByName('shift_id'); 
   var from = getParameterByName('from'); 
   var to = getParameterByName('to');  
-  
+  View_allusershiftRecords();
   
   View_LoginRecords(); 
   View_shiftRecords(); 
-  View_allusershiftRecords();
+  
 
     SelectEditCustomer();
     SelectDeleteCustomer();
+    SelectExpand();
     
     $("#backtostock").click(function () {
       window.location.href = `shift`;
@@ -124,6 +125,8 @@ $(document).ready(function () {
     $("#addSHIFT").click(function () {
       // Retrieve values from input fields
       var names = $("#names").val();
+      var starttime = $("#starttime").val();
+      var endtime = $("#endtime").val();
      
       var sales_point_id = localStorage.getItem("SptID");
       var company = localStorage.getItem("CoID");
@@ -136,6 +139,8 @@ $(document).ready(function () {
           names: names,
           spt: sales_point_id,
           company:company,
+          starttime:starttime,
+          endtime:endtime
           
         },
         success: function (response) {
@@ -154,38 +159,68 @@ $(document).ready(function () {
     
     
     //Update Inventory
-    $("#EditCustomer").click(function () {
-      $("#EditCustomer").html("Please wait..");
+    $("#editSHIFT").click(function () {
+      $("#editSHIFT").html("Please wait..");
   
       var names = $("#editnames").val();
-      var phone = $("#editphone").val();
-      var address = $("#editaddress").val();
+      var shiftstart = $("#editstarttime").val();
+      var shiftend = $("#editendtime").val();
   
       var sales_point_id = localStorage.getItem("SptID");
-      var customer_id = parseInt(localStorage.getItem("cust_id"));
+      var shift_id = parseInt(localStorage.getItem("cust_id"));
   
       //Ajax Start!
       $.ajax({
-        url: "functions/customer/updatecustomer.php",
+        url: "functions/shift/editSHIFT.php",
         method: "POST",
   
         data: {
-            customer_id:customer_id,
+            shift_id:shift_id,
             names:names,
-            phone:phone,
-            address:address,
-            spt:sales_point_id,
-            
+            starttime:shiftstart,
+            endtime:shiftend,
         },
   
         success: function (response) {
-          View_customerRecord(); 
-          $("#EditCustomer").html("Edit Customer");
-          $("#modal_inventory").modal("hide");
+          console.log(response);
+          View_shiftRecords(); 
+          $("#editSHIFT").html("Edit Shift");
+          $("#edit_shift_modal").modal("hide");
           localStorage.removeItem("cust_id");
         },
         error: function (error) {
-          $("#EditCustomer").html("Update");
+          $("#editSHIFT").html("Edit Shift");
+          console.log(error.responseText);
+        },
+      });
+    });
+
+
+
+    //Update Inventory
+    $("#expandSHIFT").click(function () {
+      $("#expandSHIFT").html("Please wait..");
+  
+      var shift_id = parseInt(localStorage.getItem("emp_id"));
+  
+      //Ajax Start!
+      $.ajax({
+        url: "functions/shift/expandSHIFT.php",
+        method: "POST",
+  
+        data: {
+          shift_id:shift_id,
+        },
+  
+        success: function (response) {
+          console.log(response);
+          View_allusershiftRecords();
+          $("#expandSHIFT").html("YES");
+          $("#shiftmodal").modal("hide");
+          localStorage.removeItem("emp_id");
+        },
+        error: function (error) {
+          $("#expandSHIFT").html("YES");
           console.log(error.responseText);
         },
       });
@@ -321,8 +356,9 @@ $(document).ready(function () {
       method: "POST",
       context: document.body,
       success: function (response) {
+        
         if (response) {
-          console.log(response);
+          // console.log(response);
           $("#info_table").html(response);
         } else {
           //console.log(response);
@@ -349,7 +385,7 @@ $(document).ready(function () {
       context: document.body,
       success: function (response) {
         if (response) {
-          console.log(response);
+          //console.log(response);
           $("#shift_table").html(response);
         } else {
           //console.log(response);
@@ -365,21 +401,22 @@ $(document).ready(function () {
   }
 
   function View_allusershiftRecords() {
+    
     // Retrieve values from localStorage
     var sales_point_id = localStorage.getItem("SptID");
   
     // Ajax Start!
-
     $.ajax({
       url:`functions/sales/getallusershift.php?spt=${sales_point_id}`,
       method: "POST",
       context: document.body,
       success: function (response) {
+      
         if (response) {
           console.log(response);
           $("#usershift_table").html(response);
         } else {
-          //console.log(response);
+          console.log(response);
           $("#usershift_table").html("Not Any result");
         }
       },
@@ -400,15 +437,15 @@ $(document).ready(function () {
     localStorage.setItem("cust_id", e);
   }
   
-function SelectEditCustomer(customer_id, names, phone, address) {
-    console.log(customer_id);
-    console.log(names);
-    console.log(phone);
-    console.log(address);
+function SelectEditCustomer(customer_id, names, shiftstart, shiftend) {
+    // console.log(customer_id);
+    // console.log(names);
+    // console.log(shiftstart);
+    // console.log(shiftend);
 
     $("#editnames").val(names); // Use .val() to set the value
-    $("#editphone").val(phone); // Use .val() to set the value
-    $("#editaddress").val(address); // Use .val() to set the value
+    $("#editstarttime").val(shiftstart); // Use .val() to set the value
+    $("#editendtime").val(shiftend); // Use .val() to set the value
 
     localStorage.setItem("cust_id", customer_id);
 }
@@ -419,6 +456,13 @@ function SelectEditCustomer(customer_id, names, phone, address) {
     $("#delnames").html(names);
     localStorage.setItem("cust_id", e);
     }
+
+
+    function SelectExpand(e, names) {
+      console.log(e);
+      $("#usernames").html(names);
+      localStorage.setItem("emp_id", e);
+      }
   
     
     

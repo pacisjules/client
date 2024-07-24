@@ -29,8 +29,8 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">SHIFT INFO</h3>
-                        <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;ADD NEW SHIFT</button>
+                        <h3 class="text-dark mb-4" style="font-weight: bold; font-size: 20px;">SHIFT INFO</h3>
+                        <button class="btn btn-primary" type="button" style="font-size: 14px;font-weight: bold;" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;ADD NEW SHIFT</button>
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -56,7 +56,8 @@ include('getuser.php');
                                     <thead>
                                         <tr>
                                             <th style="font-size: 11px;">SHIFT NAMES</th>
-                                            
+                                            <th style="font-size: 11px;">SHIFT START</th>
+                                            <th style="font-size: 11px;">SHIFT END</th>
                                             <th style="font-size: 11px;">ACTION</th>
                                         </tr>
                                     </thead>
@@ -66,7 +67,8 @@ include('getuser.php');
                                     <tfoot>
                                         <tr>
                                             <td><strong style="font-size: 11px;">SHIFT NAMES</strong></td>
-                    
+                                            <td><strong style="font-size: 11px;">SHIFT START</strong></td>
+                                            <td><strong style="font-size: 11px;">SHIFT END</strong></td>
                                             <td><strong style="font-size: 11px;">ACTION</strong></td>
                                         </tr>
                                     </tfoot>
@@ -99,6 +101,8 @@ include('getuser.php');
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
+
+
     <div class="modal fade" role="dialog" tabindex="-1" id="add_customer_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -111,6 +115,11 @@ include('getuser.php');
                         <label class="form-label" style="margin-top: 12px;">Shift Name</label>
                         <input class="form-control" type="text" id="names">
 
+                        <label class="form-label" style="margin-top: 12px;">Start time</label>
+                        <input class="form-control" type="time" id="starttime">
+
+                        <label class="form-label" style="margin-top: 12px;">End time</label>
+                        <input class="form-control" type="time" id="endtime">
                         
                         </form>
                 </div>
@@ -118,6 +127,39 @@ include('getuser.php');
             </div>
         </div>
     </div>
+
+
+
+
+    <!-- Edit model -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="edit_shift_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit this Shift</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here&nbsp;for edit this Shift.</p>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Shift Name</label>
+                        <input class="form-control" type="text" id="editnames">
+
+                        <label class="form-label" style="margin-top: 12px;">Start time</label>
+                        <input class="form-control" type="time" id="editstarttime">
+
+                        <label class="form-label" style="margin-top: 12px;">End time</label>
+                        <input class="form-control" type="time" id="editendtime">
+                        
+                        </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button> <button class="btn btn-primary" type="button" id="editSHIFT">EDIT</button></div>
+            </div>
+        </div>
+    </div>
+    <!-- eND EDIT MODEL -->
+     
+    
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="edit_product_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">

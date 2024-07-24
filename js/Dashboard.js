@@ -157,9 +157,19 @@ function GetDailyTotal() {
             if (response) {
               console.log(response);
               if(TypeUser==='BOSS'|| TypeUser==='Manager'){
+              
               $("#getdaily").html(response);
+              
             } else{
               $("#getdaily").html(' '); 
+              // $("#allshift_report").css('display', 'none');
+              $("#cardgetdaily").hide();
+              $("#cardgetdaily1").hide();
+              $("#cardgetdaily2").hide();
+              $("#cardgetdaily3").hide();
+              $("#cardgetdaily4").hide();
+              $("#cardgetdaily5").hide();
+              $("#allshift_report").hide();
             }
             } else {
               //console.log(response);
@@ -265,14 +275,20 @@ function Gettotalofcashier() {
       context: document.body,
       success: function (response) {
           if (response) {
-              console.log(response);
-              $("#expectedCash").html(response.data[0].total);
+              // 
+              const number = response.data[0].total;
+              const formattedNumber = number.toLocaleString('en-US');
+              $("#expectedCash").html(`Total: Rwf ` + formattedNumber);
               if (response.data[0].username === null) {
-                $("#cashiername").html("Shift Closed");
-             
+              $("#cashiername").html("Shift Closed");
+
+              $("#getcurrentcash").html(`Total: Rwf `+ response.data[0].total_sum);
+              $("#cashiernamepoint").html(response.data[0].user_name);
+              $("#shiftnames").html(response.data[0].shift_names);
+              console.log(response);
+              console.log('testing 2: '+response.data[0].shift_names);
             } else {
-              $("#cashiername").html(response.data[0].username);
-             
+              
             }
             
 

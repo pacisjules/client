@@ -86,7 +86,7 @@
                                 </div>
                             </li>
                             <div class="show_tblt">
-                            <a href="sales-panel"> <button type="button" id="ShowTablet"><img src="styles/icons/tap.png" alt="" srcset=""> <span>Tablet</span></button>  </a> 
+                            <a href="sales-panel" style="text-decoration: none"> <button type="button" id="ShowTablet"><img src="styles/icons/tap.png" alt="" srcset=""> <span>Tablet</span></button>  </a> 
                             </div>
                             
                             

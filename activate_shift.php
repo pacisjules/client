@@ -2,28 +2,47 @@
 error_reporting(0);
 session_start();
 $user_id = $_SESSION['user_id'];
-
+include('functions/connection.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        if(empty($_SESSION['mysalepoint'])){
+            header("Location:login");
+        }
        
         $start = date('Y-m-d H:i:s');
         $servername = "86.38.202.52";
-        // $servername = "localhost";
-        $username = "u774778522_sell_user_db";
-        $password = "Ishimuko@123";
-        $dbname = "u774778522_selleasep_db";
-
-
-        // $servername = "localhost";
-        // $username = "root";
-        // $password = "";
-        // $dbname = "u774778522_selleasep_db";
-
-        // Insert the shift record into the database
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        $sql = "INSERT INTO shift_records(user_id,start,shift_status) VALUES ( '$user_id','$start',1)";
+        $spt = $_SESSION['mysalepoint'];
+        
+        $sql = "INSERT INTO shift_records(user_id,start,shift_status,spt) VALUES ( '$user_id','$start',1,'$spt')";
         if ($conn->query($sql) === TRUE) {
+            
+
+            // SQL query
+            $sql = "SELECT record_id
+            FROM shift_records
+            WHERE user_id = $user_id
+            AND `end` = '0000-00-00 00:00:00'
+            AND shift_status = 1
+            ORDER BY record_id DESC
+            LIMIT 1";
+
+            // Execute query
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+
+            // Fetch the result row
+            $row = $result->fetch_assoc();
+            
+            // Echo the record_id
+            $_SESSION['shift_record_id'] = $row['record_id'];
             echo 1;
+            } else {
+            echo 1;
+            }
+
+            
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

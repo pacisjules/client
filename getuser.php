@@ -5,6 +5,8 @@ session_start();
 if(empty($_SESSION['user_id'])){
     header("Location:login");
 }
+
+
 else{
     $user_id=$_SESSION['user_id'];
     include('functions/connection.php');
