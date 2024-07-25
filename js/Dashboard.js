@@ -48,29 +48,22 @@ $("#activateShiftButton").click(function () {
 
 $("#closingcase").click(function () {
 
-var cashinhand = $("#cashinhand").val();
-  var mobilemoney = $("#mobilemoney").val();
-  var bank = $("#bank").val();
   var record_id = localStorage.getItem("record_id");
   var total = localStorage.getItem("total");
   var salesnumber = localStorage.getItem("salesnumber");
   var user_id = localStorage.getItem("UserID");
   var spt = localStorage.getItem("SptID");
-  var totalcheck = parseFloat(cashinhand) + parseFloat(mobilemoney) + parseFloat(bank);
-  console.log(totalcheck);
-  if(total==0 || totalcheck < total || totalcheck > total){
+  console.log(total);
+  if(total==0 ){
     $("#add_customer_modal").modal("hide");
     $("#errormodal").modal("show");
   }else{
 
-    // Start AJAX request
+  //   // Start AJAX request
   $.ajax({
     url: "functions/sales/closingshifttask.php",
     method: "POST",
     data: {
-      cashinhand: cashinhand,
-      mobilemoney: mobilemoney,
-      bank: bank,
       spt: spt,
       record_id: record_id,
       total: total,
@@ -80,9 +73,6 @@ var cashinhand = $("#cashinhand").val();
     },
     success: function (response) {
       console.log(response);
-      $("#cashinhand").val("");
-      $("#mobilemoney").val("");
-      $("#bank").val("");
       $("#add_customer_modal").modal("hide");
       $("#successmodal").modal("show");
         setTimeout(function() {
@@ -277,22 +267,21 @@ function Gettotalofcashier() {
           if (response) {
               // 
               const number = response.data[0].total;
+              const c_name = response.data[0].user_name;
+              
               const formattedNumber = number.toLocaleString('en-US');
               $("#expectedCash").html(`Total: Rwf ` + formattedNumber);
-              if (response.data[0].username === null) {
-              $("#cashiername").html("Shift Closed");
-
-              $("#getcurrentcash").html(`Total: Rwf `+ response.data[0].total_sum);
+              $("#cashiername").html(response.data[0].user_name);
+              console.log(c_name);
+              $("#getcurrentcash").html(`Total: Rwf `+ formattedNumber);
               $("#cashiernamepoint").html(response.data[0].user_name);
               $("#shiftnames").html(response.data[0].shift_names);
-              console.log(response);
+              //console.log(response);
               console.log('testing 2: '+response.data[0].shift_names);
-            } else {
-              
-            }
+           
             
 
-              localStorage.setItem("total", response.data[0].total);
+              localStorage.setItem("total", response.data[0].totals);
               localStorage.setItem("record_id", response.data[0].record_id);
               localStorage.setItem("salesnumber", response.data[0].salesnumber);
 

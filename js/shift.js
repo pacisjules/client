@@ -202,8 +202,8 @@ $(document).ready(function () {
       $("#expandSHIFT").html("Please wait..");
   
       var shift_id = parseInt(localStorage.getItem("emp_id"));
-  
-      //Ajax Start!
+    console.log(shift_id);
+      // //Ajax Start!
       $.ajax({
         url: "functions/shift/expandSHIFT.php",
         method: "POST",
@@ -460,7 +460,7 @@ function SelectEditCustomer(customer_id, names, shiftstart, shiftend) {
 
     function SelectExpand(e, names) {
       console.log(e);
-      $("#usernames").html(names);
+  
       localStorage.setItem("emp_id", e);
       }
   

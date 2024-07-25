@@ -4,9 +4,6 @@ require_once '../connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $cashinhand = $_POST["cashinhand"];
-    $mobilemoney = $_POST['mobilemoney'];
-    $bank = $_POST['bank'];
     $spt = $_POST["spt"];
     $record_id = $_POST['record_id'];
     $total = $_POST['total'];
@@ -16,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // Update the employee data into the database
-    $sql = "INSERT INTO `close_checkout`(`user_id`, `shiftrecord_id`, `amount`, `cashinhand`, `mobilemoney`, `bank`, `sales_number`, `closing_time`, `spt`)
-     VALUES ('$user_id','$record_id','$total','$cashinhand','$mobilemoney','$bank','$salesnumber','$end','$spt')";
+    $sql = "INSERT INTO `close_checkout`(`user_id`, `shiftrecord_id`, `amount`, `sales_number`, `closing_time`, `spt`)
+     VALUES ('$user_id','$record_id','$total','$salesnumber','$end','$spt')";
 
 
     if ($conn->query($sql) === TRUE) {

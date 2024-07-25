@@ -49,7 +49,12 @@ while ($row = $result->fetch_assoc()) {
             <td style="font-size: 12px;">' . $start->format('Y-m-d H:i:s') . '</td>
             <td style="font-size: 12px;">' . $end->format('Y-m-d H:i:s') . '</td>
             <td style="font-size: 14px; color: ' . $color . '; font-weight: bold;">' . $sts . '</td>
-            <td style="font-size: 12px;"><a class="nav-link active" href="shiftdetails?from=' . $row['start'] . '&to='.$row['end'].'">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">DETAILS</button></a></td>
+            <td style="font-size: 12px;">
+            <div style="display:flex; justify-content:space-between;">
+            <a class="nav-link active" href="shiftdetails?from=' . $row['start'] . '&to='.$row['end'].'">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">DETAILS</button></a>
+            <button style="background-color: green; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;" type="button" data-bs-target="#shiftmodal" data-bs-toggle="modal" onclick="SelectExpand(`'.$row['shiftrecord_id'].'`,`'.$row['username'].'`)">EXPAND SHIFT</button>
+           </div>
+            </td>
         </tr>';
 }
 
