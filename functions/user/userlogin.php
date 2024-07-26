@@ -70,6 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultscountshift = $conn->query($sqlscountshift);
         $shiftcounts = $resultscountshift->fetch_assoc();
 
+        $sptcountshift = "SELECT COUNT(*) AS countsptshift FROM shift_records WHERE user_id=$id AND spt=$sal AND shift_status=1";
+        $resultsptcountshift = $conn->query($sptcountshift);
+        $sptshiftcounts = $resultsptcountshift->fetch_assoc();
+
 
         $sqlsshiftInfo = "
         SELECT
@@ -182,6 +186,7 @@ from shift st, users us where us.shift_id=st.id AND us.id = $id
                 'Logged_on'=>$date_time,
                 'countlogins'=>$logincounts['count'],
                 'shiftcounts'=>$shiftcounts['countshift'],
+                'sptshift'=>$sptshiftcounts['countsptshift'],
                 'company_logo'=>$rowComp['logo'],
                 'company_color'=>$rowComp['color'],
                 'spt_name'=>$rowsa['location'],
@@ -242,6 +247,7 @@ from shift st, users us where us.shift_id=st.id AND us.id = $id
                     'Logged_on'=>$date_time,
                     'countlogins'=>$logincounts['count'],
                     'shiftcounts'=>$shiftcounts['countshift'],
+                    'sptshift'=>$sptshiftcounts['countsptshift'],
                     'company_logo'=>$rowComp['logo'],
                     'company_color'=>$rowComp['color'],
                     'spt_name'=>$rowsa['location'],

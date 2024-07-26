@@ -72,7 +72,7 @@ $(document).ready(function () {
                  localStorage.setItem("shiftstart", response.shiftstart);
                  localStorage.setItem("shiftend", response.shiftend);
                  localStorage.setItem("shift_name", response.shift_name);
-                 localStorage.setItem("shift_type", response.shift_type);
+                 localStorage.setItem("shift_type", response.shift_type); 
 
                  //console.log(response.countlogins);
                  
@@ -85,6 +85,8 @@ $(document).ready(function () {
                   response.usershift !== 0
                 ) 
                 {
+                  window.location.href = "/client/shiftending";
+                } else if(response.sptshift == 0){
                   window.location.href = "/client/shiftending";
                 }
 
