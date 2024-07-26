@@ -78,7 +78,7 @@ $(document).ready(function () {
                  
                 if (response.usershift == 0) {
                   window.location.href = "/client";
-                } 
+                }  
                 else if (
                   response.count_shifts == 1 &&
                   response.shift_status == 2 &&
@@ -86,9 +86,9 @@ $(document).ready(function () {
                 ) 
                 {
                   window.location.href = "/client/shiftending";
-                } else if(response.sptshift == 0){
-                  window.location.href = "/client/shiftending";
                 }
+                
+                
 
                 else if (
                   response.countlogins == 0 ||
@@ -97,6 +97,10 @@ $(document).ready(function () {
                 {
                   window.location.href = "/client/activateshift";
                 } 
+                
+                else if(response.sptshift == 0){
+                  window.location.href = "/client/shiftending";
+                }
                 
                 else {
                   window.location.href = "/client";

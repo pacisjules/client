@@ -95,41 +95,42 @@ from shift st, users us where us.shift_id=st.id AND us.id = $id
         $today = date('Y-m-d');
         
         $sqlscountshiftcurrent = "
-        SELECT
-        us.username,
-        us.company_name,
-        st.names AS shift_name,
-        st.shiftstart,
-        st.shiftend,
-        src.shift_status,
-        CASE 
+         SELECT
+    us.username,
+    us.company_name,
+    st.names AS shift_name,
+    st.shiftstart,
+    st.shiftend,
+    COALESCE((SELECT shift_status FROM shift_records WHERE user_id = us.id), 3) AS shift_status,
+    CASE 
         WHEN TIME(st.shiftstart) >= '06:00:00' AND TIME(st.shiftstart) < '18:00:00' THEN 'Day'
         ELSE 'Night'
-        END AS shift_type,
-        SUM(
-            CASE
-                WHEN TIME(st.shiftstart) >= '06:00:00' AND TIME(st.shiftstart) < '18:00:00' THEN
-                    CASE
-                        WHEN DATE(src.start) = CURRENT_DATE THEN 1
-                        ELSE 0
-                    END
-                ELSE
-                    CASE
-                        WHEN DATE(src.start) = CURRENT_DATE - INTERVAL 1 DAY THEN 1
-                        ELSE 0
-                    END
-            END
-        ) AS countshift_current
-        FROM
-            users us
-        JOIN
-            shift st ON us.shift_id = st.id
-        LEFT JOIN
-            shift_records src ON us.id = src.user_id AND src.start > st.shiftstart AND src.end != '0000-00-00 00:00:00'
-        WHERE
-            us.id = $id AND src.shift_status = 2
-        GROUP BY
-            us.username, us.company_name, st.names, st.shiftstart, st.shiftend, shift_type;
+    END AS shift_type,
+    SUM(
+        CASE
+            WHEN TIME(st.shiftstart) >= '06:00:00' AND TIME(st.shiftstart) < '18:00:00' THEN
+                CASE
+                    WHEN DATE(src.start) = CURRENT_DATE THEN 1
+                    ELSE 0
+                END
+            ELSE
+                CASE
+                    WHEN DATE(src.start) = CURRENT_DATE - INTERVAL 1 DAY THEN 1
+                    ELSE 0
+                END
+        END
+    ) AS countshift_current
+FROM
+    users us
+JOIN
+    shift st ON us.shift_id = st.id
+LEFT JOIN
+    shift_records src ON src.start > st.shiftstart AND src.end != '0000-00-00 00:00:00'
+WHERE
+    us.id = $id
+GROUP BY
+    us.username, us.company_name, st.names, st.shiftstart, st.shiftend, shift_type;
+
 
         ";
 
