@@ -1,8 +1,15 @@
 $(document).ready(function () {
+  View_allusershiftRecords();
   var shift_id = getParameterByName('shift_id'); 
   var from = getParameterByName('from'); 
-  var to = getParameterByName('to');  
-  View_allusershiftRecords();
+  var to = getParameterByName('to');
+  console.log(from);
+  console.log(to);
+  
+  
+
+
+  
   
   View_LoginRecords(); 
   View_shiftRecords(); 
@@ -61,55 +68,92 @@ $(document).ready(function () {
 
 
 
-  $.ajax({
-    url: `functions/sales/getallShiftSales.php?company=${company_ID}&spt=${spt}&startDate=${from}&endDate=${to}`,
-    method: 'GET',
-    success: function(data) {
-      // Handle the data received from the AJAX request and display it in the table
-      var html = '';
+  // $.ajax({
+  //   url: `functions/purchase/getalldaycombinationReportSHIFT.php?startdate=${from}&enddate=${to}&spt=${spt}`,
+  //   method: 'GET',
+  //   success: function(data) {
+  //     // Handle the data received from the AJAX request and display it in the table
+  //     var html = '';
+  //     var total = data.data[0].sumtotal;
+
  
-       var num = 0;                       
-      $.each(data.data, function(index, item) {
-        num += 1; 
+  //      var num = 0;                       
+  //     $.each(data.data, function(index, item) {
+  //       num += 1; 
           
-        html += '<tr>';
-        html += '<td>'+num+'. ' + item.Product_Name + '</td>';
-        html += '<td>' + item.quantity + '</td>';
-        html += '<td>' + item.sales_price + '</td>';
-        html += '<td>' + item.total_amount + '</td>';
-        html += '<td>' + item.created_time + '</td>';
-        html += '<td>' + item.paid_status + '</td>';
-        html += `<td class="d-flex flex-row justify-content-start align-items-center">
-        <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
-        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.sale_id}')" "><i class="fa fa-trash"></i></button>     
+  //       html += '<tr>';
+  //       html += '<td>'+num+'. ' + item.product_name + '</td>';
+  //       html += '<td>' + item.opening_stock + '</td>';
+  //       html += '<td>' + item.entry_stock + '</td>';
+  //       html += '<td>' + item.totalstock + '</td>';
+  //       html += '<td>' + item.created_time + '</td>';
+  //       html += '<td>' + item.paid_status + '</td>';
+  //       html += `<td class="d-flex flex-row justify-content-start align-items-center">
+  //       <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
+  //       <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesIDremove('${item.sale_id}')" "><i class="fa fa-trash"></i></button>     
                
-         </td> `; 
-        html += '</tr>';
-      });
-      $('#shift_detail').html(html);
+  //        </td> `; 
+  //       html += '</tr>';
+  //     });
+  //     $('#shift_detail').html(html);
+  //     ('#total').html(html);
     
       
-    },
-    error: function() {
-      alert('An error occurred while fetching user shift details.');
-    }
-  });
+  //   },
+  //   error: function() {
+  //     alert('An error occurred while fetching user shift details.');
+  //   }
+  // });
+
+// $.ajax({
+//   url: `functions/purchase/getalldaycombinationReportSHIFT.php?startdate=${from}&enddate=${to}&spt=${spt}`,
+//   method: 'GET',
+//   success: function(data) { 
+//     var table = $('#datasTable').DataTable({
+//       "data": data.data,
+//       "columns": [
+//           { "data": "num" },
+//           { "data": "product_name" },
+//           { "data": "entry_stock" },
+//           { "data": "sold_stock" },
+//           { "data": "unit_price" },
+//           { "data": "closing_stock" },
+//           { "data": "closing_stock",
+//             "render": function ( data, type, row, meta ) {
+//                 return Intl.NumberFormat('en-US').format(data);
+//         }
+//         },
+//         {
+//             "data": "closing_stock",
+//             "render": function(data, type, row, meta) {
+//                 if (data == 1) {
+//                     return `<span  class="badge text-bg-success"><span style="color: white; font-weight: bold; font-size: 12px">Working</span></span>`;
+//                 } else {
+//                     return `<span>LIVE</span>`;
+//                 }
+//             }
+//           }
+//       ],
+          
+//     });
+//   },
+//   error: function() {
+//     alert('An error occurred while fetching user shift details.');
+//   }
+// });
+
+
+// $('#datasTable').DataTable( {
+//   ajax: {
+//       url: `functions/purchase/getalldaycombinationReportSHIFT.php?startdate=${from}&enddate=${to}&spt=${spt}`,
+//       dataSrc: 'data'
+//   },
+//   columns: [ { data: 'name' }, { data: 'email' } ]
+// } );
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-            // Function to get URL query parameters
+  // Function to get URL query parameters
   function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -218,6 +262,7 @@ $(document).ready(function () {
           $("#expandSHIFT").html("YES");
           $("#shiftmodal").modal("hide");
           localStorage.removeItem("emp_id");
+          location.reload();
         },
         error: function (error) {
           $("#expandSHIFT").html("YES");

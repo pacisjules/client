@@ -277,6 +277,8 @@ from shift st, users us where us.shift_id=st.id AND us.id = $id
         $_SESSION['Logged_on'] = $date_time;
         $_SESSION['countlogins'] = $logincounts['count'];
         $_SESSION['mysalepoint'] = $rowInfos['sales_point_id'];
+        $_SESSION['company_ID'] = $row['company_ID'];
+        
         
         //exit();
     } else {

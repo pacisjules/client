@@ -7,7 +7,7 @@ include('getuser.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Standard Details - SellEASEP</title>
+    <title>Shift Details - SellEASEP</title>
     <meta name="description" content="For a large retail chain or multi-location business with advanced features and extensive customization needs, the cost of a customized POS software solution could range">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -15,6 +15,10 @@ include('getuser.php');
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="icon" href="icon.jpg" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
     <script src="js/shift.js"></script>
@@ -32,16 +36,11 @@ include('getuser.php');
                         <div>
                          <a class="nav-link active" href="allshift_report">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a>   
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Standard Details of <span id="product_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Shift Details of <span id="product_name"></span></h3>
                         </div>
-                        
-                   <!--<div>-->
-                       
-                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Amount Due: <span id="dbt_amount" ></span></h4>-->
-                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Paid Amount: <span id="paid_amount"></span></h4>-->
-                   <!--    <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Balance: <span id="tot_balance"></span></h4>-->
-                   <!--</div>     -->
                     </div>
+                
+                
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Standard Details Information</p>
@@ -57,58 +56,17 @@ include('getuser.php');
                             
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 text-nowrap">
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
-                                                <option value="10" selected="">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>&nbsp;</label></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchCustomer"></label></div>
-                                </div>
-                            </div>
+                           
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable">
-                                <thead>
-                                        <tr>
-                                            <th style="font-size: 14px;">Name</th>
-                                            <th style="font-size: 14px;">Quantity</th>
-                                            <th style="font-size: 14px;">Price</th>
-                                            
-                                            <th style="font-size: 14px;">Total amount</th>
-                                            <th style="font-size: 14px;">Status</th>
-                                            <th style="font-size: 14px;">Sold time</th>
-                                            <th style="font-size: 14px;">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="shift_detail">
-                                        
-                                    </tbody>
-                                </table>
+                            <?php include('getshiftdetails.php'); ?>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                        <ul class="pagination">
-                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>

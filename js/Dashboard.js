@@ -47,7 +47,9 @@ $("#activateShiftButton").click(function () {
 
 
 $("#closingcase").click(function () {
-
+  $("#closingcase").hide();
+  $("#no_shift").hide();
+  $("#no_shifts").hide();
   var record_id = localStorage.getItem("record_id");
   var total = localStorage.getItem("total");
   var salesnumber = localStorage.getItem("salesnumber");
@@ -58,6 +60,8 @@ $("#closingcase").click(function () {
     $("#add_customer_modal").modal("hide");
     $("#errormodal").modal("show");
   }else{
+  
+  $("#shift_message").html("Please wait..");
 
   //   // Start AJAX request
   $.ajax({
@@ -145,7 +149,7 @@ function GetDailyTotal() {
           context: document.body,
           success: function (response) {
             if (response) {
-              console.log(response);
+              // console.log(response);
               if(TypeUser==='BOSS'|| TypeUser==='Manager'){
               
               $("#getdaily").html(response);
@@ -182,7 +186,7 @@ function GetWeeklyTotal() {
   const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
   const week = getWeekNumber(year, month, day);
-  console.log(week);
+  // console.log(week);
 
   // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
@@ -234,7 +238,7 @@ function getsalespoint() {
     method: "GET", // Change method to GET
     success: function (response) {
         if (response && response.location) {
-            console.log(response.location);
+            // console.log(response.location);
             $("#salespointlocation").html(response.location);
         } else {
             $("#salespointlocation").html("No location available");
@@ -265,31 +269,34 @@ function Gettotalofcashier() {
       context: document.body,
       success: function (response) {
           if (response) {
+              console.log(response);  
               // 
               const number = response.data[0].total;
               const c_name = response.data[0].user_name;
-              
+              $("#cardgetdaily7").hide();
               const formattedNumber = number.toLocaleString('en-US');
               $("#expectedCash").html(`Total: Rwf ` + formattedNumber);
               $("#cashiername").html(response.data[0].user_name);
-              console.log(c_name);
+              // console.log(c_name);
               $("#getcurrentcash").html(`Total: Rwf `+ formattedNumber);
+
               $("#cashiernamepoint").html(response.data[0].user_name);
               $("#shiftnames").html(response.data[0].shift_names);
-              //console.log(response);
-              console.log('testing 2: '+response.data[0].shift_names);
-           
-            
+              // console.log(response);
+              // console.log('testing 2: '+response.data[0].shift_names);
 
               localStorage.setItem("total", response.data[0].totals);
               localStorage.setItem("record_id", response.data[0].record_id);
               localStorage.setItem("salesnumber", response.data[0].salesnumber);
 
           } else {
+            console.log("No results available");
               $("#expectedCash").html("error");
           }
       },
       error: function (xhr, status, error) {
+          $("#my_names").html(localStorage.getItem("Names"));
+          $("#cardgetdaily5").hide();
           console.log("Error:", error);
       },
   });
@@ -314,7 +321,7 @@ function GetYearlyTotal() {
       context: document.body,
       success: function (response) {
           if (response) {
-              console.log(response);
+              // console.log(response);
               if (TypeUser==='BOSS') {
                 $("#getYearly").html(response);
               }else{
@@ -350,7 +357,7 @@ function GetBenefitData() {
       context: document.body,
       success: function (response) {
           if (response) {
-              console.log(response);
+              // console.log(response);
               $("#getMostBenefit").html(response);
           } else {
               $("#getMostBenefit").html("No results available");
@@ -462,7 +469,7 @@ function GetInventoryAlert() {
     context: document.body,
     success: function (response) {
         if (response) {
-            console.log(response);
+            // console.log(response);
             $("#inventoryAlert").html(response);
         } else {
             $("#inventoryAlert").html("No results available");

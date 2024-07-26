@@ -97,6 +97,24 @@ include('getuser.php');
                         </div>
 
 
+                        <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily7">
+                            <div class="card shadow border-start-success py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                    <div class="text-uppercase text-success fw-bold text-xs mb-1"><span style="min-width: 43px;">Greetings</div>
+                                        
+                                        <div class="col me-2" style="font-weight: bold">
+                                            <p>Welcome <span id="my_names"></span></p>
+                                        </div>
+
+                                        <div class="col-auto"><i class="fas fa-hand-peace fa-2x text-gray-300"></i></div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="col-md-6 col-xl-3 mb-4" style="width: 300px;" id="cardgetdaily3">
                             <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
@@ -278,10 +296,10 @@ include('getuser.php');
                     <p class="modal-title">CLOSING MY SHIFT DAY...<span id="cashiername" style="color:blue;font-weight:bold;"></span></p><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <center><h2>CASHIER SHIFT CLOSING APPROVAL<span id="cashiername" style="color:blue;font-weight:bold;"></span></h2>
-                <p>If Yes press YES else NO to cancel</p></center>
+                <center><h2 id="shift_message">CASHIER SHIFT CLOSING APPROVAL<span id="cashiername" style="color:blue;font-weight:bold;"></span></h2>
+                <p id="no_shifts">If Yes press YES else NO to cancel</p></center>
                 </div>
-                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal">NO</button><button class="btn btn-success" type="button" id="closingcase"><span  style="color:white;font-weight:bold;">YES</span></button></div>
+                <div class="modal-footer"><button class="btn btn-danger" type="button" data-bs-dismiss="modal" id="no_shift">NO</button><button class="btn btn-success" type="button" id="closingcase"><span  style="color:white;font-weight:bold;">YES</span></button></div>
             </div>
         </div>
     </div>

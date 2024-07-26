@@ -3,7 +3,7 @@
 require_once '../connection.php';
 session_start();
 
-$recordshift_id = $_SESSION['shift_record_id'];
+// $recordshift_id = $_SESSION['shift_record_id'];
 
 header('Content-Type: application/json');
 
