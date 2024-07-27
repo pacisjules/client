@@ -8,14 +8,13 @@ session_start();
 header('Content-Type: application/json');
 
 // Get all sales by date
-$user_id = $_GET['user_id'];
 $spt = $_GET['spt'];
 
 // $shift_id = 0;
 
 // // SQL query
 $sql_in_shift = "
-SELECT record_id
+SELECT record_id,user_id,start
 FROM shift_records
 WHERE spt = $spt
 AND `end` = '0000-00-00 00:00:00'
@@ -31,12 +30,13 @@ $result_in_shift = $conn->query($sql_in_shift);
     $row_in_shift = $result_in_shift->fetch_assoc();
     // Set the shift_id
     $shift_id = $row_in_shift['record_id'];
+    $user_id = $row_in_shift['user_id'];
+    $start = $row_in_shift['start'];
 
 
 $sql = "
 SELECT 
     IFNULL(SUM(SL.total_amount), 0) AS total,
-    IFNULL(SUM(SL.total_amount), 0) AS totals,
     US.username,
     SR.record_id,
     SR.user_id,
@@ -90,7 +90,6 @@ while ($row = $result->fetch_assoc()) {
 
     $item = array(
         'total' => $formattedTotal,
-        'totals' => $row['totals'],
         'username' => $row['username'],
         'record_id' => $row['record_id'],
         'salesnumber' => $row['salesnumber'],

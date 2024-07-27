@@ -50,17 +50,10 @@ $("#closingcase").click(function () {
   $("#closingcase").hide();
   $("#no_shift").hide();
   $("#no_shifts").hide();
-  var record_id = localStorage.getItem("record_id");
-  var total = localStorage.getItem("total");
-  var salesnumber = localStorage.getItem("salesnumber");
+  
   var user_id = localStorage.getItem("UserID");
   var spt = localStorage.getItem("SptID");
-  console.log(total);
-  if(total==0 ){
-    $("#add_customer_modal").modal("hide");
-    $("#errormodal").modal("show");
-  }else{
-  
+ 
   $("#shift_message").html("Please wait..");
 
   //   // Start AJAX request
@@ -69,11 +62,7 @@ $("#closingcase").click(function () {
     method: "POST",
     data: {
       spt: spt,
-      record_id: record_id,
-      total: total,
-      salesnumber: salesnumber,
-      user_id: user_id,
-      
+      user_id: user_id     
     },
     success: function (response) {
       console.log(response);
@@ -88,7 +77,7 @@ $("#closingcase").click(function () {
       $("#errormodal").modal("show");
     },
   });
-  }
+  
   // Retrieve values from input fields
   
 
@@ -264,7 +253,7 @@ function Gettotalofcashier() {
 
   // Ajax Start!
   $.ajax({
-      url: `functions/sales/sumofcashier.php?user_id=${user_id}&spt=${sales_point_id}`,
+      url: `functions/sales/sumofcashier.php?spt=${sales_point_id}`,
       method: "GET",
       context: document.body,
       success: function (response) {
@@ -283,11 +272,7 @@ function Gettotalofcashier() {
               $("#cashiernamepoint").html(response.data[0].user_name);
               $("#shiftnames").html(response.data[0].shift_names);
               // console.log(response);
-              // console.log('testing 2: '+response.data[0].shift_names);
-
-              localStorage.setItem("total", response.data[0].totals);
-              localStorage.setItem("record_id", response.data[0].record_id);
-              localStorage.setItem("salesnumber", response.data[0].salesnumber);
+              
 
           } else {
             console.log("No results available");

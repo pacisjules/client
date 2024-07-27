@@ -72,13 +72,13 @@ $(document).ready(function () {
                  localStorage.setItem("shiftstart", response.shiftstart);
                  localStorage.setItem("shiftend", response.shiftend);
                  localStorage.setItem("shift_name", response.shift_name);
-                 localStorage.setItem("shift_type", response.shift_type); 
+                 localStorage.setItem("shift_type", response.shift_type);
 
                  //console.log(response.countlogins);
                  
                 if (response.usershift == 0) {
                   window.location.href = "/client";
-                }  
+                } 
                 else if (
                   response.count_shifts == 1 &&
                   response.shift_status == 2 &&
@@ -87,8 +87,52 @@ $(document).ready(function () {
                 {
                   window.location.href = "/client/shiftending";
                 }
+
+                else if(response.sptshift==0 && response.shift_status == 2){
+                  // window.location.href = "/client/shiftending";
+                  function getCurrentTime() {
+                    const now = new Date();
+                    let hours = now.getHours();
+                    let minutes = now.getMinutes();
+                    let seconds = now.getSeconds();
                 
+                    // Add leading zeros if necessary
+                    hours = hours < 10 ? '0' + hours : hours;
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
                 
+                    return `${hours}:${minutes}:${seconds}`;
+                }
+                var time = getCurrentTime();
+                var start = response.shiftstart;
+                var end = response.shiftend;
+                console.log(time);
+
+                  console.log(start);
+                  console.log(end);
+
+                  if(start<end){
+                    console.log("day");
+                    if(time >= start && time <= end){
+                      window.location.href = "/client/activateshift";
+                    }else{
+                      window.location.href = "/client/shiftending";
+                    }
+
+
+                  }else{
+                    console.log("evening");
+
+                    if(time >= start || time <= end){
+                      window.location.href = "/client/activateshift";
+                    }else{
+                      window.location.href = "/client/shiftending";
+                    }
+                  }
+
+
+
+                }
 
                 else if (
                   response.countlogins == 0 ||
@@ -97,10 +141,6 @@ $(document).ready(function () {
                 {
                   window.location.href = "/client/activateshift";
                 } 
-                
-                else if(response.sptshift == 0){
-                  window.location.href = "/client/shiftending";
-                }
                 
                 else {
                   window.location.href = "/client";

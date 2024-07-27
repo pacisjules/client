@@ -95,17 +95,13 @@ from shift st, users us where us.shift_id=st.id AND us.id = $id
         $today = date('Y-m-d');
         
         $sqlscountshiftcurrent = "
-         SELECT
+SELECT
     us.username,
     us.company_name,
     st.names AS shift_name,
     st.shiftstart,
     st.shiftend,
-    COALESCE((SELECT shift_status FROM shift_records WHERE user_id = us.id), 3) AS shift_status,
-    CASE 
-        WHEN TIME(st.shiftstart) >= '06:00:00' AND TIME(st.shiftstart) < '18:00:00' THEN 'Day'
-        ELSE 'Night'
-    END AS shift_type,
+    COALESCE((SELECT shift_status FROM shift_records WHERE user_id = us.id ORDER BY start DESC LIMIT 1), 3) AS shift_status,
     SUM(
         CASE
             WHEN TIME(st.shiftstart) >= '06:00:00' AND TIME(st.shiftstart) < '18:00:00' THEN
@@ -119,18 +115,22 @@ from shift st, users us where us.shift_id=st.id AND us.id = $id
                     ELSE 0
                 END
         END
-    ) AS countshift_current
+    ) AS countshift_current,
+    CASE
+        WHEN TIME(st.shiftstart) < TIME(st.shiftend) AND CURRENT_TIME BETWEEN TIME(st.shiftstart) AND TIME(st.shiftend) THEN 1
+        WHEN TIME(st.shiftstart) > TIME(st.shiftend) AND (CURRENT_TIME >= TIME(st.shiftstart) OR CURRENT_TIME <= TIME(st.shiftend)) THEN 1
+        ELSE 0
+    END AS is_in_shift_interval
 FROM
     users us
 JOIN
     shift st ON us.shift_id = st.id
 LEFT JOIN
-    shift_records src ON src.start > st.shiftstart AND src.end != '0000-00-00 00:00:00'
+    shift_records src ON src.user_id = us.id AND src.start > st.shiftstart AND src.end != '0000-00-00 00:00:00'
 WHERE
     us.id = $id
 GROUP BY
-    us.username, us.company_name, st.names, st.shiftstart, st.shiftend, shift_type;
-
+    us.username, us.company_name, st.names, st.shiftstart, st.shiftend
 
         ";
 
@@ -198,9 +198,10 @@ GROUP BY
                 'shiftstart'=>$shiftcountscurrent['shiftstart'],
                 'shiftend'=>$shiftcountscurrent['shiftend'],
                 'count_shifts'=>$shiftcountscurrent['countshift_current'],
+                'is_in_shift_interval'=>$shiftcountscurrent['is_in_shift_interval'],
                 'shift_status'=>$shiftcountscurrent['shift_status'],
                 'shift_name'=>$shiftcountscurrent['shift_name'],
-                'shift_type'=>$shiftcountscurrent['shift_type'],
+    
     
                 'Message'=> 'Account passed'
             );
