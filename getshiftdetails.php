@@ -52,35 +52,63 @@ $(document).ready(function() {
     }
 
     var table = $('#employeeTable').DataTable({
-        "ajax": `functions/purchase/getalldaycombinationReportSHIFT.php?startdate=${from}&enddate=${to}&spt=${spt}`,
-        "columns": [
-            { "data": "num" },
-            { "data": "product_name" },
-            { "data": function(data) { return data.closing_stock - data.sold_stock; } },
-            { "data": "entry_stock" },
-            { "data": function(data) { return ((parseFloat(data.closing_stock - data.sold_stock) + parseFloat(data.entry_stock))); } },
-            { "data": "sold_stock" },
-            { "data": function(data) { return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(data.unit_price)} Rwf </span>`; } },
-            { "data": function(data) { return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(data.sold_stock * data.unit_price)} Rwf </span>`; } },
-            { "data": "closing_stock" },
-        ],
-        "order": [[1, 'asc']],
-        "searching": true,
-        "initComplete": function(settings, json) {
-            var jobTitles = [];
-            json.data.forEach(function(employee) {
-                if (!jobTitles.includes(employee.product_name)) {
-                    jobTitles.push(employee.product_name);
-                }
-            });
-            jobTitles.sort();
-            jobTitles.forEach(function(title) {
-                $('#jobTitleFilter').append('<option value="' + title + '">' + title + '</option>');
-                $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.total)} Rwf `);
-            });
-        },
-        
-    });
+    "ajax": `functions/purchase/getalldaycombinationReportSHIFT.php?startdate=${from}&enddate=${to}&spt=${spt}`,
+    "columns": [
+        { "data": "num" },
+        { "data": "product_name" },
+        { "data": function(data) { 
+            var closingStock = parseFloat(data.closing_stock) || 0;
+            var soldStock = parseFloat(data.sold_stock) || 0;
+            var entryStock = parseFloat(data.entry_stock) || 0;
+            
+            if (entryStock === 0) {
+                return closingStock + soldStock; 
+            } else {
+                return closingStock + soldStock - entryStock;
+            }
+        }},
+        { "data": "entry_stock" },
+        { "data": function(data) { 
+            var closingStock = parseFloat(data.closing_stock) || 0;
+            var soldStock = parseFloat(data.sold_stock) || 0;
+            var entryStock = parseFloat(data.entry_stock) || 0;
+            
+            if (entryStock === 0) {
+                return closingStock + soldStock; 
+            } else {
+                return (((closingStock + soldStock) - entryStock) + entryStock);
+            }
+        }},
+        { "data": "sold_stock" },
+        { "data": function(data) { 
+            var unitPrice = parseFloat(data.unit_price) || 0;
+            return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(unitPrice)} Rwf</span>`; 
+        }},
+        { "data": function(data) { 
+            var soldStock = parseFloat(data.sold_stock) || 0;
+            var unitPrice = parseFloat(data.unit_price) || 0;
+            return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(soldStock * unitPrice)} Rwf</span>`; 
+        }},
+        { "data": "closing_stock" },
+    ],
+    "order": [[1, 'asc']],
+    "searching": true,
+    "initComplete": function(settings, json) {
+        var jobTitles = [];
+        json.data.forEach(function(employee) {
+            if (!jobTitles.includes(employee.product_name)) {
+                jobTitles.push(employee.product_name);
+            }
+        });
+        jobTitles.sort();
+        jobTitles.forEach(function(title) {
+            $('#jobTitleFilter').append('<option value="' + title + '">' + title + '</option>');
+        });
+        $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.total)} Rwf`);
+    },
+});
+
+
 
     $('#jobTitleFilter').on('change', function() {
         var selectedJobTitle = $(this).val();
