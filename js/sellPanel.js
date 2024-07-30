@@ -316,32 +316,27 @@ $("#NegoPrice").on("input", function () {
 
 
 
- $("#savep_sell").click(function () {
-
-
-  $("#savep_sell").html("Please wait..");
+$("#savep_sell").click(function () {
+  $("#savep_sell").html("Please wait...");
 
   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
 
   // Extract the product IDs and quantities from the cart array
   var productIds = cart.items.map(function(item) {
-    return parseInt(item.id);
+      return parseInt(item.id);
   });
 
   var quantities = cart.items.map(function(item) {
-    return parseFloat(item.qty);
-  });
-  
-  var prices = cart.items.map(function(item) {
-    return parseFloat(item.price);
-  });
-  
-  var benes = cart.items.map(function(item) {
-    return parseFloat(item.benefit);
+      return parseFloat(item.qty);
   });
 
-  //console.log("P_IDS: "+productIds);
-  //console.log("Qty: "+quantities);
+  var prices = cart.items.map(function(item) {
+      return parseFloat(item.price);
+  });
+
+  var benes = cart.items.map(function(item) {
+      return parseFloat(item.benefit);
+  });
 
   // Retrieve values from localStorage
   var sales_point_id = localStorage.getItem("SptID");
@@ -352,59 +347,65 @@ $("#NegoPrice").on("input", function () {
   var phone = localStorage.getItem("customer_phone");
   var usershift = localStorage.getItem("usershift");
 
-  // // Start AJAX request
+  // Start AJAX request
   $.ajax({
-    url: "functions/sales/bulksales.php",
-    method: "POST",
-    dataType: 'json',
-    data: {
-      product_id: productIds,
-      sales_point_id: sales_point_id,
-      customer_id:customer_id,
-      cust_name:cust_name,
-      phone:phone,
-      quantity: quantities,
-      price:prices,
-      benefit:benes,
-      sales_type: 1,
-      paid_status: paid_jk,
-      service_amount: 0,
-      user_id: use_id,
-      usershift:usershift,
-    },
-    
-    success: function (response) {
-      console.log("response:", response);
-      initializeCart();
-      View_LastSalesRecord();
-      $("#savep_sell").html("Sell Done");
-      localStorage.setItem("is_paid","Paid");
-     
-      var checkbox = document.getElementById("flexSwitchCheckChecked");
-      
-      // Toggle the checkbox's checked state
-      checkbox.checked = false;
-      
-      // $('#amadenis').hide();
-      $("#finishModal").modal('show');
-      $('#sessionid').html(response);
-      localStorage.setItem('sessionid', response);
-      localStorage.removeItem('customer_id');
-      localStorage.removeItem('customer_phone');
-      localStorage.removeItem('customer_names');
-      localStorage.removeItem('customer_address');
-      $("#searchCustomerNow").html("");
-      $("#getnames").html("");
-      $("#getphone").html("");
-      $("#getaddress").html("");
-    },
-    error: function (xhr, status, error) {
-      console.log("Error:", xhr.responseText, status);
-      $("#savep_sell").html("Sell Failed");
-      $("#savep_sell").style("backgroundColor","red");
-    },
+      url: "functions/sales/bulksales.php",
+      method: "POST",
+      dataType: 'json',
+      data: {
+          product_id: productIds,
+          sales_point_id: sales_point_id,
+          customer_id: customer_id,
+          cust_name: cust_name,
+          phone: phone,
+          quantity: quantities,
+          price: prices,
+          benefit: benes,
+          sales_type: 1,
+          paid_status: paid_jk,
+          service_amount: 0,
+          user_id: use_id,
+          usershift: usershift,
+      },
+      success: function (response) {
+          console.log("response:", response);
+          initializeCart();
+          View_LastSalesRecord();
+          $("#savep_sell").html("Sell Done");
+          localStorage.setItem("is_paid", "Paid");
+
+          var checkbox = document.getElementById("flexSwitchCheckChecked");
+
+          // Toggle the checkbox's checked state
+          checkbox.checked = false;
+
+          // Clear customer details from localStorage
+          localStorage.removeItem('customer_id');
+          localStorage.removeItem('customer_phone');
+          localStorage.removeItem('customer_names');
+          localStorage.removeItem('customer_address');
+
+          // Clear customer details from UI
+          $("#searchCustomerNow").html("");
+          $("#getnames").html("");
+          $("#getphone").html("");
+          $("#getaddress").html("");
+
+          // Set session ID
+          $('#sessionid').html(response);
+          localStorage.setItem('sessionid', response);
+
+          // Call the print invoice function
+          // printInvoiceFunc(response);
+      },
+      error: function (xhr, status, error) {
+          console.log("Error:", xhr.responseText, status);
+          $("#savep_sell").html("Sell Failed");
+          $("#savep_sell").css("backgroundColor", "red");
+      },
   });
 });
+
 
 
 
@@ -1296,9 +1297,8 @@ function proceed_tablet_sales () {
       checkbox.checked = false;
       
       // $('#amadenis').hide();
-      $("#finishModal").modal('show');
-      $('#sessionid').html(response);
-      localStorage.setItem('sessionid', response);
+      // $("#finishModal").modal('show');
+      
       localStorage.removeItem('customer_id');
       localStorage.removeItem('customer_phone');
       localStorage.removeItem('customer_names');
@@ -1307,6 +1307,9 @@ function proceed_tablet_sales () {
       $('#subtotalPayable').html("0 Rwf");
       $('#subtotal').html("0 Rwf");
       $('#cartItemTableTablet').empty();
+      $('#sessionid').html(response);
+      localStorage.setItem('sessionid', response);
+      printInvoiceFunc(response);
     },
     error: function (xhr, status, error) {
       console.log("Error:", xhr.responseText, status);
@@ -1322,7 +1325,7 @@ function proceed_tablet_sales () {
 
 
 function printInvoiceFunc() {
-  var ssess = localStorage.getItem("sessionid");
+   var ssess = localStorage.getItem("sessionid");
   console.log("session id : ", ssess);
 
   // Check if session ID is available
@@ -1345,7 +1348,7 @@ function printInvoiceFunc() {
               const sumtotal = data.sumtotal;
               const typereport = "Selleasep Receipt";
               console.log("customer : ",customer);
-              printInvoice(salesdata, typereport, sumtotal,date,customer,phone);
+              printSCAN(salesdata, typereport, sumtotal,date,customer,phone);
           } else {
               console.error('Empty or invalid data received from the server.');
           }
@@ -2141,6 +2144,151 @@ for (let i = 0; i < salesdata.length; i++) {
  // Use jsPDF to convert the HTML to a PDF and print it
 
 
+}
+
+
+
+function printSCAN(salesdata, typereport, sumtotal, date, customer, phone) {
+  // Calculate the total amount with interest
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  const formattedDate = `${year}-${month}-${day}`;
+
+  const c_name = localStorage.getItem("companyName");
+  const Phone =  localStorage.getItem("phoneboss");
+  const Phonemana =  localStorage.getItem("phonemana");
+  const c_logo = localStorage.getItem("company_logo");
+  const c_color =  localStorage.getItem("company_color");
+  const nameManager =  localStorage.getItem("Names");
+  const salespoint =  localStorage.getItem("spt_name");
+
+  let table = '';
+
+  for (let i = 0; i < salesdata.length; i++) {
+      const item = salesdata[i];
+
+      table += `
+      <tr>
+          <td class="description">${i+1}. ${item.Product_Name}</td>
+          <td class="quantity">${item.quantity}</td><br>
+          <td class="price">${new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "RWF",
+          }).format(parseFloat(item.sales_price))}</td>
+          <td class="total">${new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "RWF",
+          }).format(parseFloat(item.total_amount))}</td>
+      </tr>
+      `;
+  };
+
+  // Create an iframe for printing
+  const printFrame = document.createElement('iframe');
+  printFrame.style.position = 'absolute';
+  printFrame.style.width = '0';
+  printFrame.style.height = '0';
+  printFrame.style.border = 'none';
+
+  document.body.appendChild(printFrame);
+
+  const printDocument = printFrame.contentWindow.document;
+  printDocument.open();
+  printDocument.write(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <style>
+          * {
+              font-size: 14px;
+              font-family: 'Times New Roman';
+          }
+          td, th, tr, table {
+              border-top: 1px solid black;
+              border-collapse: collapse;
+          }
+          td.description, th.description {
+              width: 75px;
+              max-width: 75px;
+          }
+          td.quantity, th.quantity {
+              width: 40px;
+              max-width: 40px;
+              word-break: break-all;
+          }
+          td.price, th.price {
+              width: 75px;
+              max-width: 75px;
+              word-break: break-all;
+          }
+          td.total, th.total {
+              width: 75px;
+              max-width: 75px;
+              word-break: break-all;
+          }
+          .centered {
+              text-align: center;
+              align-content: center;
+          }
+          .ticket {
+              width: 280px;
+              max-width: 280px;
+          }
+          img {
+              max-width: inherit;
+              width: inherit;
+          }
+          @media print {
+              .hidden-print, .hidden-print * {
+                  display: none !important;
+              }
+          }
+      </style>
+  </head>
+  <body>
+      <center>
+          <div class="ticket">
+              <img src="${c_logo}" alt="Logo">
+              <p class="centered">${c_name} LOCAL RECEIPT</p>
+              <table>
+                  <thead>
+                      <tr>
+                          <th class="description">Item</th>
+                          <th class="quantity">Qty.</th>
+                          <th class="price">Unit Price</th>
+                          <th class="total">Total</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      ${table}
+                  </tbody>
+              </table>
+              <h3>Total Amount: ${new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "RWF",
+              }).format(parseFloat(sumtotal))}</h3>
+              <p class="centered">Thanks for working with us!</p>
+          </div>
+      </center>
+  </body>
+  </html>
+  `);
+  printDocument.close();
+
+  printFrame.contentWindow.focus();
+  printFrame.contentWindow.print();
+
+  // Remove the iframe after printing
+  setTimeout(() => {
+      document.body.removeChild(printFrame);
+  }, 100);
 }
 
 

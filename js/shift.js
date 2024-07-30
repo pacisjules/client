@@ -3,6 +3,7 @@ $(document).ready(function () {
   var shift_id = getParameterByName('shift_id'); 
   var from = getParameterByName('from'); 
   var to = getParameterByName('to');
+  var start = getParameterByName('start');
   console.log(from);
   console.log(to);
   

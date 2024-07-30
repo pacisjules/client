@@ -10,7 +10,7 @@
 </head>
 <body>
     <div>
-        <label for="jobTitleFilter">Filter by Product:</label> <span class="badge text-bg-primary" style="font-size: 14px;" id="sum_total"></span>
+        <label for="jobTitleFilter">Filter by Product:</label> <span style="font-size: 20px;margin-left:12rem;"> Total Sales Closing:</span><span class="badge text-bg-primary" style="margin-left:1rem;font-size:20px;"  id="sum_total"></span>
         <select id="jobTitleFilter" class="form-select" aria-label="Default select example" style="width:220px;">
             <option selected value="">All</option>
         </select>

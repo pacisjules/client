@@ -11,7 +11,8 @@ SELECT
     (select location from salespoint where sales_point_id =sr.spt) as sales_point,
     (select names from shift where id =usr.shift_id) as shift_name,
     (select sum(total_amount)as num from sales where created_time>sr.start AND  sales_point_id=sr.spt) as income_number,
-    sr.shift_status
+    sr.shift_status,
+    sr.start
 FROM
     shift_records sr,
     users usr

@@ -4,7 +4,8 @@ require_once '../connection.php';
 header('Content-Type: application/json');
 
 // Get all sales by date
-$startDate = $_GET['start'];
+$startDate = $_GET['from'];
+$endDate = $_GET['to'];
 $comID = $_GET['company'];
 $spt = $_GET['spt'];
 
@@ -40,6 +41,7 @@ JOIN inventory INV ON
     SL.product_id = INV.product_id
 WHERE
     SL.created_time >= ?
+    AND SL.created_time <= ?
     AND SP.company_ID = ?
     AND SL.sales_point_id = ?
 GROUP BY
@@ -47,7 +49,7 @@ GROUP BY
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sii", $startDate, $comID, $spt);
+$stmt->bind_param("ssii", $startDate, $endDate, $comID, $spt);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -58,9 +60,9 @@ while ($row = $result->fetch_assoc()) {
 
 // Prepare the SQL query to sum total amounts
 $sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal FROM sales 
-                 WHERE created_time >= ? AND sales_point_id = ?";
+                 WHERE created_time >= ? AND created_time <= ? AND sales_point_id = ?";
 $sumStmt = $conn->prepare($sumTotalQuery);
-$sumStmt->bind_param("si", $startDate, $spt);
+$sumStmt->bind_param("ssi", $startDate, $endDate, $spt);
 $sumStmt->execute();
 $sumResult = $sumStmt->get_result();
 $sumRow = $sumResult->fetch_assoc();
