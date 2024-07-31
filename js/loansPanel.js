@@ -105,15 +105,15 @@ $(document).ready(function () {
 $("#addCart").click(function() {
     var qty = $("#Sales_qty").val();
     var amount_due = $("#amount_due").val();
-    var amount_paid = $("#amount_paid").val();
+    // var amount_paid = $("#amount_paid").val();
 
     // Parse values to floats
     qty = parseFloat(qty);
     amount_due = parseFloat(amount_due);
-    amount_paid = parseFloat(amount_paid);
+    // amount_paid = parseFloat(amount_paid);
 
         // If all checks pass, proceed with adding to cart
-        AddToCart(amount_due, amount_paid, qty);
+        AddToCart(amount_due, qty);
 
         // Clear input values and other elements
         $("#Sales_qty").val("");
@@ -122,7 +122,7 @@ $("#addCart").click(function() {
         $("#gettedProduct").html("");
         $("#gettedPrice").html("");
         $("#gettedCQuantity").html("");
-        $("#amount_paid").val("");
+        // $("#amount_paid").val("");
 
 });
 
@@ -324,9 +324,6 @@ $("#NegoPrice").on("input", function () {
     return parseFloat(item.amount_due);
   });
   
-  var amount_paids = cart.items.map(function(item) {
-    return parseFloat(item.amount_paid);
-  });
 
 
 
@@ -351,7 +348,6 @@ $("#NegoPrice").on("input", function () {
       customer_id:customer_id,
       quantity: quantities,
       amount_due:amount_dues,
-      amount_paid:amount_paids,
       sales_type: 1,
       user_id: use_id,
       due_date:convertedDate,
@@ -518,7 +514,7 @@ function View_DaySalesRecord() {
 function calculateTotalAmount(items) {
   var totalAmount = 0;
   items.forEach(item => {
-    totalAmount += ((item.amount_due - item.amount_paid) * item.qty);
+    totalAmount += (item.amount_due * item.qty);
   });
   return totalAmount;
 }
@@ -764,14 +760,14 @@ function updateLocalStorage() {
 function updateCalcResult() {
     var qty = $("#Sales_qty").val();
     var amount_due = localStorage.getItem("amount_due");
-    var amount_paid = localStorage.getItem("amount_paid");
+    
   
     var TypeUser = localStorage.getItem("UserType");
 
     // Parse values to floats
     qty = parseFloat(qty);
     amount_due = parseFloat(amount_due);
-    amount_paid = parseFloat(amount_paid);
+   
   
      
     }
@@ -781,7 +777,7 @@ function updateCalcResult() {
 
 
 
-function AddToCart(amount_due, amount_paid, qty) {
+function AddToCart(amount_due, qty) {
     
    var id = localStorage.getItem("product_id");
     var name = localStorage.getItem("product_name");
@@ -798,7 +794,6 @@ function AddToCart(amount_due, amount_paid, qty) {
     var product = {
       id: id,
       amount_due: amount_due,
-      amount_paid: amount_paid,
       name: name,
       qty: qty
     };
@@ -807,9 +802,8 @@ function AddToCart(amount_due, amount_paid, qty) {
   localStorage.setItem("cart", JSON.stringify(cart));
 
   let amountDue = product.amount_due;
-let amountPaid = product.amount_paid;
 let quantity = product.qty;
-let difference = (amountDue - amountPaid) * quantity;
+let difference = amountDue  * quantity;
 
   // Create a new table row with the product data
   var newRow = $('<tr></tr>');
@@ -819,10 +813,6 @@ let difference = (amountDue - amountPaid) * quantity;
     style: "currency",
     currency: "RWF",
   }).format(product.amount_due) + '</td>');
-  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "RWF",
-  }).format(product.amount_paid) + '</td>');
   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RWF",
@@ -836,8 +826,7 @@ let difference = (amountDue - amountPaid) * quantity;
   var totalAmount = 0;
   for (var i = 0; i < cart.items.length; i++) {
     var item = cart.items[i];
-    var diff = item.amount_due - item.amount_paid;
-    var itemTotal = diff * item.qty;
+    var itemTotal = item.amount_due * item.qty;
     totalAmount += itemTotal;
   }
 
@@ -954,11 +943,7 @@ function updateCartDisplay(cart) {
     newRow.append('<td>' + new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "RWF",
-    }).format(item.amount_paid) + '</td>');
-    newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "RWF",
-    }).format((parseFloat(item.amount_due)-parseFloat(item.amount_paid)) * parseFloat(item.qty)) + '</td>');
+    }).format(parseFloat(item.amount_due) * parseFloat(item.qty)) + '</td>');
     newRow.append('<td class="d-flex flex-row justify-content-center align-items-center"> <button class="btn btn-primary decreaseQtyBtn" data-item-id="' + item.id + '" type="button" style="margin-right: 10px;"><i class="bi bi-dash-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-success increaseQtyBtn" data-item-id="' + item.id + '" type="button"><i class="bi bi-plus-circle" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger removeItemBtn" data-item-id="' + item.id + '" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button </td>');
 
     // Append the new row to the table

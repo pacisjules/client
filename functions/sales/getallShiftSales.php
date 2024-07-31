@@ -11,7 +11,7 @@ $spt = $_GET['spt'];
 // Prepare the SQL query to fetch sales data
 $sql = "
 SELECT DISTINCT
-    ROW_NUMBER() OVER (ORDER BY SL.sales_id) as num,
+    ROW_NUMBER() OVER (ORDER BY SL.sales_id DESC) as num,
     PD.name AS Product_Name,
     SP.manager_name,
     SP.phone_number,
@@ -44,6 +44,7 @@ WHERE
     AND SL.sales_point_id = ?
 GROUP BY
     SL.sales_id
+ORDER BY SL.created_time DESC    
 ";
 
 $stmt = $conn->prepare($sql);

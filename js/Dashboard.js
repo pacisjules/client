@@ -74,7 +74,9 @@ $("#closingcase").click(function () {
     },
     error: function (error) {
       console.log(error);
-      $("#errormodal").modal("show");
+      setTimeout(function() {
+        location.reload();
+    }, 2000);
     },
   });
   

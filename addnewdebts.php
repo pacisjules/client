@@ -210,19 +210,21 @@ include('getuser.php');
 
 
 
-                                <label class="form-label" style="margin-top: 28px; color:black;">PRODUCT: <span id="gettedProduct" style="font-weight:bold; color:blue;"></span> &nbsp;&nbsp;</label><input class="form-control" type="number" id="Sales_qty" placeholder="Enter quantity ..." style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px; color:black;">PRODUCT: <span id="gettedProduct" style="font-weight:bold; color:blue;"></span> &nbsp;&nbsp;</label>
+                                <input class="form-control" type="number" id="Sales_qty" placeholder="Enter quantity ..." style="margin-top: -6px;"></br>
+                                <input class="form-control" type="number" id="amount_due" placeholder="Enter amount ..." style="margin-top: -6px;">
                                 
-                                </br>
-                                <div class="form-group" style="display: flex;gap: 20px;">
+                                
+                                <!-- <div class="form-group" style="display: flex;">
                                 <div class="form-item" style="display: flex;flex-direction: column;align-items: center;">
                                     <label class="form-label" for="purchase_price" style="margin-right:7rem;color:black;">AMOUNT DUE</label>
                                     <input class="form-control" type="number" id="amount_due" required>
-                                </div>
-                                <div class="form-item" style="display: flex;flex-direction: column;align-items: center;">
+                                </div> -->
+                                <!-- <div class="form-item" style="display: flex;flex-direction: column;align-items: center;">
                                     <label class="form-label" for="selling_price" style="margin-left:7.5rem;color:black;">AMOUNT PAID</label>
                                     <input class="form-control" type="number" id="amount_paid" required >
-                                </div>
-                                </div>
+                                </div> -->
+                                <!-- </div> -->
                                 <!-- <div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchPriceChecked" onchange="showNegotiablePrice()">
                                     <label class="form-check-label" for="flexSwitchPriceChecked">Add Negotiable Price</label>

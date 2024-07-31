@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $customer_id = $_POST['customer_id'];
         $quantities = $_POST['quantity'];
         $amount_dues = $_POST['amount_due'];
-        $amount_paids = $_POST['amount_paid'];
         $sales_type = $_POST['sales_type'];
         $user_id = $_POST['user_id'];
         $currentDate = date("Y-m-d");
@@ -41,20 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $product_id = $product_ids[$i];
                 $quantity = $quantities[$i];
                 $amount_due = $amount_dues[$i];
-                $amount_paid = $amount_paids[$i];
                 
+                $totot = $amount_due * $quantity;
                 //$gresult [] = "ID: $product_id QTY: $quantity Type: $sales_type";
 
 
                 if ($sales_type == 1) {
                     
 
-                    $gresult [] ="ID: $product_id SESS_ID:$Session_sale_ID USER: $user_id  SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id  QTY: $quantity AD: $amount_due  AP: $amount_paid  STP: $sales_type ";
+                    $gresult [] ="ID: $product_id SESS_ID:$Session_sale_ID USER: $user_id  SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id  QTY: $quantity AD: $totot   STP: $sales_type ";
                     
                     
                     // Insert sales record
                     $sql = "INSERT INTO debts (`sess_id`, `product_id`, `customer_id`,  `amount`, `amount_paid`,`due_date`, `sales_point_id`,  `descriptions`, `qty`, `status`) 
-                            VALUES ('$Session_sale_ID','$product_id','$customer_id','$amount_due',' $amount_paid',' $due_date','$sales_point_id','New Debit Added','$quantity',1)";
+                            VALUES ('$Session_sale_ID','$product_id','$customer_id','$totot',0,' $due_date','$sales_point_id','New Debit Added','$quantity',1)";
 
 
 

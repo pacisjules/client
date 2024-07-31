@@ -82,9 +82,17 @@ $(document).ready(function() {
                 }
             }
         },
-        { "data": "created_time" }
+        {
+            "data": "created_time",
+            "render": function(data, type, row, meta) {
+                // Add 2 hours to created_time
+                let createdTime = new Date(data);
+                createdTime.setHours(createdTime.getHours() + 2);
+                return createdTime.toLocaleString();
+            }
+        }
     ],
-    "order": [[1, 'asc']],
+    "order": [[0, 'desc']],
     "searching": true,
     "initComplete": function(settings, json) {
         var jobTitles = [];

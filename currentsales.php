@@ -49,7 +49,6 @@ $(document).ready(function() {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
-
     var table = $('#employeeTable').DataTable({
     "ajax": {
         "url": `functions/sales/getallShiftSales.php?start=${start}&company=${company}&spt=${spt}`,
@@ -81,9 +80,17 @@ $(document).ready(function() {
                 }
             }
         },
-        { "data": "created_time" }
+        {
+            "data": "created_time",
+            "render": function(data, type, row, meta) {
+                // Add 2 hours to created_time
+                let createdTime = new Date(data);
+                createdTime.setHours(createdTime.getHours() + 2);
+                return createdTime.toLocaleString();
+            }
+        }
     ],
-    "order": [[1, 'asc']],
+    "order": [[0, 'desc']],
     "searching": true,
     "initComplete": function(settings, json) {
         var jobTitles = [];
@@ -99,7 +106,6 @@ $(document).ready(function() {
         $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.total)} Rwf`);
     },
 });
-
 
 
     $('#jobTitleFilter').on('change', function() {
