@@ -24,6 +24,7 @@
                     <th>Last Name</th>
                     <th>Sales point</th>
                     <th>Shift</th>
+                    <th>Start</th>
                     <th>Income</th>
                     <th>Status</th>
                 </tr>
@@ -41,6 +42,15 @@
                 { "data": "last_name" },
                 { "data": "sales_point" },
                 { "data": "shift_name" },
+                {
+                    "data": "start",
+                    "render": function(data, type, row, meta) {
+                        // Add 2 hours to created_time
+                        let createdTime = new Date(data);
+                        createdTime.setHours(createdTime.getHours() + 2);
+                        return createdTime.toLocaleString();
+            }
+        },
                 { 
                     "data": "income_number",
                     "render": function (data, type, row, meta) {
