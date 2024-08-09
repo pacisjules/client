@@ -10,12 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'];
   $price = $_POST['price'];
   $benefit = $_POST['benefit'];
+  $barcode = $_POST['barcode'];
   $company_ID = $_POST['company_ID'];
   $sales_id = $_POST['sales_point_id'];
   $category_id = $_POST['category_id'];
   $status = $_POST['status'];
   $description=$_POST['description'];
-  $barcode=$_POST['barcode'];
+
 
 
   // Insert the  products

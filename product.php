@@ -194,6 +194,7 @@ include('getuser.php');
 
                     <label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="number" id="price">
                     <label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="number" id="benefit">
+                    <label class="form-label" style="margin-top: 12px;">Barcode</label><input class="form-control" type="text" id="barcode">
                     <label class="form-label" style="margin-top: 12px;">Description</label>
                     <textarea class="form-control" id="description"></textarea></form>
                 </div>

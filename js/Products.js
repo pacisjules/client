@@ -378,6 +378,7 @@ $(document).ready(function () {
       var name = $("#name").val();
       var price = $("#price").val();
       var benefit = $("#benefit").val();
+      var barcode = $("#barcode").val();
       var description = $("#description").val();
       var category_id = $("#categorySelect").val();
       // Retrieve values from localStorage
@@ -393,18 +394,19 @@ $(document).ready(function () {
           name: name,
           price: price,
           benefit: benefit,
+          barcode: barcode,
           company_ID: company_ID,
           sales_point_id: sales_point_id,
           category_id:category_id,
           status: 1,
           description: description,
-          barcode: 12345,
           user_id:use_id,
         },
         success: function (response) {
           $("#name").val("");
           $("#price").val("");
           $("#benefit").val("");
+          $("#barcode").val("");
           $("#description").val("");
           $("#add_product_modal").modal("hide");
           View_ProductsRecord();

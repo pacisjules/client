@@ -39,7 +39,167 @@ $('#searchDaily').on('keyup', filterTableRows);
 
 
 
+  $(function () {
+    // Initialize the datepicker
+    $("#datepicker").datepicker({
+        onSelect: function (dateText) {
+            
+           function convertDateFormat(dateText) {
+            const dateParts = dateText.split("/");
+            const month = dateParts[0];
+            const day = dateParts[1];
+            const year = dateParts[2];
+        
+            const formattedDate =
+                year +
+                "-" +
+                month.toString().padStart(2, "0") +
+                "-" +
+                day.toString().padStart(2, "0");
+        
+            return formattedDate;
+        }
+            
+        var formattedDate = convertDateFormat(dateText);    
+            // Retrieve values from localStorage
+var spt = parseInt(localStorage.getItem("SptID"));
 
+// Ajax Start!
+
+$.ajax({
+  url:`functions/purchase/getalldaycombinationReport.php?date=${formattedDate}&spt=${spt}`,
+  method: "POST",
+  context: document.body,
+  success: function(response) {
+    try {
+        console.log("Success Response: ", response);
+
+        if (response.data && response.data.length > 0) {
+            let html = ""; // Initialize an empty string to store the HTML
+            let tot = "";
+            let btntype = "";
+            let excel = "";
+            let totexcel = "";
+            const sumtotal = response.sumtotal; // Access sumtotal
+            
+            var usertype = localStorage.getItem("UserType");
+                       
+
+            // Display sumtotal and sumbenefit as needed
+            console.log("Sum Total Amount: ", sumtotal);
+
+             btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Daily Summary Report ,At <span>${formattedDate}</span></p>
+             <div>
+            <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
+            <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailyPurchase_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button></div>`;
+            
+            $("#combinationBtn").html(btntype);
+            
+             tot += `
+            <tr>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"><strong>Total Sales : ${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "RWF",
+                }).format(parseFloat(sumtotal))}</strong></td>
+                <td style="font-size: 14px;"></td>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"></td>
+            </tr>`;
+            $("#totalam").html(tot);
+            
+             totexcel += `
+            
+            <tr>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"><strong>Total Sales Amount: ${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "RWF",
+                }).format(parseFloat(sumtotal))}</strong></td>
+                <td style="font-size: 14px;"></td>
+                <td style="font-size: 14px;"><strong></strong></td>
+                <td style="font-size: 14px;"></td>
+            </tr>
+            
+            `;
+            $("#totalexcel").html(totexcel);
+            
+
+            for (let i = 0; i < response.data.length; i++) {
+                const item = response.data[i];
+                
+                  console.log("item.product_id:", item.product_id);
+
+                
+
+                html += `
+                    <tr>
+                        <td style="font-size: 14px;">${i+1}. ${item.product_name}</td>
+                        <td style="font-size: 14px;">${item.opening_stock}</td>
+                        <td style="font-size: 14px;">${item.entry_stock}</td>
+                        <td style="font-size: 14px;">${item.totalstock}</td>
+                        <td style="font-size: 14px;">${item.sold_stock}</td>
+                        <td style="font-size: 14px;">${item.unit_price}</td>
+                        <td style="font-size: 14px;">${item.totalprice}</td>
+                      <td style="font-size: 14px;">${item.closing_stock}</td>
+                       
+                    </tr>
+                `;
+                
+                
+                excel += `
+                    <tr>
+                        <td style="font-size: 14px;">${i+1}</td>
+                        <td style="font-size: 14px;">${item.product_name}</td>
+                        <td style="font-size: 14px;">${item.opening_stock}</td>
+                        <td style="font-size: 14px;"> ${item.entry_stock}</td>
+                        <td style="font-size: 14px;">${item.totalstock}</td>
+                        <td style="font-size: 14px;"> ${item.sold_stock}</td>
+                        <td style="font-size: 14px;">${item.unit_price}</td>
+                        <td style="font-size: 14px;">${item.totalprice}</td>
+                         <td style="font-size: 14px;"> ${item.closing_stock}</td>
+                        
+                    </tr>
+                `;
+            }
+
+            $("#sells_table").html(html); // Set the HTML content of the table
+             $("#excel_table").html(excel); // Set the HTML content of the table
+        } else {
+            $("#sells_table").html("No results");
+            $("#excel_table").html("No results"); 
+        }
+    } catch (e) {
+        console.error("Error handling response: ", e);
+        // Handle the error or display an error message to the user
+    }
+},
+error: function(xhr, status, error) {
+    console.error("ERROR Response: ", error);
+    // Handle the error or display an error message to the user
+},
+});
+            
+            
+    localStorage.setItem("datepicked",formattedDate); 
+  
+            
+            
+        }
+    });
+
+    // Open the datepicker when the button is clicked
+    $("#pickDateButton").on("click", function () {
+        $("#datepicker").focus();
+    });
+    
+    
+    
+});
 
     $("#retrieveMonthlyData").on("click", function () {
         
