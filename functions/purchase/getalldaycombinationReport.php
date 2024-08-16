@@ -14,7 +14,7 @@ $sql = "
     products.name AS product_name,
     (SELECT COALESCE(SUM(purchase.quantity), 0) AS entry FROM purchase WHERE purchase.product_id=products.id AND purchase.purchase_date LIKE '$date%' AND purchase.spt_id=$spt) AS entry_stock,
     (SELECT COALESCE(SUM(sales.quantity), 0) AS sold FROM sales WHERE sales.product_id=products.id AND sales.created_time LIKE '$date%' AND sales.sales_point_id=$spt) AS sold_stock,
-    sales.sales_price AS unit_price,
+    products.price AS unit_price,
     inventory.quantity AS closing_stock,
     sales.created_time
 FROM
@@ -54,6 +54,7 @@ while ($row = $result->fetch_assoc()) {
     if($row['entry_stock']===0){
       $openingStock = $soldStock + $closing_stock;  
       $totalStock = $soldStock + $closing_stock;
+     
     }else{
        $openingStock = ($soldStock + $closing_stock) - $entry_stock; 
        $totalStock = $openingStock + $entry_stock;
