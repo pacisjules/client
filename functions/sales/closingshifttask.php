@@ -76,6 +76,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($conn->query($sql) === TRUE) {
             echo "Data inserted successfully.<br>";
 
+
+        $sqlgetreport = "SELECT DISTINCT
+    products.id AS product_id,
+    products.name AS product_name,
+    (SELECT COALESCE(SUM(purchase.quantity), 0) AS entry FROM purchase WHERE purchase.product_id=products.id  AND purchase.purchase_date >= '$start%' AND purchase.purchase_date <='$end%' AND purchase.spt_id=$spt) AS entry_stock,
+    (SELECT COALESCE(SUM(sales.quantity), 0) AS sold FROM sales WHERE sales.product_id=products.id AND sales.created_time >=  '$start%' AND sales.created_time <= '$end%' AND sales.sales_point_id=$spt) AS sold_stock,
+    products.price AS unit_price,
+    inventory.quantity AS closing_stock,
+    sales.created_time
+FROM
+    products
+JOIN
+    inventory ON products.id = inventory.product_id
+JOIN
+    sales ON products.id = sales.product_id
+LEFT JOIN
+    purchase ON products.id = purchase.product_id
+WHERE 
+     products.sales_point_id=$spt
+       
+GROUP BY
+    products.id,inventory.product_id, sales.product_id";
+
+$resultreport = $conn->query($sqlgetreport);
+
+$data = array();
+
+
+
+while ($row = $resultreport->fetch_assoc()) {
+    $openingStock = 0;
+    $totalStock = 0;
+    $soldStock = $row['sold_stock'];
+    $unit_price = $row['unit_price'];
+    $totalprice = $unit_price * $soldStock;
+    $closing_stock = $row['closing_stock'];
+    $entry_stock = $row['entry_stock'];
+    $prod_id = $row['product_id'];
+    $prod_name = $row['product_name'];
+    
+    // Calculate opening and total stock
+    if ($row['entry_stock'] === 0) {
+        $openingStock = $soldStock + $closing_stock;  
+        $totalStock = $soldStock + $closing_stock;
+    } else {
+        $openingStock = ($soldStock + $closing_stock) - $entry_stock; 
+        $totalStock = $openingStock + $entry_stock;
+    }
+
+    // Corrected SQL insert query
+    $sqlinsert = "INSERT INTO shiftreport (`product_id`, `product_name`, `open`, `entry`, `total`, `sold`, `unit_price`, `total_amount`, `closing`, `spt`, `startshift`, `endshift`,`shiftsession`)
+                  VALUES ('$prod_id', '$prod_name', '$openingStock', '$entry_stock', '$totalStock', '$soldStock', '$unit_price', '$totalprice', '$closing_stock', '$spt', '$start', '$end','$shift_id')";
+    
+    // Execute the insert query
+    if ($conn->query($sqlinsert) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sqlinsert . "<br>" . $conn->error;
+    }
+}
+
+
+
             // Update shift record
             $sqlshift = "UPDATE shift_records SET `end`='$end', shift_status=2 WHERE record_id = $shift_id";
             if ($conn->query($sqlshift) === TRUE) {
@@ -150,8 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $sqllog = "UPDATE loginfo SET logout_time = '$logout_time' WHERE login_time = '$login_time'";
 
                 if ($conn->query($sqllog) === TRUE) {
-                    session_unset();
-                    header('Location: login');
+                   session_unset();
+                   header('Location: login');
                 } else {
                     echo "Error: " . $sqllog . "<br>" . $conn->error;
                 }

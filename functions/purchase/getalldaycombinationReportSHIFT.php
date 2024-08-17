@@ -9,30 +9,12 @@ $enddate = $_GET['enddate'];
 $spt = $_GET['spt'];
 
 // SQL query to fetch daily sales records
-$sql = "
-    
- SELECT DISTINCT
-    ROW_NUMBER() OVER (ORDER BY products.id) as num,
-    products.id AS product_id,
-    products.name AS product_name,
-    (SELECT COALESCE(SUM(purchase.quantity), 0) AS entry FROM purchase WHERE purchase.product_id=products.id  AND purchase.purchase_date >= '$startdate%' AND purchase.purchase_date <='$enddate%' AND purchase.spt_id=$spt) AS entry_stock,
-    (SELECT COALESCE(SUM(sales.quantity), 0) AS sold FROM sales WHERE sales.product_id=products.id AND sales.created_time >=  '$startdate%' AND sales.created_time <= '$enddate%' AND sales.sales_point_id=$spt) AS sold_stock,
-    sales.sales_price AS unit_price,
-    inventory.quantity AS closing_stock,
-    sales.created_time
-FROM
-    products
-JOIN
-    inventory ON products.id = inventory.product_id
-JOIN
-    sales ON products.id = sales.product_id
-LEFT JOIN
-    purchase ON products.id = purchase.product_id
-WHERE 
-     products.sales_point_id=$spt
-       
-GROUP BY
-    products.id,inventory.product_id, sales.product_id;
+$sql = "  
+ SELECT 
+ROW_NUMBER() OVER (ORDER BY id) as num,
+`product_id`, `product_name`, `open`, `entry`, `total`, `sold`, `unit_price`, `total_amount`, `closing`, `spt`, `startshift`, `endshift`, `shiftsession`, `created_at`
+  FROM `shiftreport` WHERE spt=$spt 
+ and startshift='$startdate%' and endshift ='$enddate%'
 ";
 
 $result = $conn->query($sql);

@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 function transferInventoryToHistory($conn) {
-    // Fetch data from inventory table (without id and last_updated)
+    // Fetch data from inventory table
     $sqlFetch = "SELECT `product_id`, `quantity`, `alert_quantity`, `company_ID`, `spt_id` FROM `inventory`";
     $result = $conn->query($sqlFetch);
 
@@ -24,12 +24,13 @@ function transferInventoryToHistory($conn) {
             
             // Prepare and bind the parameters
             $stmt = $conn->prepare($sqlInsert);
-            $stmt->bind_param("iiiii", 
+            $stmt->bind_param("iiiiiss", 
                 $row['product_id'], 
                 $row['quantity'], 
                 $row['alert_quantity'], 
                 $row['company_ID'], 
-                $row['spt_id']
+                $row['spt_id'], 
+                
             );
 
             // Execute the statement

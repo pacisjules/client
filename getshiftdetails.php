@@ -56,40 +56,19 @@ $(document).ready(function() {
     "columns": [
         { "data": "num" },
         { "data": "product_name" },
-        { "data": function(data) { 
-            var closingStock = parseFloat(data.closing_stock) || 0;
-            var soldStock = parseFloat(data.sold_stock) || 0;
-            var entryStock = parseFloat(data.entry_stock) || 0;
-            
-            if (entryStock === 0) {
-                return closingStock + soldStock; 
-            } else {
-                return closingStock + soldStock - entryStock;
-            }
-        }},
-        { "data": "entry_stock" },
-        { "data": function(data) { 
-            var closingStock = parseFloat(data.closing_stock) || 0;
-            var soldStock = parseFloat(data.sold_stock) || 0;
-            var entryStock = parseFloat(data.entry_stock) || 0;
-            
-            if (entryStock === 0) {
-                return closingStock + soldStock; 
-            } else {
-                return (((closingStock + soldStock) - entryStock) + entryStock);
-            }
-        }},
-        { "data": "sold_stock" },
+        { "data": "open" },
+        { "data": "entry" },
+        { "data": "total"},
+        { "data": "sold" },
         { "data": function(data) { 
             var unitPrice = parseFloat(data.unit_price) || 0;
             return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(unitPrice)} Rwf</span>`; 
         }},
         { "data": function(data) { 
-            var soldStock = parseFloat(data.sold_stock) || 0;
-            var unitPrice = parseFloat(data.unit_price) || 0;
-            return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(soldStock * unitPrice)} Rwf</span>`; 
+            var total_amount = parseFloat(data.total_amount) || 0;
+            return `<span class="badge text-bg-primary">${Intl.NumberFormat('en-US').format(total_amount)} Rwf</span>`; 
         }},
-        { "data": "closing_stock" },
+        { "data": "closing" },
     ],
     "order": [[1, 'asc']],
     "searching": true,
