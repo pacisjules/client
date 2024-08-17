@@ -67,7 +67,7 @@ var spt = parseInt(localStorage.getItem("SptID"));
 // Ajax Start!
 
 $.ajax({
-  url:`functions/purchase/getalldaycombinationReport.php?date=${formattedDate}&spt=${spt}`,
+  url:`functions/purchase/getalldaycombinationReportPick.php?date=${formattedDate}&spt=${spt}`,
   method: "POST",
   context: document.body,
   success: function(response) {
