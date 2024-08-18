@@ -125,13 +125,13 @@ include('getuser.php');
        <a href="index.php"><img src="styles/icons/home.png" alt="" srcset="">
         <p>Home</p></a>
        </div>
-       <!-- <div class="clbtns">
+       <div class="clbtns">
        <a href=""><img src="styles/icons/features.png" alt="" srcset="">
         <p>Products</p></a>
        </div>
        <div class="clbtns">
        <a href=""><img src="styles/icons/direct-marketing.png" alt="" srcset="">
-        <p>Sales</p></a> -->
+        <p>Sales</p></a>
        </div> 
     </div>
     <div class='MiddleSide'>
