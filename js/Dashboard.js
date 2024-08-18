@@ -68,9 +68,9 @@ $("#closingcase").click(function () {
       console.log(response);
       $("#add_customer_modal").modal("hide");
       $("#successmodal").modal("show");
-        setTimeout(function() {
-                      location.reload();
-                  }, 2000);
+      setTimeout(function() {
+        window.location.href = "logout";
+      }, 2000)
     },
     error: function (error) {
       console.log(error);
