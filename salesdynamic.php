@@ -31,7 +31,7 @@ include('getuser.php');
                 
                 <div class="container-fluid">
                     
-                 <h1>Sales report</h1>
+                 <h1 style="font-weight: bold; font-size: 26px; text-transform: uppercase;">Custom Sales report</h1>
                     
                     <div class="card shadow">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center"  id="btnsalesType">
@@ -234,7 +234,7 @@ include('getuser.php');
             
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>
+                    <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

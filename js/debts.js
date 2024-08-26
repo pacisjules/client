@@ -8,7 +8,7 @@ $(document).ready(function () {
    var customer_id = getParameterByName('customer_id');
    localStorage.setItem("customer_id", customer_id);
   
-  View_customerDebtsRecord();
+  // View_customerDebtsRecord();
   
   $("#getcustomerhistory").click(function () {
       View_customerpaymnetPrint(customer_id);
@@ -86,7 +86,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
       // Handle the data received from the AJAX request and display it in the table
       var html = '';
       var person_names = data.person_names;
-      var name= data.data[0].name;
+      // var name= data.data[0].name;
       var totaldebt = new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "RWF",
@@ -113,7 +113,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
           console.log(item.balance);
           
         html += '<tr>';
-        html += '<td>' + item.name + '</td>';
+        html += '<td style="font-weight:bold; text-transform:uppercase; font-size:13px">'+ (index+1) +'. ' + item.name + '</td>';
         html += '<td>' + item.qty + '</td>';
         html += '<td> ' + new Intl.NumberFormat("en-US", {
                                   style: "currency",
@@ -128,11 +128,19 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                                   currency: "RWF",
                               }).format(parseFloat(item.balance)) + '</td>';
         html += '<td style="color: ' + color + '; font-weight:bold;">' + mes + '</td>';
-        html += '<td>' + item.due_date + '</td>';
+        const date = new Date(item.due_date);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
+        
+        const formattedDate = `${day} ${month} ${year}`;
+        html += `<td>${formattedDate}</td>`;
+
+
         html += `<td class="d-flex flex-row justify-content-start align-items-center">
         <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_debts_modal" data-bs-toggle="modal" onclick="getDataEdit('${item.id}','${item.name}','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
-        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_debts_modal" data-bs-toggle="modal" onclick="getDataRemove('${item.id} ','${item.name}')" "><i class="fa fa-trash"></i></button>
-        <button class="btn btn-primary getPaidDbts" type="button" style="margin-left: 20px;" data-bs-target="#payoneitem_modal" data-bs-toggle="modal" onclick="getPaidDbts('${item.id} ','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-money"></i>&nbsp; Pay it</button>
+        <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 10px;" data-bs-target="#delete_debts_modal" data-bs-toggle="modal" onclick="getDataRemove('${item.id} ','${item.name}')" "><i class="fa fa-trash"></i></button>
+        <button class="btn btn-primary getPaidDbts" type="button" style="margin-left: 10px; font-size: 13px;" data-bs-target="#payoneitem_modal" data-bs-toggle="modal" onclick="getPaidDbts('${item.id} ','${item.qty}','${ item.amount}','${item.amount_paid}','${item.name}')"><i class="fa fa-money"></i>&nbsp; Pay it</button>
         </td>`; // Replace with your action buttons
         html += '</tr>';
       });
@@ -147,10 +155,10 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
       $('#customer_name').html(person_names);
       $('#custn').html(person_names);
       $('#custne').html(person_names);
-     $('#dbt_amount').html(totaldebt);
-     $('#paid_amount').html(totalpaid);
-     $('#tot_balance').html(total_balance);
-     $('#product_nam').html(name);
+      $('#dbt_amount').html(totaldebt);
+      $('#paid_amount').html(totalpaid);
+      $('#tot_balance').html(total_balance);
+  
       
     },
     error: function() {
@@ -840,33 +848,33 @@ function MonthlyCustomerPaidReport(startDate, endDate){
   
   
   
-  function View_customerDebtsRecord() {
-    // Retrieve values from localStorage
-    var sales_point_id = localStorage.getItem("SptID");
+//   function View_customerDebtsRecord() {
+//     // Retrieve values from localStorage
+//     var sales_point_id = localStorage.getItem("SptID");
 
-    // Ajax Start!
-    $.ajax({
-        url: `functions/debts/getalldebtscompanyspt.php?spt=${sales_point_id}`,
-        method: "GET", // Change method to GET since you're using $_GET in PHP
-        context: document.body,
-        success: function (response) {
-            if (response) {
-                $("#debt_table").html(response.debts);
-                $("#totaldebt").text(new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(response.total_debt))); // Update the totaldebt element
-            } else {
-                $("#debt_table").html("Not Any result");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log("AJAX request failed!");
-            console.log("Error:", error);
-        },
-    });
-    // Ajax End!
-}
+//     // Ajax Start!
+//     $.ajax({
+//         url: `functions/debts/getalldebtscompanyspt.php?spt=${sales_point_id}`,
+//         method: "GET", // Change method to GET since you're using $_GET in PHP
+//         context: document.body,
+//         success: function (response) {
+//             if (response) {
+//                 $("#debt_table").html(response.debts);
+//                 $("#totaldebt").text(new Intl.NumberFormat("en-US", {
+//                     style: "currency",
+//                     currency: "RWF",
+//                 }).format(parseFloat(response.total_debt))); // Update the totaldebt element
+//             } else {
+//                 $("#debt_table").html("Not Any result");
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             console.log("AJAX request failed!");
+//             console.log("Error:", error);
+//         },
+//     });
+//     // Ajax End!
+// }
 
 
 
@@ -3031,11 +3039,13 @@ function getDataRemove(id,name){
      localStorage.setItem("name", name);
 }
 
-function getPaidDbts(id,qty,amount,amount_paid){
+function getPaidDbts(id,qty,amount,amount_paid,name){
   localStorage.setItem("debt_id", id);
   localStorage.setItem("debt_qty", qty);
   localStorage.setItem("debt_amount", amount);
   localStorage.setItem("debt_amount_paid", amount_paid);
+  localStorage.setItem("name", name);
+  $("#product_nam").html(name);
 }
 
 

@@ -36,7 +36,7 @@ include('getuser.php');
                         <div>
                          <a class="nav-link active" href="allshift_report">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a>   
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Shift Details of <span id="product_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">Shift Details of <span id="product_name"><?php echo $_GET['name']; ?></span></h3>
                         </div>
                     </div>
                 
@@ -69,7 +69,7 @@ include('getuser.php');
 
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>
+                    <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

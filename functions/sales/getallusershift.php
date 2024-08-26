@@ -42,12 +42,12 @@ while ($row = $result->fetch_assoc()) {
     $value .= '
         <tr>
             <td style="font-size: 12px;">' . $num . '. ' . $row['username'] . '</td>
-            <td style="font-size: 12px;">FRW ' . number_format($row['amount']) . '</td>
+            <td style="font-size: 15px;"><span class="badge text-bg-dark" style="font-size: 15px;"> <span style="color: white;"> FRW ' . number_format($row['amount']) . '</span></span></td>
             <td style="font-size: 12px;">FRW ' . number_format($row['cashinhand']) . '</td>
             <td style="font-size: 12px;">FRW ' . number_format($row['mobilemoney']) . '</td>
             <td style="font-size: 12px;">FRW ' . number_format($row['bank']) . '</td>
-            <td style="font-size: 12px;">' . $start->format('Y-m-d H:i:s') . '</td>
-            <td style="font-size: 12px;">' . $end->format('Y-m-d H:i:s') . '</td>
+            <td style="font-size: 12px;"><span class="badge text-bg-primary" style="font-size: 12px;"> <span style="color: white;">' . $start->format('n/j/Y, g:i:s A') . '</span></span></td>
+            <td style="font-size: 12px;"><span class="badge text-bg-success" style="font-size: 12px;"> <span style="color: white;">' . $end->format('n/j/Y, g:i:s A') . '</span></span></td>
             <td style="font-size: 14px; color: ' . $color . '; font-weight: bold;">' . $sts . '</td>
             <td style="font-size: 12px;">
             <div style="display:flex; justify-content:space-between;">

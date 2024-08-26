@@ -155,6 +155,7 @@ function GetDailyTotal() {
               $("#cardgetdaily4").hide();
               $("#cardgetdaily5").hide();
               $("#allshift_report").hide();
+              $("#cardgetdailyFinal").hide();
             }
             } else {
               //console.log(response);

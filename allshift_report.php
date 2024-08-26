@@ -55,13 +55,13 @@ include('getuser.php');
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>User Names</th>
+                                            <th>User</th>
                                             <th>Amount</th>
                                             <th>Cash</th>
-                                            <th >Mobile Money</th>
-                                            <th >Bank</th>
-                                            <th >From</th>
-                                            <th >To</th>
+                                            <th>Mobile Money</th>
+                                            <th>Bank</th>
+                                            <th>Started</th>
+                                            <th>Ended</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -70,7 +70,7 @@ include('getuser.php');
                                     <tbody id="usershift_table">
                                     </tbody>
 
-                                    <tfoot>
+                                    <!-- <tfoot>
                                         <tr>
                                             <td><strong>User Names</strong></td>
                                             <td><strong>Amount</strong></td>
@@ -82,10 +82,10 @@ include('getuser.php');
                                             <td><strong>Status</strong></td>
                                             <td><strong>Action</strong></td>
                                         </tr>
-                                    </tfoot>
+                                    </tfoot> -->
                                 </table>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-6 align-self-center">
                                     <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
                                 </div>
@@ -100,7 +100,7 @@ include('getuser.php');
                                         </ul>
                                     </nav>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ include('getuser.php');
             
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>
+                    <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

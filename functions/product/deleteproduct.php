@@ -27,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $getpro_name = $rowqty['name'];
 
         // Delete the Inventory
-        $sqlInve = "DELETE FROM inventory WHERE product_id=?";
+        $sqlInve = "UPDATE inventory SET status=0 WHERE product_id=?";
         $stmtInve = $conn->prepare($sqlInve);
         $stmtInve->bind_param("i", $product_id);
 
-        if ($stmtInve->execute()) {
+        if ($stmtInve->execute() ) {
             // Delete the product
-            $sql = "DELETE FROM products WHERE id=?";
+            $sql = "UPDATE products set status=0 WHERE id=?";
             $stmtProduct = $conn->prepare($sql);
             $stmtProduct->bind_param("i", $product_id);
 

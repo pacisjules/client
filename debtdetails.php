@@ -77,8 +77,8 @@ include('getuser.php');
                                         <tr>
                                             <th>Product Names</th>
                                             <th>Quantity</th>
-                                            <th>Amount Due</th>
-                                            <th>Paid Amount</th>
+                                            <th>Amount</th>
+                                            <th>Paid</th>
                                             <th>Balance</th>
                                             <th>Status</th>
                                             <th>Due Date</th>
@@ -88,35 +88,8 @@ include('getuser.php');
                                     <tbody id="detail_table">
                                         
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td><strong>Product Names</strong></td>
-                                            <td><strong>Quantity</strong></td>
-                                            <td><strong>Amount Due</strong></td>
-                                            <td><strong>Paid Amount</strong></td>
-                                            <td><strong>Balance</strong></td>
-                                            <td><strong>Status</strong></td>
-                                            <td><strong >Register Date</strong></td>
-                                            <td><strong>Actions</strong></td>
-                                        </tr>
-                                    </tfoot>
+                                    
                                 </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                        <ul class="pagination">
-                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,7 +97,7 @@ include('getuser.php');
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>
+                    <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
@@ -147,7 +120,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Pay This Item of <span id="product_nam" style="color:green;"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-size:15px;text-transform:uppercase;font-weight:bold;">Pay This Item of <span id="product_nam" style="color:green;"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; you can pay This Item.</p>

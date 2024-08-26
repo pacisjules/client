@@ -123,7 +123,7 @@ include('getuser.php');
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                             <?php include('getproducts.php'); ?>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-6 align-self-center">
                                     <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
                                 </div>
@@ -138,14 +138,14 @@ include('getuser.php');
                                         </ul>
                                     </nav>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASP 2023</span></div>
+                     <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
@@ -157,10 +157,12 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add New Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Add New Product</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Add new Product.</p>
+                    <p id="save_message" style="color: red;"></p>
                     <form><label class="form-label" style="margin-top: 12px;">Name</label>
                     <input class="form-control" type="text" id="name">
                     <label class="form-label" style="margin-top: 12px;">Category:&nbsp;</label>
@@ -169,10 +171,26 @@ include('getuser.php');
                     <label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="number" id="price">
                     <label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="number" id="benefit">
                     <label class="form-label" style="margin-top: 12px;">Barcode</label><input class="form-control" type="text" id="barcode">
+                    
+                    <div class="form-check" style="margin-top: 12px;">
+                        <input class="form-check-input" type="checkbox" value="" id="ExpCheck">
+                        <label class="form-check-label" for="ExpCheck">
+                            Allow expiration task on this product.
+                        </label>
+                        <div id="time_addons_div">
+                        <p style="margin-top: 15px; font-size: 13px;">User only hours for product expiration</p>
+                        <input class="form-control" type="number" id="time_addons" style="margin-top: -15px;">
+                        <p style="margin-top: 10px; color: green; font-size: 13px;">Period: <span id="time_period"> 2 days and 1 hour</span></p>
+                        </div>
+                    </div>
+
+
                     <label class="form-label" style="margin-top: 12px;">Description</label>
                     <textarea class="form-control" id="description"></textarea></form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit" id="saveproduct">Save</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit" id="saveproduct">Save</button></div>
             </div>
         </div>
     </div>
@@ -281,6 +299,21 @@ include('getuser.php');
                     
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">ok</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newerrormodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:red;">Error!!!!</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;" >This product is already added in system</p>
+                    
+                </div>
+                <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#add_product_modal">Ok</button></div>
             </div>
         </div>
     </div>

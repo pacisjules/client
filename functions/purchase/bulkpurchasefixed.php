@@ -87,6 +87,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
                         $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id COMPANY_ID: $company_ID  SUPPLIER_ID:$supplier_id  QTY: $quantity SP: $purchase_price  SEP:$selling_price TM: $total_amount STP: $sales_type STATUS: $paid_status ";
                         
+                        //Get product expiration time
+                        $sqlExpiry = "SELECT `expired_time`, `allow_exp` FROM `products` WHERE `id` = $product_id";
+                        $result = $conn->query($sqlExpiry);
+                        $rowInfos = $result->fetch_assoc();
+                        $hours_of_expiry = $rowInfos['expired_time'];
+                        $allow_exp = $rowInfos['allow_exp'];
+
+                        if ($allow_exp == 1) {
+                            //Add this now time to expiry time
+                            $expiry_date = date('Y-m-d H:i:s', strtotime('+' . $hours_of_expiry . ' hours', strtotime(date('Y-m-d H:i:s'))));
+                            
+                            // Insert expiration table record
+                            $sql_insert_expiry = "INSERT INTO `expiration_table`(`product_id`, `quantity`, `user_id`, `status`, `due_date`, `sales_point`) VALUES ('$product_id','$quantity','$user_id','1','$expiry_date','$sales_point_id')";
+                            $conn->query($sql_insert_expiry);
+                        }
                         
                         // Insert sales record
                         $sql = "INSERT INTO `purchase`(`sess_id`, `user_id`,`supplier_id`, `product_id`, `spt_id`,`company_ID`, `quantity`, `price_per_unity`, `total_price`, `paid_status`)
@@ -154,6 +169,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id SPT_ID: $sales_point_id COMPANY_ID: $company_ID  SUPPLIER_ID:$supplier_id  QTY: $quantity SP: $purchase_price   SEP:$selling_price  TM: $total_amount STP: $sales_type STATUS: $paid_status ";
                     
+                    //Get product expiration time
+                    $sqlExpiry = "SELECT `expired_time`, `allow_exp` FROM `products` WHERE `id` = $product_id";
+                    $result = $conn->query($sqlExpiry);
+                    $rowInfos = $result->fetch_assoc();
+                    $hours_of_expiry = $rowInfos['expired_time'];
+                    $allow_exp = $rowInfos['allow_exp'];
+
+                    if ($allow_exp == 1) {
+                        //Add this now time to expiry time
+                        $expiry_date = date('Y-m-d H:i:s', strtotime('+' . $hours_of_expiry . ' hours', strtotime(date('Y-m-d H:i:s'))));
+                        
+                        // Insert expiration table record
+                        $sql_insert_expiry = "INSERT INTO `expiration_table`(`product_id`, `quantity`, `user_id`, `status`, `due_date`, `sales_point`) VALUES ('$product_id','$quantity','$user_id','1','$expiry_date','$sales_point_id')";
+                        $conn->query($sql_insert_expiry);
+                    }
                     
                     // Insert sales record
                     $sql = "INSERT INTO `purchase`(`sess_id`, `user_id`,`supplier_id`, `product_id`, `spt_id`,`company_ID`, `quantity`, `price_per_unity`, `total_price`, `paid_status`)

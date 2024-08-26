@@ -26,8 +26,7 @@ include('getuser.php');
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 
     <script src="js/debts.js"></script>
-    
-    
+
      <script>
        function convertAndSetDate() {
     // Get the value of the date input
@@ -83,71 +82,18 @@ include('getuser.php');
                             
                             
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 text-nowrap">
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
-                                                <option value="10" selected="">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>&nbsp;</label></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchDebt"></label></div>
-                                </div>
-                            </div>
+                            
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th><strong>Full Names</strong></th>
-                                            <th><strong>Phone Number</strong></th>
-                                            <th><strong>Address</strong></th>
-                                            <th><strong>Balance</strong></th>
-                                            <!-- <th><strong>Status</strong></th> -->
-                                            <th><strong>Due date</strong></th>
-                                            <th><strong>Action</strong></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="debt_table">
-                                        
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td><strong>Full Names</strong></td>
-                                            <td><strong>Phone Number</strong></td>
-                                            <td><strong>Address</strong></td>
-                                            <td><strong>Balance</strong></td>
-                                            <!-- <td><strong>Status</strong></td> -->
-                                            <td><strong >Due date</strong></td>
-                                            <td><strong>Actions</strong></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                <?php include('getalldebts.php'); ?>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                        <ul class="pagination">
-                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2023</span></div>
+                    <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

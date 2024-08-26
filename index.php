@@ -18,6 +18,18 @@ include('getuser.php');
     <script src="js/Dashboard.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <!-- DataTables Responsive CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+    
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Responsive JS -->
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -148,7 +160,7 @@ include('getuser.php');
 
 
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-7 col-xl-8">
                             <div class="card shadow mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -184,8 +196,8 @@ include('getuser.php');
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> -->
+                    <!-- <div class="row">
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -250,12 +262,164 @@ include('getuser.php');
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+
+
+<div class="row" id="cardgetdailyFinal">
+                                
+ <div class="card shadow p-2">
+ <div  style="display: flex;flex-direction: row; justify-content:space-around; gap: 5px; flex-wrap: wrap;">
+        <div>
+        <div class="card-body">
+        <p class="mb-2" style="text-transform: uppercase; font-weight: bold;">Most Benefit Sales Products today</p>
+          <table id="employeeTable" class="display nowrap" style="width:100%; font-size: 13px;">
+            <thead>
+                <tr>
+                <th>No</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                </tr>
+            </thead>
+        </table>  
+        </div>
+     
+        </div>
+
+        <div>
+        <div class="card-body">
+        <p class="mb-2" style="text-transform: uppercase; font-weight: bold;">Most Risk Sales Products today</p>
+          <table id="employeeTables" class="display nowrap" style="width:100%; font-size: 13px;">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Risk 100%</th>
+                </tr>
+            </thead>
+        </table>  
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+        
+
+
+
+    <script>
+    $(document).ready(function() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        const date = currentDate.getDate();
+        const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${date.toString().padStart(2, "0")}`;
+
+        // Retrieve values from localStorage
+        var sales_point_id = localStorage.getItem("SptID");
+
+        var table = $('#employeeTable').DataTable({
+            "ajax": `functions/sales/mostbenefitproductday.php?date=${formattedDate}&spt=${sales_point_id}`,
+            "columns": [
+                { "data": "num" },
+                { "data": "Product_name",
+                 "render": function(data, type, row) {
+                    return `<p style="font-weight: bold; text-transform: uppercase;">${data}</p>`;
+                 }
+                 },
+                { "data": "Quantity" },
+                
+                
+                
+            ],
+            "initComplete": function(settings, json) {
+                var jobTitles = [];
+                json.data.forEach(function(employee) {
+                    if (!jobTitles.includes(employee.sales_point)) {
+                        jobTitles.push(employee.sales_point);
+                    }
+                });
+                jobTitles.sort();
+                jobTitles.forEach(function(title) {
+                    $('#jobTitleFilter').append('<option value="' + title + '">' + title + '</option>');
+                });
+            }
+        });
+
+
+
+        var table_of_two = $('#employeeTables').DataTable({
+            "ajax": `functions/inventory/getAlertproduct.php?spt=${sales_point_id}`,
+            "columns": [
+                { "data": "num" },
+                { "data": "name",
+                 "render": function(data, type, row) {
+                    return `<p style="font-weight: bold; text-transform: uppercase;">${data}</p>`;
+                 }
+                 },
+                { "data": "quantity" },
+                { "data": "STATUS",
+                 "render": function(data, type, row) {
+                    if(row.STATUS == 'Danger-Risk'){
+                        return `<span class="badge text-bg-danger text-white"  style="font-weight: bold; text-transform: uppercase; color:white; width: 100%; padding: 5px;">${row.STATUS}</span>`;
+                    }
+                    else if(row.STATUS == 'High-Risk'){
+                        return `<span class="badge text-bg-warning"  style="font-weight: bold; text-transform: uppercase; color:white; width: 100%; padding: 5px;">${row.STATUS}</span>`;
+                    }
+                    else if(row.STATUS == 'Medium-Risk'){
+                        return `<span class="badge text-bg-info text-white"  style="font-weight: bold; text-transform: uppercase; color:white;" width: 100%; padding: 5px;">${row.STATUS}</span>`;
+                    }
+                    else if(row.STATUS == 'Low-Risk'){
+                        return `<span class="badge text-bg-primary text-white"  style="font-weight: bold; text-transform: uppercase; color:white; width: 100%; padding: 5px;">${row.STATUS}</span>`;
+                    }
+                    else{
+                        return `<span class="badge text-bg-success text-white"  style="font-weight: bold; text-transform: uppercase; color:white; width: 100%; padding: 5px;">${row.STATUS}</span>`;
+                    }
+                    
+                    
+                 }
+                }
+            ],
+            "initComplete": function(settings, json) {
+                var jobTitles = [];
+                json.data.forEach(function(employee) {
+                    if (!jobTitles.includes(employee.sales_point)) {
+                        jobTitles.push(employee.sales_point);
+                    }
+                });
+                jobTitles.sort();
+                jobTitles.forEach(function(title) {
+                    $('#jobTitleFilter').append('<option value="' + title + '">' + title + '</option>');
+                });
+            }
+        });
+
+       
+    });
+    </script>
+                
                 </div>
+                <br/>
+                <?php   
+                $user_id=$_SESSION['user_id'];
+                include('functions/connection.php');
+                $query=mysqli_query($conn,"SELECT * FROM users WHERE id='{$user_id}'");
+                $row=mysqli_fetch_array($query);
+                $names= $row['userType'];
+
+                if($names=='BOSS'){
+                    return false;
+                }
+                else {
+                    include('slider.php');
+                }
+                ?>
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASEP 2024</span></div>
+                <?php include('copyright.php'); ?>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
@@ -349,10 +513,16 @@ include('getuser.php');
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+
+    
     <script src="assets/js/chart.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
+
+
 </body>
 
 </html>

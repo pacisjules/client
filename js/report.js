@@ -26,7 +26,11 @@ $(document).ready(function() {
         },
         "columns": [
             { "data": "num" },
-            { "data": "Product_Name" },
+            { "data": "Product_Name",
+                "render": function(data, type, row, meta) {
+                return `<p style="text-transform:uppercase; font-weight: bold;">${row.Product_Name}</p>`;
+            }
+             },
             { "data": "QTYsale" },
             { "data": "productsale" },
             { "data": "productPROFIT" },
@@ -86,7 +90,11 @@ $(document).ready(function() {
         },
         "columns": [
             { "data": "num" },
-            { "data": "Product_Name" },
+            { "data": "Product_Name",
+                "render": function(data, type, row, meta) {
+                return `<p style="text-transform:uppercase; font-weight: bold;">${row.Product_Name}</p>`;
+            }
+             },
             { "data": "QTYsale" },
             { "data": "productsale" },
             { "data": "productPROFIT" },
@@ -147,7 +155,12 @@ function View_DayRecord() {
     },
     "columns": [
         { "data": "num" },
-        { "data": "Product_Name" },
+        { "data": "Product_Name",
+                "render": function(data, type, row, meta) {
+                return `<p style="text-transform:uppercase; font-weight: bold;">${row.Product_Name}</p>`;
+            }
+             },
+
         { "data": "QTYsale" },
         { "data": "productsale" },
         { "data": "productPROFIT" },

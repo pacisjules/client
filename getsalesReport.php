@@ -34,17 +34,17 @@
 <body>
     <div>
     <div class="row">
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <label for="jobTitleFilter" style="margin-left: 1rem;">Filter by Product:</label>
                 <select id="jobTitleFilter" class="form-select" aria-label="Default select example" style="width: 220px; margin-left: 1rem;">
                     <option selected value="">All</option>
                 </select>
-            </div>
-            <div class="col-md-4 text-center">
+            </div> -->
+            <div class="col-md-4 text-left" style="margin-left: 1rem;">
                 <span style="font-size: 20px;">TOTAL SALES:</span>
                 <span class="badge text-bg-primary" style="font-size: 17px;" id="sum_total"></span>
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-left" style="margin-left: 1.2rem;">
                 <span style="font-size: 20px;">GROSS PROFIT:</span>
                 <span class="badge text-bg-success" style="font-size: 17px;" id="sum_benefit"></span>
             </div>

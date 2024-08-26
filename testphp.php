@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Dynamic DataTable with PHP and MySQL</title>
     
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
@@ -20,8 +22,7 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Shift Owner</th>
                     <th>Sales point</th>
                     <th>Shift</th>
                     <th>Start</th>
@@ -38,8 +39,11 @@
             "ajax": `fetch_data.php?company=${localStorage.getItem("CoID")}`,
             "columns": [
                 { "data": "num" },
-                { "data": "first_name" },
-                { "data": "last_name" },
+                { "data": null,
+                    "render": function(data, type, row, meta) {
+                        return `<p style="text-transform:uppercase; font-weight: bold;">${row.first_name} ${row.last_name}</p>`
+                    }
+                },
                 { "data": "sales_point" },
                 { "data": "shift_name" },
                 {
@@ -61,7 +65,7 @@
                     "data": "shift_status",
                     "render": function(data, type, row, meta) {
                         if (data == 1) {
-                            return `<a href="currentshift?start=${row.start}&spt=${row.spt}" ><span class="badge text-bg-success"><span style="color: white; font-weight: bold; font-size: 12px">Working</span></span></a>`;
+                            return `<a href="currentshift?start=${row.start}&spt=${row.spt}&name=${row.first_name} ${row.last_name}" ><span class="badge text-bg-success"><span style="color: white; font-weight: bold; font-size: 12px">Working</span></span></a>`;
                         } else {
                             return `<span>LIVE</span>`;
                         }

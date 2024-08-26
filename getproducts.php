@@ -23,10 +23,10 @@
 </head>
 <body>
     <div>
-        <label for="jobTitleFilter">Filter by Product:</label> 
+        <!-- <label for="jobTitleFilter">Filter by Product:</label> 
         <select id="jobTitleFilter" class="form-select" aria-label="Default select example" style="width:220px;">
             <option selected value="">All</option>
-        </select>
+        </select> -->
         <br/>
 
         <table id="employeeTable" class="display" style="width:100%; font-size: 12px;">
@@ -67,7 +67,11 @@ $(document).ready(function() {
     },
     "columns": [
         { "data": "num" },
-        { "data": "name" },
+        { "data": "name",
+            "render": function(data, type, row, meta) {
+                return `<p style="text-transform:uppercase; font-weight: bold;">${row.name}</p>`;
+            }
+         },
         { "data": "price" },
         { "data": "benefit" },
         { "data": "invquantity" },
@@ -80,14 +84,14 @@ $(document).ready(function() {
                             <button class="btn btn-success" type="button" data-bs-target="#edit_product_modal" data-bs-toggle="modal" onclick="setUpdates('${row.name}', '${row.price}', '${row.benefit}', '${row.description}', '${row.id}')">
                                 <i class="fa fa-edit" style="color: rgb(255,255,255);"></i>
                             </button>
-                            <button class="btn btn-danger" type="button"  data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="RemoveProductID('${row.id}')">
+                            <button class="btn btn-danger" type="button"  data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="RemoveProductID('${row.pid}')">
                                 <i class="fa fa-trash"></i>
                             </button>
                             <button class="btn btn-primary" type="button" style="width: 120.6875px; font-size:11px;" data-bs-target="#purchaseSalespoint_modal" data-bs-toggle="modal" onclick="SetSPProductID('${row.id}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-house-fill">
                                     <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"></path>
                                     <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"></path>
-                                </svg>&nbsp; INVENTORY
+                                </svg>&nbsp; <span style="font-weight:bold;">INVENTORY</span>
                             </button>
                             <button class="btn btn-primary" type="button" style="background: rgb(223,139,78);font-weight: bold;border-color: rgb(255,255,255);width: 120.6875px; font-size:11px;" data-bs-target="#purchase_modal" data-bs-toggle="modal" onclick="getProductid('${row.id}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-fill">
@@ -100,7 +104,7 @@ $(document).ready(function() {
                                         <path d="M339.68 384.204a173.762 173.762 0 0 1 172.037-172.038c44.908-0.577 87.822 18.092 119.698 48.462 34.388 32.759 51.743 76.985 52.343 123.576 0.877 68.199 106.72 68.284 105.843 0-1.964-152.653-125.231-275.917-277.884-277.879-152.664-1.962-275.954 128.182-277.878 277.879-0.88 68.284 104.964 68.199 105.841 0z" fill="#C45FA0"/>
                                         <path d="M545.039 473.078c16.542 16.542 16.542 43.356 0 59.896l-122.89 122.895c-16.542 16.538-43.357 16.538-59.896 0-16.542-16.546-16.542-43.362 0-59.899l122.892-122.892c16.538-16.542 43.356-16.542 59.894 0z" fill="#DAE3E3"/>
                                         <path d="M874.665 182.506c0 28.832-23.376 52.208-52.208 52.208-28.835 0-52.209-23.376-52.209-52.208s23.374-52.208 52.209-52.208c28.832 0 52.208 23.376 52.208 52.208zM429.287 419.957c0 47.987-38.924 86.913-86.913 86.913s-86.913-38.926-86.913-86.913 38.924-86.913 86.913-86.913 86.913 38.926 86.913 86.913zM729.434 568.839l-132.602-132.605c-13.659-13.659-35.773-13.659-49.433 0l-199.603 199.603c-13.659 13.659-13.659 35.773 0 49.433l132.605 132.603c13.659 13.659 35.773 13.659 49.433 0l199.603-199.603c13.656-13.659 13.656-35.773 0-49.431z" fill="#4A5699"/>
-                                    </svg>&nbsp; IMAGE
+                                    </svg>&nbsp; <span style="color:black;font-weight:bold;">IMAGE</span>
                                 </button>
                         </td>
                     `;
