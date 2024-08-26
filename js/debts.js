@@ -8,7 +8,7 @@ $(document).ready(function () {
    var customer_id = getParameterByName('customer_id');
    localStorage.setItem("customer_id", customer_id);
   
-  // View_customerDebtsRecord();
+  View_customerDebtsRecord();
   
   $("#getcustomerhistory").click(function () {
       View_customerpaymnetPrint(customer_id);
@@ -848,33 +848,33 @@ function MonthlyCustomerPaidReport(startDate, endDate){
   
   
   
-//   function View_customerDebtsRecord() {
-//     // Retrieve values from localStorage
-//     var sales_point_id = localStorage.getItem("SptID");
+  function View_customerDebtsRecord() {
+    // Retrieve values from localStorage
+    var sales_point_id = localStorage.getItem("SptID");
 
-//     // Ajax Start!
-//     $.ajax({
-//         url: `functions/debts/getalldebtscompanyspt.php?spt=${sales_point_id}`,
-//         method: "GET", // Change method to GET since you're using $_GET in PHP
-//         context: document.body,
-//         success: function (response) {
-//             if (response) {
-//                 $("#debt_table").html(response.debts);
-//                 $("#totaldebt").text(new Intl.NumberFormat("en-US", {
-//                     style: "currency",
-//                     currency: "RWF",
-//                 }).format(parseFloat(response.total_debt))); // Update the totaldebt element
-//             } else {
-//                 $("#debt_table").html("Not Any result");
-//             }
-//         },
-//         error: function (xhr, status, error) {
-//             console.log("AJAX request failed!");
-//             console.log("Error:", error);
-//         },
-//     });
-//     // Ajax End!
-// }
+    // Ajax Start!
+    $.ajax({
+        url: `functions/debts/getalldebtscompanyspttotal.php?spt=${sales_point_id}`,
+        method: "POST", // Change method to GET since you're using $_GET in PHP
+        // context: document.body,
+        success: function (response) {
+            if (response) {
+                console.log(response);
+                $("#totaldebt").text(new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "RWF",
+                }).format(parseFloat(response))); // Update the totaldebt element
+            } else {
+               return null;
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("AJAX request failed!");
+            console.log("Error:", error);
+        },
+    });
+    // Ajax End!
+}
 
 
 

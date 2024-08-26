@@ -142,7 +142,7 @@ include('getuser.php');
                                                 <th style="font-size: 12px;">ITEM</th>
                                                 <th style="font-size: 12px;">QTY</th>
                                                 <th style="font-size: 12px;">AMOUNT DUE</th>
-                                                <th style="font-size: 12px;">AMOUNT PAID</th>    
+                                                
                                                 <th style="font-size: 12px;">TOTAL</th>
                                                 <th style="font-size: 12px;">ACTIONS</th>
                                             </tr>
