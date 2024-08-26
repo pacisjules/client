@@ -126,7 +126,7 @@ include('getuser.php');
         <p>Home</p></a>
        </div>
        <div class="clbtns">
-       <a href="products.php"><img src="styles/icons/features.png" alt="" srcset="">
+       <a href="product.php"><img src="styles/icons/features.png" alt="" srcset="">
         <p>Products</p></a>
        </div>
        <!-- <div class="clbtns">
