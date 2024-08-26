@@ -38,7 +38,7 @@
 $(document).ready(function() {
     var start = getParameterByName('start'); 
     var company = localStorage.getItem('CoID');  
-    var spt = localStorage.getItem("SptID");
+    var spt =getParameterByName("spt");
 
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;

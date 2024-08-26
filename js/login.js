@@ -80,6 +80,22 @@ $(document).ready(function () {
                   window.location.href = "/client";
                 } 
                 else if (
+                  response.opensptshift >= 1 &&
+                  response.shift_status == 1 &&
+                  response.usershift !== 0
+                ) 
+                {
+                  window.location.href = "/client";
+                }
+
+                else if (
+                  response.opensptshift >= 1 &&
+                  response.usershift !== 0
+                ) 
+                {
+                  window.location.href = "/client/shiftstillopen";
+                }
+                else if (
                   response.count_shifts == 1 &&
                   response.shift_status == 2 &&
                   response.usershift !== 0

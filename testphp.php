@@ -61,7 +61,7 @@
                     "data": "shift_status",
                     "render": function(data, type, row, meta) {
                         if (data == 1) {
-                            return `<a href="currentshift?start=${row.start}" ><span class="badge text-bg-success"><span style="color: white; font-weight: bold; font-size: 12px">Working</span></span></a>`;
+                            return `<a href="currentshift?start=${row.start}&spt=${row.spt}" ><span class="badge text-bg-success"><span style="color: white; font-weight: bold; font-size: 12px">Working</span></span></a>`;
                         } else {
                             return `<span>LIVE</span>`;
                         }

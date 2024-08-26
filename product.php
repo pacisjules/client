@@ -108,7 +108,7 @@ include('getuser.php');
                         
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 text-nowrap">
+                                <!-- <div class="col-md-6 text-nowrap">
                                     <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
                                                 <option value="10" selected="">10</option>
                                                 <option value="25">25</option>
@@ -119,35 +119,9 @@ include('getuser.php');
                                 <div class="col-md-6">
                                     <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search now..." id="searcProductNow"></label></div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th style="font-size: 12px;">Name</th>
-                                            <th style="font-size: 12px;">Price</th>
-                                            <th style="font-size: 12px;">Benefit</th>
-                                            <th style="font-size: 12px;">Quantity</th>
-                                            <th style="font-size: 12px;">Status</th>
-                                            <th style="font-size: 12px;">Register Date</th>
-                                            <th style="font-size: 12px;">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="spt_table">
-
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td><strong>Name</strong></td>
-                                            <td><strong>Price</strong></td>
-                                            <td><strong>Benefit</strong></td>
-                                            <td><strong>Quantity</strong></td>
-                                            <td><strong>Status</strong></td>
-                                            <td><strong style="font-size: 11px;">Register Date</strong></td>
-                                            <td><strong>Actions</strong></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                            <?php include('getproducts.php'); ?>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 align-self-center">

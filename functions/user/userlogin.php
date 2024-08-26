@@ -74,6 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultsptcountshift = $conn->query($sptcountshift);
         $sptshiftcounts = $resultsptcountshift->fetch_assoc();
 
+        $sptnumberofopenshift = "SELECT COUNT(*) AS opensptshift FROM shift_records WHERE spt=$sal AND shift_status=1";
+        $resultsptnumberofopenshift = $conn->query($sptnumberofopenshift);
+        $sptopenshiftcounts = $resultsptnumberofopenshift->fetch_assoc();
+
+
+
 
         $sqlsshiftInfo = "
         SELECT
@@ -188,6 +194,7 @@ GROUP BY
                 'countlogins'=>$logincounts['count'],
                 'shiftcounts'=>$shiftcounts['countshift'],
                 'sptshift'=>$sptshiftcounts['countsptshift'],
+                'opensptshift'=>$sptopenshiftcounts['opensptshift'],
                 'company_logo'=>$rowComp['logo'],
                 'company_color'=>$rowComp['color'],
                 'spt_name'=>$rowsa['location'],
