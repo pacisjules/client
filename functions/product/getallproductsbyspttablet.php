@@ -10,12 +10,45 @@ $spt = $_GET['spt'];
 
 
 // Retrieve all users from the database
-$sql = "SELECT DISTINCT PD.id, PD.name, PD.price,PD.image, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
-        FROM products PD
-        LEFT JOIN inventory INV ON PD.id = INV.product_id
-        WHERE PD.company_ID = $comID
-        AND PD.sales_point_id = $spt 
-       ORDER BY PD.created_at DESC
+$sql = "
+       
+WITH MonthlySales AS (
+    SELECT 
+        product_id,
+        SUM(quantity) AS total_quantity_sold,
+        SUM(total_amount) AS total_sales_amount
+    FROM 
+        sales
+    WHERE 
+        sales_point_id = 6
+        AND created_time >= DATE_FORMAT(CURDATE(), '%Y-%m-01') -- Start of the current month
+        AND created_time < DATE_FORMAT(CURDATE() + INTERVAL 1 MONTH, '%Y-%m-01') -- Start of the next month
+    GROUP BY 
+        product_id
+)
+SELECT 
+    PD.id, 
+    PD.name, 
+    PD.price, 
+    PD.image, 
+    PD.benefit, 
+    PD.status, 
+    PD.description, 
+    PD.created_at,
+    IFNULL(INV.quantity, 0) AS invquantity,
+    IFNULL(MS.total_quantity_sold, 0) AS total_quantity_sold,
+    IFNULL(MS.total_sales_amount, 0) AS total_sales_amount
+FROM 
+    products PD
+    LEFT JOIN inventory INV ON PD.id = INV.product_id
+    LEFT JOIN MonthlySales MS ON PD.id = MS.product_id
+WHERE 
+    PD.company_ID = $comID
+    AND PD.sales_point_id = $spt 
+ORDER BY 
+    total_quantity_sold DESC
+LIMIT 50;
+
         ";
 
 

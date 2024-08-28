@@ -20,7 +20,7 @@ else{
 
 
     // Set the timeout duration (5 minutes = 300 seconds)
-$timeout_duration = 120;
+$timeout_duration = 300;
 
 // Check if the user is logged in
 if (empty($_SESSION['user_id'])) {

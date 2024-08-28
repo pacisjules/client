@@ -45,10 +45,13 @@ while ($row = $result->fetch_assoc()) {
         $current_quantity = $rowInv['quantity']; 
     }
 
+    
+
     $num+=1;
     $value .= '
             <p style="margin-bottom: 0px; cursor:pointer;" class="hover-effect" onclick="getSelected(`' . $row['id'] . '`,`' . $row['name'] . '`,`' . $row['price'] . '`,`' . $row['benefit'] . '`,`' . $current_quantity . '`)">   ' . $num . '.  ' . $row['name'] . '</p>
             ';
+    $name="";
 }
 
 // Convert data to JSON

@@ -11,13 +11,16 @@ $name = $_GET['name'];
 
 
 // Retrieve all users from the database
-$sql = "SELECT DISTINCT PD.id, PD.name, PD.price,PD.image, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
+$sql = "
+       SELECT DISTINCT PD.id, PD.name, PD.price,PD.image, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
         FROM products PD
         LEFT JOIN inventory INV ON PD.id = INV.product_id
         WHERE PD.company_ID = $comID
-        AND PD.name LIKE '%$name%'
-        AND PD.sales_point_id = $spt 
+        AND PD.sales_point_id = $spt
+       AND PD.name LIKE '%$name %' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%'
        ORDER BY PD.created_at DESC
+
+
         ";
 
 

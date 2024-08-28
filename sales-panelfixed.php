@@ -17,6 +17,14 @@ include('getuser.php');
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="icon" href="icon.jpg" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -25,6 +33,13 @@ include('getuser.php');
 
 
     <script>
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+
         function showAmadenis() {
             console.log("Changes");
 
@@ -121,18 +136,26 @@ include('getuser.php');
 
 <div class="down">
     <div class='LeftSide'>
+
+    <!-- Buttons Menu -->
        <div class="clbtns">
-       <a href="index.php"><img src="styles/icons/home.png" alt="" srcset="">
-        <p>Home</p></a>
+       <a href="index.php" style="text-decoration:none; font-size:8.5pt; margin-top:5px">
+        <img style="margin-left:5px" src="styles/icons/home.png" alt="" srcset="">
+        <p >HOME</p></a>
        </div>
+
+
        <div class="clbtns">
-       <a href="product.php"><img src="styles/icons/features.png" alt="" srcset="">
-        <p>Products</p></a>
+       <a href="product.php" style="text-decoration:none; font-size:8.5pt; margin-top:5px">
+        <img style="margin-left:15px" src="styles/icons/features.png" alt="" srcset="">
+        <p>PRODUCTS</p></a>
        </div>
        <!-- <div class="clbtns">
        <a href=""><img src="styles/icons/direct-marketing.png" alt="" srcset="">
         <p>Sales</p></a>
        </div>  -->
+
+       <!-- End Buttons Menu -->
     </div>
     <div class='MiddleSide'>
         <div class="category">
@@ -158,7 +181,7 @@ include('getuser.php');
 <th>Item</th>
 <th>Price</th>
 <th>Total</th>
-<th>Actions</th>
+<th>Actions    QTY (Decrease or Increase) and Delete</th>
 </tr>
 </thead>
 <tbody id="cartItemTableTablet">
@@ -170,19 +193,20 @@ include('getuser.php');
             <div class="calc">
                 
             <h2>Payable Amount</h2>
-            <h3 id="subtotal">0 Rwf</h3>
+            <h3 style="font-weight: 900;" id="subtotal">0.00 FRW</h3>
         
         </div>
             <div class="calc">
             <h2>Tax</h2>
-            <h3>0 Rwf</h3>
+            <h3>0.00 FRW</h3>
             </div>
             <div class="calc">
             <h2>Payable Amount</h2>
-            <h3 id="subtotalPayable">0 Rwf</h3>
+            <h3 style="font-weight: 900;" id="subtotalPayable">0.00 FRW</h3>
             </div>
 
             <div class="calcBtns">
+                <button id="clear_sell_tablet" onclick="clean_cart()">Clear Cart</button>
                 <button id="holdp_sell_tablet" onclick="hold_tablet_sales()">Hold Order</button>
                 <button id="savep_sell_tablet" onclick="proceed_tablet_sales()">Proceed</button>
             </div>
@@ -413,7 +437,7 @@ include('getuser.php');
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © SellEASP 2023</span></div>
+                    <div class="text-center my-auto copyright"><span><?php include('copyright.php'); ?></span></div>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
@@ -620,6 +644,36 @@ include('getuser.php');
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="changePriceModal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Give Discount or Change Price</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                       Current price: <span class="badge bg-primary text-white rounded-pill" style="font-size: 12px;" id="currentprice"></span>
+                    </p>
+
+                    <input type="number" id="changePriceNumber" name="changePriceNumber" class="form-control" placeholder="Enter new price">
+
+                   
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" onclick="changePriceNow()">Set Price</button>
+                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Close</button>
                 </div>
 
             </div>

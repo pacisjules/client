@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   
 //   function checkInternetConnection() {
 //     fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
@@ -22,7 +23,6 @@ $(document).ready(function () {
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
   View_DaySalesRecord();
-  getSelected();
   View_LastSalesRecord();
   View_ProductsRecord();
   // addCartTablet();
@@ -30,11 +30,7 @@ $(document).ready(function () {
   setOldCart();
   
   
-  
-  
-  
-  
-  
+
     $("#addcustomer").click(function () {
       // Retrieve values from input fields
       var names = $("#names").val();
@@ -106,44 +102,33 @@ $(document).ready(function () {
 
 
 $("#addCart").click(function() {
+
+
     var qty = $("#purchase_qty").val();
     var purchaseprice = $("#purchase_price").val();
     var SELLINGprice = $("#selling_price").val();
 
-    // Parse values to floats
-    qty = parseFloat(qty);
-    purchaseprice = parseFloat(purchaseprice);
-    SELLINGprice = parseFloat(SELLINGprice);
 
-    // var c_qty = localStorage.getItem("current_quantity");
-    // var price = localStorage.getItem("product_price");
-    // var benefit = localStorage.getItem("product_benefit");
+    if(qty == ""){
+        alert("Quantity cannot be empty");
+        return;
+    }
+    if(purchaseprice == ""){
+        alert("Purchase price cannot be empty");
+        return;
+    }
+    if(SELLINGprice == ""){
+        alert("Selling price cannot be empty");
+        return;
+    }
 
-    // Parse stored values to floats
-    // c_qty = parseFloat(c_qty);
-    // price = parseFloat(price);
-    // benefit = parseFloat(benefit);
 
-    // Check if qty is a valid number and greater than 0
-    // if (isNaN(qty) || qty <= 0) {
-    //     $("#calc_result").html("Please enter a valid quantity.");
-    // } else if (c_qty < qty) {
-    //     $("#calc_result").html("You entered more quantity than stock!");
-    // } else {
-    //     // Define variables to hold the calculated values
-    //     var benefits, realprice;
+        // Parse values to floats
+        qty = parseFloat(qty);
+        purchaseprice = parseFloat(purchaseprice);
+        SELLINGprice = parseFloat(SELLINGprice);
 
-    //     // Check if Negoprice is a valid number
-    //     if (!isNaN(negoPrice)) {
-    //         // Update calculation if Negoprice is a valid number
-    //         var ikiranguzo =  price - benefit;
-    //         benefits = negoPrice - ikiranguzo ;
-    //         realprice = negoPrice;
-    //     } else {
-    //         // Use regular price and benefit if Negoprice is not a valid number
-    //         benefits = benefit;
-    //         realprice = price;
-    //     }
+    
 
         // If all checks pass, proceed with adding to cart
         AddToCart(purchaseprice, qty,SELLINGprice);
@@ -154,12 +139,6 @@ $("#addCart").click(function() {
         $("#selling_price").val("");
         $("#searcProductNow").val("");
         $("#gettedProduct").html("");
-        // $("#gettedPrice").html("");
-        // $("#gettedCQuantity").html("");
-
-        // Clear any previous error messages
-        // $("#calc_result").html("");
-    
 });
 
 
@@ -262,10 +241,10 @@ $('#delete-modal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget); // Button that triggered the modal
   var itemId = button.data('item-id'); // Extract item-id from the button
 
-  $('#removeItem').data('item-id', itemId); // Set itemId as a data attribute on the modal's delete button
+  $('#removeItemInCart').data('item-id', itemId); // Set itemId as a data attribute on the modal's delete button
 });
 
-$('#removeItem').click(function () {
+$('#removeItemInCart').click(function () {
   var itemId = $(this).data('item-id');
   console.log("remove: " + itemId);
   
@@ -290,6 +269,8 @@ $('#removeItem').click(function () {
 
   // Close the modal
   $('#delete-modal').modal('hide');
+  location.reload();
+  
 });
 
 
@@ -407,7 +388,22 @@ $("#NegoPrice").on("input", function () {
 
 
 
+$(document).mouseup(function (e)
+{
+    var container = $("#getseach");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0) 
+    {
+        container.empty();
+    }
+});
+
  $("#searcProductNow").on("input", function (e) {
+
+    if (e.target.value == "") {
+      $("#getseach").html("");
+    }
 
     var company_ID = localStorage.getItem("CoID");
     var sales_point_id = localStorage.getItem("SptID");
@@ -419,9 +415,11 @@ $("#NegoPrice").on("input", function () {
       context: document.body,
       success: function (response) {
         if (response) {
+
           //console.log(response);
           $("#getseach").html(response);
         } else {
+          
           //console.log(response);
           $("#getseach").html("Not Any result");
         }
@@ -713,7 +711,8 @@ function View_LastSalesRecord() {
 
 function getSelected(id,name) {
   console.log(name);
-  
+  $("#searcProductNow").val("");
+  $("#getseach").html("");
   $("#gettedProduct").html(name);
 
   
@@ -721,7 +720,7 @@ function getSelected(id,name) {
 
   //$("#product_name").html(benefit);
 
-  $("#getseach").html('');
+  
 
   localStorage.setItem("product_id", id);
 

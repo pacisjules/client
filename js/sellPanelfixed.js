@@ -1,23 +1,6 @@
 $(document).ready(function () {
-  
-//   function checkInternetConnection() {
-//     fetch('https://www.google.com', { mode: 'no-cors' }) // Attempt to fetch a resource from your server
-//         .then(response => {
-//           $('#wifi_status').attr('src', 'styles/icons/wifiOn.png');
-//             //console.log('Internet is connected');
-//         })
-//         .catch(error => {
-//             $('#wifi_status').attr('src', 'styles/icons/wifiOff.png');
-//             //console.log('Internet is not connected');
-//         });
-// }
-
-// // Check internet connection every second
-// setInterval(checkInternetConnection, 500);
 
 
-
-  
   // localStorage.setItem("temporary_hold",[]);
   localStorage.setItem("is_paid","Paid");
   localStorage.setItem('sessionid','');
@@ -415,6 +398,8 @@ $("#NegoPrice").on("input", function () {
 
 
 
+
+
  $("#searcProductNow").on("input", function (e) {
 
     var company_ID = localStorage.getItem("CoID");
@@ -550,6 +535,7 @@ function calculateTotalAmount(items) {
 
 
 function View_ProductsRecord() {
+  $("#productslist").html(`<center><div styles="margin-top:50px;"><i class='fa fa-spinner fa-pulse'></i> Loading... </div></center>`);
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
   var sales_point_id = localStorage.getItem("SptID");
@@ -581,6 +567,7 @@ function View_ProductsRecord() {
 
 function setSelect(e) {
   console.log(e);
+  $("#productslist").html(`<center><div styles="margin-top:50px;"><i class='fa fa-spinner fa-pulse'></i> Loading... </div></center>`);
   
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
@@ -615,7 +602,15 @@ function setSelect(e) {
 
 
 function setSearch(e) {
-  console.log(e);
+  // console.log(e);
+
+  if(e == ""){
+    View_ProductsRecord();
+  }else{
+    $("#productslist").html(`<center><div styles="margin-top:50px;"><i class='fa fa-spinner fa-pulse'></i> Searching... </div></center>`);
+  }
+  
+  
   
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
@@ -871,6 +866,103 @@ function updateCalcResult() {
 }
 
 
+$("#changePriceNumber").on('input', function() {
+    $(this).css("border","1px solid #ced4da");
+});
+
+
+//cleanning cart
+function clean_cart() {
+
+
+
+  var r = confirm("Do you want to clear the cart?");
+  if (r == true) {
+    localStorage.removeItem("cart");
+    View_ProductsRecord();
+    $("#gettedProduct").html("");
+    $("#gettedPrice").html("");
+    $("#gettedCQuantity").html("");
+    $("#calc_result").html("");
+    $('#cartItemTableTablet').empty();
+    $("#subtotal").html('<strong>0.00 FRW</strong>');
+    $("#subtotalPayable").html('<strong>0.00 FRW</strong>');
+  } else {
+    return;
+  }
+}
+
+//Function changePrice
+function changePriceNow () {
+  // alert("Feature not available yet");
+
+  var itemId = localStorage.getItem("Disc_product_id");
+  var new_price = $("#changePriceNumber").val();
+
+  if(new_price=="" || new_price==null){
+    $("#changePriceNumber").css("border","1px solid red");
+    alert("Please enter new price");
+    return;
+  }else{
+    $("#changePriceNumber").css("border","1px solid #ced4da");
+  }
+
+
+
+
+  // console.log("Disc_product_id: "+itemId);
+  
+  // Find the item in the cart by itemId
+  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+  var itemToUpdate = cart.items.find(item => parseInt(item.id) == parseInt(itemId));
+  
+  // console.log(itemToUpdate);
+  
+
+   
+    // Decrease the quantity of the item
+    itemToUpdate.price= new_price;
+    itemToUpdate.color='warning';
+
+    // Update the total amount (assuming you also need to update it)
+    var totalAmount = calculateTotalAmount(cart.items);
+    cart.total = totalAmount;
+
+    // Update the cart in local storage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Update the cart display
+    updateCartDisplaytablet(cart);
+
+    //Dismiss the modal
+    $("#changePriceModal").modal("hide");
+
+
+
+    //Distroy local storage
+    localStorage.removeItem("Disc_product_id");
+    localStorage.removeItem("Disc_product_price");
+    localStorage.removeItem("Disc_product_qty");
+    $("#changePriceNumber").val('');
+}
+
+
+//Function show modal of changePrice
+function showChangePriceModal(id, price, qty) {
+  localStorage.setItem("Disc_product_id", id);
+  localStorage.setItem("Disc_product_price", price);
+  localStorage.setItem("Disc_product_qty", qty);
+  
+  $("#currentprice").html(new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "RWF",
+    minimumFractionDigits: 2
+  }).format(price));
+ 
+  $("#changePriceModal").modal("show");
+}
+
+
 
 function AddToCart(realprice, benefit, qty) {
     
@@ -938,9 +1030,6 @@ function AddToCart(realprice, benefit, qty) {
 
 
 function AddToCartTablet(id,namepro,realprice, benefits, qty) {
-    
-  
-
    if (!id || !realprice || !benefits || !namepro || !qty) {
        console.log("Product information is incomplete. Cannot add to cart.");
        return;
@@ -956,7 +1045,8 @@ function AddToCartTablet(id,namepro,realprice, benefits, qty) {
      price: realprice,
      benefit: benefits,
      name: namepro,
-     qty: qty
+     qty: qty,
+     color:'primary'
    };
    cart.items.push(product);
 
@@ -967,10 +1057,10 @@ function AddToCartTablet(id,namepro,realprice, benefits, qty) {
  // Create a new table row with the product data
  var newRow = $('<tr></tr>');
  newRow.append('<td>' + product.name + '</td>');
- newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-   style: "currency",
+ newRow.append('<td data-bs-toggle="tooltip" data-bs-placement="top" title="Click here to change the price by discout."><span onclick="showChangePriceModal(' + product.id + ',' + product.price + ', ' + product.qty + ')" class="badge bg-primary" style="font-size: 12px; cursor: pointer;">' + new Intl.NumberFormat("en-US", {
+   style: "currency", 
    currency: "RWF",
- }).format(product.price) + '</td>');
+ }).format(product.price) + '</span></td>');
  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
    style: "currency",
    currency: "RWF",
@@ -1068,10 +1158,10 @@ function updateCartDisplaytablet(cart) {
     // Create a new table row with the product data
  var newRow = $('<tr></tr>');
  newRow.append('<td>' + item.name + '</td>');
- newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+ newRow.append('<td data-bs-toggle="tooltip" data-bs-placement="top" title="Click here to change the price by discout."><span onclick="showChangePriceModal(' + item.id + ',' + item.price + ', ' + item.qty + ')" class="badge bg-' + item.color + '" style="font-size: 12px; cursor: pointer;">' + new Intl.NumberFormat("en-US", {
    style: "currency",
    currency: "RWF",
- }).format(item.price) + '</td>');
+ }).format(item.price) + '</span></td>');
  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
    style: "currency",
    currency: "RWF",
@@ -1179,7 +1269,7 @@ function decreaseQtyshow(e) {
  console.log(itemToUpdate);
   
 
-      if (itemToUpdate && parseFloat(itemToUpdate.qty) > 1) {
+   if (itemToUpdate && parseFloat(itemToUpdate.qty) > 1) {
    // Decrease the quantity of the item
    itemToUpdate.qty -= 1;
 
@@ -1698,20 +1788,20 @@ function refreshPage(){
 }
 
 
-
+// Cart Refresh
 function setOldCart(){
   $('#unhold').css('opacity', 1);
 
   var newcart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
   // Loop through the cart items and update the table
   for (const product of newcart.items) {
-    const {id, name, qty, price} = product;
+    const {id, name, qty, price, color} = product;
     var newRow = $('<tr></tr>');
    newRow.append('<td>' + name + '</td>');
-   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
-     style: "currency",
-     currency: "RWF",
-   }).format(price) + '</td>');
+   newRow.append('<td data-bs-toggle="tooltip" data-bs-placement="top" title="Click here to change the price by discout."><span onclick="showChangePriceModal(' + id + ',' + price + ', ' + qty + ')" class="badge bg-' + color + '" style="font-size: 12px; cursor: pointer;">' + new Intl.NumberFormat("en-US", {
+   style: "currency",
+   currency: "RWF",
+ }).format(price) + '</span></td>');
    newRow.append('<td>' + new Intl.NumberFormat("en-US", {
      style: "currency",
      currency: "RWF",

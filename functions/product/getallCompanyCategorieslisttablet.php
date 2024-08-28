@@ -10,7 +10,7 @@ $comID = $_GET['company'];
 
 // Retrieve all users from the database
 $sql = "SELECT * FROM product_category WHERE `company_id` = $comID
-        ORDER BY `created_at` DESC
+        ORDER BY `created_at` DESC LIMIT 5
         ";
 
 
@@ -22,7 +22,7 @@ $num=0;
 // Convert the results to an array of objects
 $comp = array();
 
-$value .= '<li onclick="View_ProductsRecord()">All</li>';
+$value .= '<li onclick="View_ProductsRecord()">ALL</li>';
 while ($row = $result->fetch_assoc()) {
     $myid = $row['category_id'];
     $date = new DateTime($row['created_at']);

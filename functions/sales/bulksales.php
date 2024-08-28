@@ -111,7 +111,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id  SHIFT: $usershift SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount STP: $sales_type STATUS: $paid_status TB:$total_benefit";
                     
-                    
+                    //Get product expiration time
+                    $sqlExpiry = "SELECT `expired_time`, `allow_exp` FROM `products` WHERE `id` = $product_id";
+                    $result = $conn->query($sqlExpiry);
+                    $rowInfos = $result->fetch_assoc();
+                    $hours_of_expiry = $rowInfos['expired_time'];
+                    $allow_exp = $rowInfos['allow_exp'];
+
+                    if ($allow_exp == 1) {
+
+                        //get current time
+                        $current_now_exp = date('Y-m-d H:i:s');
+
+                        //Get current quantity, used_quantity, status in expiration_table
+                        $sql_getexp="SELECT `exp_id`,`quantity`, `used_quantity`, `status` FROM `expiration_table` WHERE `product_id` = $product_id AND `quantity` > 0 AND `due_date` > '$current_now_exp' ORDER BY `due_date` ASC LIMIT 1";
+                        $Expiryresult = $conn->query($sql_getexp);
+                        $ExpiryrowInfos = $Expiryresult->fetch_assoc();
+
+                        $Expiry_current_quantity = $ExpiryrowInfos['quantity']-$quantity;
+                        $expiry_used_quantity = $ExpiryrowInfos['used_quantity'];
+                        $expiry_status = $ExpiryrowInfos['status'];
+                        $exp_id = $ExpiryrowInfos['exp_id'];
+
+                        $New_usedqty=$expiry_used_quantity+$quantity;
+                        
+
+                        //Add this now time to expiry time
+                        $expiry_date = date('Y-m-d H:i:s', strtotime('+' . $hours_of_expiry . ' hours', strtotime(date('Y-m-d H:i:s'))));
+                        
+                        // Update expiration table record on quantity by remove and add on used_quantity
+                        $sql_updateexp = "UPDATE `expiration_table` SET `quantity` = $Expiry_current_quantity, `used_quantity` = $New_usedqty WHERE `product_id` = $product_id AND `exp_id` = $exp_id";
+                        $conn->query($sql_updateexp);
+                        
+                    }
+
+
                     // Insert sales record
                     $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`, `total_benefit`, `sales_type`, `paid_status`,usershift_record)
                     VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$total_benefit','$sales_type','$paid_status','$usershift')";
