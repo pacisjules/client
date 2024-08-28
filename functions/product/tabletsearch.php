@@ -17,10 +17,8 @@ $sql = "
         LEFT JOIN inventory INV ON PD.id = INV.product_id
         WHERE PD.company_ID = $comID
         AND PD.sales_point_id = $spt
-       AND PD.name LIKE '%$name %' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%'
+       AND (PD.name LIKE '%$name %' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%')
        ORDER BY PD.created_at DESC
-
-
         ";
 
 

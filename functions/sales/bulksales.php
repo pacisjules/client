@@ -127,21 +127,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $sql_getexp="SELECT `exp_id`,`quantity`, `used_quantity`, `status` FROM `expiration_table` WHERE `product_id` = $product_id AND `quantity` > 0 AND `due_date` > '$current_now_exp' ORDER BY `due_date` ASC LIMIT 1";
                         $Expiryresult = $conn->query($sql_getexp);
                         $ExpiryrowInfos = $Expiryresult->fetch_assoc();
-
-                        $Expiry_current_quantity = $ExpiryrowInfos['quantity']-$quantity;
+                        
                         $expiry_used_quantity = $ExpiryrowInfos['used_quantity'];
                         $expiry_status = $ExpiryrowInfos['status'];
                         $exp_id = $ExpiryrowInfos['exp_id'];
+                        
+                        if($quantity > $ExpiryrowInfos['quantity']){
 
-                        $New_usedqty=$expiry_used_quantity+$quantity;
+                        $remain = $quantity - $ExpiryrowInfos['quantity'];
+                        $New_usedqty=$expiry_used_quantity+$ExpiryrowInfos['quantity'];
                         
 
-                        //Add this now time to expiry time
-                        $expiry_date = date('Y-m-d H:i:s', strtotime('+' . $hours_of_expiry . ' hours', strtotime(date('Y-m-d H:i:s'))));
-                        
                         // Update expiration table record on quantity by remove and add on used_quantity
-                        $sql_updateexp = "UPDATE `expiration_table` SET `quantity` = $Expiry_current_quantity, `used_quantity` = $New_usedqty WHERE `product_id` = $product_id AND `exp_id` = $exp_id";
+                        $sql_updateexp = "UPDATE `expiration_table` SET `quantity` = 0, `used_quantity` = $New_usedqty, `status` = 2 WHERE `product_id` = $product_id AND `exp_id` = $exp_id";
                         $conn->query($sql_updateexp);
+                        
+
+                        //Second Check Get current quantity, used_quantity, status in expiration_table
+                        $sql_getexpSec="SELECT `exp_id`,`quantity`, `used_quantity`, `status` FROM `expiration_table` WHERE `product_id` = $product_id AND `quantity` > 0 AND `due_date` > '$current_now_exp' ORDER BY `due_date` ASC LIMIT 1";
+                        $ExpiryresultSec = $conn->query($sql_getexpSec);
+                        $ExpiryrowInfosSec = $ExpiryresultSec->fetch_assoc();
+
+                        $expiry_used_quantitySec = $ExpiryrowInfosSec['used_quantity'];
+                        $expiry_statusSec = $ExpiryrowInfosSec['status'];
+                        $exp_idSec = $ExpiryrowInfosSec['exp_id'];
+
+
+                        $Exp_remainSec =  $ExpiryrowInfosSec['quantity']-$remain;       
+                        $New_usedqtySec=$expiry_used_quantitySec+$remain;
+
+                        // Update expiration table record on quantity by remove and add on used_quantity
+                        $sql_updateexpSec = "UPDATE `expiration_table` SET `quantity` = $Exp_remainSec, `used_quantity` = $New_usedqtySec WHERE `product_id` = $product_id AND `exp_id` = $exp_idSec";
+                        $conn->query($sql_updateexpSec);
+
+                        }else{
+
+
+                        $Exp_remain =  $ExpiryrowInfos['quantity']-$quantity;       
+                        $New_usedqty=$expiry_used_quantity+$quantity;
+
+                        // Update expiration table record on quantity by remove and add on used_quantity
+                        $sql_updateexp = "UPDATE `expiration_table` SET `quantity` = $Exp_remain, `used_quantity` = $New_usedqty WHERE `product_id` = $product_id AND `exp_id` = $exp_id";
+                        $conn->query($sql_updateexp);  
+
+                        }
+                        
                         
                     }
 
