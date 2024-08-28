@@ -15,6 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $benefit = $_POST['benefit'];
     $description=$_POST['description'];
     $barcode =$_POST['barcode'];
+
+    $allow_expiration =$_POST['allow_expiration'];
+    $time_addons =$_POST['time_addons'];
     
     $sqlproduct = "SELECT name,price,benefit FROM products WHERE id=$product_id";
     $resultp = $conn->query($sqlproduct);
@@ -30,7 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     price='$price',
     description='$description', 
     benefit='$benefit', 
-    barcode='$barcode' 
+    barcode='$barcode',
+    allow_exp=$allow_expiration,
+    expired_time=$time_addons
     
     WHERE id=$product_id";
 

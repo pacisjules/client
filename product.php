@@ -360,13 +360,30 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Edit this Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp;are for Edit Product.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text" id="Up_name"><label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="number" id="Up_price"><label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="number" id="Up_benefit"><label class="form-label" style="margin-top: 12px;">Description</label><textarea class="form-control" id="Up_desc"></textarea></form>
+                    <form><label class="form-label" style="margin-top: 12px;">Name</label><input class="form-control" type="text" id="Up_name"><label class="form-label" style="margin-top: 12px;">Price</label><input class="form-control" type="number" id="Up_price"><label class="form-label" style="margin-top: 12px;">Benefit</label><input class="form-control" type="number" id="Up_benefit">
+                    
+                    <div class="form-check" style="margin-top: 12px;">
+                        <input class="form-check-input" type="checkbox" value="" id="ExpCheck2">
+                        <label class="form-check-label" for="ExpCheck2">
+                            Allow expiration task on this product.
+                        </label>
+                        <div id="time_addons_div2">
+                        <p style="margin-top: 15px; font-size: 13px;">User only hours for product expiration</p>
+                        <input class="form-control" type="number" id="time_addons2" style="margin-top: -15px;">
+                        <p style="margin-top: 10px; color: green; font-size: 13px;">Period: <span id="time_period2"> 2 days and 1 hour</span></p>
+                        </div>
+                    </div>
+
+                    
+                    <label class="form-label" style="margin-top: 12px;">Description</label><textarea class="form-control" id="Up_desc"></textarea></form>
+                
+                
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="updateproduct">Save</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="updateproduct">Update</button></div>
             </div>
         </div>
     </div>

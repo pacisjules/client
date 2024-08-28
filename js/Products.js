@@ -1,5 +1,6 @@
 $(document).ready(function () {
   $("#time_addons_div").hide();
+  $("#time_addons_div2").hide();
   //   updateSptandcompany();
   RemoveProductID();
   RemoveCategoryID();
@@ -347,6 +348,25 @@ $(document).ready(function () {
     }
   });
 
+
+
+  $("#time_addons2").on("input", function (e) {
+    var value = $(this).val();
+    var hours = parseInt(value);
+    var days = Math.floor(hours / 24);
+    var remainder = hours % 24;
+    var days_hours = days + " days " + remainder + " hours";
+    $("#time_period2").html(days_hours);
+  });
+
+  $("#ExpCheck2").change(function () {
+    if (this.checked) {
+      $("#time_addons_div2").show();
+    } else {
+      $("#time_addons_div2").hide();
+    }
+  });
+
   $("#saveproduct").click(function () {
     // Retrieve values from input fields
     var name = $("#name").val();
@@ -594,6 +614,19 @@ $(document).ready(function () {
     var UserID = localStorage.getItem("UserID");
     var product_id = parseInt(localStorage.getItem("co_id"));
 
+    var time_addons = 0;
+
+    var allow_expiration = 0;
+
+    if ($("#ExpCheck2").is(":checked")) {
+      allow_expiration = 1;
+      var time_addons = $("#time_addons2").val();
+    } else {
+      allow_expiration = 0;
+      var time_addons = 0;
+    }
+
+
     //Ajax Start!
     $.ajax({
       url: "functions/product/updateproduct.php",
@@ -608,6 +641,8 @@ $(document).ready(function () {
         benefit: benefit,
         description: description,
         barcode: 12345,
+        allow_expiration: allow_expiration,
+        time_addons: time_addons
       },
 
       success: function (response) {
@@ -615,6 +650,7 @@ $(document).ready(function () {
         $("#updateproduct").html("Update");
         $("#edit_product_modal").modal("hide");
         localStorage.removeItem("co_id");
+        location.reload();
       },
       error: function (error) {
         $("#updateproduct").html("Update");
