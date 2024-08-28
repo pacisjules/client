@@ -14,11 +14,9 @@ FROM
     expiration_table as exp,
     products AS pd
 WHERE
-    exp.product_id = pd.id AND sales_point = $spt AND
+    exp.product_id = pd.id AND pd.sales_point_id = $spt AND
 exp.STATUS
-    = 1 AND PD.allow_exp = 1
-
-
+    = 1 AND pd.allow_exp = 1
 ";
 $result = $conn->query($sql);
 
