@@ -108,7 +108,7 @@ $(function () {
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
@@ -119,7 +119,7 @@ $(function () {
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
-                        <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.storename}</td><td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>
@@ -286,7 +286,7 @@ $(function () {
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
@@ -298,6 +298,7 @@ $(function () {
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
                         <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>
@@ -470,7 +471,7 @@ $(function () {
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
@@ -481,7 +482,7 @@ $(function () {
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
-                        <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.storename}</td><td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>
@@ -624,7 +625,7 @@ $.ajax({
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
@@ -635,7 +636,7 @@ $.ajax({
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
-                        <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.storename}</td><td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>
@@ -940,7 +941,7 @@ function View_DayPurchaseRecord() {
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
                             style: "currency",
@@ -950,7 +951,7 @@ function View_DayPurchaseRecord() {
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
-                        <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.storename}</td><td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>
@@ -1110,7 +1111,7 @@ function View_YesterdaySalesRecord() {
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
@@ -1121,7 +1122,7 @@ function View_YesterdaySalesRecord() {
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
-                        <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.storename}</td><td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>
@@ -1273,7 +1274,7 @@ console.log(week);
 
                   html += `
                       <tr>
-                          <td style="font-size: 14px;">${i+1}. ${item.name}</td>
+                          <td style="font-size: 14px; text-transform:uppercase; font-weight:bold;">${i+1}. ${item.name}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${new Intl.NumberFormat("en-US", {
                             style: "currency",
@@ -1283,7 +1284,7 @@ console.log(week);
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_price))}</td>
-                        <td style="font-size: 14px;">${item.storename}</td>
+                        <td style="font-size: 14px;">${item.storename}</td><td style="font-size: 14px;">${item.payed_by}</td>
                         <td style="font-size: 14px;">${item.supplierNames}</td>
                         <td style="font-size: 14px;">${item.supplierPhone}</td>
                           <td style="font-size: 14px;">${item.purchase_date}</td>

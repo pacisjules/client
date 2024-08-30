@@ -161,7 +161,7 @@
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow">
-                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo $names;?></span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" style="font-weight: bold; text-transform: uppercase;"><?php echo $names;?></span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in" id="dropdownpages">
                                         <a class="dropdown-item" href="profile"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-800"></i>&nbsp;Profile</a>
                                         <a class="dropdown-item" href="loginhistory"><i class="fas fa-sign-in-alt fa-sm fa-fw me-2 text-gray-800"></i>&nbsp;Login History</a>
@@ -171,7 +171,7 @@
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="salespoint" id="salespointLink"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-800"></i>&nbsp;Sales Point Settings</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="logout" onclick="logout()"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-800"></i>&nbsp;Logout</a>
+                                        <a class="dropdown-item" href="logout" onclick="logout()"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-800" style="color:red;"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>

@@ -83,7 +83,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Products</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">Products</h3>
                         <div class="d-flex flex-row justify-content-between align-items-center gap-3">
                         <button class="btn btn-success" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase; color: white" data-bs-toggle="modal" data-bs-target="#add_category_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New category</button>
                         <button class="btn btn-primary" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase;" data-bs-toggle="modal" data-bs-target="#add_product_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New Product</button></div>
@@ -200,7 +200,7 @@ include('getuser.php');
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase;">Add New category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Add New category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Add new category.</p>
@@ -239,7 +239,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Purchase product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Purchase product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Purchase Product.</p>
@@ -267,7 +267,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Purchase product </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Purchase product with inventory</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Purchase Product in the Selected Sales Point.</p>
@@ -338,13 +338,17 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
             <div class="modal-content" >
                 <div class="modal-header">
-                    <h4 class="modal-title" style="color:green;">Upload image</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="color:green; font-weight: bold; Text-transform: uppercase; font-size: 15px">Upload image</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 <center>
-                <input type="file" id="image-input">
+                <label for="image-input" class="btn btn-primary">
+                    <i class="bi bi-image"></i> Select Image
+                </label>
+                <input type="file" id="image-input" style="display: none;">
 <br>
-<img  scr="uploads/default.jpg" id="preview" alt="Preview">
+<!-- <img  scr="default.jpg" id="preview" alt="Preview"> -->
+<img src="default.jpg" id="preview" alt="Image Preview" width="150px" height="150px">
 <br>
 <canvas id="cropped-preview"></canvas>
 <button id="upload-button" class="btn btn-primary" type="button" data-bs-dismiss="modal">Upload</button>
@@ -409,7 +413,7 @@ include('getuser.php');
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Remove Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are sure you need to delete this product</p>
@@ -423,7 +427,7 @@ include('getuser.php');
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove Category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Remove Category</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are sure you need to delete this category</p>
@@ -438,7 +442,7 @@ include('getuser.php');
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Categorize Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Categorize Product</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>If you want to disable or enable product&nbsp; click OK</p>
@@ -451,7 +455,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Give Product Inventory</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Give Product Inventory</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Before you use product add new inventory</p>
@@ -469,7 +473,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Sale Now</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Sale Now</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here are for sell product now.</p>

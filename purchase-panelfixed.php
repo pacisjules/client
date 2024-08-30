@@ -100,7 +100,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">PURCHASE PANEL</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">PURCHASE PANEL</h3>
                     </div>
                     <div class="d-flex">
                         
@@ -158,37 +158,14 @@ include('getuser.php');
 
                                </br><div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="showAmadenis()">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked" style="font-weight:bold;">Approve Credit</label>
-                                    <!--<br />-->
-                                    <!--<form>-->
-
-                                    <!--    <br />-->
-
-                                    <!--    <div class="input-group mb-3" id="amadenis" style="display: none; transition: ease-in-out 0.2s; flex-direction:column;">-->
-                                    <!--       <label>Search Customer</label><br /><input class="form-control" style="width:90%;" type="text" placeholder="Search Customer ....." id="searchCustomerNow">-->
-
-
-                                    <!--        <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;width:90%;" id="getsearchCustomer">-->
-            
-                                    <!--        </div>-->
-                                    <!--        <br />-->
-                                    <!--        <div style="flex-direction:row;">-->
-                                    <!--        <label>Customer Names : </label> <span id="getnames"></span></div>-->
-                                    <!--       <div style="flex-direction:row;"> <label>Phone Number :</label> <span id="getphone"></span></div>-->
-                                    <!--       <div style="flex-direction:row;">  <label>Address : </label> <span id="getaddress"></span> </div> <br />  -->
-                                    <!--       <div style="flex-direction:row;">  <button class="btn btn-primary" type="button"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Customer</button> </div> -->
-                                            
-                                    <!--    </div>-->
-                                        
-
-
-                                    <!--</form>-->
+                                    <label class="form-check-label" for="flexSwitchCheckChecked" style="font-weight:bold;">Approve Credit Loan</label>
+                                    
                                 </div>
                                 
                                 
-                                <div class="d-flex justify-content-end" style="margin-top: -3rem;"><button class="btn btn-dark" type="button" id="savep_sell" style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 20px;margin-bottom: 15px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-plus-fill">
-                                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path>
-                                        </svg>&nbsp; &nbsp;PURCHASE NOW</button>
+                                <div class="d-flex justify-content-end" style="margin-top: -3rem;">
+                                    <button data-bs-toggle="modal" data-bs-target="#AddPayowner" data-bs-toggle="modal" class="btn btn-dark" type="button"  style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 18px;margin-bottom: 15px;">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-right: 5px;"></i>&nbsp; &nbsp;PURCHASE NOW</button>
                                 </div>
                                 
                             </div>
@@ -207,7 +184,7 @@ include('getuser.php');
 
 
 
-                                <label class="form-label" style="margin-top: 28px;color:black;">PRODUCT: <span id="gettedProduct" style="color:green; font-weight:bold;"></span> </label></br><label class="form-label" style="margin-top: 28px;color:black;">ADD QUANTITY </label><input class="form-control" type="number" id="purchase_qty" style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px;color:black;">PRODUCT: <span id="gettedProduct" style="color:green; font-weight:bold; text-transform: uppercase;"></span> </label></br><label class="form-label" style="margin-top: 28px;color:black;">ADD QUANTITY </label><input class="form-control" type="number" id="purchase_qty" style="margin-top: -6px;">
                                 </br>
                                 <div class="form-group" style="display: flex;gap: 20px;">
                                 <div class="form-item" style="display: flex;flex-direction: column;align-items: center;">
@@ -447,7 +424,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Report</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Report</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -471,6 +448,31 @@ include('getuser.php');
 
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="AddPayowner">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Apply name of the Purchase Onwer </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="addPayOwner" class="form-label">Names of the payed by:</label>
+                        <input type="text" placeholder="Names of some one payed" class="form-control" id="addPayOwner" aria-describedby="emailHelp">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal" id="savep_sell">Apply</button>
                 </div>
 
             </div>

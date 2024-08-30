@@ -53,9 +53,9 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Loans Info</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">Loans Info</h3>
                         <div>
-                            <h4 style="color:#040536; font-weight:bold;">Total Amount Due: <span id="totaldebt"></span></h4> 
+                            <h4 style="font-weight: 900;font-size: 22px; text-transform: uppercase; color: black;">Total Amount Due: <span id="totaldebt" style="color: red;"></span></h4> 
                         </div>
                         <div>
                         <button class="btn btn-danger" style="font-size: 12px; font-weight: bold;" id="getdailyDebtsall"><i class="fas fa-exclamation-circle icon debt"></i>
@@ -103,7 +103,7 @@ include('getuser.php');
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Loan</h4>
+                <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Add New Loan</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -22,7 +22,7 @@ $sql = "SELECT  PD.id, PD.name, PD.price, PD.benefit, PD.status, PD.description,
         FROM products PD
         LEFT JOIN inventory INV ON PD.id = INV.product_id
         WHERE PD.company_ID = $comID
-        AND PD.sales_point_id = $spt AND name LIKE '%$name%'";
+        AND PD.sales_point_id = $spt AND PD.name LIKE '%$name%'";
 
 $value = "";
 $result = mysqli_query($conn, $sql);
@@ -49,7 +49,7 @@ while ($row = $result->fetch_assoc()) {
 
     $num+=1;
     $value .= '
-            <p style="margin-bottom: 0px; cursor:pointer;" class="hover-effect" onclick="getSelected(`' . $row['id'] . '`,`' . $row['name'] . '`,`' . $row['price'] . '`,`' . $row['benefit'] . '`,`' . $current_quantity . '`)">   ' . $num . '.  ' . $row['name'] . '</p>
+            <p style="margin-bottom: 10px; cursor:pointer; font-weight: bold; font-size: 14px; text-transform: uppercase;" class="hover-effect" onclick="getSelected(`' . $row['id'] . '`,`' . $row['name'] . '`,`' . $row['price'] . '`,`' . $row['benefit'] . '`,`' . $current_quantity . '`)">   ' . $num . '.  ' . $row['name'] . '</p>
             ';
     $name="";
 }

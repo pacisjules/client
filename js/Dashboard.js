@@ -9,6 +9,7 @@ $(document).ready(function () {
  GetInventoryAlert();
  getsalespoint();
  Gettotalofcashier();
+ $("#closeShiftButton").css("display", "none");
 
 
 $("#generateProfo").click(function () {
@@ -156,10 +157,12 @@ function GetDailyTotal() {
               $("#cardgetdaily5").hide();
               $("#allshift_report").hide();
               $("#cardgetdailyFinal").hide();
+              $("#closeShiftButton").css("display", "block");
             }
             } else {
               //console.log(response);
               $("#getdaily").html("Not Any result");
+              $("#closeShiftButton").css("display", "none");
             }
           },
           error: function (xhr, status, error) {
@@ -231,7 +234,7 @@ function getsalespoint() {
     success: function (response) {
         if (response && response.location) {
             // console.log(response.location);
-            $("#salespointlocation").html(response.location);
+            $("#salespointlocation").html('<i class="fas fa-map-marker-alt"></i> ' + response.location);
         } else {
             $("#salespointlocation").html("No location available");
         }
@@ -273,7 +276,7 @@ function Gettotalofcashier() {
               $("#getcurrentcash").html(`Total: Rwf `+ formattedNumber);
 
               $("#cashiernamepoint").html(response.data[0].user_name);
-              $("#shiftnames").html(response.data[0].shift_names);
+              $("#shiftnames").html('<i class="fas fa-clock"></i> '+response.data[0].shift_names);
               // console.log(response);
               
 

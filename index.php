@@ -40,10 +40,18 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0" style="font-weight: bold; font-size: 18px;">Dashboard Your Sales Point management <span id="salespointlocation" class="badge bg-success rounded" style="color:white;font-weight:bold;font-size:13px; text-transform: uppercase; margin-bottom: 10px;"></span> <span class="badge bg-danger rounded" id="shiftnames"></span></h3>
+                    <div >   
+                    <h3 class="text-dark mb-0" style="font-weight: 900;font-size: 18px; text-transform: uppercase;">Dashboard Your Sales Point management </h3>
+                        
+                        <div>
+                        <span id="salespointlocation" class="badge bg-success rounded" style="color:white;font-weight:bold;font-size:15px; text-transform: uppercase; margin-bottom: 10px;"></span>
+                        <span class="badge bg-danger rounded" style="color:white;font-weight:bold;font-size:15px; text-transform: uppercase; margin-bottom: 10px;" id="shiftnames"></span>
+                        </div>
+                    </div> 
+
                         <!-- <button class="btn btn-success" style="font-weight: bold;color:white;" type="button" id="activateShiftButton"><i class="fas fa-play"></i>&nbsp;Activate Shift</button> -->
-                        <button class="btn btn-warning" style="font-weight: bold;color:black;" id="closeShiftButton" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fas fa-times close-icon"></i>&nbsp;Cashier Shift Closing</button>
-                       <a id="allshift_report" href="allshift_report"> <button class="btn btn-primary" style="font-weight: bold;color:white;" role="button" ><i class="fas fa-file-alt"></i>&nbsp;Shift Report</button></a>
+                        <button class="btn btn-warning" style="font-weight: bold;color:black; text-transform: uppercase;" id="closeShiftButton" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fas fa-times close-icon"></i>&nbsp;Cashier Shift Closing</button>
+                       <a id="allshift_report" href="allshift_report"> <button class="btn btn-primary" style="font-weight: bold;color:white; text-transform: uppercase;" role="button" ><i class="fas fa-file-alt"></i>&nbsp;Shift Report</button></a>
                     </div>
                     
 

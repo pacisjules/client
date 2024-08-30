@@ -28,7 +28,8 @@ IF(SL.store_id = 0, SP.location, ST.storename) AS stores_name,
 IF(SL.product_id = 0, IG.raw_material_name, RW.name) AS name, 
 SL.purchase_date,
 SU.names,
-SU.phone
+SU.phone,
+SL.payed_by
 FROM
 purchase SL
 JOIN supplier SU ON
@@ -74,6 +75,7 @@ while ($row = $result->fetch_assoc()) {
         'purchase_date' => $row['purchase_date'],
         'store_id' => $row['store_id'],
         'storename' => $row['stores_name'],
+        'payed_by' => $row['payed_by'],
     );
 
     // Add the item to the data array

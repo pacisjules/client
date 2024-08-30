@@ -338,6 +338,14 @@ $("#NegoPrice").on("input", function () {
   var use_id = parseInt(localStorage.getItem("UserID"));
   var paid_jk = localStorage.getItem("is_paid");
   var supplier_id = localStorage.getItem("supplier_id");
+  var payed_by_name=$("#addPayOwner").val();
+
+
+    if(payed_by_name.length<3 || payed_by_name==""){
+      alert("Please enter a valid name");
+      return false;
+    }
+  
   
   // // Start AJAX request
   $.ajax({
@@ -355,6 +363,7 @@ $("#NegoPrice").on("input", function () {
       sales_type: 1,
       paid_status: paid_jk,
       user_id: use_id,
+      payed_by_name:payed_by_name
     },
     
     success: function (response) {
@@ -398,6 +407,19 @@ $(document).mouseup(function (e)
         container.empty();
     }
 });
+
+$("#searcProductNow").click(function (e)
+{
+    var container = $("#getseach");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (e.target === this) 
+    {
+        container.empty();
+    }
+});
+
+
 
  $("#searcProductNow").on("input", function (e) {
 
@@ -710,22 +732,16 @@ function View_LastSalesRecord() {
 
 
 function getSelected(id,name) {
+  var container = $("#getseach");
+
   console.log(name);
   $("#searcProductNow").val("");
-  $("#getseach").html("");
+  $("#gettedProduct").css("font-weight: bold", "text-transform: uppercase");
   $("#gettedProduct").html(name);
-
-  
-  
-
-  //$("#product_name").html(benefit);
-
-  
-
+  container.empty();
   localStorage.setItem("product_id", id);
-
   localStorage.setItem("product_name", name);
-
+  container.empty();
 }
 
 function getSelectedSupplier(supplier_id,names,phone,address) {
@@ -879,7 +895,7 @@ function AddToCart(purchaseprice,  qty,selling_price) {
 
   // Create a new table row with the product data
   var newRow = $('<tr></tr>');
-  newRow.append('<td>' + name + '</td>');
+  newRow.append('<td style="text-transform: uppercase;">' + name + '</td>');
   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RWF",
@@ -1006,7 +1022,7 @@ function updateCartDisplay(cart) {
   // Loop through the cart items and update the table
   cart.items.forEach(item => {
     var newRow = $('<tr></tr>');
-    newRow.append('<td>' + item.name + '</td>');
+    newRow.append('<td style="text-transform: uppercase;">' + item.name + '</td>');
     newRow.append('<td>' + new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "RWF",
@@ -1496,7 +1512,7 @@ var newcart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0
 for (const product of newcart.items) {
   const {id, name, qty, price} = product;
   var newRow = $('<tr></tr>');
- newRow.append('<td>' + name + '</td>');
+ newRow.append('<td style="text-transform: uppercase;">' + name + '</td>');
  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
    style: "currency",
    currency: "RWF",
@@ -1685,7 +1701,7 @@ function setOldCart(){
   for (const product of newcart.items) {
     const {id, name, qty, price} = product;
     var newRow = $('<tr></tr>');
-   newRow.append('<td>' + name + '</td>');
+   newRow.append('<td style="text-transform: uppercase;">' + name + '</td>');
    newRow.append('<td>' + new Intl.NumberFormat("en-US", {
      style: "currency",
      currency: "RWF",

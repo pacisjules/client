@@ -1,6 +1,29 @@
 $(document).ready(function () {
   View_company_pages_menu();
+  $('.menu_icon_cont').css({"background-color": "transparent"});
+  localStorage.setItem("sidebar", "expanded");
+
+
+  $("#sidebarToggle").on("click", function (e) {
+    e.preventDefault();
+
+    if (localStorage.getItem("sidebar") == "collapsed") {
+      localStorage.setItem("sidebar", "expanded");
+      $(".page_name").css("display", "flex");
+      $(".fas").css({"font-size": "12px", "margin-left": "0px", "color": "white"});
+      $('.menu_icon_cont').css({"background-color": "transparent"});
+    }else{
+      localStorage.setItem("sidebar", "collapsed");
+      $(".page_name").css("display", "none");
+      $(".sidebar").css("width", "100px")
+      $(".fas").css({"font-size": "16px","color": "white"});
+      $(".menu_icon_cont").css({"background-color": "red"});
+    }
+  });
 });
+
+
+
 
 
 

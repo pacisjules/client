@@ -1,7 +1,8 @@
 $(document).ready(function () {
   $("#time_addons_div").hide();
   $("#time_addons_div2").hide();
-  //   updateSptandcompany();
+
+  // updateSptandcompany();
   RemoveProductID();
   RemoveCategoryID();
   getProductid();

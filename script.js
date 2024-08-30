@@ -1,7 +1,11 @@
 $(document).ready(function () {
+   
     var cropper;
-
+    $('#preview').attr('src','default.jpg');
+    $('#upload-button').css('display', 'none');
+    
     $('#image-input').change(function () {
+        $('#upload-button').css('display', 'block');
         $('#preview').cropper('destroy');
         var input = this;
         if (input.files && input.files[0]) {
@@ -31,6 +35,7 @@ $(document).ready(function () {
         var croppedDataUrl = $('#preview').cropper('getCroppedCanvas').toDataURL();
         // Show the cropped image preview
         $('#cropped-preview').attr('src', croppedDataUrl);
+        $('#upload-button').css('display', 'block');
     });
 
     $('#upload-button').click(function () {

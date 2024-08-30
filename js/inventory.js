@@ -592,7 +592,8 @@ function SelectEditInventory(id, quantity, alert_quantity, name) {
 
   $("#quantity").val(quantity);
   $("#alert_quantity").val(alert_quantity);
-  $("#product_name").html(name);
+  $("#product_name_edit").css({"color": "green", "text-transform": "uppercase", "font-weight": "bold"});
+  $("#product_name_edit").html('<br/>' +name);
 
   localStorage.setItem("co_id", id);
 
@@ -601,7 +602,8 @@ function SelectEditInventory(id, quantity, alert_quantity, name) {
 
 function SelectDeleteInventory(e, name) {
   console.log(e);
-  $("#product_name").html(name);
+  $("#product_name").css({"color": "red", "text-transform": "uppercase", "font-weight": "bold"});
+  $("#product_name").html('<br/>' + name);
   localStorage.setItem("co_id", e);
   }
 
