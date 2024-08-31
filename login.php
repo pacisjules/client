@@ -54,9 +54,9 @@ $_SESSION['last_activity'] = time();
                                         <div class="mb-3"><input class="form-control form-control-user" type="password"  placeholder="Password" name="password" id="pwd"></div>
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox small">
-                                                <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div>
+                                                <!-- <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div> -->
                                             </div>
-                                        </div><button class="btn btn-primary d-block btn-user w-100" type="button" id="lgnbtn">Login</button>
+                                        </div><button class="btn btn-primary d-block btn-user w-100 h-100" type="button" id="lgnbtn" style="font-weight: bold; font-size: 17px;">LOGIN</button>
                                     </form>
                                     <div class="text-center"><a class="small" href="reset_password.php" style="padding-top: 12px;margin-top: 3px;">Forgot Password?</a></div>
                                     <div class="text-center"></div>
