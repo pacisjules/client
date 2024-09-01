@@ -23,7 +23,7 @@
                 <div class="sidebar-brand-icon rotate-n-15"></div>
                 <div style="display: flex;flex-direction: column; justify-content: flex-start; align-items: flex-start">
                 <div class="sidebar-brand-text mx-3"><span>SELLEASEP</span></div>
-                <div class="sidebar-brand-text mx-3" style="font-size: 10px; text-transform: none"><span>Business Solution</span></div>
+                <div class="sidebar-brand-text mx-3" style="font-size: 10px; text-transform: none; font-weight: 500"><span>Business Solution</span></div>
                 </div>
             </a>
             <hr class="sidebar-divider my-0">

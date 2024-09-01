@@ -29,7 +29,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">Customer</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">Customer</h3>
                         <button class="btn btn-primary" type="button" style="font-size: 19px;font-weight: bold;" data-bs-target="#add_customer_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New Customer</button>
                     </div>
                     <div class="card shadow">
@@ -107,7 +107,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add New Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Add New Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; Add new Customer.</p>
@@ -143,7 +143,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove This Inventory</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Remove This customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are sure you need to delete the Customer <span id="delnames"></span> </p>
@@ -156,7 +156,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Edit Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Edit Customer</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     

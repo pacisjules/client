@@ -18,7 +18,6 @@ include('getuser.php');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="icon" href="icon.jpg" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
     <script src="js/expenses.js"></script>
@@ -33,7 +32,7 @@ include('getuser.php');
                 <div class="container-fluid">
             
                 
-                <h3 class="text-dark mb-4 fw-bold" >Expenses</h3>
+                <h3 class="text-dark mb-4 fw-bold" style="font-weight: 900;font-size: 22px; text-transform: uppercase;" >Expenses</h3>
                 <div style="display: flex;flex-direction: row; justify-content: space-between;" >
                <div style="flex-direction:row;display: flex; margin-bottom:10px;">     
                     <button  class="btn btn-primary" style="margin-right:10px;" data-bs-target="#expensesmodal" data-bs-toggle="modal">Add Expenses Type</button>
@@ -127,7 +126,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Expenses Type</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Add Expenses Type</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here You can Add Expenses Type.</p>
@@ -144,7 +143,7 @@ include('getuser.php');
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Expenses</h4>
+                <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Add New Expenses</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -30,14 +30,16 @@ while ($row = $result->fetch_assoc()) {
     $myid = $row['supplier_id'];
     $num+=1;
 
+    $phone = empty($row['phone']) ? '<span style="color: red; font-weight: bold;">N/A</span>' : '<span style="color: green; font-weight: bold;">'.$row['phone'].'</span>';
+    $address= empty($row['address']) ? '<span style="color: red; font-weight: bold;">N/A</span>' : '<span style="text-transform:uppercase;font-weight: bold;">'.$row['address'].'</span>';
    
 
     $value .= '
 
         <tr>
         <td>'.$num.'. '.$row['names'].'</td>
-        <td>'.$row['phone'].'</td>
-        <td>'.$row['address'].'</td>
+        <td>'.$phone.'</td>
+        <td>'.$address.'</td>
         <td>'.$row['created_at'].'</td>
         <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success" type="button" data-bs-target="#modal_inventory" data-bs-toggle="modal" onclick="SelectEditsupplier(`'.$row['supplier_id'].'`, `'.$row['names'].'`, `'.$row['phone'].'`, `'.$row['address'].'`)"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger" type="button" style="margin-left: 20px;" data-bs-target="#delete-modal" data-bs-toggle="modal" onclick="SelectDeletesupplier(`'.$row['supplier_id'].'`, `'.$row['names'].'`)"><i class="fa fa-trash"></i></button></td>  
         </tr>

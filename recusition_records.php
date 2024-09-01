@@ -29,7 +29,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">REQUISITION RECORDS</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">REQUISITION RECORDS</h3>
 
                     </div>
                     <div class="card shadow">
@@ -165,7 +165,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Approve Requisition </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px" >Approve Requisition </h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here you can approve this Requisition details</p>
@@ -210,10 +210,10 @@ include('getuser.php');
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove Proforma</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Remove Requisition</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure to delete this proforma? </p>
+                    <p>Are you sure to delete this Requisition? </p>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" type="button" id="removeproforma"><i class="fa fa-trash" style="padding-right: 0px;margin-right: 11px;"></i>Delete</button></div>
             </div>

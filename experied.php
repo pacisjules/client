@@ -59,7 +59,7 @@ include('getuser.php');
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p style="color:#040536; font-weight:bold;" >Expired Information</p>
+                            <p style="color:#040536; font-weight:bold;">Expired Information</p>
                             
 
                             <div>

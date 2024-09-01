@@ -31,7 +31,7 @@ include('getuser.php');
                 
                 <div class="container-fluid">
                     
-                 <h1 style="font-weight: bold; font-size: 26px; text-transform: uppercase;">Custom Sales report</h1>
+                 <h1 style="font-weight: 900;font-size: 22px; text-transform: uppercase;">Custom Sales report</h1>
                     
                     <div class="card shadow">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center"  id="btnsalesType">

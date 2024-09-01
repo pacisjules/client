@@ -76,16 +76,23 @@
                     let remain_hour = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     let remain_time = remain_day + " days " + remain_hour + " hour(s)";
 
+                    let date = new Date(due_date);
+                    let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+                    let formattedDate = date.toLocaleString('en-US', options);
+
                     if (remain_day == 1) {
                        
                         return `<span class="badge text-bg-dark"  style="color: white; width: 100%; padding: 5px; font-size: 15px">${remain_time}</span>`
-                    } else if (remain_hour >= 5) {
-                         return `<span class="badge text-bg-primary"  style="color: white; width: 100%; padding: 5px; font-size: 15px">${remain_time}</span>`
-                    } else if (remain_hour <= 1) {
-                         return `<span class="badge text-bg-warning"  style="color: black; width: 100%; padding: 5px; font-size: 15px">${remain_time}</span>`
-                    } else {
-                         return `<span class="badge text-bg-danger"  style="color: white; width: 100%; padding: 5px; font-size: 15px">${remain_time}</span>`
                     }
+                    else if (remain_day<1 && remain_hour<1) { 
+                         return `<span class="badge text-bg-danger"  style="color: white; width: 100%; padding: 5px; font-size: 15px">Product expired</span>`
+                    }
+                    
+                    else if (remain_hour >= 5) {
+                         return `<span class="badge text-bg-primary"  style="color: white; width: 100%; padding: 5px; font-size: 15px">${remain_time}</span>`
+                    } else if (remain_hour < 1) {
+                         return `<span class="badge text-bg-warning"  style="color: black; width: 100%; padding: 5px; font-size: 15px">${remain_time}</span>`
+                    } 
 
                    
                  },
@@ -105,9 +112,14 @@
                     }
                     else if (remain_day == 1) {
                         return `<span style="color: green; width: 100%; padding: 5px; font-size: 15px;  font-weight: bold;">Remain 1 day</span>`
-                    } else if (remain_hour >= 5) {
+                    } 
+                    else if (remain_day<1 && remain_hour<1) { 
+                         return `<span  style="color: red; width: 100%; padding: 5px; font-size: 15px">Expired</span>`
+                    }
+
+                    else if (remain_hour >= 5) {
                          return `<span style="color: orange; width: 100%; padding: 5px; font-size: 15px; font-weight: bold;">Remain few hours</span>`
-                    } else if (remain_hour <= 1) {
+                    } else if (remain_hour < 1) {
                          return `<span style="color: redorange; width: 100%; padding: 5px; font-size: 15px; font-weight: bold;">Less than 1 hour</span>`
                     } else {
                          return `<span style="color: red; width: 100%; padding: 5px; font-size: 15px; font-weight: bold;">Expired</span>`

@@ -41,7 +41,7 @@ while ($row = $result->fetch_assoc()) {
 
     $value .= '
         <tr>
-            <td style="font-size: 12px;">' . $num . '. ' . $row['username'] . '</td>
+            <td style="font-size: 12px; font-weight: bold; text-transform: uppercase;">' . $num . '. ' . $row['username'] . '</td>
             <td style="font-size: 15px;"><span class="badge text-bg-dark" style="font-size: 15px;"> <span style="color: white;"> FRW ' . number_format($row['amount']) . '</span></span></td>
             <td style="font-size: 12px;">FRW ' . number_format($row['cashinhand']) . '</td>
             <td style="font-size: 12px;">FRW ' . number_format($row['mobilemoney']) . '</td>
@@ -51,8 +51,8 @@ while ($row = $result->fetch_assoc()) {
             <td style="font-size: 14px; color: ' . $color . '; font-weight: bold;">' . $sts . '</td>
             <td style="font-size: 12px;">
             <div style="display:flex; justify-content:space-between;">
-            <a class="nav-link active" href="shiftdetails?from=' . $row['start'] . '&to='.$row['end'].'">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">ALL REPORT</button></a>
-            <a class="nav-link active" href="salesdetails?from=' . $row['start'] . '&to='.$row['end'].'">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">SALES</button></a>
+            <a class="nav-link active" href="shiftdetails?from=' . $row['start'] . '&to='.$row['end'].'&name='.$row['username'].'">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">ALL REPORT</button></a>
+            <a class="nav-link active" href="salesdetails?from=' . $row['start'] . '&to='.$row['end'].'&name='.$row['username'].'">  <button style="background-color: #071073; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;">SALES</button></a>
             <button style="background-color: green; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;margin-right:10px;" type="button" data-bs-target="#shiftmodal" data-bs-toggle="modal" onclick="SelectExpand(`'.$row['shiftrecord_id'].'`,`'.$row['username'].'`)">EXPAND SHIFT</button>
            </div>
             </td>

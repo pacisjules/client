@@ -29,7 +29,7 @@ include('getuser.php');
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 36px;">User Shift Report</h3>
+                        <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">User Shift Report</h3>
 
                     </div>
                     
@@ -169,7 +169,8 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold; color: orangered;">Warning Message</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold;color: orangered; Text-transform: uppercase; font-size: 15px"
+                    >Warning Message</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <p>Are sure you need to expand shift time for this user <span id="usernames"></span> ?.</p>
