@@ -173,7 +173,8 @@ include('getuser.php');
                         <div style="margin-left: 31px;width: 40%;">
 
 
-                            <form><label class="form-label" style="color:black;">SEARCH PRODUCT</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
+                            <form><label class="form-label" style="color:black;">SEARCH PRODUCTs</label>
+                            <input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">
 
 
                                 <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;" id="getseach">

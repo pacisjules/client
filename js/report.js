@@ -7,7 +7,7 @@ $(document).ready(function() {
         console.log(selectedDate);
 
 
-        var company = localStorage.getItem('CoID');  
+    var company = localStorage.getItem('CoID');  
     var spt = localStorage.getItem("SptID");
 
 
@@ -34,9 +34,29 @@ $(document).ready(function() {
             { "data": "QTYsale" },
             { "data": "productsale" },
             { "data": "productPROFIT" },
+            { "data": "productPurchase" },
+            { "data": "QTYPurchase" },
         ],
         "order": [[0, 'desc']],
         "searching": true,
+        "dom": 'Bfrtip',  // Add this line to include buttons
+        "buttons": [
+            {
+                extend:'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Export to Excel',
+            },
+
+            {
+                extend:'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> Export to Pdf',
+            },
+
+            {
+                extend:'print',
+                text: '<i class="fas fa-print"></i> Print table',
+            },
+ 
+        ],
         "initComplete": function(settings, json) {
             var jobTitles = [];
             json.data.forEach(function(employee) {
@@ -51,6 +71,7 @@ $(document).ready(function() {
             });
             $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.sumtotal)} Rwf`);
             $('#sum_benefit').html(`${Intl.NumberFormat('en-US').format(json.sumbenefit)} Rwf`);
+            $('#sum_purchase').html(`${Intl.NumberFormat('en-US').format(json.sumtotal_purchase)} Rwf`);
         },
     });
 
@@ -98,9 +119,29 @@ $(document).ready(function() {
             { "data": "QTYsale" },
             { "data": "productsale" },
             { "data": "productPROFIT" },
+            { "data": "productPurchase" },
+            { "data": "QTYPurchase" },
         ],
         "order": [[0, 'desc']],
         "searching": true,
+        "dom": 'Bfrtip',  // Add this line to include buttons
+        "buttons": [
+            {
+                extend:'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Export to Excel',
+            },
+
+            {
+                extend:'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> Export to Pdf',
+            },
+
+            {
+                extend:'print',
+                text: '<i class="fas fa-print"></i> Print table',
+            },
+ 
+        ],
         "initComplete": function(settings, json) {
             var jobTitles = [];
             json.data.forEach(function(employee) {
@@ -115,6 +156,7 @@ $(document).ready(function() {
             });
             $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.sumtotal)} Rwf`);
             $('#sum_benefit').html(`${Intl.NumberFormat('en-US').format(json.sumbenefit)} Rwf`);
+            $('#sum_purchase').html(`${Intl.NumberFormat('en-US').format(json.sumtotal_purchase)} Rwf`);
         },
     });
 
@@ -164,11 +206,31 @@ function View_DayRecord() {
         { "data": "QTYsale" },
         { "data": "productsale" },
         { "data": "productPROFIT" },
+        { "data": "productPurchase" },
+        { "data": "QTYPurchase" },
         
     ],
     
     "order": [[0, 'desc']],
     "searching": true,
+    "dom": 'Bfrtip',  // Add this line to include buttons
+        "buttons": [
+            {
+                extend:'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Export to Excel',
+            },
+
+            {
+                extend:'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> Export to Pdf',
+            },
+
+            {
+                extend:'print',
+                text: '<i class="fas fa-print"></i> Print table',
+            },
+ 
+        ],
     "initComplete": function(settings, json) {
         var jobTitles = [];
         json.data.forEach(function(employee) {
@@ -182,6 +244,7 @@ function View_DayRecord() {
         });
         $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.sumtotal)} Rwf`);
         $('#sum_benefit').html(`${Intl.NumberFormat('en-US').format(json.sumbenefit)} Rwf`);
+        $('#sum_purchase').html(`${Intl.NumberFormat('en-US').format(json.sumtotal_purchase)} Rwf`);
         
     },
 });

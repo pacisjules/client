@@ -34,8 +34,8 @@ include('getuser.php');
                  <h1 style="font-weight: 900;font-size: 22px; text-transform: uppercase;">Custom Sales report</h1>
                     
                     <div class="card shadow">
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center"  id="btnsalesType">
-    
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Sales Report</h6>
                     </div>
 
                         <div class="card-body">
@@ -69,12 +69,12 @@ include('getuser.php');
                                             
                                         </tr>
                                     </thead>
-                                    <tbody id="excel_table">
+                                    <!-- <tbody id="excel_table">
                                        
                                     </tbody>
                                     <tfoot id="totalexcel">
                                         
-                                    </tfoot>
+                                    </tfoot> -->
                                 </table>
                                 <table class="table my-0" id="excelWeekTable" style="display: none;">
                                     <thead>
@@ -211,22 +211,7 @@ include('getuser.php');
                                 
                             </div>
                             
-                            <div class="row">
-                                <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                        <ul class="pagination">
-                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

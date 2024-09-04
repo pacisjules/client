@@ -14,7 +14,8 @@ $sql = "SELECT  PD.id, PD.name, PD.price, PD.benefit, PD.status, PD.description,
         FROM products PD
         LEFT JOIN inventory INV ON PD.id = INV.product_id
         WHERE PD.company_ID = $comID
-        AND PD.sales_point_id = $spt AND name LIKE '%$name%' LIMIT 40";
+        AND PD.sales_point_id = $spt AND (PD.name LIKE '%$name %' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%') LIMIT 15
+        ";
 
 
 $value = "";

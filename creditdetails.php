@@ -33,13 +33,13 @@ include('getuser.php');
                          <a class="nav-link active" href="credits">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
                      &nbsp;Back</button></a> 
                      
-                     <h3 class="text-dark mb-4" style="font-weight: bold;font-size: 20px;">All Credits For <span id="customer_name"></span></h3>
+                     <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">All Credits For <span id="customer_name"></span></h3>
                         </div>
                         
-                   <div>
-                       <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Amount Due: <span id="dbt_amount" ></span></h4>
-                       <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Paid Amount: <span id="paid_amount"></span></h4>
-                       <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Balance: <span id="tot_balance"></span></h4>
+                   <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end">
+                       <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Amount Due: <span class="badge bg-dark" style="font-size: 16px; width: 150px" id="dbt_amount" ></span></h4>
+                       <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Paid Amount: <span class="badge bg-success" style="font-size: 16px; color:white; width: 150px" id="paid_amount"></span></h4>
+                       <h4 class="text-dark mb-4" style="font-weight: bold;font-size: 16px;">Total Balance: <span class="badge bg-danger" style="font-size: 16px; color:white;width: 150px" id="tot_balance"></span></h4>
                    </div>     
                       
                     </div>
@@ -147,7 +147,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Pay This Item of <span id="product_nam" style="color:green;"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Pay This Item of <span id="product_nam" style="color:green;"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp; you can pay This Item.</p>
@@ -220,7 +220,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit This Credits</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Edit This Credits</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp;are for Edit Credits.</p>
@@ -234,7 +234,7 @@ include('getuser.php');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="font-weight: bold;">Remove This Credits</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: bold; Text-transform: uppercase; font-size: 15px">Remove This Credits</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are sure you need to delete the Credits <span id="delnames"></span> </p>

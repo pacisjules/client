@@ -13,36 +13,41 @@ $spt = $_GET['spt'];
 
 // SQL query to fetch daily sales records
 $sql = "
-  
-SELECT DISTINCT
-        ROW_NUMBER() OVER (ORDER BY SL.product_id) as num,
+     SELECT DISTINCT
+        (ROW_NUMBER() OVER (ORDER BY PD.id)) as num,
         PD.name AS Product_Name,
-        SL.product_id,
-        (SELECT sum(quantity) 
+        PD.id,
+        (SELECT IFNULL(SUM(quantity),0.00) AS QTYTT 
          FROM sales 
          WHERE created_time >= '$from%' AND  created_time <= '$to%'
-           AND product_id = SL.product_id 
+           AND product_id = PD.id 
            AND sales_point_id = $spt) AS QTYsale,
-        (SELECT sum(total_amount) 
+        (SELECT IFNULL(SUM(total_amount),0.00) AS total
          FROM sales 
          WHERE created_time >= '$from%' AND  created_time <= '$to%' 
-           AND product_id = SL.product_id 
+           AND product_id = PD.id 
            AND sales_point_id = $spt) AS productsale,
-        (SELECT sum(total_benefit) 
+        (SELECT IFNULL(SUM(total_benefit),0.00) AS totalB 
          FROM sales 
-         WHERE created_time >= '$from%' AND  created_time <= '$to%' 
-           AND product_id = SL.product_id 
+         WHERE created_time >= '$from%' AND  created_time <= '$to%'
+           AND product_id = PD.id 
            AND sales_point_id = $spt) AS productPROFIT,
-        SL.created_time
-FROM
-        sales SL
-JOIN products PD ON
-        SL.product_id = PD.id
+          (SELECT IFNULL(SUM(total_price),0.00) AS totalPU 
+         FROM purchase 
+         WHERE purchase_date >= '$from%' AND  purchase_date <= '$to%'
+           AND product_id = PD.id 
+           AND spt_id = $spt) AS productPurchase, 
+            (SELECT IFNULL(SUM(quantity),0.00) AS tTPUCH 
+         FROM purchase 
+         WHERE purchase_date >= '$from%' AND  purchase_date <= '$to%'
+           AND product_id = PD.id 
+           AND spt_id = $spt) AS QTYPurchase
+       
+FROM products PD
     WHERE
-        SL.created_time >= '$from%' AND  SL.created_time <= '$to%'
-        AND SL.sales_point_id = $spt
+        PD.sales_point_id = $spt
     GROUP BY
-        SL.product_id
+       PD.id 
    ";
 
    $result = $conn->query($sql);
@@ -72,20 +77,13 @@ $sumtotalPaid = $sumRowPaid['sumtotal_paid'];
 $sumbenefitPaid = $sumRowPaid['sumbenefit_paid'];
 
 
-$sumTotalQueryNotPaid = "SELECT IFNULL(SUM(total_amount), 0.00) AS sumtotal_not_paid, SUM(total_benefit) AS sumbenefit_not_paid
-                            FROM sales
-                            WHERE created_time >= '$from%' AND  created_time <= '$to%' AND sales_point_id = $spt AND paid_status = 'Not Paid'";
+$sumTotalQueryNotPaid = "SELECT IFNULL(SUM(total_price), 0.00) AS sumtotal_purchase
+                            FROM purchase
+                            WHERE purchase_date >= '$from%' AND  purchase_date <= '$to%'  AND spt_id = $spt ";
+
 $sumResultNotPaid = $conn->query($sumTotalQueryNotPaid);
 $sumRowNotPaid = $sumResultNotPaid->fetch_assoc();
-$sumtotalNotPaid = $sumRowNotPaid['sumtotal_not_paid'];
-$sumbenefitNotPaid = $sumRowNotPaid['sumbenefit_not_paid'];
-
-$sumTotalExpenses = "SELECT IFNULL(SUM(amount), 0.00) AS sumtotalexpenses FROM shop_expenses 
-                        WHERE created_date >= '$from%' AND  created_date <= '$to%' AND sales_point_id = $spt";
-$sumResultexpe = $conn->query($sumTotalExpenses);
-$sumRowexpe = $sumResultexpe->fetch_assoc();
-$sumtotalexpenses = $sumRowexpe['sumtotalexpenses'];
-
+$sumtotal_purchase = $sumRowNotPaid['sumtotal_purchase'];
 
 
 
@@ -94,11 +92,8 @@ $responseData = array(
     'data' => $data,
     'sumtotal' => $sumtotal,
     'sumbenefit' => $sumbenefit,
-    'sumtotalPaid' => $sumtotalPaid,
-    'sumbenefitPaid' => $sumbenefitPaid,
-    'sumtotalNotPaid' => $sumtotalNotPaid,
-    'sumbenefitNotPaid' => $sumbenefitNotPaid,
-    'sumtotalexpenses' => $sumtotalexpenses,
+    'sumtotal_purchase' => $sumtotal_purchase,
+   
     
 );
 

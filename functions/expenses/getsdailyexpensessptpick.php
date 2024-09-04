@@ -4,10 +4,10 @@ require_once '../connection.php';
 header('Content-Type: application/json');
 
 // Get the date, company ID, and sales point ID from the query parameters
-
+$date= $_GET['date'];
 $spt = $_GET['spt'];
 
-$righttime=date('Y-m-d', time());
+
 
 // SQL query to fetch daily sales records
 $sql = "
@@ -31,7 +31,7 @@ $sql = "
     FROM
         shop_expenses SE
     WHERE 
-        SE.sales_point_id = $spt AND SE.created_date LIKE '$righttime%'
+        SE.sales_point_id = $spt AND SE.created_date LIKE '$date%'
     ORDER BY
         SE.id DESC 
 
@@ -48,7 +48,7 @@ while ($row = $result->fetch_assoc()) {
 
 // Calculate sumtotal and sumbenefit
 $sumTotalQuery = "SELECT IFNULL(SUM(amount),0) AS sumtotal FROM shop_expenses 
-                 WHERE created_date LIKE '$righttime%' AND sales_point_id = $spt";
+                 WHERE created_date LIKE '$date%' AND sales_point_id = $spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
 $sumtotal = $sumRow['sumtotal'];

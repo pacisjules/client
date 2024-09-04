@@ -40,7 +40,7 @@ $(document).ready(function () {
       // Handle the data received from the AJAX request and display it in the table
       var html = '';
       var person_names = data.person_names;
-      var name= data.data[0].name;
+    
       var totaldebt = new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "RWF",
@@ -55,14 +55,16 @@ $(document).ready(function () {
                               }).format(parseFloat(data.total_balance));                              
                               
       $.each(data.data, function(index, item) {
+
+        
           var mes = "";
           var color = "";
           if (item.status == 1) {
             mes = "Loan";
-            color = "red";
+            color = "white";
           } else {
             mes = "Full paid";
-            color = "green";
+            color = "white";
           }
           console.log(item.balance);
           
@@ -86,15 +88,15 @@ $(document).ready(function () {
         html += `<td class="d-flex flex-row justify-content-start align-items-center">
         <button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_debts_modal" data-bs-toggle="modal" onclick="getDataEdit('${item.id}','${item.name}','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button>
         <button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_debts_modal" data-bs-toggle="modal" onclick="getDataRemove('${item.id} ','${item.name}')" "><i class="fa fa-trash"></i></button>
-        <button class="btn btn-primary getPaidDbts" type="button" style="margin-left: 20px;" data-bs-target="#payoneitem_modal" data-bs-toggle="modal" onclick="getPaidDbts('${item.id} ','${item.qty}','${ item.amount}','${item.amount_paid}')"><i class="fa fa-money"></i>&nbsp; Pay it</button>
+        <button class="btn btn-primary getPaidDbts" type="button" style="margin-left: 20px;" data-bs-target="#payoneitem_modal" data-bs-toggle="modal" onclick="getPaidDbts('${item.id} ','${item.qty}','${ item.amount}','${item.amount_paid}','${item.name}')"><i class="fa fa-money"></i>&nbsp; Pay it</button>
         </td>`; // Replace with your action buttons
         html += '</tr>';
       });
 
       if(data.total_balance>0){
-          $('#tot_balance').css('color', 'red');
+          $('#tot_balance').css('color', 'white');
       }else{
-          $('#tot_balance').css('color', 'green');
+          $('#tot_balance').css('color', 'white');
       }
       
       $('#detail_table').html(html);
@@ -104,7 +106,7 @@ $(document).ready(function () {
      $('#dbt_amount').html(totaldebt);
      $('#paid_amount').html(totalpaid);
      $('#tot_balance').html(total_balance);
-     $('#product_nam').html(name);
+     
       
     },
     error: function() {
@@ -2036,11 +2038,12 @@ function getDataRemove(id,name){
         console.log("name ", name);
 }
 
-function getPaidDbts(id,qty,amount,amount_paid){
+function getPaidDbts(id,qty,amount,amount_paid,name){
   localStorage.setItem("debt_id", id);
   localStorage.setItem("debt_qty", qty);
   localStorage.setItem("debt_amount", amount);
   localStorage.setItem("debt_amount_paid", amount_paid);
+  $('#product_nam').html(name);
 }
 
 

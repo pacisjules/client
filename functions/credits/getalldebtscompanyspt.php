@@ -64,6 +64,23 @@ while ($row = $result->fetch_assoc()) {
     
      $formattedTotalAmount = number_format($row['Amount']); 
      
+     // Making name uppercase letters
+     $row['names'] = strtoupper($row['names']);
+
+
+     //Check if phone number is empty
+     if(empty($row['phone'])){
+        $row['phone'] = "N/A";
+     }
+
+     //Check if address is empty
+     if(empty($row['address'])){
+        $row['address'] = "N/A";
+     }
+
+     //Making address uppercase letters
+     $row['address'] = strtoupper($row['address']);
+
      
 
     $value .= '

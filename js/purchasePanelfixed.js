@@ -342,9 +342,13 @@ $("#NegoPrice").on("input", function () {
 
 
     if(payed_by_name.length<3 || payed_by_name==""){
-      alert("Please enter a valid name");
+      alert("Please enter a valid payer name");
+      $("#savep_sell").html("Purchase Now");
       return false;
     }
+
+  
+  uppercase_payed_name=payed_by_name.toUpperCase();
   
   
   // // Start AJAX request
@@ -363,7 +367,7 @@ $("#NegoPrice").on("input", function () {
       sales_type: 1,
       paid_status: paid_jk,
       user_id: use_id,
-      payed_by_name:payed_by_name
+      payed_by_name:uppercase_payed_name
     },
     
     success: function (response) {
@@ -381,6 +385,8 @@ $("#NegoPrice").on("input", function () {
       // $('#amadenis').hide();
       $("#finishModal").modal('show');
       $('#sessionid').html(response);
+      $("#savep_sell").html("Purchase Now");
+      $("#addPayOwner").val("");
       localStorage.setItem('sessionid', response);
       localStorage.removeItem('supplier_id');
       localStorage.removeItem('supplier_phone');

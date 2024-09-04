@@ -56,13 +56,20 @@ $(document).ready(function () {
         var decsr = $("#descriexp").val();
         var exp_type = $("#expenseTypeSelect").val();
         var amount = $("#amountnum").val();
+        var dependon = $("#dependon").val();
         console.log(name);
         console.log(decsr);
         // Retrieve values from localStorage
         var sales_point_id = parseInt(localStorage.getItem("SptID"));
+        var user_id = parseInt(localStorage.getItem("UserID"));
         
         // Disable the button to prevent multiple clicks
         $(this).prop("disabled", true).html("Adding...");
+
+        if (name == "" || exp_type == "" || amount == "" || dependon == "") {
+            alert("Please fill all fields");
+            return;
+        }
 
         // Start AJAX request
         $.ajax({
@@ -74,24 +81,21 @@ $(document).ready(function () {
                 amount: amount,
                 sales_point_id: sales_point_id,
                 exp_type:exp_type,
+                user_id:user_id,
+                dependon:dependon
             },
             success: function (response) {
-                var jsonResponse = JSON.parse(response);
-                if (jsonResponse.status === "success") {
-                    console.log(jsonResponse.message);
-                } else {
-                    console.log(jsonResponse.message);
-                }
+             
                  $("#expname").val("");
                  $("#descriexp").val("");
                  $("#expenseTypeSelect").val("");
                  $("#amountnum").val("");
                  $("#addexpensesmodal").modal('hide');
-                 View_DayexpensesRecord();
+                 location.reload();
                 
             },
             error: function (error) {
-                console.log(error.responseText);
+                console.log(error);
             },
             complete: function () {
                 // Re-enable the button after the AJAX request completes
@@ -150,7 +154,7 @@ $(document).ready(function () {
                 console.log("Expense updated successfully.");
                 localStorage.removeItem("expid");
                 // Refresh the expenses list or perform any other necessary action
-                View_DayexpensesRecord();
+                location.reload();
                 
             },
             error: function (xhr, status, error) {
