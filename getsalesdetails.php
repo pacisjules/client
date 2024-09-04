@@ -126,8 +126,8 @@ $(document).ready(function() {
         { "data": "quantity" },
         { "data": "sales_price" },
         { "data": "total_amount" },
-        { "data": "location" },
         { "data": "fullname" },
+        { "data": "location" },
         {
             "data": "paid_status",
             "render": function(data, type, row, meta) {
