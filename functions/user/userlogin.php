@@ -29,19 +29,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         
         
-        $ids=$row['id'];
-        $id = $row['id'];
+       $ids=$row['id'];
+       $id = $row['id'];
        $comp =  $row['company_ID'];
        $sal =  $row['salepoint_id'];
        $usercategory =  $row['user_category'];
        $usershift =  $row['shift_id'];
        $realshift = 0;
+       
        if( $usershift>0){
         $realshift = $usershift;
        }else{
         $realshift = 0;
        }
-        
+       
+
         header('HTTP/1.1 201 Login Successful');
         //Get others users information
         $sqlGet = "SELECT * FROM employee WHERE user_id=$ids";
@@ -77,6 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sptnumberofopenshift = "SELECT COUNT(*) AS opensptshift FROM shift_records WHERE spt=$sal AND shift_status=1";
         $resultsptnumberofopenshift = $conn->query($sptnumberofopenshift);
         $sptopenshiftcounts = $resultsptnumberofopenshift->fetch_assoc();
+
+        
+
+
 
 
 
@@ -287,9 +293,12 @@ GROUP BY
         $_SESSION['countlogins'] = $logincounts['count'];
         $_SESSION['mysalepoint'] = $rowInfos['sales_point_id'];
         $_SESSION['company_ID'] = $row['company_ID'];
-        
-        
-        //exit();
+        $_SESSION['user_shift_is_open'] = $sptshiftcounts['countsptshift'];
+        $_SESSION['is_shift_open_inspt'] = $sptopenshiftcounts['opensptshift'];
+        $_SESSION['allowed_shift'] = $realshift;
+
+        // header("Location:login");
+        // exit();
     } else {
 
         // If the password is incorrect, show an error message

@@ -19,24 +19,31 @@
         <br/>
         <div style="width: 30rem; height: 10rem; font-weight: bold; border: 1px solid green; padding: 2rem; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
         <p>Shift: <span id="shiftname"></span></p>
-        <p>Period: <span id="period"></span></p>
+        <!-- <p>Period: <span id="period"></span></p> -->
         <p>Start on  <span id="shiftstart" class="badge bg-primary"></span> End on  <span id="shiftend" class="badge bg-success"></span></p>
         </div>
         <button class="btn btn-success"  style="font-weight: bold; margin-top:3rem; color:white;" data-bs-target="#add_customer_modal" data-bs-toggle="modal" >Activate Shift</button>
+
+        <a class="btn btn-danger" href="logout.php"  style="font-weight: bold; margin-top:3rem; color:white;">Cancel</a>
     </center>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="add_customer_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Warning</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title"><i class="fas fa-exclamation-triangle" style="color: orangered;"></i> Warning</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to activate this shift?</p>
-                    <p>If you want press Yes else press No</p>
+                    <p><i class="fa fa-circle" style="color: green;"></i> Press Yes to Activate , <i class="fa fa-circle" style="color: red;"></i> Press No to Cancel</p>
                     
                 </div>
-                <div class="modal-footer"> <button class="btn btn-success" type="button" style="color:white;" id="activateShiftButton">YES</button> <button class="btn btn-danger" type="button" data-bs-dismiss="modal">NO</button></div>
+                <div class="modal-footer"> 
+                <form action="activate_shift.php" method="POST">    
+                <button class="btn btn-success"  type="submit" style="color:white; " id="activateShiftButton">YES</button> 
+                </form>
+                    
+                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">NO</button></div>
             </div>
         </div>
     </div>
@@ -49,31 +56,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('user_names').textContent = localStorage.getItem("Names");
             document.getElementById('shiftname').textContent = localStorage.getItem("shift_name");
-            document.getElementById('period').textContent = localStorage.getItem("shift_type");
+            // document.getElementById('period').textContent = localStorage.getItem("shift_type");
             document.getElementById('shiftstart').textContent = localStorage.getItem("shiftstart");
             document.getElementById('shiftend').textContent = localStorage.getItem("shiftend");
-        });
-        document.getElementById('activateShiftButton').addEventListener('click', function() {
-            const button = this;
-            button.disabled = true;
-            
-
-            fetch('activate_shift.php', {
-                method: 'POST'
-            })
-            .then(response => response.text())
-            .then(data => {
-                if (data.trim() == "1") {
-                    window.location.href = "/client";
-                } else {
-                    alert("Failed to Activate Shift");
-                    button.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                button.disabled = false;
-            });
         });
     </script>
 

@@ -15,8 +15,19 @@ $(document).ready(function () {
     localStorage.removeItem("SptID");
     
     var newsalepoint = localStorage.getItem("salespointid");
+    $.ajax({
+      url: "functions/salespoint/setmysalespoint.php",
+      method: "POST",
+      data: {
+        salespointid: newsalepoint,
+      },
+      success: function (data) {
+        console.log(data);
+      },
+    });
     localStorage.setItem("SptID", newsalepoint);
     localStorage.removeItem("salespointid");
+
 
     // Navigate to index.php after a short delay (e.g., 1 second)
     setTimeout(function() {

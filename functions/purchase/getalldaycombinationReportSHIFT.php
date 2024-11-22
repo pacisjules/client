@@ -20,11 +20,12 @@ ROW_NUMBER() OVER (ORDER BY id) as num,
 $result = $conn->query($sql);
 
 // Calculate sumtotal and sumbenefit
-$sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal FROM sales 
+$sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal,SUM(total_benefit) AS sumbenefit FROM sales 
                  WHERE created_time >=  '$startdate%' AND created_time <= '$enddate%' AND sales_point_id =$spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
 $sumtotal = $sumRow['sumtotal'];
+$sumbenefit = $sumRow['sumbenefit'];
 
 $data = array();
 while ($row = $result->fetch_assoc()) {
@@ -33,7 +34,9 @@ while ($row = $result->fetch_assoc()) {
 
 $response = array(
     "data" => $data,
-    "total" => $sumtotal
+    "total" => $sumtotal,
+    "benefit" => $sumbenefit
+   
 );
 
 echo json_encode($response);

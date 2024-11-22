@@ -16,33 +16,25 @@ $endDate = $_GET['endDate'];
 $sql = "
 
 SELECT DISTINCT
-    SL.sales_id,
-    PD.name AS Product_Name,
-    SP.manager_name,
-    SP.phone_number,
-    SP.location,
-    PD.benefit,
-    SL.product_id,
-    SL.quantity,
-    SL.sales_price,
-    SL.total_amount,
-    SL.total_benefit,
-    SL.paid_status,
-    SL.created_time,
-    SL.sales_type,
-    SL.storekeeperaproval,
-    SL.manageraproval,
-    INV.alert_quantity,
-    INV.quantity AS remain_stock
-   
-FROM
-    sales SL
-JOIN products PD ON
-    SL.product_id = PD.id
-JOIN salespoint SP ON
-    SL.sales_point_id = SP.sales_point_id
-JOIN inventory INV ON
-    SL.product_id = INV.product_id
+        SL.sales_id,
+        SL.sess_id,
+        PD.name AS Product_Name,
+        SP.manager_name,
+        SP.phone_number,
+        SP.location,
+        SL.product_id,
+        SL.quantity,
+        SL.sales_price,
+        SL.total_amount,
+        SL.paid_status,
+        SL.created_time,
+        SL.sales_type
+    FROM
+        sales SL
+    JOIN products PD ON
+        SL.product_id = PD.id
+    JOIN salespoint SP ON
+        SL.sales_point_id = SP.sales_point_id
 WHERE
     SL.created_time >= '$startDate 00:00:00'
     AND SL.created_time <= '$endDate 23:59:59'
@@ -61,19 +53,20 @@ $data = array();
 
 while ($row = $result->fetch_assoc()) {
     // ... Your existing code to process each row ...
-
+    $tprice = $row['total_amount'];
+    $qty = $row['quantity'];
+    $pic = $tprice/$qty;
     // Create an object to represent each row of data
     $item = array(
         'sale_id' => $row['sales_id'],
+        'sess_id' => $row['sess_id'],
+        'product_id' => $row['product_id'],
         'Product_Name' => $row['Product_Name'],
-        'sales_price' => $row['sales_price'],
+        'sales_price' => $pic,
         'quantity' => $row['quantity'],
         'total_amount' => $row['total_amount'],
-        'total_benefit' => $row['total_benefit'],
-        'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
-        'storekeeperaproval' => $row['storekeeperaproval'],
-        'manageraproval' => $row['manageraproval'],
+        'created_time' => $row['created_time'],
         // Add other fields as needed
     );
 
@@ -82,17 +75,17 @@ while ($row = $result->fetch_assoc()) {
 }
 
 
-$sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal, SUM(total_benefit) AS sumbenefit FROM sales 
+$sumTotalQuery = "SELECT SUM(total_amount) AS sumtotal FROM sales 
                  WHERE created_time >= '$startDate 00:00:00' AND created_time <= '$endDate 23:59:59'
                  AND sales_point_id = $spt";
 $sumResult = $conn->query($sumTotalQuery);
 $sumRow = $sumResult->fetch_assoc();
 $sumtotal = $sumRow['sumtotal'];
-$sumbenefit = $sumRow['sumbenefit'];
+
 
 
 // Calculate sumtotal and sumbenefit for 'Paid' and 'Not Paid'
-$sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal_paid, SUM(total_benefit) AS sumbenefit_paid FROM sales 
+$sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal_paid FROM sales 
                      WHERE 
                      created_time >= '$startDate 00:00:00' 
                     AND created_time <= '$endDate 23:59:59' 
@@ -101,7 +94,7 @@ $sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal_paid, SUM(total_benef
 $sumResultPaid = $conn->query($sumTotalQueryPaid);
 $sumRowPaid = $sumResultPaid->fetch_assoc();
 $sumtotalPaid = $sumRowPaid['sumtotal_paid'];
-$sumbenefitPaid = $sumRowPaid['sumbenefit_paid'];
+
 
 $sumTotalQueryNotPaid = "SELECT IFNULL(SUM(total_amount),0.00) AS sumtotal_not_paid, SUM(total_benefit) AS sumbenefit_not_paid FROM sales 
                         WHERE 
@@ -129,11 +122,8 @@ $sumtotalexpenses = $sumRowexpenses['sumtotalexpenses'];
 $responseData = array(
     'data' => $data, // Your existing data
     'sumtotal' => $sumtotal,
-    'sumbenefit' => $sumbenefit,
     'sumtotalPaid' => $sumtotalPaid,
-    'sumbenefitPaid' => $sumbenefitPaid,
     'sumtotalNotPaid' => $sumtotalNotPaid,
-    'sumbenefitNotPaid' => $sumbenefitNotPaid,
     'sumtotalexpenses' => $sumtotalexpenses,
 );
 

@@ -19,27 +19,19 @@ $sql = "
         SP.manager_name,
         SP.phone_number,
         SP.location,
-        PD.benefit,
         SL.product_id,
         SL.quantity,
         SL.sales_price,
         SL.total_amount,
-        SL.total_benefit,
         SL.paid_status,
         SL.created_time,
-        SL.sales_type,
-        SL.storekeeperaproval,
-        SL.manageraproval,
-        INV.alert_quantity,
-        INV.quantity AS remain_stock
+        SL.sales_type
     FROM
         sales SL
     JOIN products PD ON
         SL.product_id = PD.id
     JOIN salespoint SP ON
         SL.sales_point_id = SP.sales_point_id
-    JOIN inventory INV ON
-        SL.product_id = INV.product_id
     WHERE
         SL.created_time LIKE '$date%'
         AND SP.company_ID = $comID
@@ -65,17 +57,14 @@ while ($row = $result->fetch_assoc()) {
     
     
     $item = array(
-        'sale_id' => $row['sales_id'],
+       'sale_id' => $row['sales_id'],
         'sess_id' => $row['sess_id'],
         'product_id' => $row['product_id'],
         'Product_Name' => $row['Product_Name'],
         'sales_price' => $pic,
         'quantity' => $row['quantity'],
         'total_amount' => $row['total_amount'],
-        'total_benefit' => $row['total_benefit'],
         'paid_status' => $row['paid_status'],
-        'storekeeperaproval' => $row['storekeeperaproval'],
-        'manageraproval' => $row['manageraproval'],
         'created_time' => $row['created_time'],
     );
 

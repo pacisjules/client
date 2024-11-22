@@ -1,7 +1,8 @@
 $(document).ready(function () {
   View_DaySalesRecord(); 
+  View_DayTransferRecords(); 
  // View_YearSalesRecord();
-  // populateMonthDropdown();
+  populateMonthDropdown();
   // View_USERRecord();
   // View_USERRecordyest();
   $("#weeklysales").click(function () {
@@ -14,9 +15,123 @@ $(document).ready(function () {
     View_YesterdaySalesRecord();
   });
 
+  $(function () {
+    // Initialize the date range picker
+    $('#daterangeTransfer').daterangepicker({
+        opens: 'left',
+        locale: {
+            format: 'MM/DD/YYYY'
+        }
+    });
+
+    // Handle the date range selection
+    $('#daterangeTransfer').on('apply.daterangepicker', function (ev, picker) {
+        const startDate = picker.startDate.format('YYYY-MM-DD');
+        const endDate = picker.endDate.format('YYYY-MM-DD');
+        // console.log("from "+startDate);
+        // console.log("to "+endDate);
+
+        var company_ID = localStorage.getItem("CoID");
+        var sales_point_id = localStorage.getItem("SptID");
+
+
+    // Make the AJAX request
+$.ajax({
+url: `functions/salesresto/getallMonthlyTransfer.php?company=${company_ID}&spt=${sales_point_id}&startDate=${startDate}&endDate=${endDate}`,
+method: "POST",
+context: document.body,
+success: function(response) {
+  try {
+      // console.log("Successas Response: ", response.data);
+
+      if (response.data && response.data.length > 0) {
+        let html = ""; // HTML for table rows
+        let excel = ""; // HTML for Excel table
+        const formatDate = (myDate) => {
+          const dateParts = myDate.split("-");
+          const year = dateParts[0];
+          const month = dateParts[1];
+          const day = dateParts[2];
+      
+          const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+            "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          );
+      
+          return formattedDate;
+        };
+        $("#time_period").html('From ' + formatDate(startDate) + ' to ' + formatDate(endDate));
+// Loop through response data and build table rows
+for (let i = 0; i < response.data.length; i++) {
+const item = response.data[i];
+
+html += `
+    <tr>
+        <td style="font-size: 12px;">${i + 1}. ${item.product_name}</td>
+        <td style="font-size: 12px;">${item.quantity}</td>
+        <td style="font-size: 12px;">${item.received_qty}</td>
+        <td style="font-size: 12px;">${item.request_by_name}</td>
+        <td style="font-size: 12px;">${item.request_to}</td>
+        <td style="font-size: 12px; color: ${item.request_status == 2 ? 'green' : item.request_status == 1 ? 'orange' : 'red'};">
+            ${item.request_status == 2 ? 'Approved' : item.request_status == 1 ? 'Pending' : 'Rejected'}
+        </td>
+        <td style="font-size: 12px;">${new Intl.DateTimeFormat("en-GB", {day: "numeric", month: "long", year: "numeric"}).format(new Date(item.created_time))}</td>
+    </tr>
+`;
+
+excel += `
+    <tr>
+        <td style="font-size: 14px;">${i + 1}</td>
+        <td style="font-size: 14px;">${item.product_name}</td>
+        <td style="font-size: 14px;">${item.quantity}</td>
+        <td style="font-size: 14px;">${item.received_qty}</td>
+        <td style="font-size: 14px;">${item.request_by_name}</td>
+        <td style="font-size: 14px;">${item.request_status}</td>
+        <td style="font-size: 14px;">${item.created_time}</td>
+    </tr>
+`;
+}
+
+        $("#transfer_table").html(html); // Populate the table with rows
+        $("#excel_table").html(excel);
+      } else {
+          $("#transfer_table").html("No results");
+          $("#excel_table").html("No results"); 
+      }
+  } catch (e) {
+      console.error("Error handling response: ", e);
+      // Handle the error or display an error message to the user
+  }
+},
+error: function(xhr, status, error) {
+    console.error("ERROR Response: ", error);
+    // Handle the error or display an error message to the user
+},
+});
+
+
+localStorage.setItem("fromdate",startDate);   
+localStorage.setItem("todate",endDate);   
+
+    });
+
+    // Handle the button click event to open the date range picker
+    $('#PickdaterangebtTransfer').on('click', function () {
+        $('#daterangeTransfer').click();
+    });
+    
+    
+    
+});
+
+
+
+
 // picking from to date sales records
-
-
 $(function () {
           // Initialize the date range picker
           $('#daterange').daterangepicker({
@@ -39,147 +154,151 @@ $(function () {
 
           // Make the AJAX request
   $.ajax({
-      url: `functions/sales/getallMonthlySales.php?company=${company_ID}&spt=${sales_point_id}&startDate=${startDate}&endDate=${endDate}`,
+      url: `functions/salesresto/getallMonthlySales.php?company=${company_ID}&spt=${sales_point_id}&startDate=${startDate}&endDate=${endDate}`,
       method: "POST",
       context: document.body,
       success: function(response) {
-          try {
-              //console.log("Success Response: ", response);
-
-              if (response.data && response.data.length > 0) {
-                  let html = ""; // Initialize an empty string to store the HTML
-                  let tot = "";
-                  let btntype = "";
-                  let excel = "";
-                  let totexcel = "";
-                  const sumtotal = response.sumtotal; // Access sumtotal
-                  const sumbenefit = response.sumbenefit; // Access sumbenefit
-                  const sumtotalPaid = response.sumtotalPaid;
-                  const sumbenefitPaid = response.sumbenefitPaid;
-                  const sumtotalNotPaid = response.sumtotalNotPaid;
-                  const sumbenefitNotPaid = response.sumbenefitNotPaid;
-                  const sumtotalexpenses = response.sumtotalexpenses;
-                  var usertype = localStorage.getItem("UserType");
-
-                  // Display sumtotal and sumbenefit as needed
-                  //console.log("Sum Total Amount: ", sumtotal);
-                  //console.log("Sum Total Benefit: ", sumbenefit);
-                  // Display sumtotalPaid and sumbenefitPaid
-                  //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-                  //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+        try {
+            // console.log("Successas Response: ", response.data);
+  
+            if (response.data && response.data.length > 0) {
+                let html = ""; // Initialize an empty string to store the HTML
+                let tot = "";
+                let btntype = "";
+                let excel = "";
+                let totexcel = "";
+                const sumtotal = response.sumtotal; // Access sumtotal
+  
+                const sumtotalPaid = response.sumtotalPaid;
+                const sumtotalNotPaid = response.sumtotalNotPaid;
+                const sumtotalexpenses = response.sumtotalexpenses;
+                var usertype = localStorage.getItem("UserType");
+                           
+  
+                
+        
+                
+                if(usertype==="BOSS"){
+  
+                  btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span></p>
+                  <div>
+                  <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+   
+   Paid Sales </button>
+                 <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+   
+   Debts Sales </button>
+  
+   <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+        
+        User Report </button>
+                 </div>
+                 <div>
+                 <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
+   
+   Export in Pdf </button>
+                 <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailySales_data');"><i class="fa fa-file-excel"></i>
+   
+   Export in Excel </button>  </div>`;
+                 
+                 $("#btnsalesType").html(btntype);
+                 $("#totalup").html(new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "RWF",
+                }).format(sumtotal));
+  
+           
+  
+  
+  
+  
+                 tot += `
+                <tr>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "RWF",
+                    }).format(parseFloat(sumtotal))}</strong></td>
+                    <td style="font-size: 14px;"></td>
                   
-                  // Display sumtotalNotPaid and sumbenefitNotPaid
-                  //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-                  //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-                  //console.log("Sum total expenses: ", sumtotalexpenses);
-                  
-                  
-
-                  if(usertype==="BOSS"){
-
-                    btntype += `<p class="text-primary m-0 fw-bold" style="font-size: 13px;"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span> Sales Records</p>
-              
-                    <div>
-                      <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesPaidReport()"><i class="fa fa-dollar-sign"></i>
-      
-      Paid Sales </button>
-                    <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdaterangesalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
-      
-      Debts Sales </button>
-      
-                     </div>
+                </tr>`;
+                $("#totalam").html(tot);
+                
+                 totexcel += `
+                
+                <tr>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></td>
+                    <td style="font-size: 14px;"></td>
+                    <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                    <td style="font-size: 14px;"><strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                </tr>
+                
+                `;
+                $("#totalexcel").html(totexcel);
+                
+                }else{
+  
+                 
+                  btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span></p>
+                  <div>
+  
+   <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+        
+        User Report </button>
+                 </div>
+                 <div>
+                 `;
+                 
+                 $("#btnsalesType").html(btntype);
+                     
+  
+                  tot += `
+                <tr>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "RWF",
+                    }).format(parseFloat(sumtotal))}</strong></td>
+                    <td style="font-size: 14px;"></td>
+                    <td style="font-size: 14px;"></td>
+                    <td style="font-size: 14px;"></td>
+                </tr>`;
+                $("#totalam").html(tot);
+                
+                totexcel += `
+                
+                <tr>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                    <td style="font-size: 14px;"><strong></td>
+                    <td style="font-size: 14px;"></td>
+                    <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
+                    <td style="font-size: 14px;"><strong></strong> </td>
+                    <td style="font-size: 14px;"><strong></strong></td>
+                </tr>
+                
+                `;
+                $("#totalexcel").html(totexcel);
+                
+                }
+               
+                
+                
+  
+                for (let i = 0; i < response.data.length; i++) {
+                    const item = response.data[i];
                     
-                    <div>
-                    <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdaterangesalesReport()"><i class="fa fa-file-pdf"  style="margin-right:10px;"></i>Export in Pdf </button>
-                    <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelfromtoTable', 'FromToSales_data')"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
-                    </div>
-                    `;
-                    
-                    $("#btnsalesType").html(btntype);
-                    $("#totalup").html(new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                    }).format(sumtotal));
-    
-                    $("#labeup").html("Benefit : ");
-                    $("#benefitup").html(new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                    }).format(sumbenefit));
-
-                   tot += `<tr>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                  }).format(parseFloat(sumtotal))}</strong></td>
-                            <td style="font-size: 14px;"></td>
-                            <td style="font-size: 14px;"><strong>Gross Profit: ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                            }).format(parseFloat(sumbenefit))}</strong></td>
-                            <td style="font-size: 14px;"></td>
-                         </tr>`;
-                  $("#totalam").html(tot);
-                  
-                  totexcel += `
-              
-               <tr>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></td>
-                   <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
-                   <td style="font-size: 14px;"><strong>${parseFloat(sumbenefit)}</strong> </td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-               </tr>
-              
-               `;
-               $("#totalfromtoexcel").html(totexcel);
-                      
-                  }else {
-                    btntype += `<p class="text-primary m-0 fw-bold" style="font-size: 13px;"><span id="message"></span>From <span>${startDate}</span> To <span>${endDate}</span> Sales Records</p>
-              
-                    
-                    `;
-                    
-                    $("#btnsalesType").html(btntype);
-
-
-                    tot += `<tr>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
-                            <td style="font-size: 14px;"></td>
-                            <td style="font-size: 14px;"></td>
-                            <td style="font-size: 14px;"></td>
-                         </tr>`;
-                   $("#totalam").html(tot);
-                   totexcel += `
-              
-               <tr>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                   <td style="font-size: 14px;"><strong></td>
-                   <td style="font-size: 14px;"></td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-                     <td style="font-size: 14px;"><strong></strong> </td>
-                   <td style="font-size: 14px;"><strong></strong></td>
-               </tr>
-              
-               `;
-               $("#totalfromtoexcel").html(totexcel);
-                   
-                  }
-                         
-
-                  for (let i = 0; i < response.data.length; i++) {
-                      const item = response.data[i];
-
-                      let sts = "";
+                      console.log("item.sales_id:", item.sale_id);
+                      console.log("item.product_id:", item.product_id);
+  
+                    let sts = "";
                     let endis = "";
                     let icon = "";
                     let msg = "";
@@ -187,11 +306,8 @@ $(function () {
                     let endistore = "";
                     let iconstore = "";
                     let msgstore = "";
-                    let stsmanager = "";
-                    let endimanager = "";
-                    let iconmanager = "";
-                    let msgmanager = "";
-
+            
+  
                     if (item.paid_status === "Paid") {
                         sts = "Active";
                         endis = "btn btn-success";
@@ -203,86 +319,54 @@ $(function () {
                         icon = "bi bi-x-circle";
                         msg = "Debt";
                     }
-
+  
                     
-
-                    if (item.storekeeperaproval == 0) {
-                        stsstore = "Active";
-                        endistore = "btn btn-warning";
-                        iconstore = "bi bi-x-circle";
-                        msgstore = "Pending";
-                    } else {
-                        stsstore = "Not Active";
-                        endistore = "btn btn-primary";
-                        iconstore = "fa fa-check-square text-white";
-                        msgstore = "Approved";
-                    }
+  
+  
+                    html += `
+                        <tr>
+                            <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                            <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "RWF",
+                          }).format(parseFloat(item.sales_price))}</td>
+                            <td style="font-size: 12px;">${item.quantity}</td>
+                            <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "RWF",
+                          }).format(parseFloat(item.total_amount))}</td>
+                            <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                            <td style="font-size: 12px;">${item.created_time}</td>
+                            <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                        </tr>
+                    `;
                     
-                    if (item.manageraproval == 0) {
-                      stsmanager = "Active";
-                      endimanager = "btn btn-warning";
-                      iconmanager = "bi bi-x-circle";
-                      msgmanager = "Pending";
-                  } else {
-                      stsmanager = "Not Active";
-                      endimanager = "btn btn-primary";
-                      iconmanager = "fa fa-check-square text-white";
-                      msgmanager = "Approved";
-                  }
-                  
-
-                  html += `
-                  <tr>
-                  <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
-                  <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(item.sales_price))}</td>
-                  <td style="font-size: 12px;">${item.quantity}</td>
-                  <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(item.total_amount))}</td>
-                  <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
-                  <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
-              </tr>
-                  `;
-                  
-                      
-                      excel += `
-                      <tr>
-                          <td style="font-size: 14px;">${i+1}</td>
-                          <td style="font-size: 14px;">${item.Product_Name}</td>
-                          <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
-                          <td style="font-size: 14px;">${item.quantity}</td>
-                          <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
-                          <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
-                          <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
-                          <td style="font-size: 14px;">${item.created_time}</td>
-                          
-                      </tr>
-                  `;
-                      
-                      
-                  }
-
-                  $("#sells_table").html(html); // Set the HTML content of the table
-                  
-              $("#excel_fromto").html(excel); 
-                  
-                  
-              } else {
-                  $("#sells_table").html("No results");
-                   $("#excel_fromto").html("No results"); 
-              }
-          } catch (e) {
-              console.error("Error handling response: ", e);
-              // Handle the error or display an error message to the user
-          }
-      },
+                    
+                    excel += `
+                        <tr>
+                            <td style="font-size: 14px;">${i+1}</td>
+                            <td style="font-size: 14px;">${item.Product_Name}</td>
+                            <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
+                            <td style="font-size: 14px;">${item.quantity}</td>
+                            <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
+                            <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
+                            <td style="font-size: 14px;">${item.created_time}</td>
+                            
+                        </tr>
+                    `;
+                }
+  
+                $("#sells_table").html(html); // Set the HTML content of the table
+                 $("#excel_table").html(excel); // Set the HTML content of the table
+            } else {
+                $("#sells_table").html("No results");
+                $("#excel_table").html("No results"); 
+            }
+        } catch (e) {
+            console.error("Error handling response: ", e);
+            // Handle the error or display an error message to the user
+        }
+    },
       error: function(xhr, status, error) {
           console.error("ERROR Response: ", error);
           // Handle the error or display an error message to the user
@@ -335,12 +419,12 @@ $(function () {
   // Ajax Start!
 
   $.ajax({
-    url:`functions/sales/getalldaysaleswithcompanysptyyest.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
+    url:`functions/salesresto/getalldaysaleswithcompanysptyyest.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
     method: "POST",
     context: document.body,
     success: function(response) {
       try {
-          //console.log("Success Response: ", response);
+          console.log("Successas Response: ", response.data);
 
           if (response.data && response.data.length > 0) {
               let html = ""; // Initialize an empty string to store the HTML
@@ -349,49 +433,38 @@ $(function () {
               let excel = "";
               let totexcel = "";
               const sumtotal = response.sumtotal; // Access sumtotal
-              const sumbenefit = response.sumbenefit; // Access sumbenefit
+
               const sumtotalPaid = response.sumtotalPaid;
-              const sumbenefitPaid = response.sumbenefitPaid;
               const sumtotalNotPaid = response.sumtotalNotPaid;
-              const sumbenefitNotPaid = response.sumbenefitNotPaid;
               const sumtotalexpenses = response.sumtotalexpenses;
               var usertype = localStorage.getItem("UserType");
                          
 
-              // Display sumtotal and sumbenefit as needed
-              //console.log("Sum Total Amount: ", sumtotal);
-              //console.log("Sum Total Benefit: ", sumbenefit);
-              // Display sumtotalPaid and sumbenefitPaid
-              //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-              //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
               
-              // Display sumtotalNotPaid and sumbenefitNotPaid
-              //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-              //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-              //console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
-              
-              
-               
+      
               
               if(usertype==="BOSS"){
 
-
                 btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Sales Record ,At <span>${formattedDate}</span></p>
-               
                 <div>
-                 <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesPaidReport()"><i class="fa fa-dollar-sign"></i>
+                <button class="btn btn-success"  style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesPaidReport()"><i class="fa fa-dollar-sign"></i>
  
  Paid Sales </button>
-               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchPickedsalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
+               <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" onclick="fetchdailysalesDebtsReport();"><i class="fa fa-money-bill-wave"></i>
  
  Debts Sales </button>
- 
-                </div>
-                <div>
-               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchpickeddatesalesReport()"><i class="fa fa-file-pdf" style="margin-right:10px;"></i>Export in Pdf </button>
-               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelPickedTable', 'PickedDateSales_data');"><i class="fa fa-file-excel" style="margin-right:10px;"></i>Export in Excel </button>
+
+ <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+      
+      User Report </button>
                </div>
-               `;
+               <div>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#a30603; color:white;" onclick="fetchdailysalesReport()"><i class="fa fa-file-pdf"></i>
+ 
+ Export in Pdf </button>
+               <button class="btn btn-light" style="font-size: 15px; font-weight: bold; background-color:#054d13; color:white;" onclick="exportTableToExcel('excelTable', 'dailySales_data');"><i class="fa fa-file-excel"></i>
+ 
+ Export in Excel </button>  </div>`;
                
                $("#btnsalesType").html(btntype);
                $("#totalup").html(new Intl.NumberFormat("en-US", {
@@ -399,11 +472,8 @@ $(function () {
                 currency: "RWF",
               }).format(sumtotal));
 
-              $("#labeup").html("Benefit : ");
-              $("#benefitup").html(new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "RWF",
-              }).format(sumbenefit));
+         
+
 
 
 
@@ -417,11 +487,7 @@ $(function () {
                       currency: "RWF",
                   }).format(parseFloat(sumtotal))}</strong></td>
                   <td style="font-size: 14px;"></td>
-                  <td style="font-size: 14px;"><strong>Gross Profit: ${new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                  }).format(parseFloat(sumbenefit))}</strong></td>
-                  <td style="font-size: 14px;"></td>
+                
               </tr>`;
               $("#totalam").html(tot);
               
@@ -433,29 +499,38 @@ $(function () {
                   <td style="font-size: 14px;"><strong></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
-                  <td style="font-size: 14px;"><strong>${parseFloat(sumbenefit)}</strong> </td>
+                  <td style="font-size: 14px;"><strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
               </tr>
               
               `;
-              $("#totalpickexcel").html(totexcel);
+              $("#totalexcel").html(totexcel);
               
               }else{
 
-                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Sales Record ,At <span>${formattedDate}</span></p>
                
+                btntype += `<p class="text-primary m-0 fw-bold"><span id="message"></span>Custom Sales Record ,At <span>${formattedDate}</span></p>
+                <div>
+
+ <button class="btn btn-dark" style="font-size: 15px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#user_report_now" data-bs-toggle="modal">
+      
+      User Report </button>
+               </div>
+               <div>
                `;
                
                $("#btnsalesType").html(btntype);
-              
-
+                   
 
                 tot += `
               <tr>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></strong></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
+                  <td style="font-size: 14px;"><strong>Total Sales: ${new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "RWF",
+                  }).format(parseFloat(sumtotal))}</strong></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"></td>
                   <td style="font-size: 14px;"></td>
@@ -469,13 +544,13 @@ $(function () {
                   <td style="font-size: 14px;"><strong></strong></td>
                   <td style="font-size: 14px;"><strong></td>
                   <td style="font-size: 14px;"></td>
-                  <td style="font-size: 14px;"><strong></strong></td>
+                  <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
                   <td style="font-size: 14px;"><strong></strong> </td>
                   <td style="font-size: 14px;"><strong></strong></td>
               </tr>
               
               `;
-              $("#totalpickexcel").html(totexcel);
+              $("#totalexcel").html(totexcel);
               
               }
              
@@ -485,81 +560,51 @@ $(function () {
               for (let i = 0; i < response.data.length; i++) {
                   const item = response.data[i];
                   
-                    //console.log("item.sales_id:", item.sale_id);
-                    //console.log("item.product_id:", item.product_id);
+                    console.log("item.sales_id:", item.sale_id);
+                    console.log("item.product_id:", item.product_id);
 
-                    let sts = "";
-                    let endis = "";
-                    let icon = "";
-                    let msg = "";
-                    let stsstore = "";
-                    let endistore = "";
-                    let iconstore = "";
-                    let msgstore = "";
-                    let stsmanager = "";
-                    let endimanager = "";
-                    let iconmanager = "";
-                    let msgmanager = "";
+                  let sts = "";
+                  let endis = "";
+                  let icon = "";
+                  let msg = "";
+                  let stsstore = "";
+                  let endistore = "";
+                  let iconstore = "";
+                  let msgstore = "";
+          
 
-                    if (item.paid_status === "Paid") {
-                        sts = "Active";
-                        endis = "btn btn-success";
-                        icon = "fa fa-check-square text-white";
-                        msg = "Paid";
-                    } else {
-                        sts = "Not Active";
-                        endis = "btn btn-danger";
-                        icon = "bi bi-x-circle";
-                        msg = "Debt";
-                    }
-
-                    
-
-                    if (item.storekeeperaproval == 0) {
-                        stsstore = "Active";
-                        endistore = "btn btn-warning";
-                        iconstore = "bi bi-x-circle";
-                        msgstore = "Pending";
-                    } else {
-                        stsstore = "Not Active";
-                        endistore = "btn btn-primary";
-                        iconstore = "fa fa-check-square text-white";
-                        msgstore = "Approved";
-                    }
-                    
-                    if (item.manageraproval == 0) {
-                      stsmanager = "Active";
-                      endimanager = "btn btn-warning";
-                      iconmanager = "bi bi-x-circle";
-                      msgmanager = "Pending";
+                  if (item.paid_status === "Paid") {
+                      sts = "Active";
+                      endis = "btn btn-success";
+                      icon = "fa fa-check-square text-white";
+                      msg = "Paid";
                   } else {
-                      stsmanager = "Not Active";
-                      endimanager = "btn btn-primary";
-                      iconmanager = "fa fa-check-square text-white";
-                      msgmanager = "Approved";
+                      sts = "Not Active";
+                      endis = "btn btn-danger";
+                      icon = "bi bi-x-circle";
+                      msg = "Debt";
                   }
+
                   
+
 
                   html += `
-                  <tr>
-                  <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
-                  <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(item.sales_price))}</td>
-                  <td style="font-size: 12px;">${item.quantity}</td>
-                  <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(item.total_amount))}</td>
-                  <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
-                  <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
-              </tr>
+                      <tr>
+                          <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                          <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "RWF",
+                        }).format(parseFloat(item.sales_price))}</td>
+                          <td style="font-size: 12px;">${item.quantity}</td>
+                          <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "RWF",
+                        }).format(parseFloat(item.total_amount))}</td>
+                          <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                          <td style="font-size: 12px;">${item.created_time}</td>
+                          <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                      </tr>
                   `;
-                  
                   
                   
                   excel += `
@@ -569,7 +614,6 @@ $(function () {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
-                          <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
                           
@@ -578,10 +622,10 @@ $(function () {
               }
 
               $("#sells_table").html(html); // Set the HTML content of the table
-               $("#excel_picked").html(excel); // Set the HTML content of the table
+               $("#excel_table").html(excel); // Set the HTML content of the table
           } else {
               $("#sells_table").html("No results");
-              $("#excel_picked").html("No results"); 
+              $("#excel_table").html("No results"); 
           }
       } catch (e) {
           console.error("Error handling response: ", e);
@@ -606,13 +650,137 @@ $(function () {
       $("#pickDateButton").on("click", function () {
           $("#datepicker").focus();
       });
+
+
+    //   // Open the datepicker when the button is clicked
+    //   $("#pickDateButtonTransfer").on("click", function () {
+    //     $("#pickDateTransfer").focus();
+    // });
       
       
       
   });
 
 
+  
 
+
+  $(function () {
+    // Initialize the datepicker
+    $("#pickDateTransfer").datepicker({
+      
+        onSelect: function (dateText) {
+            // Function to convert date format from MM/DD/YYYY to YYYY-MM-DD
+            function convertDateFormat(dateText) {
+                const dateParts = dateText.split("/");
+                const month = dateParts[0];
+                const day = dateParts[1];
+                const year = dateParts[2];
+
+                return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+            }
+
+            $("#transfer_table").html('');
+
+            const formattedDate = convertDateFormat(dateText);
+
+            // Retrieve values from localStorage
+            const company_ID = localStorage.getItem("CoID");
+            const sales_point_id = localStorage.getItem("SptID");
+
+            // console.log(formattedDate, company_ID, sales_point_id);
+
+
+
+            
+
+            // AJAX Request
+            $.ajax({
+                url: `functions/salesresto/getpicktransfer.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
+                method: "POST",
+                context: document.body,
+                success: function (response) {
+                    try {
+                        // console.log("Response Data:", response.data);
+
+                        if (response.data && response.data.length > 0) {
+                            let html = ""; // HTML for table rows
+                            let excel = ""; // HTML for Excel table
+                            const formatDate = (myDate) => {
+                              const dateParts = myDate.split("-");
+                              const year = dateParts[0];
+                              const month = dateParts[1];
+                              const day = dateParts[2];
+                          
+                              const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                }
+                              );
+                          
+                              return formattedDate;
+                            };
+                            $("#time_period").html('On ' + formatDate(formattedDate));
+                  // Loop through response data and build table rows
+                  for (let i = 0; i < response.data.length; i++) {
+                    const item = response.data[i];
+
+                    html += `
+                        <tr>
+                            <td style="font-size: 12px;">${i + 1}. ${item.product_name}</td>
+                            <td style="font-size: 12px;">${item.quantity}</td>
+                            <td style="font-size: 12px;">${item.received_qty}</td>
+                            <td style="font-size: 12px;">${item.request_by_name}</td>
+                            <td style="font-size: 12px;">${item.request_to}</td>
+                            <td style="font-size: 12px; color: ${item.request_status == 2 ? 'green' : item.request_status == 1 ? 'orange' : 'red'};">
+                                ${item.request_status == 2 ? 'Approved' : item.request_status == 1 ? 'Pending' : 'Rejected'}
+                            </td>
+                            <td style="font-size: 12px;">${new Intl.DateTimeFormat("en-GB", {day: "numeric", month: "long", year: "numeric"}).format(new Date(item.created_time))}</td>
+                        </tr>
+                    `;
+
+                    excel += `
+                        <tr>
+                            <td style="font-size: 14px;">${i + 1}</td>
+                            <td style="font-size: 14px;">${item.product_name}</td>
+                            <td style="font-size: 14px;">${item.quantity}</td>
+                            <td style="font-size: 14px;">${item.received_qty}</td>
+                            <td style="font-size: 14px;">${item.request_by_name}</td>
+                            <td style="font-size: 14px;">${item.request_status}</td>
+                            <td style="font-size: 14px;">${item.created_time}</td>
+                        </tr>
+                    `;
+                }
+
+                            $("#transfer_table").html(html); // Populate the table with rows
+                            $("#excel_table").html(excel);
+                        } else {
+                            $("#transfer_table").html("<tr><td colspan='8'>No results found</td></tr>");
+                            $("#excel_table").html("<tr><td colspan='8'>No results found</td></tr>");
+                        }
+                    } catch (error) {
+                        console.error("Error handling response:", error);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", error);
+                },
+            });
+
+            // Store the picked date in localStorage
+            localStorage.setItem("datepicked", formattedDate);
+        },
+    });
+
+    // Open the datepicker when the button is clicked
+         // Open the datepicker when the button is clicked
+         $("#pickDateButtonTransfer").on("click", function () {
+          $("#pickDateTransfer").focus();
+      });
+});
 
 
 
@@ -632,6 +800,7 @@ $(function () {
   const company_ID = localStorage.getItem("CoID");
   const salesPointID = localStorage.getItem("SptID");
   localStorage.removeItem("monthSelect");
+  $("#selectMonthModal").hide();
 
   //console.log("Selected Month: " + selectedMonth);
   //console.log("Company ID (from localStorage): " + company_ID);
@@ -658,39 +827,24 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
   
   // Make the AJAX request
   $.ajax({
-      url: `functions/sales/getallMonthlySales.php?company=${company_ID}&spt=${salesPointID}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
+      url: `functions/salesresto/getallMonthlySales.php?company=${company_ID}&spt=${salesPointID}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
       method: "POST",
       context: document.body,
       success: function(response) {
           try {
               //console.log("Success Response: ", response);
-
               if (response.data && response.data.length > 0) {
-                  let html = ""; // Initialize an empty string to store the HTML
-                  let tot = "";
-                  let btntype = "";
-                  let excel = "";
-                  let totexcel = "";
-                  const sumtotal = response.sumtotal; // Access sumtotal
-                  const sumbenefit = response.sumbenefit; // Access sumbenefit
-                  const sumtotalPaid = response.sumtotalPaid;
-                  const sumbenefitPaid = response.sumbenefitPaid;
-                  const sumtotalNotPaid = response.sumtotalNotPaid;
-                  const sumbenefitNotPaid = response.sumbenefitNotPaid;
-                  const sumtotalexpenses = response.sumtotalexpenses;
-                  var usertype = localStorage.getItem("UserType");
-
-                  // Display sumtotal and sumbenefit as needed
-                  //console.log("Sum Total Amount: ", sumtotal);
-                  //console.log("Sum Total Benefit: ", sumbenefit);
-                  // Display sumtotalPaid and sumbenefitPaid
-                  //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-                  //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
-                  
-                  // Display sumtotalNotPaid and sumbenefitNotPaid
-                  //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-                  //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-                  //console.log("Sum total expenses: ", sumtotalexpenses);
+                let html = ""; // Initialize an empty string to store the HTML
+                let tot = "";
+                let btntype = "";
+                let excel = "";
+                let totexcel = "";
+                const sumtotal = response.sumtotal; // Access sumtotal
+  
+                const sumtotalPaid = response.sumtotalPaid;
+                const sumtotalNotPaid = response.sumtotalNotPaid;
+                const sumtotalexpenses = response.sumtotalexpenses;
+                var usertype = localStorage.getItem("UserType");
                   
                   
 
@@ -720,11 +874,8 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                   currency: "RWF",
                 }).format(sumtotal));
 
-                $("#labeup").html("Benefit : ");
-                $("#benefitup").html(new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "RWF",
-                }).format(sumbenefit));
+    
+              
              
 
 
@@ -737,10 +888,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                     currency: "RWF",
                   }).format(parseFloat(sumtotal))}</strong></td>
                             <td style="font-size: 14px;"></td>
-                            <td style="font-size: 14px;"><strong>Gross Profit: ${new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "RWF",
-                            }).format(parseFloat(sumbenefit))}</strong></td>
+                            <td style="font-size: 14px;"><strong></strong></td>
                             <td style="font-size: 14px;"></td>
                          </tr>`;
                   $("#totalam").html(tot);
@@ -753,7 +901,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                    <td style="font-size: 14px;"><strong></td>
                    <td style="font-size: 14px;"></td>
                    <td style="font-size: 14px;"><strong>${parseFloat(sumtotal)}</strong></td>
-                   <td style="font-size: 14px;"><strong>${parseFloat(sumbenefit)}</strong> </td>
+                   <td style="font-size: 14px;"><strong></strong> </td>
                    <td style="font-size: 14px;"><strong></strong></td>
                </tr>
               
@@ -805,14 +953,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                       let endis = "";
                       let icon = "";
                       let msg = "";
-                      let stsstore = "";
-                      let endistore = "";
-                      let iconstore = "";
-                      let msgstore = "";
-                      let stsmanager = "";
-                      let endimanager = "";
-                      let iconmanager = "";
-                      let msgmanager = "";
+                
   
                       if (item.paid_status === "Paid") {
                           sts = "Active";
@@ -828,61 +969,34 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
   
                       
   
-                      if (item.storekeeperaproval == 0) {
-                          stsstore = "Active";
-                          endistore = "btn btn-warning";
-                          iconstore = "bi bi-x-circle";
-                          msgstore = "Pending";
-                      } else {
-                          stsstore = "Not Active";
-                          endistore = "btn btn-primary";
-                          iconstore = "fa fa-check-square text-white";
-                          msgstore = "Approved";
-                      }
-                      
-                      if (item.manageraproval == 0) {
-                        stsmanager = "Active";
-                        endimanager = "btn btn-warning";
-                        iconmanager = "bi bi-x-circle";
-                        msgmanager = "Pending";
-                    } else {
-                        stsmanager = "Not Active";
-                        endimanager = "btn btn-primary";
-                        iconmanager = "fa fa-check-square text-white";
-                        msgmanager = "Approved";
-                    }
-                    
+                     
 
-                    html += `
-                    <tr>
-                    <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
-                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                  }).format(parseFloat(item.sales_price))}</td>
-                    <td style="font-size: 12px;">${item.quantity}</td>
-                    <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "RWF",
-                  }).format(parseFloat(item.total_amount))}</td>
-                    <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                    <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                    <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
-                    <td style="font-size: 12px;">${item.created_time}</td>
-                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
-                </tr>
-                    `;
-                    
-                      
-                      
-                      excel += `
+                      html += `
+                      <tr>
+                          <td style="font-size: 12px;">${i+1}. ${item.Product_Name}</td>
+                          <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "RWF",
+                        }).format(parseFloat(item.sales_price))}</td>
+                          <td style="font-size: 12px;">${item.quantity}</td>
+                          <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "RWF",
+                        }).format(parseFloat(item.total_amount))}</td>
+                          <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
+                          <td style="font-size: 12px;">${item.created_time}</td>
+                          <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                      </tr>
+                  `;
+                  
+                  
+                  excel += `
                       <tr>
                           <td style="font-size: 14px;">${i+1}</td>
                           <td style="font-size: 14px;">${item.Product_Name}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
-                          <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
                           
@@ -1608,7 +1722,7 @@ function View_DaySalesRecord() {
     context: document.body,
     success: function(response) {
       try {
-          console.log("Successas Response: ", response.data);
+          // console.log("Successas Response: ", response.data);
 
           if (response.data && response.data.length > 0) {
               let html = ""; // Initialize an empty string to store the HTML
@@ -1624,17 +1738,6 @@ function View_DaySalesRecord() {
               var usertype = localStorage.getItem("UserType");
                          
 
-              // Display sumtotal and sumbenefit as needed
-              //console.log("Sum Total Amount: ", sumtotal);
-             
-              // Display sumtotalPaid and sumbenefitPaid
-              //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-             
-              
-              // Display sumtotalNotPaid and sumbenefitNotPaid
-              //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-            
-              //console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
       
               
@@ -1834,6 +1937,109 @@ function View_DaySalesRecord() {
   });
   // Ajax End!
 }
+
+
+function View_DayTransferRecords() {
+  const currentDate = new Date();
+  const month = currentDate.getMonth();
+  const date = currentDate.getDate();
+  const year = currentDate.getFullYear();
+  const formattedDate = 
+      year + 
+      "-" + 
+      (month + 1).toString().padStart(2, "0") + 
+      "-" + 
+      date.toString().padStart(2, "0");
+
+  const formatDate = (myDate) => {
+      const dateParts = myDate.split("-");
+      const year = dateParts[0];
+      const month = dateParts[1];
+      const day = dateParts[2];
+
+      return new Date(year, month - 1, day).toLocaleDateString(
+          "en-US",
+          { year: "numeric", month: "long", day: "numeric" }
+      );
+  };
+
+  // Retrieve values from localStorage
+  const company_ID = localStorage.getItem("CoID");
+  const sales_point_id = localStorage.getItem("SptID");
+
+  // AJAX Start
+  $.ajax({
+      url: `functions/salesresto/getalldaytransfer.php?date=${formattedDate}&company=${company_ID}&spt=${sales_point_id}`,
+      method: "POST",
+      success: function(response) {
+          try {
+              // console.log("Success Response: ", response.data);
+
+              if (response.data && response.data.length > 0) {
+                  let html = "";
+                  let excel = "";
+                  const totalRequested = response.total_requested;
+                  const totalReceived = response.total_received;
+
+                  // Display totals in appropriate sections
+                  $("#totalRequested").html(new Intl.NumberFormat("en-US", {
+                      style: "decimal"
+                  }).format(totalRequested));
+
+                  $("#totalReceived").html(new Intl.NumberFormat("en-US", {
+                      style: "decimal"
+                  }).format(totalReceived));
+
+                  $("#time_period").html('On ' + formatDate(formattedDate));
+
+                  // Loop through response data and build table rows
+                  for (let i = 0; i < response.data.length; i++) {
+                      const item = response.data[i];
+
+                      html += `
+                          <tr>
+                              <td style="font-size: 12px;">${i + 1}. ${item.product_name}</td>
+                              <td style="font-size: 12px;">${item.quantity}</td>
+                              <td style="font-size: 12px;">${item.received_qty}</td>
+                              <td style="font-size: 12px;">${item.request_by_name}</td>
+                              <td style="font-size: 12px;">${item.request_to}</td>
+                              <td style="font-size: 12px; color: ${item.request_status == 2 ? 'green' : item.request_status == 1 ? 'orange' : 'red'};">
+                                  ${item.request_status == 2 ? 'Approved' : item.request_status == 1 ? 'Pending' : 'Rejected'}
+                              </td>
+                              <td style="font-size: 12px;">${new Intl.DateTimeFormat("en-GB", {day: "numeric", month: "long", year: "numeric"}).format(new Date(item.created_time))}</td>
+                          </tr>
+                      `;
+
+                      excel += `
+                          <tr>
+                              <td style="font-size: 14px;">${i + 1}</td>
+                              <td style="font-size: 14px;">${item.product_name}</td>
+                              <td style="font-size: 14px;">${item.quantity}</td>
+                              <td style="font-size: 14px;">${item.received_qty}</td>
+                              <td style="font-size: 14px;">${item.request_by_name}</td>
+                              <td style="font-size: 14px;">${item.request_status}</td>
+                              <td style="font-size: 14px;">${item.created_time}</td>
+                          </tr>
+                      `;
+                  }
+
+                  $("#transfer_table").html(html); // Update the HTML table
+                  $("#excel_table").html(excel); // Update the Excel table
+              } else {
+                  $("#transfer_table").html("No results found");
+                  $("#excel_table").html("No results found");
+              }
+          } catch (e) {
+              console.error("Error handling response: ", e);
+          }
+      },
+      error: function(xhr, status, error) {
+          console.error("ERROR Response: ", error);
+      }
+  });
+  // AJAX End
+}
+
 
 function viewusersalesreport(id) {
  //console.log(id);

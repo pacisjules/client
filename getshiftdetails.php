@@ -61,7 +61,8 @@
 </head>
 <body>
     <div>
-        <label for="jobTitleFilter">Filter by Product:</label> <span style="font-size: 20px;margin-left:12rem;"> Total Sales Closing:</span><span class="badge text-bg-primary" style="margin-left:1rem;font-size:20px;"  id="sum_total"></span>
+        <label for="jobTitleFilter">Filter by Product:</label> <span style="font-size: 20px;margin-left:12rem;"> Total Sales Closing:</span><span class="badge text-bg-primary" style="margin-left:1rem;font-size:20px;"  id="sum_total"></span> 
+        <span style="font-size: 20px;margin-left:12rem;"> Total benefit Closing:</span><span class="badge text-bg-success" style="margin-left:1rem;font-size:20px;"  id="sum_benefit"></span>
         <select id="jobTitleFilter" class="form-select" aria-label="Default select example" style="width:220px;">
             <option selected value="">All</option>
         </select>
@@ -154,6 +155,7 @@ $(document).ready(function() {
             $('#jobTitleFilter').append('<option value="' + title + '">' + title + '</option>');
         });
         $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.total)} Rwf`);
+        $('#sum_benefit').html(`${Intl.NumberFormat('en-US').format(json.benefit)} Rwf`);
     },
 });
 

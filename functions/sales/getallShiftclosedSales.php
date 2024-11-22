@@ -25,11 +25,7 @@ SELECT DISTINCT
     SL.total_benefit,
     SL.paid_status,
     SL.created_time,
-    SL.sales_type,
-    SL.storekeeperaproval,
-    SL.manageraproval,
-    INV.alert_quantity,
-    INV.quantity AS remain_stock,
+
     (SELECT CONCAT(first_name, ' ', last_name) FROM employee WHERE user_id = SL.user_id) AS fullname
 FROM
     sales SL
@@ -37,15 +33,12 @@ JOIN products PD ON
     SL.product_id = PD.id
 JOIN salespoint SP ON
     SL.sales_point_id = SP.sales_point_id
-JOIN inventory INV ON
-    SL.product_id = INV.product_id
+
 WHERE
     SL.created_time >= ?
     AND SL.created_time <= ?
     AND SP.company_ID = ?
     AND SL.sales_point_id = ?
-GROUP BY
-    SL.sales_id
 ";
 
 $stmt = $conn->prepare($sql);

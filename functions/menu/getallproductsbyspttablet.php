@@ -21,7 +21,7 @@ SELECT
     PD.description
 
 FROM 
-    menu_items PD
+    products PD
 
 WHERE 
     PD.company_ID = $comID

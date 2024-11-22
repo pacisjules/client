@@ -17,9 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "INSERT INTO shift_records(user_id,start,shift_status,spt) VALUES ( '$user_id','$start',1,'$spt')";
         if ($conn->query($sql) === TRUE) {
             
-
             // SQL query
-            $sql = "SELECT record_id
+            $sql = "SELECT *
             FROM shift_records
             WHERE user_id = $user_id
             AND `end` = '0000-00-00 00:00:00'
@@ -37,9 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Echo the record_id
             $_SESSION['shift_record_id'] = $row['record_id'];
-            echo 1;
+            $_SESSION['user_shift_is_open']=1;
+            header("Location:/client/shiftactivated.php");
+            $_SESSION['shift_record_started_time'] = $row['start'];
+            // echo "1";
             } else {
-            echo 1;
+            header("Location:/client/shiftactivated.php");
+            // echo "0";
+
             }
 
             

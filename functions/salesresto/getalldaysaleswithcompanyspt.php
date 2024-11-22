@@ -37,7 +37,7 @@ $sql = "
         SL.sales_type
     FROM
         sales SL
-    JOIN menu_items PD ON
+    JOIN products PD ON
         SL.product_id = PD.id
     JOIN salespoint SP ON
         SL.sales_point_id = SP.sales_point_id
@@ -45,8 +45,6 @@ $sql = "
         SL.created_time LIKE '$righttime%'
         AND SP.company_ID = $comID
         AND SL.sales_point_id = $spt
-    GROUP BY
-        SL.sales_id
    ";
 
 $result = $conn->query($sql);

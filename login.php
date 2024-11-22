@@ -3,6 +3,7 @@ error_reporting(0);
 session_start();
 $user_id = $_SESSION['user_id'];
 $countlogins = $_SESSION['countlogins'];
+
 // Update the last activity time stamp
 $_SESSION['last_activity'] = time();
 

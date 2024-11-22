@@ -50,14 +50,14 @@ $(document).ready(function () {
                 data: { UName: username, UPass: password },
 
                 success: function (response) {
-                localStorage.setItem("CoID", response.company_ID);
-                localStorage.setItem("SptID", response.salepoint_id);
-                localStorage.setItem("UserID", response.id);
-                localStorage.setItem("UserType", response.userType);
-                localStorage.setItem("companyName", response.company_name);
-                localStorage.setItem("Email", response.email);
-                localStorage.setItem("Username", response.username);  
-                localStorage.setItem("phone", response.phone); 
+                 localStorage.setItem("CoID", response.company_ID);
+                 localStorage.setItem("SptID", response.salepoint_id);
+                 localStorage.setItem("UserID", response.id);
+                 localStorage.setItem("UserType", response.userType);
+                 localStorage.setItem("companyName", response.company_name);
+                 localStorage.setItem("Email", response.email);
+                 localStorage.setItem("Username", response.username);  
+                 localStorage.setItem("phone", response.phone); 
                  localStorage.setItem("Names", response.names);
                  localStorage.setItem("Logged_on", response.Logged_on);
                  localStorage.setItem("company_logo", response.company_logo);
@@ -73,94 +73,94 @@ $(document).ready(function () {
                  localStorage.setItem("shiftend", response.shiftend);
                  localStorage.setItem("shift_name", response.shift_name);
                  localStorage.setItem("shift_type", response.shift_type);
-
+                 window.location.href = "/client";
                  //console.log(response.countlogins);
                  
-                if (response.usershift == 0) {
-                  window.location.href = "/client";
-                } 
-                else if (
-                  response.opensptshift >= 1 &&
-                  response.shift_status == 1 &&
-                  response.usershift !== 0
-                ) 
-                {
-                  window.location.href = "/client";
-                }
+                // if (response.usershift == 0) {
+                //   window.location.href = "/client";
+                // } 
+                // else if (
+                //   response.opensptshift >= 1 &&
+                //   response.shift_status == 1 &&
+                //   response.usershift !== 0
+                // ) 
+                // {
+                //   window.location.href = "/client";
+                // }
 
-                else if (
-                  response.opensptshift >= 1 &&
-                  response.usershift !== 0
-                ) 
-                {
-                  window.location.href = "/client/shiftstillopen";
-                }
-                else if (
-                  response.count_shifts == 1 &&
-                  response.shift_status == 2 &&
-                  response.usershift !== 0
-                ) 
-                {
-                  window.location.href = "/client/shiftending";
-                }
+                // else if (
+                //   response.opensptshift >= 1 &&
+                //   response.usershift !== 0
+                // ) 
+                // {
+                //   window.location.href = "/client/shiftstillopen";
+                // }
+                // else if (
+                //   response.count_shifts == 1 &&
+                //   response.shift_status == 2 &&
+                //   response.usershift !== 0
+                // ) 
+                // {
+                //   window.location.href = "/client/shiftending";
+                // }
 
-                else if(response.sptshift==0 && response.shift_status == 2){
-                  // window.location.href = "/client/shiftending";
-                  function getCurrentTime() {
-                    const now = new Date();
-                    let hours = now.getHours();
-                    let minutes = now.getMinutes();
-                    let seconds = now.getSeconds();
+                // else if(response.sptshift==0 && response.shift_status == 2){
+                //   // window.location.href = "/client/shiftending";
+                //   function getCurrentTime() {
+                //     const now = new Date();
+                //     let hours = now.getHours();
+                //     let minutes = now.getMinutes();
+                //     let seconds = now.getSeconds();
                 
-                    // Add leading zeros if necessary
-                    hours = hours < 10 ? '0' + hours : hours;
-                    minutes = minutes < 10 ? '0' + minutes : minutes;
-                    seconds = seconds < 10 ? '0' + seconds : seconds;
+                //     // Add leading zeros if necessary
+                //     hours = hours < 10 ? '0' + hours : hours;
+                //     minutes = minutes < 10 ? '0' + minutes : minutes;
+                //     seconds = seconds < 10 ? '0' + seconds : seconds;
                 
-                    return `${hours}:${minutes}:${seconds}`;
-                }
-                var time = getCurrentTime();
-                var start = response.shiftstart;
-                var end = response.shiftend;
-                console.log(time);
+                //     return `${hours}:${minutes}:${seconds}`;
+                // }
+                // var time = getCurrentTime();
+                // var start = response.shiftstart;
+                // var end = response.shiftend;
+                // console.log(time);
 
-                  console.log(start);
-                  console.log(end);
+                //   console.log(start);
+                //   console.log(end);
 
-                  if(start<end){
-                    console.log("day");
-                    if(time >= start && time <= end){
-                      window.location.href = "/client/activateshift";
-                    }else{
-                      window.location.href = "/client/shiftending";
-                    }
-
-
-                  }else{
-                    console.log("evening");
-
-                    if(time >= start || time <= end){
-                      window.location.href = "/client/activateshift";
-                    }else{
-                      window.location.href = "/client/shiftending";
-                    }
-                  }
+                //   if(start<end){
+                //     console.log("day");
+                //     if(time >= start && time <= end){
+                //       window.location.href = "/client/activateshift";
+                //     }else{
+                //       window.location.href = "/client/shiftending";
+                //     }
 
 
+                //   }else{
+                //     console.log("evening");
 
-                }
+                //     if(time >= start || time <= end){
+                //       window.location.href = "/client/activateshift";
+                //     }else{
+                //       window.location.href = "/client/shiftending";
+                //     }
+                //   }
 
-                else if (
-                  response.countlogins == 0 ||
-                  response.shiftcounts == 0 
-                ) 
-                {
-                  window.location.href = "/client/activateshift";
-                } 
+
+
+                // }
+
+                // else if (
+                //   response.countlogins == 0 ||
+                //   response.shiftcounts == 0 
+                // ) 
+                // {
+                //   window.location.href = "/client/activateshift";
+                // } 
                 
-                else {
-                  window.location.href = "/client";
-                }
+                // else {
+                //   window.location.href = "/client";
+                // }
 
                 $("#lgnbtn").html("Login");
 
