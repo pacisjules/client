@@ -17,11 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $amount_paid = $_POST['amount_paid'];
     $sales_point_id = $_POST['sales_point_id'];
     
-    $sql_query = "SELECT DT.id, DT.amount, DT.amount_paid, DT.customer_id,CT.customer_id,CT.names, CT.phone, CT.address, SPT.report_to_phone, SPT.report_to_email, SPT.senderid FROM debts DT, customer CT, salespoint SPT WHERE CT.customer_id=DT.customer_id AND SPT.sales_point_id=DT.sales_point_id AND DT.id =?";
-    $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $sql_result = $stmt->get_result();
+    $newpaid = $amount - $amount_paid;
     
     
     
@@ -29,14 +25,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE debts SET 
 
     amount='$amount', 
-    amount_paid='$amount', 
-    status=2,
+    amount_paid='$amount_paid', 
     sales_point_id='$sales_point_id'
 
     WHERE id='$id'";
 
     if ($conn->query($sql) === TRUE) {
         // Return a success message
+        $sql_query = "SELECT DT.id, DT.amount, DT.amount_paid, DT.customer_id, CT.customer_id, CT.names, CT.phone, CT.address, SPT.report_to_phone, SPT.report_to_email, SPT.senderid FROM debts DT, customer CT, salespoint SPT WHERE CT.customer_id=DT.customer_id AND SPT.sales_point_id=DT.sales_point_id AND DT.id =?";
+        $stmt = $conn->prepare($sql_query);
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $sql_result = $stmt->get_result();
+
+        if ($sql_result->num_rows > 0) {
+            $row = $sql_result->fetch_assoc();
+            if ($row['amount'] == $row['amount_paid']) {
+                $update_status_sql = "UPDATE debts SET status=2 WHERE id=?";
+                $update_status_stmt = $conn->prepare($update_status_sql);
+                $update_status_stmt->bind_param("s", $id);
+                $update_status_stmt->execute();
+            }
+        }
+
+    
+
         header('HTTP/1.1 201 Created');
         echo "Debt payed successfully.";
     }

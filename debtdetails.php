@@ -47,8 +47,8 @@ include('getuser.php');
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Customer Information</p>
                             <div>
-                             <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button>
-                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Loans Report</button>   
+                             <button class="btn btn-success" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Paid Report</button>
+                            <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">UNPAID Report</button>   
                             </div>
                             
                             <div>
@@ -123,7 +123,11 @@ include('getuser.php');
                     <h4 class="modal-title" style="font-size:15px;text-transform:uppercase;font-weight:bold;">Pay This Item of <span id="product_nam" style="color:green;"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; you can pay This Item.</p>
+                    <p>Here&nbsp; THE REMAIN BALANCE IS <span style="color:red; font-weight:bold;" id="balance"></span></p>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Enter Amount</label>
+                        <input class="form-control" type="number" id="debt_amount_paid">
+                    </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="PayDebts">Pay</button></div>
             </div>

@@ -160,6 +160,7 @@ include('getuser.php');
             var sptFrom = localStorage.getItem("SptID");
             var sptTransfer = localStorage.getItem("sptTransfer");
             var requestID= localStorage.getItem("idrequi");
+            
 
             // console.log(id, qty, qty_trans, spt);
             $.ajax({
@@ -172,10 +173,11 @@ include('getuser.php');
                     qty_trans: qty_trans,
                     sptFrom: sptFrom,
                     sptTransfer: sptTransfer,
-                    requestID: requestID
+                    requestID: requestID,
+                    
                 },
                 success: function (response) {
-                    console.log("response:", response);
+                    // console.log("response:", response);
                     location.reload();
                 },
                 error: function (xhr, status, error) {

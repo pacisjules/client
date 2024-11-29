@@ -335,12 +335,62 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
       
       var Quantity = localStorage.getItem("debt_qty");
       var amountDue = localStorage.getItem("debt_amount");
-  var amountPaid = localStorage.getItem("debt_amount_paid");
+      var amountDuepaid = localStorage.getItem("debt_amount_paid");
+       var amountPaid =  $("#debt_amount_paid").val();
       var sales_point_id = localStorage.getItem("SptID"); 
        var debt_id = localStorage.getItem("debt_id"); 
        var use_type = localStorage.getItem("UserType");
 
+       var balance = amountDue - amountDuepaid;
+       var newpaid = parseFloat(amountPaid) + parseFloat(amountDuepaid);
+       
+
        if(use_type === "BOSS"){
+
+
+        if(balance < amountPaid){
+          $("#errormodal").modal("show");
+          $("#payoneitem_modal").modal("hide");
+          setTimeout(function() {
+            location.reload();
+        }, 2500);
+        }else {
+ 
+ 
+ $.ajax({
+          type: "POST",
+          url: "functions/debts/payOneItemdbts.php", // Replace with the actual URL of your PHP script
+          data: {
+              id: debt_id,
+              qty: Quantity,
+              amount: amountDue,
+              amount_paid:newpaid,
+    
+              sales_point_id:sales_point_id,
+              
+          },
+          success: function (response) {
+              // Handle success here, e.g., show a success message
+              console.log(response);
+              $("#payoneitem_modal").modal("hide");
+              $("#successmodal").modal("show");
+             
+                setTimeout(function() {
+                      location.reload();
+                  }, 1000);
+          },
+          error: function (xhr, status, error) {
+              // Handle errors here, e.g., show an error message
+              console.log(error);
+              $("#payoneitem_modal").modal("hide");
+              $("#errormodal").modal("show");
+                // setTimeout(function() {
+                //       location.reload();
+                //   }, 1000);
+          },
+      });
+         
+        
       
 
       $.ajax({
@@ -375,7 +425,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
           },
       });
       
-
+    }
       
     }else{
       $("#payoneitem_modal").modal("hide");
@@ -3046,6 +3096,11 @@ function getPaidDbts(id,qty,amount,amount_paid,name){
   localStorage.setItem("debt_amount_paid", amount_paid);
   localStorage.setItem("name", name);
   $("#product_nam").html(name);
+
+  var balance = parseFloat(amount) - parseFloat(amount_paid);
+
+  $("#balance").html(balance.toLocaleString('en-US', {style: 'currency', currency: 'RWF'}));
+ 
 }
 
 
