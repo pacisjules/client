@@ -32,7 +32,9 @@ SELECT
     PD.price, 
     PD.image, 
     PD.benefit, 
-    PD.status, 
+    PD.status,
+    PD.eid, 
+    PD.eimage, 
     PD.description, 
     PD.created_at,
     IFNULL(INV.quantity, 0) AS invquantity,
@@ -97,7 +99,11 @@ while ($row = $result->fetch_assoc()) {
 
     if(!empty($row['image'])){
         $pro_image = "../uploads/".$row['image'];
-    }else{
+    }else if(!empty($row['eid'])){
+        
+        $pro_image = "../uploads/".$row['eimage'];
+     } else{
+  
         $pro_image = "../uploads/noimage.jpg";
     }
     
