@@ -101,7 +101,7 @@ while ($row = $result->fetch_assoc()) {
         $pro_image = "../uploads/".$row['image'];
     }else if(!empty($row['eid'])){
         
-        $pro_image = "../uploads/".$row['eimage'];
+        $pro_image = $row['eimage'];
      } else{
   
         $pro_image = "../uploads/noimage.jpg";
