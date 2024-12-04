@@ -1056,6 +1056,30 @@ function updateCartDisplay(cart) {
 
 
 
+function addothercost() {
+  var otherCost= $("#otherCost").val();
+  const cart = JSON.parse(localStorage.getItem("cart")); // Retrieve cart from localStorage
+  const totalItems = cart.items.reduce((sum, item) => sum + item.qty, 0);
+  const costPerItem = otherCost / totalItems;
+  console.log(otherCost);
+  console.log(costPerItem);
+  // Update selling price for each item
+  cart.items.forEach(item => {
+      item.price += costPerItem;
+  });
+
+  // Update total
+  cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+  // Save updated cart to localStorage
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  // Render updated cart
+  updateCartDisplay(cart);
+}
+
+
+
 // function updateCartDisplaytablet(cart) {
 //   // Clear the existing cart table
 //   $('#cartItemTableTablet').empty();
