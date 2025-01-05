@@ -29,6 +29,7 @@ $(document).ready(function () {
   //holded_carts();
   setOldCart();
   
+
   
   
   
@@ -105,6 +106,7 @@ $(document).ready(function () {
 $("#addCart").click(function() {
     var qty = $("#Sales_qty").val();
     var negoPrice = $("#NegoPrice").val();
+    var paidamount = $("#paidamount").val();
 
     // Parse values to floats
     qty = parseFloat(qty);
@@ -118,6 +120,8 @@ $("#addCart").click(function() {
     c_qty = parseFloat(c_qty);
     price = parseFloat(price);
     negoPrice = parseFloat(negoPrice);
+    paidamount = parseFloat(paidamount);
+    var totals= negoPrice * qty;
 
     // Check if qty is a valid number and greater than 0
     if (isNaN(qty) || qty <= 0) {
@@ -126,6 +130,11 @@ $("#addCart").click(function() {
     } else if (c_qty < qty) {
         $("#calc_result").html("You entered more quantity than stock!");
         $("#calc_result").css("color","red");
+
+    } else if (totals < paidamount) {
+        $("#calc_result").html("paid amount is higher than total price correct it please !!");
+        $("#calc_result").css("color","red");
+        
     } else {
         // Define variables to hold the calculated values
       
@@ -135,11 +144,12 @@ $("#addCart").click(function() {
         
 
         // If all checks pass, proceed with adding to cart
-        AddToCart(realprice, benefits, qty);
+        AddToCart(realprice,paidamount, benefits, qty);
 
         // Clear input values and other elements
         $("#Sales_qty").val("");
         $("#NegoPrice").val("");
+        $("#paidamount").val("");
         $("#searcProductNow").val("");
         $("#gettedProduct").html("");
         $("#gettedPrice").html("");
@@ -317,7 +327,20 @@ $("#NegoPrice").on("input", function () {
 
 
 $("#savep_sell").click(function () {
-  $("#savep_sell").html("Please wait...");
+  var client = $("#getnames").html();
+  console.log(" clientname", client);
+  var payment = $("#PaymentMethod").val();
+  if (!payment) {
+    // Show message if payment is empty
+    alert("Please select a payment method.");
+  }else if(!client){
+    alert("Please select a client.");
+  }
+    else {
+
+    
+$("#savep_sell").html("Please wait...");
+  
 
   var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
 
@@ -333,6 +356,9 @@ $("#savep_sell").click(function () {
   var prices = cart.items.map(function(item) {
       return parseFloat(item.price);
   });
+  var paids = cart.items.map(function(item) {
+    return parseFloat(item.paid);
+});
 
   var benes = cart.items.map(function(item) {
       return parseFloat(item.benefit);
@@ -347,6 +373,7 @@ $("#savep_sell").click(function () {
   var phone = localStorage.getItem("customer_phone");
   var usershift = localStorage.getItem("usershift");
 
+
   // Start AJAX request
   $.ajax({
       url: "functions/sales/bulksales.php",
@@ -360,12 +387,15 @@ $("#savep_sell").click(function () {
           phone: phone,
           quantity: quantities,
           price: prices,
+          paid: paids,
           benefit: benes,
           sales_type: 1,
           paid_status: paid_jk,
           service_amount: 0,
           user_id: use_id,
           usershift: usershift,
+ 
+          payment:payment,
       },
       success: function (response) {
           console.log("response:", response);
@@ -396,7 +426,7 @@ $("#savep_sell").click(function () {
           localStorage.setItem('sessionid', response);
 
           // Call the print invoice function
-          // printInvoiceFunc(response);
+          printInvoiceFunc(response);
       },
       error: function (xhr, status, error) {
           console.log("Error:", xhr.responseText, status);
@@ -404,6 +434,7 @@ $("#savep_sell").click(function () {
           $("#savep_sell").css("backgroundColor", "red");
       },
   });
+} 
 });
 
 
@@ -799,6 +830,7 @@ function updateCalcResult() {
     //     return;
      if (c_qty < qty) {
         $("#calc_result").html("You entered more quantity than stock!");
+        $("#calc_result").css("color","red");
         return;
     }else{
    
@@ -826,9 +858,12 @@ function updateCalcResult() {
     if (TypeUser === "BOSS") {
         $("#calc_result").html(
             "Total Amount: " + total + " and Benefit: " + total_benefit
+
         );
+        $("#calc_result").css("color","green");
     } else {
         $("#calc_result").html("Total Amount: " + total);
+        $("#calc_result").css("color","green");
     }
     
     
@@ -842,7 +877,7 @@ function updateCalcResult() {
 
 
 
-function AddToCart(realprice, benefit, qty) {
+function AddToCart(realprice,paidamount, benefit, qty) {
     
    var id = localStorage.getItem("product_id");
     var name = localStorage.getItem("product_name");
@@ -859,6 +894,7 @@ function AddToCart(realprice, benefit, qty) {
     var product = {
       id: id,
       price: realprice,
+      paid:paidamount,
       benefit: benefit,
       name: name,
       qty: qty
@@ -874,6 +910,10 @@ function AddToCart(realprice, benefit, qty) {
     style: "currency",
     currency: "RWF",
   }).format(product.price) + '</td>');
+  newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "RWF",
+  }).format(product.paid) + '</td>');
   newRow.append('<td>' + qty + '</td>');
   newRow.append('<td>' + new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -1001,6 +1041,10 @@ function updateCartDisplay(cart) {
       style: "currency",
       currency: "RWF",
     }).format(item.price) + '</td>');
+    newRow.append('<td>' + new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "RWF",
+    }).format(item.paid) + '</td>');
     newRow.append('<td>' + item.qty + '</td>');
     newRow.append('<td>' + new Intl.NumberFormat("en-US", {
       style: "currency",

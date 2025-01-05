@@ -30,8 +30,8 @@ $(function () {
           $('#daterange').on('apply.daterangepicker', function (ev, picker) {
               const startDate = picker.startDate.format('YYYY-MM-DD');
               const endDate = picker.endDate.format('YYYY-MM-DD');
-              console.log("from "+startDate);
-               console.log("to "+endDate);
+              //console.log("from "+startDate);
+               //console.log("to "+endDate);
 
            var company_ID = localStorage.getItem("CoID");
            var sales_point_id = localStorage.getItem("SptID");
@@ -44,7 +44,7 @@ $(function () {
       context: document.body,
       success: function(response) {
           try {
-              console.log("Success Response: ", response);
+              //console.log("Success Response: ", response);
 
               if (response.data && response.data.length > 0) {
                   let html = ""; // Initialize an empty string to store the HTML
@@ -62,16 +62,16 @@ $(function () {
                   var usertype = localStorage.getItem("UserType");
 
                   // Display sumtotal and sumbenefit as needed
-                  console.log("Sum Total Amount: ", sumtotal);
-                  console.log("Sum Total Benefit: ", sumbenefit);
+                  //console.log("Sum Total Amount: ", sumtotal);
+                  //console.log("Sum Total Benefit: ", sumbenefit);
                   // Display sumtotalPaid and sumbenefitPaid
-                  console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-                  console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+                  //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+                  //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
                   
                   // Display sumtotalNotPaid and sumbenefitNotPaid
-                  console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-                  console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-                  console.log("Sum total expenses: ", sumtotalexpenses);
+                  //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+                  //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+                  //console.log("Sum total expenses: ", sumtotalexpenses);
                   
                   
 
@@ -192,7 +192,7 @@ $(function () {
                     let iconmanager = "";
                     let msgmanager = "";
 
-                    if (item.paid_status === "Paid") {
+                    if (item.total_amount == item.paid) {
                         sts = "Active";
                         endis = "btn btn-success";
                         icon = "fa fa-check-square text-white";
@@ -206,30 +206,6 @@ $(function () {
 
                     
 
-                    if (item.storekeeperaproval == 0) {
-                        stsstore = "Active";
-                        endistore = "btn btn-warning";
-                        iconstore = "bi bi-x-circle";
-                        msgstore = "Pending";
-                    } else {
-                        stsstore = "Not Active";
-                        endistore = "btn btn-primary";
-                        iconstore = "fa fa-check-square text-white";
-                        msgstore = "Approved";
-                    }
-                    
-                    if (item.manageraproval == 0) {
-                      stsmanager = "Active";
-                      endimanager = "btn btn-warning";
-                      iconmanager = "bi bi-x-circle";
-                      msgmanager = "Pending";
-                  } else {
-                      stsmanager = "Not Active";
-                      endimanager = "btn btn-primary";
-                      iconmanager = "fa fa-check-square text-white";
-                      msgmanager = "Approved";
-                  }
-                  
 
                   html += `
                   <tr>
@@ -243,9 +219,13 @@ $(function () {
                     style: "currency",
                     currency: "RWF",
                 }).format(parseFloat(item.total_amount))}</td>
+                <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "RWF",
+                }).format(parseFloat(item.paid))}</td>
+                <td style="font-size: 12px;">${item.payment}</td>
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                  
                   <td style="font-size: 12px;">${item.created_time}</td>
                   <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
               </tr>
@@ -259,6 +239,8 @@ $(function () {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
+                          <td style="font-size: 14px;"> ${parseFloat(item.paid)}</td>
+                          <td style="font-size: 14px;"> ${item.payment}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
@@ -340,7 +322,7 @@ $(function () {
     context: document.body,
     success: function(response) {
       try {
-          console.log("Success Response: ", response);
+          //console.log("Success Response: ", response);
 
           if (response.data && response.data.length > 0) {
               let html = ""; // Initialize an empty string to store the HTML
@@ -359,16 +341,16 @@ $(function () {
                          
 
               // Display sumtotal and sumbenefit as needed
-              console.log("Sum Total Amount: ", sumtotal);
-              console.log("Sum Total Benefit: ", sumbenefit);
+              //console.log("Sum Total Amount: ", sumtotal);
+              //console.log("Sum Total Benefit: ", sumbenefit);
               // Display sumtotalPaid and sumbenefitPaid
-              console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-              console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+              //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+              //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
               
               // Display sumtotalNotPaid and sumbenefitNotPaid
-              console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
+              //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
               
                
@@ -485,8 +467,8 @@ $(function () {
               for (let i = 0; i < response.data.length; i++) {
                   const item = response.data[i];
                   
-                    console.log("item.sales_id:", item.sale_id);
-                    console.log("item.product_id:", item.product_id);
+                    //console.log("item.sales_id:", item.sale_id);
+                    //console.log("item.product_id:", item.product_id);
 
                     let sts = "";
                     let endis = "";
@@ -501,7 +483,7 @@ $(function () {
                     let iconmanager = "";
                     let msgmanager = "";
 
-                    if (item.paid_status === "Paid") {
+                    if (item.total_amount == item.paid) {
                         sts = "Active";
                         endis = "btn btn-success";
                         icon = "fa fa-check-square text-white";
@@ -515,29 +497,6 @@ $(function () {
 
                     
 
-                    if (item.storekeeperaproval == 0) {
-                        stsstore = "Active";
-                        endistore = "btn btn-warning";
-                        iconstore = "bi bi-x-circle";
-                        msgstore = "Pending";
-                    } else {
-                        stsstore = "Not Active";
-                        endistore = "btn btn-primary";
-                        iconstore = "fa fa-check-square text-white";
-                        msgstore = "Approved";
-                    }
-                    
-                    if (item.manageraproval == 0) {
-                      stsmanager = "Active";
-                      endimanager = "btn btn-warning";
-                      iconmanager = "bi bi-x-circle";
-                      msgmanager = "Pending";
-                  } else {
-                      stsmanager = "Not Active";
-                      endimanager = "btn btn-primary";
-                      iconmanager = "fa fa-check-square text-white";
-                      msgmanager = "Approved";
-                  }
                   
 
                   html += `
@@ -552,9 +511,13 @@ $(function () {
                     style: "currency",
                     currency: "RWF",
                 }).format(parseFloat(item.total_amount))}</td>
+                 <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "RWF",
+                }).format(parseFloat(item.paid))}</td>
+                <td style="font-size: 12px;">${item.payment}</td>
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                 
                   <td style="font-size: 12px;">${item.created_time}</td>
                   <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
               </tr>
@@ -569,6 +532,8 @@ $(function () {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
+                          <td style="font-size: 14px;"> ${parseFloat(item.paid)}</td>
+                          <td style="font-size: 14px;"> ${item.payment}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
@@ -633,9 +598,9 @@ $(function () {
   const salesPointID = localStorage.getItem("SptID");
   localStorage.removeItem("monthSelect");
 
-  console.log("Selected Month: " + selectedMonth);
-  console.log("Company ID (from localStorage): " + company_ID);
-  console.log("Sales Point ID (from localStorage): " + salesPointID);
+  //console.log("Selected Month: " + selectedMonth);
+  //console.log("Company ID (from localStorage): " + company_ID);
+  //console.log("Sales Point ID (from localStorage): " + salesPointID);
 
   // Check if any of these values is undefined or empty
   if (!selectedMonth || !company_ID || !salesPointID) {
@@ -653,8 +618,8 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
   const formattedStartDate = startDate.toISOString().slice(0, 10);
   const formattedEndDate = endDate.toISOString().slice(0, 10);
   
-  console.log("Start Date: " + formattedStartDate);
-  console.log("End Date: " + formattedEndDate);
+  //console.log("Start Date: " + formattedStartDate);
+  //console.log("End Date: " + formattedEndDate);
   
   // Make the AJAX request
   $.ajax({
@@ -663,7 +628,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
       context: document.body,
       success: function(response) {
           try {
-              console.log("Success Response: ", response);
+              //console.log("Success Response: ", response);
 
               if (response.data && response.data.length > 0) {
                   let html = ""; // Initialize an empty string to store the HTML
@@ -681,16 +646,16 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                   var usertype = localStorage.getItem("UserType");
 
                   // Display sumtotal and sumbenefit as needed
-                  console.log("Sum Total Amount: ", sumtotal);
-                  console.log("Sum Total Benefit: ", sumbenefit);
+                  //console.log("Sum Total Amount: ", sumtotal);
+                  //console.log("Sum Total Benefit: ", sumbenefit);
                   // Display sumtotalPaid and sumbenefitPaid
-                  console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-                  console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+                  //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+                  //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
                   
                   // Display sumtotalNotPaid and sumbenefitNotPaid
-                  console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-                  console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-                  console.log("Sum total expenses: ", sumtotalexpenses);
+                  //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+                  //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+                  //console.log("Sum total expenses: ", sumtotalexpenses);
                   
                   
 
@@ -923,9 +888,9 @@ const company_ID = localStorage.getItem("CoID");
 const salesPointID = localStorage.getItem("SptID");
 localStorage.removeItem("yearSelect");
 
-console.log("Selected Year: " + selectedYear);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + salesPointID);
+//console.log("Selected Year: " + selectedYear);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + salesPointID);
 
 // Check if any of these values is undefined or empty
 if (!selectedYear || !company_ID || !salesPointID) {
@@ -937,8 +902,8 @@ if (!selectedYear || !company_ID || !salesPointID) {
 const startDate = selectedYear + "-01-01"; // Start of the year
 const endDate = selectedYear + "-12-31";   // End of the year
 
-console.log("Start Date: " + startDate);
-console.log("End Date: " + endDate);
+//console.log("Start Date: " + startDate);
+//console.log("End Date: " + endDate);
 
 // Make the AJAX request
 $.ajax({
@@ -947,7 +912,7 @@ $.ajax({
     context: document.body,
     success: function(response) {
         try {
-            console.log("Success Response: ", response);
+            //console.log("Success Response: ", response);
 
             if (response.data && response.data.length > 0) {
                 let html = ""; // Initialize an empty string to store the HTML
@@ -965,16 +930,16 @@ $.ajax({
                   var usertype = localStorage.getItem("UserType");
 
                   // Display sumtotal and sumbenefit as needed
-                  console.log("Sum Total Amount: ", sumtotal);
-                  console.log("Sum Total Benefit: ", sumbenefit);
+                  //console.log("Sum Total Amount: ", sumtotal);
+                  //console.log("Sum Total Benefit: ", sumbenefit);
                   // Display sumtotalPaid and sumbenefitPaid
-                  console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-                  console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+                  //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+                  //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
                   
                   // Display sumtotalNotPaid and sumbenefitNotPaid
-                  console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-                  console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-                  console.log("sum total expenses: ", sumtotalexpenses);
+                  //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+                  //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+                  //console.log("sum total expenses: ", sumtotalexpenses);
                   
                   
                   
@@ -1220,9 +1185,9 @@ $("#editBtnSales").on("click", function() {
           },
           success: function(response) {
               if (response.message) {
-              console.log(response.message);
+              //console.log(response.message);
              } else {
-              console.log("Sale product updated successfully.");
+              //console.log("Sale product updated successfully.");
               }
               $("#edit_sales_modal").modal("hide");
               localStorage.removeItem("productID");
@@ -1236,7 +1201,7 @@ $("#editBtnSales").on("click", function() {
               
           },
           error: function(xhr, status, error) {
-              console.log("Error: " + error);
+              //console.log("Error: " + error);
               $("#edit_sales_modal").modal("hide");
               localStorage.removeItem("productID");
               localStorage.removeItem("saleID");
@@ -1267,7 +1232,7 @@ $("#editBtnSales").on("click", function() {
         },
         success: function(response) {
             
-            console.log(response);
+            //console.log(response);
           
             $("#aprovalmodal").modal("hide");
             localStorage.removeItem("storeapproval");
@@ -1279,7 +1244,7 @@ $("#editBtnSales").on("click", function() {
             
         },
         error: function(xhr, status, error) {
-            console.log("Error: " + error);
+            //console.log("Error: " + error);
             
         }
     });
@@ -1299,7 +1264,7 @@ $("#approvebtnyest").on("click", function() {
       },
       success: function(response) {
           
-          console.log(response);
+          //console.log(response);
         
           $("#aprovalmodalyest").modal("hide");
           localStorage.removeItem("storeapproval");
@@ -1311,7 +1276,7 @@ $("#approvebtnyest").on("click", function() {
           
       },
       error: function(xhr, status, error) {
-          console.log("Error: " + error);
+          //console.log("Error: " + error);
           
       }
   });
@@ -1332,7 +1297,7 @@ $.ajax({
     },
     success: function(response) {
         
-        console.log(response);
+        //console.log(response);
       
         $("#aprovalmodalweek").modal("hide");
         localStorage.removeItem("storeapproval");
@@ -1344,7 +1309,7 @@ $.ajax({
         
     },
     error: function(xhr, status, error) {
-        console.log("Error: " + error);
+        //console.log("Error: " + error);
         
     }
 });
@@ -1365,7 +1330,7 @@ $("#managerapprovebtn").on("click", function() {
       },
       success: function(response) {
           
-          console.log(response);
+          //console.log(response);
         
           $("#aprovalmanagermodal").modal("hide");
           localStorage.removeItem("managerapproval");
@@ -1377,7 +1342,7 @@ $("#managerapprovebtn").on("click", function() {
           
       },
       error: function(xhr, status, error) {
-          console.log("Error: " + error);
+          //console.log("Error: " + error);
           
       }
   });
@@ -1398,7 +1363,7 @@ $.ajax({
     },
     success: function(response) {
         
-        console.log(response);
+        //console.log(response);
       
         $("#aprovalmanagermodalyest").modal("hide");
         localStorage.removeItem("managerapproval");
@@ -1408,7 +1373,7 @@ $.ajax({
          
     },
     error: function(xhr, status, error) {
-        console.log("Error: " + error);
+        //console.log("Error: " + error);
         
     }
 });
@@ -1417,7 +1382,7 @@ $.ajax({
 $("#managerapprovebtnweek").on("click", function() {
 var managerapproval = localStorage.getItem("managerapproval");
 var s_id = localStorage.getItem("sale_id");
-console.log("sales_id " ,s_id);
+//console.log("sales_id " ,s_id);
 
 
 $.ajax({
@@ -1429,7 +1394,7 @@ $.ajax({
     },
     success: function(response) {
         
-        console.log(response);
+        //console.log(response);
       
         $("#aprovalmanagermodalweek").modal("hide");
         localStorage.removeItem("managerapproval");
@@ -1439,7 +1404,7 @@ $.ajax({
          
     },
     error: function(xhr, status, error) {
-        console.log("Error: " + error);
+        //console.log("Error: " + error);
         
     }
 });
@@ -1464,9 +1429,9 @@ $("#deleteBtnSales").on("click", function() {
       },
       success: function(response) {
           if (response.message) {
-              console.log(response.message);
+              //console.log(response.message);
           } else {
-              console.log("Sale product deleted successfully.");
+              //console.log("Sale product deleted successfully.");
           }
           $("#delete_sales_modal").modal("hide");
           localStorage.removeItem("productID");
@@ -1480,7 +1445,7 @@ $("#deleteBtnSales").on("click", function() {
 
       },
       error: function(xhr, status, error) {
-          console.log("Error: " + error);
+          //console.log("Error: " + error);
           $("#delete_sales_modal").modal("hide");
           localStorage.removeItem("productID");
           localStorage.removeItem("saleID");
@@ -1548,14 +1513,14 @@ method: "POST",
 context: document.body,
 success: function (response) {
   if (response) {
-      console.log(response);
+      //console.log(response);
       $("#getYearly").html(response);
   } else {
       $("#getYearly").html("No results available");
   }
 },
 error: function (xhr, status, error) {
-  console.log("Error:", error);
+  //console.log("Error:", error);
 },
 });
 // Ajax End!
@@ -1575,7 +1540,7 @@ function View_DaySalesRecord() {
   "-" +
   date.toString().padStart(2, "0");
 
-  console.log('NEW TEST', formattedDate);
+  //console.log('NEW TEST', formattedDate);
 
 
   const formatDate = (myDate) => {
@@ -1608,7 +1573,7 @@ function View_DaySalesRecord() {
     context: document.body,
     success: function(response) {
       try {
-          console.log("Success Response: ", response);
+          //console.log("Success Response: ", response);
 
           if (response.data && response.data.length > 0) {
               let html = ""; // Initialize an empty string to store the HTML
@@ -1627,16 +1592,16 @@ function View_DaySalesRecord() {
                          
 
               // Display sumtotal and sumbenefit as needed
-              console.log("Sum Total Amount: ", sumtotal);
-              console.log("Sum Total Benefit: ", sumbenefit);
+              //console.log("Sum Total Amount: ", sumtotal);
+              //console.log("Sum Total Benefit: ", sumbenefit);
               // Display sumtotalPaid and sumbenefitPaid
-              console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-              console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+              //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+              //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
               
               // Display sumtotalNotPaid and sumbenefitNotPaid
-              console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
+              //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
       
               
@@ -1765,8 +1730,8 @@ function View_DaySalesRecord() {
               for (let i = 0; i < response.data.length; i++) {
                   const item = response.data[i];
                   
-                    console.log("item.sales_id:", item.sale_id);
-                    console.log("item.product_id:", item.product_id);
+                    //console.log("item.sales_id:", item.sale_id);
+                    //console.log("item.product_id:", item.product_id);
 
                   let sts = "";
                   let endis = "";
@@ -1781,7 +1746,7 @@ function View_DaySalesRecord() {
                   let iconmanager = "";
                   let msgmanager = "";
 
-                  if (item.paid_status === "Paid") {
+                  if (item.paid == item.total_amount) {
                       sts = "Active";
                       endis = "btn btn-success";
                       icon = "fa fa-check-square text-white";
@@ -1795,29 +1760,8 @@ function View_DaySalesRecord() {
 
                   
 
-                  if (item.storekeeperaproval == 0) {
-                      stsstore = "Active";
-                      endistore = "btn btn-warning";
-                      iconstore = "bi bi-x-circle";
-                      msgstore = "Pending";
-                  } else {
-                      stsstore = "Not Active";
-                      endistore = "btn btn-primary";
-                      iconstore = "fa fa-check-square text-white";
-                      msgstore = "Approved";
-                  }
                   
-                  if (item.manageraproval == 0) {
-                    stsmanager = "Active";
-                    endimanager = "btn btn-warning";
-                    iconmanager = "bi bi-x-circle";
-                    msgmanager = "Pending";
-                } else {
-                    stsmanager = "Not Active";
-                    endimanager = "btn btn-primary";
-                    iconmanager = "fa fa-check-square text-white";
-                    msgmanager = "Approved";
-                }
+                 
 
                   html += `
                       <tr>
@@ -1831,9 +1775,13 @@ function View_DaySalesRecord() {
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_amount))}</td>
+                        <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "RWF",
+                        }).format(parseFloat(item.paid))}</td>
+                         <td style="font-size: 12px;">${item.payment}</td>
                           <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                          <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                          <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+                
                           <td style="font-size: 12px;">${item.created_time}</td>
                           <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
                       </tr>
@@ -1847,6 +1795,8 @@ function View_DaySalesRecord() {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
+                          <td style="font-size: 14px;"> ${parseFloat(item.paid)}</td>
+                          <td style="font-size: 14px;"> ${item.payment}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
@@ -1875,7 +1825,7 @@ function View_DaySalesRecord() {
 }
 
 function viewusersalesreport(id) {
- console.log(id);
+ //console.log(id);
   const currentDate = new Date();
   const montly = currentDate.getMonth();
   const date = currentDate.getDate();
@@ -1887,7 +1837,7 @@ function viewusersalesreport(id) {
   "-" +
   date.toString().padStart(2, "0");
 
-  console.log('NEW TEST', formattedDate);
+  //console.log('NEW TEST', formattedDate);
 
 
   const formatDate = (myDate) => {
@@ -1920,7 +1870,7 @@ function viewusersalesreport(id) {
     context: document.body,
     success: function(response) {
       try {
-     //     console.log("Success Response: ", response);
+     //     //console.log("Success Response: ", response);
 
           if (response) {
               
@@ -2011,7 +1961,7 @@ function viewusersalesreport(id) {
 }
 
 function viewusersalesreportyest(id) {
-  console.log(id);
+  //console.log(id);
   const currentDate = new Date();
   const yesterday = new Date(currentDate);
   yesterday.setDate(currentDate.getDate() - 1);
@@ -2058,7 +2008,7 @@ function viewusersalesreportyest(id) {
      context: document.body,
      success: function(response) {
        try {
-      //     console.log("Success Response: ", response);
+      //     //console.log("Success Response: ", response);
  
            if (response) {
                
@@ -2197,7 +2147,7 @@ function View_YesterdaySalesRecord() {
     context: document.body,
     success: function(response) {
       try {
-          console.log("Success Response: ", response);
+          //console.log("Success Response: ", response);
 
           if (response.data && response.data.length > 0) {
               let html = ""; // Initialize an empty string to store the HTML
@@ -2216,16 +2166,16 @@ function View_YesterdaySalesRecord() {
                          
 
               // Display sumtotal and sumbenefit as needed
-              console.log("Sum Total Amount: ", sumtotal);
-              console.log("Sum Total Benefit: ", sumbenefit);
+              //console.log("Sum Total Amount: ", sumtotal);
+              //console.log("Sum Total Benefit: ", sumbenefit);
               // Display sumtotalPaid and sumbenefitPaid
-              console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-              console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+              //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+              //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
               
               // Display sumtotalNotPaid and sumbenefitNotPaid
-              console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
+              //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumtotalexpenses);
               
               
                
@@ -2356,8 +2306,8 @@ function View_YesterdaySalesRecord() {
               for (let i = 0; i < response.data.length; i++) {
                   const item = response.data[i];
                   
-                    console.log("item.sales_id:", item.sale_id);
-                    console.log("item.product_id:", item.product_id);
+                    //console.log("item.sales_id:", item.sale_id);
+                    //console.log("item.product_id:", item.product_id);
 
                     let sts = "";
                     let endis = "";
@@ -2496,7 +2446,7 @@ const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const week = getWeekNumber(year, month, day);
-console.log(week);
+//console.log(week);
 
   // Retrieve values from localStorage
   var company_ID = localStorage.getItem("CoID");
@@ -2509,7 +2459,7 @@ console.log(week);
       context: document.body,
       success: function(response) {
         try {
-            console.log("Success Response: ", response);
+            //console.log("Success Response: ", response);
 
             if (response.data && response.data.length > 0) {
                 let html = ""; // Initialize an empty string to store the HTML
@@ -2527,17 +2477,17 @@ console.log(week);
                 var usertype = localStorage.getItem("UserType");
 
                 // Display sumtotal and sumbenefit as needed
-                console.log("Sum Total Amount: ", sumtotal);
-                console.log("Sum Total Benefit: ", sumbenefit);
+                //console.log("Sum Total Amount: ", sumtotal);
+                //console.log("Sum Total Benefit: ", sumbenefit);
                 
                 // Display sumtotalPaid and sumbenefitPaid
-              console.log("Sum Total Amount (Paid): ", sumtotalPaid);
-              console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
+              //console.log("Sum Total Amount (Paid): ", sumtotalPaid);
+              //console.log("Sum Total Benefit (Paid): ", sumbenefitPaid);
               
               // Display sumtotalNotPaid and sumbenefitNotPaid
-              console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
-              console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
-              console.log("sum total expenses: ", sumtotalexpenses);
+              //console.log("Sum Total Amount (Not Paid): ", sumtotalNotPaid);
+              //console.log("Sum Total Benefit (Not Paid): ", sumbenefitNotPaid);
+              //console.log("sum total expenses: ", sumtotalexpenses);
               
               
               
@@ -3159,7 +3109,7 @@ const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const week = getWeekNumber(year, month, day);
-console.log(week);
+//console.log(week);
 
     // Retrieve values from localStorage
     var company_ID = localStorage.getItem("CoID");
@@ -3195,7 +3145,7 @@ const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const week = getWeekNumber(year, month, day);
-console.log(week);
+//console.log(week);
 
     // Retrieve values from localStorage
     var company_ID = localStorage.getItem("CoID");
@@ -3229,7 +3179,7 @@ const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const week = getWeekNumber(year, month, day);
-console.log(week);
+//console.log(week);
 
     // Retrieve values from localStorage
     var company_ID = localStorage.getItem("CoID");
@@ -3449,9 +3399,9 @@ var company_ID = localStorage.getItem("CoID");
 var sales_point_id = localStorage.getItem("SptID");
 
 
-console.log("Selected Month: " + selectedMonth);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + sales_point_id);
+//console.log("Selected Month: " + selectedMonth);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + sales_point_id);
 
 // Check if any of these values is undefined or empty
 if (!selectedMonth || !company_ID || !sales_point_id) {
@@ -3468,8 +3418,8 @@ const endDate = new Date(year, month, 0); // Setting day to 0 gets the last day 
 const formattedStartDate = startDate.toISOString().slice(0, 10);
 const formattedEndDate = endDate.toISOString().slice(0, 10);
 
-console.log("Start Date: " + formattedStartDate);
-console.log("End Date: " + formattedEndDate);
+//console.log("Start Date: " + formattedStartDate);
+//console.log("End Date: " + formattedEndDate);
 
 
 
@@ -3505,9 +3455,9 @@ var company_ID = localStorage.getItem("CoID");
 var sales_point_id = localStorage.getItem("SptID");
 
 
-console.log("Selected Month: " + selectedMonth);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + sales_point_id);
+//console.log("Selected Month: " + selectedMonth);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + sales_point_id);
 
 // Check if any of these values is undefined or empty
 if (!selectedMonth || !company_ID || !sales_point_id) {
@@ -3524,8 +3474,8 @@ const endDate = new Date(year, month, 0); // Setting day to 0 gets the last day 
 const formattedStartDate = startDate.toISOString().slice(0, 10);
 const formattedEndDate = endDate.toISOString().slice(0, 10);
 
-console.log("Start Date: " + formattedStartDate);
-console.log("End Date: " + formattedEndDate);
+//console.log("Start Date: " + formattedStartDate);
+//console.log("End Date: " + formattedEndDate);
 
 
 
@@ -3562,9 +3512,9 @@ var company_ID = localStorage.getItem("CoID");
 var sales_point_id = localStorage.getItem("SptID");
 
 
-console.log("Selected Month: " + selectedMonth);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + sales_point_id);
+//console.log("Selected Month: " + selectedMonth);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + sales_point_id);
 
 // Check if any of these values is undefined or empty
 if (!selectedMonth || !company_ID || !sales_point_id) {
@@ -3581,8 +3531,8 @@ const endDate = new Date(year, month, 0); // Setting day to 0 gets the last day 
 const formattedStartDate = startDate.toISOString().slice(0, 10);
 const formattedEndDate = endDate.toISOString().slice(0, 10);
 
-console.log("Start Date: " + formattedStartDate);
-console.log("End Date: " + formattedEndDate);
+//console.log("Start Date: " + formattedStartDate);
+//console.log("End Date: " + formattedEndDate);
 
 
 
@@ -3622,9 +3572,9 @@ var company_ID = localStorage.getItem("CoID");
 var sales_point_id = localStorage.getItem("SptID");
 
 
-console.log("Selected Month: " + selectedYear);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + sales_point_id);
+//console.log("Selected Month: " + selectedYear);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + sales_point_id);
 
 
 // Check if any of these values is undefined or empty
@@ -3635,8 +3585,8 @@ if (!selectedYear || !company_ID || !sales_point_id) {
 const startDate = selectedYear + "-01-01"; // Start of the year
 const endDate = selectedYear + "-12-31";   // End of the year
 
-console.log("Start Date: " + startDate);
-console.log("End Date: " + endDate);
+//console.log("Start Date: " + startDate);
+//console.log("End Date: " + endDate);
 
 
     // Ajax Start!
@@ -3671,9 +3621,9 @@ var company_ID = localStorage.getItem("CoID");
 var sales_point_id = localStorage.getItem("SptID");
 
 
-console.log("Selected Month: " + selectedYear);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + sales_point_id);
+//console.log("Selected Month: " + selectedYear);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + sales_point_id);
 
 
 // Check if any of these values is undefined or empty
@@ -3684,8 +3634,8 @@ if (!selectedYear || !company_ID || !sales_point_id) {
 const startDate = selectedYear + "-01-01"; // Start of the year
 const endDate = selectedYear + "-12-31";   // End of the year
 
-console.log("Start Date: " + startDate);
-console.log("End Date: " + endDate);
+//console.log("Start Date: " + startDate);
+//console.log("End Date: " + endDate);
 
 
     // Ajax Start!
@@ -3721,9 +3671,9 @@ var company_ID = localStorage.getItem("CoID");
 var sales_point_id = localStorage.getItem("SptID");
 
 
-console.log("Selected Month: " + selectedYear);
-console.log("Company ID (from localStorage): " + company_ID);
-console.log("Sales Point ID (from localStorage): " + sales_point_id);
+//console.log("Selected Month: " + selectedYear);
+//console.log("Company ID (from localStorage): " + company_ID);
+//console.log("Sales Point ID (from localStorage): " + sales_point_id);
 
 
 // Check if any of these values is undefined or empty
@@ -3734,8 +3684,8 @@ if (!selectedYear || !company_ID || !sales_point_id) {
 const startDate = selectedYear + "-01-01"; // Start of the year
 const endDate = selectedYear + "-12-31";   // End of the year
 
-console.log("Start Date: " + startDate);
-console.log("End Date: " + endDate);
+//console.log("Start Date: " + startDate);
+//console.log("End Date: " + endDate);
 
 
     // Ajax Start!
@@ -3798,11 +3748,16 @@ table += `<tr >
   style: "currency",
   currency: "RWF",
 }).format(parseFloat(item.sales_price))}</td>
-<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color:${ item.paid_status == "Paid" ? "green" : "red" }; font-weight: bold;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.paid_status}</td>
+
 <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "RWF",
 }).format(parseFloat(item.total_amount))}</td>
+<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "RWF",
+}).format(parseFloat(item.paid))}</td>
+<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.payment}</td>
 <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
 style: "currency",
 currency: "RWF",
@@ -3983,12 +3938,16 @@ table[class=col] td { text-align: left !important; }
           Price
           </th> 
           
-          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
-          Paid Status
-          </th>
+          
 
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
           Sales Amount
+          </th>
+          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
+          Paid Amount
+          </th>
+          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
+          Payment
           </th>
 
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
@@ -4645,9 +4604,9 @@ function getSalesID(sale_id, sess_id, product_id){
       localStorage.setItem("productID", product_id);
       localStorage.setItem("sessID", sess_id);
       
-      console.log("saleID ", sale_id);
-      console.log("productID ", product_id);
-      console.log("sessID ", sess_id);
+      //console.log("saleID ", sale_id);
+      //console.log("productID ", product_id);
+      //console.log("sessID ", sess_id);
   
 }
 
@@ -4661,7 +4620,7 @@ function redirectToMonthlySales() {
 
 
       function getrightstoremodal(storekeeper,sale_id){
-        console.log("Store keeper", storekeeper);
+        //console.log("Store keeper", storekeeper);
 
         var usertype = localStorage.getItem("UserType");
         if(usertype === "EndUser"){
@@ -4680,7 +4639,7 @@ function redirectToMonthlySales() {
       }
     
       function getrightmanagermodal(manager,sale_id){
-        console.log("manager appreoval", manager);
+        //console.log("manager appreoval", manager);
     
         var usertype = localStorage.getItem("UserType");
     
@@ -4701,7 +4660,7 @@ function redirectToMonthlySales() {
     
     
       function getrightstoremodalyest(storekeeper,sale_id){
-        console.log("Store keeper", storekeeper);
+        //console.log("Store keeper", storekeeper);
 
         var usertype = localStorage.getItem("UserType");
         if(usertype === "EndUser"){
@@ -4720,7 +4679,7 @@ function redirectToMonthlySales() {
       }
     
       function getrightmanagermodalyest(manager,sale_id){
-        console.log("manager appreoval", manager);
+        //console.log("manager appreoval", manager);
     
         var usertype = localStorage.getItem("UserType");
     
@@ -4754,16 +4713,16 @@ function redirectToMonthlySales() {
           context: document.body,
           success: function (response) {
             if (response) {
-              console.log(response);
+              //console.log(response);
               $("#user_info").html(response);
             } else {
-              console.log(response);
+              //console.log(response);
               $("#user_info").html("Not Any result");
             }
           },
           error: function (xhr, status, error) {
-            console.log("AJAX request failed!");
-            console.log("Error:", error);
+            //console.log("AJAX request failed!");
+            //console.log("Error:", error);
           },
         });
         // Ajax End!
@@ -4781,16 +4740,16 @@ function redirectToMonthlySales() {
           context: document.body,
           success: function (response) {
             if (response) {
-              console.log(response);
+              //console.log(response);
               $("#user_infoyest").html(response);
             } else {
-              console.log(response);
+              //console.log(response);
               $("#user_infoyest").html("Not Any result");
             }
           },
           error: function (xhr, status, error) {
-            console.log("AJAX request failed!");
-            console.log("Error:", error);
+            //console.log("AJAX request failed!");
+            //console.log("Error:", error);
           },
         });
         // Ajax End!
@@ -4805,7 +4764,7 @@ function redirectToMonthlySales() {
 
 
       function getrightstoremodalweek(storekeeper,sale_id){
-        console.log("Store keeper", storekeeper);
+        //console.log("Store keeper", storekeeper);
 
         var usertype = localStorage.getItem("UserType");
         if(usertype === "EndUser"){
@@ -4825,7 +4784,7 @@ function redirectToMonthlySales() {
       }
     
       function getrightmanagermodalweek(manager,sale_id){
-        console.log("manager appreoval", manager);
+        //console.log("manager appreoval", manager);
     
         var usertype = localStorage.getItem("UserType");
     

@@ -88,12 +88,12 @@ include('getuser.php');
         }
         
     </style>
-    <link rel="stylesheet" type="text/css" href="styles/mystyle.css">
+    <!-- <link rel="stylesheet" type="text/css" href="styles/mystyle.css"> -->
 
 </head>
 
 <body id="page-top">
-<div id="tablet">
+<div id="tablet" >
 <div class="top">
     <div>
         <h1 style="margin-top:8pt;">Selleasep POS</h1>
@@ -220,6 +220,7 @@ include('getuser.php');
                                             <tr>
                                                 <th>Product name</th>
                                                 <th>Price</th>
+                                                <th>Paid</th>
                                                 <th>Qty</th>
                                                 <th>Total</th>
                                                 <th>Actions</th>
@@ -255,14 +256,35 @@ include('getuser.php');
                                             <label>Customer Names : </label> <span id="getnames"></span> , Tel: <span id="getphone"></span>  , Address: <span id="getaddress"></span></div><br />
                                            <!--<div style="flex-direction:row;"> <label>Phone Number :</label> <span id="getphone"></span></div>-->
                                            <!--<div style="flex-direction:row;">  <label>Address : </label> <span id="getaddress"></span> </div> <br />  -->
-                                           <div style="flex-direction:row;">  <button class="btn btn-primary" type="button"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Customer</button> </div> 
+                                           <div style="display:flex;flex-direction:row; justify-content:space-between;"> 
+                                             <button class="btn btn-primary" type="button"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Customer</button> 
+                                             <div style=" ">
+    <label class="form-label" style="color:black;">Payment method: </label>
+    <select class="form-control" id="PaymentMethod" style="margin-top: -6px;">
+        <option value="" disabled selected>Select payment method</option>
+        <option value="cash">Cash</option>
+        <option value="momo">MOMO</option>
+        <option value="bank">BANK</option>
+        <option value="POS">POS</option>
+       
+    </select>
+</div>
+                                            
+                                            </div> 
                                             
                                         </div>
 
 
                                 <div class="form-check form-switch" id="chow ">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="showAmadenis()">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">Approve Debts</label>
+                                    <div style="display:flex;flex-direction:row; justify-content:space-between;">
+                                        <div>
+                                    <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="showAmadenis()">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Approve Debts</label> -->
+    </div>
+    
+
+    </div>
+
                                     <!--<br />-->
                                     <!--<form>-->
 
@@ -290,7 +312,7 @@ include('getuser.php');
                                 </div>
                                 
                                 
-                                <div class="d-flex justify-content-end" style="margin-top: -3rem;"><button class="btn btn-dark" type="button" id="savep_sell" style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 20px;margin-bottom: 15px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-plus-fill">
+                                <div class="d-flex justify-content-start" style="margin-top: 2rem;"><button class="btn btn-dark" type="button" id="savep_sell" style="font-weight: bold;font-family: Nunito, sans-serif;font-size: 20px;margin-bottom: 15px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart-plus-fill">
                                             <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path>
                                         </svg>&nbsp; &nbsp;SALE NOW</button>
                                 </div>
@@ -316,6 +338,8 @@ include('getuser.php');
                                 <br />
                                 <label class="form-label" style="margin-top: 28px; color:black;">PRICE: </label>
                                 <input class="form-control" type="number" id="NegoPrice" placeholder="Enter selling price ..." style="margin-top: -6px;">
+                                <label class="form-label" style="margin-top: 28px; color:black;">PAID AMOUNT: </label>
+                                <input class="form-control" type="number" id="paidamount" placeholder="Enter amount paid ..." style="margin-top: -6px;">
 
                                 <!-- <div class="form-check form-switch" id="chow ">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchPriceChecked" onchange="showNegotiablePrice()">

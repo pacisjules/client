@@ -1,7 +1,7 @@
 <?php
 
 //Server Connection
-//$servername = "86.38.202.52";
+// $servername = "86.38.202.52";
 
 
 $servername = "localhost";
@@ -14,7 +14,7 @@ $dbname = "u774778522_selleasep_dbs";
 // $servername = "localhost";
 // $username = "root";
 // $password = "";
-// $dbname = "u774778522_selleasep_dbs";
+// $dbname = "u774778522_selleasep_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
