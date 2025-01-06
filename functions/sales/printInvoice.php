@@ -27,6 +27,8 @@ $sql = "
         SL.quantity,
         SL.sales_price,
         SL.total_amount,
+        SL.paid,
+        SL.payment,
         SL.total_benefit,
         SL.paid_status,
         SL.created_time,
@@ -35,7 +37,6 @@ $sql = "
         INV.quantity AS remain_stock,
         SL.cust_name,
         SL.phone
-
     FROM
         sales SL
     JOIN products PD ON
@@ -44,8 +45,6 @@ $sql = "
         SL.sales_point_id = SP.sales_point_id
     JOIN inventory INV ON
         SL.product_id = INV.product_id
-    
-
     WHERE
         SL.sess_id = '$sess_id'
     GROUP BY
@@ -60,9 +59,10 @@ $data = array();
 
 // Fetch data from the result set
 while ($row = $result->fetch_assoc()) {
+    // Calculate price per item based on total amount and quantity
     $tprice = $row['total_amount'];
     $qty = $row['quantity'];
-    $pic = $tprice / $qty;
+    $pic = ($qty != 0) ? $tprice / $qty : 0; // Avoid division by zero
 
     $item = array(
         'sale_id' => $row['sales_id'],
@@ -72,6 +72,8 @@ while ($row = $result->fetch_assoc()) {
         'sales_price' => $pic,
         'quantity' => $row['quantity'],
         'total_amount' => $row['total_amount'],
+        'paid' => $row['paid'],
+        'payment' => $row['payment'],
         'total_benefit' => $row['total_benefit'],
         'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
@@ -83,15 +85,25 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Calculate sumtotal for 'Paid' and 'Not Paid' sales
-$sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal_paid FROM sales WHERE  sess_id = '$sess_id'";
+$sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal, SUM(paid) AS sumtotal_paid FROM sales WHERE sess_id = '$sess_id'";
 $sumResultPaid = $conn->query($sumTotalQueryPaid);
-$sumRowPaid = $sumResultPaid->fetch_assoc();
-$sumtotalPaid = $sumRowPaid['sumtotal_paid'];
+
+// Default values for sum totals in case the query returns NULL
+$sumtotal = 0;
+$sumtotalPaid = 0;
+
+// Fetch the sum totals if the query succeeded
+if ($sumResultPaid && $sumResultPaid->num_rows > 0) {
+    $sumRowPaid = $sumResultPaid->fetch_assoc();
+    $sumtotal = isset($sumRowPaid['sumtotal']) ? $sumRowPaid['sumtotal'] : 0; // Ensure it's not null
+    $sumtotalPaid = isset($sumRowPaid['sumtotal_paid']) ? $sumRowPaid['sumtotal_paid'] : 0; // Ensure it's not null
+}
 
 // Create an array to hold the response data
 $responseData = array(
     'data' => $data,
-    'sumtotal' => $sumtotalPaid,
+    'sumtotal' => $sumtotal, // Total amount (corrected)
+    'sumtotal_paid' => $sumtotalPaid, // Total paid amount
 );
 
 // Convert data to JSON

@@ -227,7 +227,7 @@ $(function () {
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
                   
                   <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
               </tr>
                   `;
                   
@@ -519,7 +519,7 @@ $(function () {
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
                  
                   <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
               </tr>
                   `;
                   
@@ -834,7 +834,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                     <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
                     <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
                     <td style="font-size: 12px;">${item.created_time}</td>
-                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                    <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
                 </tr>
                     `;
                     
@@ -1123,7 +1123,7 @@ Debts Sales </button>
                   <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodal(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
                   <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodal(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
                   <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
               </tr>
                   `;
                            
@@ -1173,6 +1173,9 @@ $("#editBtnSales").on("click", function() {
       var s_id = localStorage.getItem("saleID");
       var sess_id = localStorage.getItem("sessID");
       var quantity = $("#editquantity").val();
+      var price = $("#editprice").val();
+      var paid = $("#editpaid").val();
+     
 
       $.ajax({
           type: "POST",
@@ -1182,13 +1185,13 @@ $("#editBtnSales").on("click", function() {
               quantity: quantity,
               s_id: s_id,
               sess_id:sess_id,
+              price:price,
+              paid:paid,
           },
           success: function(response) {
-              if (response.message) {
-              //console.log(response.message);
-             } else {
-              //console.log("Sale product updated successfully.");
-              }
+              
+              console.log(response.message);
+            
               $("#edit_sales_modal").modal("hide");
               localStorage.removeItem("productID");
               localStorage.removeItem("saleID");
@@ -1201,7 +1204,7 @@ $("#editBtnSales").on("click", function() {
               
           },
           error: function(xhr, status, error) {
-              //console.log("Error: " + error);
+              console.log("Error: " + error);
               $("#edit_sales_modal").modal("hide");
               localStorage.removeItem("productID");
               localStorage.removeItem("saleID");
@@ -1783,7 +1786,7 @@ function View_DaySalesRecord() {
                           <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
                 
                           <td style="font-size: 12px;">${item.created_time}</td>
-                          <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                          <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
                       </tr>
                   `;
                   
@@ -2322,7 +2325,7 @@ function View_YesterdaySalesRecord() {
                     let iconmanager = "";
                     let msgmanager = "";
 
-                    if (item.paid_status === "Paid") {
+                    if (item.total_amount == item.paid) {
                         sts = "Active";
                         endis = "btn btn-success";
                         icon = "fa fa-check-square text-white";
@@ -2336,29 +2339,7 @@ function View_YesterdaySalesRecord() {
 
                     
 
-                    if (item.storekeeperaproval == 0) {
-                        stsstore = "Active";
-                        endistore = "btn btn-warning";
-                        iconstore = "bi bi-x-circle";
-                        msgstore = "Pending";
-                    } else {
-                        stsstore = "Not Active";
-                        endistore = "btn btn-primary";
-                        iconstore = "fa fa-check-square text-white";
-                        msgstore = "Approved";
-                    }
-                    
-                    if (item.manageraproval == 0) {
-                      stsmanager = "Active";
-                      endimanager = "btn btn-warning";
-                      iconmanager = "bi bi-x-circle";
-                      msgmanager = "Pending";
-                  } else {
-                      stsmanager = "Not Active";
-                      endimanager = "btn btn-primary";
-                      iconmanager = "fa fa-check-square text-white";
-                      msgmanager = "Approved";
-                  }
+                   
                   
 
                   html += `
@@ -2373,11 +2354,15 @@ function View_YesterdaySalesRecord() {
                     style: "currency",
                     currency: "RWF",
                 }).format(parseFloat(item.total_amount))}</td>
+                <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "RWF",
+                }).format(parseFloat(item.paid))}</td>
+                <td style="font-size: 12px;">${item.payment}</td>
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodalyest(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
-                  <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodalyest(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
+
                   <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
               </tr>
                   `;
                   
@@ -2389,6 +2374,8 @@ function View_YesterdaySalesRecord() {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
+                           <td style="font-size: 14px;"> ${parseFloat(item.paid)}</td>
+                            <td style="font-size: 14px;"> ${item.payment}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
@@ -2665,7 +2652,7 @@ const week = getWeekNumber(year, month, day);
                   <td style="font-size: 12px;"><button class="${endistore}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightstoremodalweek(${item.storekeeperaproval},${item.sale_id})"><i class="${iconstore}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgstore}</span></button></td>
                   <td style="font-size: 12px;"><button class="${endimanager}" type="button" style="margin-left: 20px;width: 100px;color: rgb(255,255,255);font-weight: bold;" onclick="getrightmanagermodalweek(${item.manageraproval},${item.sale_id})"><i class="${iconmanager}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msgmanager}</span></button></td>
                   <td style="font-size: 12px;">${item.created_time}</td>
-                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}')" "><i class="fa fa-trash"></i></button></td>
+                  <td class="d-flex flex-row justify-content-start align-items-center"><button class="btn btn-success getEditSales" type="button" data-bs-target="#edit_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-edit" style="color: rgb(255,255,255);"></i></button><button class="btn btn-danger getremoveSales" type="button" style="margin-left: 20px;" data-bs-target="#delete_sales_modal" data-bs-toggle="modal" onclick="getSalesID('${item.sale_id}','${item.sess_id}','${item.product_id}','${item.quantity}','${item.sales_price}','${item.total_amount}','${item.paid}')"><i class="fa fa-trash"></i></button></td>
               </tr>
                   `;
                   
@@ -4599,11 +4586,15 @@ printWindow.document.close();
 
 }
 
-function getSalesID(sale_id, sess_id, product_id){
-   localStorage.setItem("saleID", sale_id);
+function getSalesID(sale_id, sess_id, product_id,qty,price, total, paid){
+      localStorage.setItem("saleID", sale_id);
       localStorage.setItem("productID", product_id);
       localStorage.setItem("sessID", sess_id);
-      
+      $("#editquantity").val(qty);
+      $("#editprice").val(price);
+      $("#edittotal").val(total);
+      $("#editpaid").val(paid);
+
       //console.log("saleID ", sale_id);
       //console.log("productID ", product_id);
       //console.log("sessID ", sess_id);

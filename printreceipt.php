@@ -79,7 +79,9 @@
                         <th>Price(RWF)</th>
                         <th>Qty</th>
                         <th>Total Amount(RWF)</th>
+                        <th>Total Paid(RWF)</th>
                         <th>Benefit</th>
+                        <th>paymnent</th>
                         <th>Status</th>
                         <th style="font-size: 11px;">Date</th>
 
@@ -107,6 +109,8 @@ SELECT DISTINCT
     SL.quantity,
     SL.sales_price,
     SL.total_amount,
+    SL.paid,
+    SL.payment,
     SUM(SL.total_amount) as total,
     SL.total_benefit,
     SL.paid_status,
@@ -155,7 +159,7 @@ DESC
                         $icon = "";
                         $msg = "";
 
-                        if ($row['paid_status'] == "Paid") {
+                        if ($row['total_amount'] == $row['paid'] ) {
                             $sts = "Active";
                             $endis = "btn btn-success";
                             $icon = "fa fa-check-square text-white";
@@ -221,7 +225,9 @@ DESC
         <td style="font-size: 14px;">' . number_format($row['sales_price']) . '</td>
         <td style="font-size: 14px;">' . $row['quantity'] . '</td>
         <td style="font-size: 14px;">' . number_format($row['total_amount']) . '</td>
+        <td style="font-size: 14px;">' . number_format($row['paid']) . '</td>
         <td style="font-size: 14px;">' . number_format($row['benefit']) . '</td>
+        <td style="font-size: 14px;">' . $row['payment'] . '</td>
         <td style="font-size: 14px;">'.$row['paid_status'].'</td>
         <td style="font-size: 14px;">' . $formattedDate . '</td>
     

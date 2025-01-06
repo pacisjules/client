@@ -1,7 +1,7 @@
 <?php
 
 //Server Connection
-// $servername = "86.38.202.52";
+// $servername = "193.203.166.224";
 
 
 $servername = "localhost";

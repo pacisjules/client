@@ -41,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Loop through each debt to determine the amount to be paid for each
     while ($row = $result->fetch_assoc()) {
         $debt_id = $row['id'];
+        $sess_idn = $row['sess_id'];
+        $product_idn = $row['product_id'];
         $debt_amount = $row['amount'];
         $debt_paid = $row['amount_paid'];
         $remaining_amount = $debt_amount - $debt_paid;
@@ -60,6 +62,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }else{
               $status = 1;  
             }
+
+            if (!is_null($sess_idn)) {
+                // Retrieve the corresponding sales data using sess_id and product_id
+                $salesQuery = "SELECT sales_id FROM sales WHERE sess_id='$sess_idn' AND product_id='$product_idn'";
+                $salesResult = $conn->query($salesQuery);
+
+                if ($salesResult->num_rows > 0) {
+                    $salesRow = $salesResult->fetch_assoc();
+                    $sales_id = $salesRow['sales_id'];
+                    // Update the sales data using the unique sales_id
+                  $updateSalesSql = "UPDATE sales SET 
+                  paid='$new_paid_amount' 
+                  WHERE sales_id='$sales_id'";
+
+              if ($conn->query($updateSalesSql) === TRUE) {
+                  echo "Debt and Sales Updated successfully.";
+              } else {
+                  header('HTTP/1.1 500 Internal Server Error');
+                  echo "Error updating sales: " . $conn->error;
+              }
+
+                }
+            }
+
 
             $sql_update = "UPDATE debts SET amount_paid = $new_paid_amount, status = $status WHERE id = $debt_id";
             

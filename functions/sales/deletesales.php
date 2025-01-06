@@ -35,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     SL.sales_id,
     SL.quantity AS salesqty,
     SL.paid_status,
+    SL.total_amount,
+    SL.paid,
     DT.sess_id,
     DT.amount AS det_amount,
     DT.qty,
@@ -57,7 +59,8 @@ WHERE
     $rowSale = $resultsale->fetch_assoc();
 
     $sale_current_quantity = $rowSale['salesqty'];
-    $sale_paid_status = $rowSale['paid_status'];
+    $sales_paid = $rowSale['paid'];
+    $total_amount = $rowSale['total_amount'];
     $debt_id = $rowSale['id'];
 
 
@@ -88,7 +91,7 @@ WHERE
             $conn->commit();
 
             // Update debt amount
-            if ($sale_paid_status === "Not Paid") {
+            if ($total_amount > $sales_paid) {
                 // Check if a debt record exists for the session and product
                 $sqlDebt = "SELECT * FROM debts WHERE id = $debt_id";
                 $resultDebt = $conn->query($sqlDebt);

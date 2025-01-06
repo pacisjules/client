@@ -162,12 +162,12 @@ $("#addCart").click(function() {
 
 
 
-// $("#printRec").click(function() {
-//  var sessid=localStorage.getItem('sessionid');
+$("#printRec").click(function() {
+ var sessid=localStorage.getItem('sessionid');
 
-//  var url = `printreceipt.php/sess?id=${sessid}`;
-//  window.open(url, "_blank");
-// });
+ var url = `printreceipt.php/sess?id=${sessid}`;
+ window.open(url, "_blank");
+});
 
 
 $("#printRec").click(function() {
@@ -404,10 +404,15 @@ $("#savep_sell").html("Please wait...");
           $("#savep_sell").html("Sell Done");
           localStorage.setItem("is_paid", "Paid");
 
-          var checkbox = document.getElementById("flexSwitchCheckChecked");
+          // var checkbox = document.getElementById("flexSwitchCheckChecked");
+          // // Toggle the checkbox's checked state
+          // checkbox.checked = false;
 
-          // Toggle the checkbox's checked state
-          checkbox.checked = false;
+
+          // $("#finishModal").modal('show');
+          $('#sessionid').html(response);
+          localStorage.setItem('sessionid', response);
+          
 
           // Clear customer details from localStorage
           localStorage.removeItem('customer_id');
@@ -420,10 +425,7 @@ $("#savep_sell").html("Please wait...");
           $("#getnames").html("");
           $("#getphone").html("");
           $("#getaddress").html("");
-
-          // Set session ID
-          $('#sessionid').html(response);
-          localStorage.setItem('sessionid', response);
+          
 
           // Call the print invoice function
           printInvoiceFunc(response);
@@ -1390,9 +1392,10 @@ function printInvoiceFunc() {
               const customer = data.data[0].cust_name;
               const phone = data.data[0].phone;
               const sumtotal = data.sumtotal;
+              const sumtotal_paid = data.sumtotal_paid;
               const typereport = "Selleasep Receipt";
-              console.log("customer : ",customer);
-              printSCAN(salesdata, typereport, sumtotal,date,customer,phone);
+              console.log("sumtotal_paid : ",sumtotal_paid);
+              printSCAN(salesdata, typereport, sumtotal,sumtotal_paid,date,customer,phone);
           } else {
               console.error('Empty or invalid data received from the server.');
           }
@@ -2192,7 +2195,7 @@ for (let i = 0; i < salesdata.length; i++) {
 
 
 
-function printSCAN(salesdata, typereport, sumtotal, date, customer, phone) {
+function printSCAN(salesdata, typereport, sumtotal,sumtotal_paid, date, customer, phone) {
   // Calculate the total amount with interest
   const currentDate = new Date();
 
@@ -2299,9 +2302,11 @@ function printSCAN(salesdata, typereport, sumtotal, date, customer, phone) {
   <body>
       <center>
           <div class="ticket">
-              <img src="${c_logo}" alt="Logo">
-              <p class="centered">${c_name} LOCAL RECEIPT</p>
-              <table>
+             
+              <p class="centered">${c_name} LOCAL RECEIPT</p>             
+              <p class="centered">${nameManager}</p>
+              <p class="centered">${Phonemana}</p>
+              <table border=2">
                   <thead>
                       <tr>
                           <th class="description">Item</th>
@@ -2318,7 +2323,11 @@ function printSCAN(salesdata, typereport, sumtotal, date, customer, phone) {
                   style: "currency",
                   currency: "RWF",
               }).format(parseFloat(sumtotal))}</h3>
-              <p class="centered">Thanks for working with us!</p>
+              <h3>Total Paid: ${new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "RWF",
+              }).format(parseFloat(sumtotal_paid))}</h3>
+              <p class="centered">Thanks for shopping with us!</p>
           </div>
       </center>
   </body>

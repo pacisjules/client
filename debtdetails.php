@@ -123,7 +123,7 @@ include('getuser.php');
                     <h4 class="modal-title" style="font-size:15px;text-transform:uppercase;font-weight:bold;">Pay This Item of <span id="product_nam" style="color:green;"></span></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Here&nbsp; THE REMAIN BALANCE IS <span style="color:red; font-weight:bold;" id="balance"></span></p>
+                    <p>Here&nbsp; THE REMAIN BALANCE IS <span style="color:red; font-weight:bold;" id="balancess"></span></p>
                     <form>
                         <label class="form-label" style="margin-top: 12px;">Enter Amount</label>
                         <input class="form-control" type="number" id="debt_amount_paid">
@@ -201,7 +201,16 @@ include('getuser.php');
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp;are for Edit Debts.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Quantity</label><input class="form-control" type="text" id="editqty"><label class="form-label" style="margin-top: 12px;">Amount Due</label><input class="form-control" type="text" id="editamount"><label class="form-label" style="margin-top: 12px;">Amount Paid</label><input class="form-control" type="text" id="editamountpaid"></form>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Quantity</label>
+                        <input class="form-control" type="text" id="editqty">
+                        <label class="form-label" style="margin-top: 12px;">Unit Price</label>
+                        <input class="form-control" type="number" id="editprice">
+                        <label class="form-label" style="margin-top: 12px;">Amount Due</label>
+                        <input class="form-control" type="number" id="editamount" readonly>
+                        <label class="form-label" style="margin-top: 12px;">Amount Paid</label>
+                        <input class="form-control" type="number" id="editamountpaid">
+                    </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="EditDebts">Edit Debt</button></div>
             </div>

@@ -262,9 +262,10 @@ include('getuser.php');
     <label class="form-label" style="color:black;">Payment method: </label>
     <select class="form-control" id="PaymentMethod" style="margin-top: -6px;">
         <option value="" disabled selected>Select payment method</option>
-        <option value="cash">Cash</option>
-        <option value="momo">MOMO</option>
-        <option value="bank">BANK</option>
+        <option value="EQUITY">EQUITY</option>
+        <option value="ZIGAMA">ZIGAMA</option>
+        <option value="MOMO">MOMO</option>
+        <option value="CASH">CASH</option>
         <option value="POS">POS</option>
        
     </select>

@@ -8,6 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = $_POST['quantity'];
     $s_id = $_POST['s_id'];
     $sess_id = $_POST['sess_id'];
+    $price = $_POST['price'];
+    $paid = $_POST['paid'];
+    $new_amount = $price * $quantity;
     
     
     
@@ -34,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sqlsales = "SELECT
     SL.sales_id,
     SL.total_amount,
+    SL.paid,
     SL.total_benefit,
     SL.quantity AS salesqty,
     SL.paid_status,
@@ -60,6 +64,7 @@ WHERE
 
     $sale_current_quantity = $rowSale['salesqty'];
     $current_Amount = $rowSale['total_amount'];
+    $current_paid = $rowSale['paid'];
     $current_benefit = $rowSale['total_benefit'];
     $sale_paid_status = $rowSale['paid_status'];
     $sale_sess_id = $rowSale['sess_id'];
@@ -71,7 +76,7 @@ WHERE
     $messages = array();
 
     // Calculate
-    if ($quantity < $sale_current_quantity) {
+    if ($quantity <= $sale_current_quantity) {
         
         
         $remainQty = $sale_current_quantity - $quantity;
@@ -94,7 +99,7 @@ WHERE
         }
 
         // Update the sales
-        $sqlSales = "UPDATE sales SET quantity = $quantity, total_amount = $updateSlAmount, total_benefit = $updateSlBenefit WHERE sales_id = $s_id";
+        $sqlSales = "UPDATE sales SET quantity = $quantity, sales_price=$price, total_amount = $new_amount, paid=$paid, total_benefit = $updateSlBenefit WHERE sales_id = $s_id";
         if (!$conn->query($sqlSales)) {
             $error = true;
         }
@@ -107,7 +112,7 @@ WHERE
             $conn->commit();
 
             // Update debt amount
-            if ($sale_paid_status === "Not Paid") {
+            if ($current_Amount > $current_paid) {
                 // Check if a debt record exists for the session and product
                 $sqlDebt = "SELECT * FROM debts WHERE id = $debt_id";
                 $resultDebt = $conn->query($sqlDebt);
@@ -117,7 +122,7 @@ WHERE
                     $messages[] = 'Debt record doesn\'t exist.';
                 } else {
                     // Debt record exists, update it
-                    $sqlUpdateDebt = "UPDATE debts SET amount = $updateSlAmount, qty = $quantity WHERE id = $debt_id";
+                    $sqlUpdateDebt = "UPDATE debts SET amount = $new_amount, amount_paid=$paid , qty = $quantity WHERE id = $debt_id";
                     if ($conn->query($sqlUpdateDebt)) {
                         $messages[] = 'Debt record updated.';
                     } else {
@@ -129,7 +134,7 @@ WHERE
                 $messages[] = 'Paid Status is not Not Paid.';
             }
         }
-    } elseif ($quantity > $sale_current_quantity) {
+    } elseif ($quantity >= $sale_current_quantity) {
         $remainQty = $quantity - $sale_current_quantity;
         
         $tprice = $current_Amount/$sale_current_quantity;
@@ -151,7 +156,7 @@ WHERE
         }
 
         // Update the sales
-        $sqlSales = "UPDATE sales SET quantity = $quantity, total_amount = $updateSlAmount, total_benefit = $updateSlBenefit WHERE sales_id = $s_id";
+        $sqlSales = "UPDATE sales SET quantity = $quantity, sales_price=$price, total_amount = $new_amount, paid=$paid, total_benefit = $updateSlBenefit WHERE sales_id = $s_id";
         if (!$conn->query($sqlSales)) {
             $error = true;
         }
@@ -164,7 +169,7 @@ WHERE
             $conn->commit();
 
             // Update debt amount
-            if ($sale_paid_status === "Not Paid") {
+            if ($current_Amount > $current_paid) {
                 // Check if a debt record exists for the session and product
                 $sqlDebt = "SELECT * FROM debts WHERE id = $debt_id";
                 $resultDebt = $conn->query($sqlDebt);
@@ -174,7 +179,7 @@ WHERE
                     $messages[] = 'Debt record doesn\'t exist.';
                 } else {
                     // Debt record exists, update it
-                    $sqlUpdateDebt = "UPDATE debts SET amount = $updateSlAmount, qty = $quantity WHERE id = $debt_id";
+                    $sqlUpdateDebt = "UPDATE debts SET amount = $new_amount, amount_paid=$paid , qty = $quantity WHERE id = $debt_id";
                     if ($conn->query($sqlUpdateDebt)) {
                         $messages[] = 'Debt record updated.';
                     } else {

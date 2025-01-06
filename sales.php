@@ -355,7 +355,16 @@ include('getuser.php');
                 </div>
                 <div class="modal-body">
                     <p>Here&nbsp;are for Edit sale.</p>
-                    <form><label class="form-label" style="margin-top: 12px;">Quantity</label><input class="form-control" type="text" id="editquantity"></form>
+                    <form>
+                        <label class="form-label" style="margin-top: 12px;">Quantity</label>
+                        <input class="form-control" type="text" id="editquantity">
+                        <label class="form-label" style="margin-top: 12px;">Price</label>
+                        <input class="form-control" type="text" id="editprice">
+                        <label class="form-label" style="margin-top: 12px;">Total Amount</label>
+                        <input class="form-control" type="text" id="edittotal" readonly>
+                        <label class="form-label" style="margin-top: 12px;">Paid</label>
+                        <input class="form-control" type="text" id="editpaid">
+                    </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button" id="editBtnSales">Edit</button></div>
             </div>

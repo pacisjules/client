@@ -287,7 +287,8 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
       
         var Quantity = $("#editqty").val();
         var amountDue = parseInt($("#editamount").val(), 10);
-    var amountPaid = parseInt($("#editamountpaid").val(), 10);
+        var amountPaid = parseInt($("#editamountpaid").val(), 10);
+        var priceunit = parseInt($("#editprice").val(), 10);
         var sales_point_id = localStorage.getItem("SptID"); 
          var debt_id = localStorage.getItem("debt_id"); 
          var use_type = localStorage.getItem("UserType");
@@ -303,6 +304,7 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
                 amount: amountDue,
                 amount_paid:amountPaid,
                 sales_point_id:sales_point_id,
+                priceunit:priceunit,
                 
             },
             success: function (response) {
@@ -335,20 +337,20 @@ const startDate = new Date(year, month - 1, 1); // Subtract 1 from month to make
       
       var Quantity = localStorage.getItem("debt_qty");
       var amountDue = localStorage.getItem("debt_amount");
-      var amountDuepaid = localStorage.getItem("debt_amount_paid");
-       var amountPaid =  $("#debt_amount_paid").val();
+      var oldamountpaid = localStorage.getItem("debt_amount_paidss");
+       var newamountPaid =  $("#debt_amount_paid").val();
       var sales_point_id = localStorage.getItem("SptID"); 
        var debt_id = localStorage.getItem("debt_id"); 
        var use_type = localStorage.getItem("UserType");
 
-       var balance = amountDue - amountDuepaid;
-       var newpaid = parseFloat(amountPaid) + parseFloat(amountDuepaid);
+      //  var balance = amountDue - amountDuepaid;
+       var newpaid = parseFloat(oldamountpaid) + parseFloat(newamountPaid);
        
 
        if(use_type === "BOSS"){
 
 
-        if(balance < amountPaid){
+        if(newpaid > amountDue){
           $("#errormodal").modal("show");
           $("#payoneitem_modal").modal("hide");
           setTimeout(function() {
@@ -3075,9 +3077,11 @@ function getDataEdit(id,name,qty,amount,amount_paid){
         $("#editqty").val(qty);
         $("#editamount").val(amount);
         $("#editamountpaid").val(amount_paid);
+        var unitprice = amount / qty;
+        $("#editprice").val(unitprice);
      
         
-        console.log("debt_id ", id);
+        console.log("editprice ", unitprice);
         console.log("name ", name);
         console.log("qty ", qty);
      console.log("amount due ", amount);
@@ -3093,13 +3097,17 @@ function getPaidDbts(id,qty,amount,amount_paid,name){
   localStorage.setItem("debt_id", id);
   localStorage.setItem("debt_qty", qty);
   localStorage.setItem("debt_amount", amount);
-  localStorage.setItem("debt_amount_paid", amount_paid);
+  localStorage.setItem("debt_amount_paidss", amount_paid);
   localStorage.setItem("name", name);
   $("#product_nam").html(name);
 
   var balance = parseFloat(amount) - parseFloat(amount_paid);
+ 
 
-  $("#balance").html(balance.toLocaleString('en-US', {style: 'currency', currency: 'RWF'}));
+  console.log(unitprice);
+
+
+  $("#balancess").html(balance.toLocaleString('en-US', {style: 'currency', currency: 'RWF'}));
  
 }
 

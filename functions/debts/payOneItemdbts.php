@@ -17,7 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $amount_paid = $_POST['amount_paid'];
     $sales_point_id = $_POST['sales_point_id'];
     
-    $newpaid = $amount - $amount_paid;
+     // Retrieve the debt data by id
+     $debtQuery = "SELECT * FROM debts WHERE id='$id'";
+     $debtResult = $conn->query($debtQuery);
+
+     if ($debtResult->num_rows > 0) {
+        $debtRow = $debtResult->fetch_assoc();
+        $sess_id = $debtRow['sess_id'];
+        $product_id = $debtRow['product_id'];
+
+    
+    
     
     
     
@@ -31,6 +41,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     WHERE id='$id'";
 
     if ($conn->query($sql) === TRUE) {
+
+        if (!is_null($sess_id)) {
+            // Retrieve the corresponding sales data using sess_id and product_id
+            $salesQuery = "SELECT sales_id FROM sales WHERE sess_id='$sess_id' AND product_id='$product_id'";
+            $salesResult = $conn->query($salesQuery);
+
+            if ($salesResult->num_rows > 0) {
+                $salesRow = $salesResult->fetch_assoc();
+                $sales_id = $salesRow['sales_id'];
+
+                // Calculate new values for quantity, total_amount, and paid
+                
+                $newPaid = $amount_paid;
+
+                // Update the sales data using the unique sales_id
+                $updateSalesSql = "UPDATE sales SET 
+                    
+                    paid='$newPaid' 
+                    WHERE sales_id='$sales_id'";
+
+                if ($conn->query($updateSalesSql) === TRUE) {
+                    echo "Debt and Sales Updated successfully.";
+                } else {
+                    header('HTTP/1.1 500 Internal Server Error');
+                    echo "Error updating sales: " . $conn->error;
+                }
+            } else {
+                echo "No matching sales data found.";
+            }
+        } else {
+            echo "Debt Updated successfully. No sess_id, sales not updated.";
+        }
         // Return a success message
         $sql_query = "SELECT DT.id, DT.amount, DT.amount_paid, DT.customer_id, CT.customer_id, CT.names, CT.phone, CT.address, SPT.report_to_phone, SPT.report_to_email, SPT.senderid FROM debts DT, customer CT, salespoint SPT WHERE CT.customer_id=DT.customer_id AND SPT.sales_point_id=DT.sales_point_id AND DT.id =?";
         $stmt = $conn->prepare($sql_query);
@@ -59,8 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('HTTP/1.1 500 Internal Server Error');
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    
-    
+
+     }
+    //end
     
     
 if ($sql_result->num_rows > 0) {
