@@ -330,112 +330,138 @@ $("#savep_sell").click(function () {
   var client = $("#getnames").html();
   console.log(" clientname", client);
   var payment = $("#PaymentMethod").val();
+  function convertDateFormat(duedate) {
+    // Create a new Date object with the selected date
+        var dateObject = new Date(duedate);
+    
+        // Extract the year, month, and day
+        var year = dateObject.getFullYear();
+        var month = ('0' + (dateObject.getMonth() + 1)).slice(-2); // Add 1 because months are zero-based
+        var day = ('0' + dateObject.getDate()).slice(-2);
+    
+        // Combine the parts into the desired format
+        var formattedDate = year + '-' + month + '-' + day;
+    
+        return formattedDate;
+    }
+  
+  
+    var duedate = $("#duedate").val(); 
+    var convertedDate = convertDateFormat(duedate);
+
+
   if (!payment) {
     // Show message if payment is empty
     alert("Please select a payment method.");
   }else if(!client){
     alert("Please select a client.");
-  }
-    else {
+
+  }else{
 
     
-$("#savep_sell").html("Please wait...");
+    $("#savep_sell").html("Please wait...");
+
+
   
 
-  var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+    var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+    
+    // Extract the product IDs and quantities from the cart array
+    var productIds = cart.items.map(function(item) {
+        return parseInt(item.id);
+    });
+    
+    var quantities = cart.items.map(function(item) {
+        return parseFloat(item.qty);
+    });
+    
+    var prices = cart.items.map(function(item) {
+        return parseFloat(item.price);
+    });
+    var paids = cart.items.map(function(item) {
+      return parseFloat(item.paid);
+    });
+    
+    var benes = cart.items.map(function(item) {
+        return parseFloat(item.benefit);
+    });
+    
+    // Retrieve values from localStorage
+    var sales_point_id = localStorage.getItem("SptID");
+    var use_id = parseInt(localStorage.getItem("UserID"));
+    var paid_jk = localStorage.getItem("is_paid");
+    var customer_id = localStorage.getItem("customer_id");
+    var cust_name = localStorage.getItem("customer_names");
+    var phone = localStorage.getItem("customer_phone");
+    var usershift = localStorage.getItem("usershift");
+    
+    
+    
+    
+    // Start AJAX request
+    $.ajax({
+        url: "functions/sales/bulksalesetdate.php",
+        method: "POST",
+        dataType: 'json',
+        data: {
+            product_id: productIds,
+            sales_point_id: sales_point_id,
+            customer_id: customer_id,
+            cust_name: cust_name,
+            phone: phone,
+            quantity: quantities,
+            price: prices,
+            paid: paids,
+            benefit: benes,
+            sales_type: 1,
+            paid_status: paid_jk,
+            service_amount: 0,
+            user_id: use_id,
+            usershift: usershift,
+            created_time:convertedDate,
+            payment:payment,
+        },
+        success: function (response) {
+            console.log("response:", response);
+            initializeCart();
+            View_LastSalesRecord();
+            $("#savep_sell").html("Sell Done");
+            localStorage.setItem("is_paid", "Paid");
+    
+            // var checkbox = document.getElementById("flexSwitchCheckChecked");
+            // // Toggle the checkbox's checked state
+            // checkbox.checked = false;
+    
+    
+            // $("#finishModal").modal('show');
+            $('#sessionid').html(response);
+            localStorage.setItem('sessionid', response);
+            
+    
+            // Clear customer details from localStorage
+            localStorage.removeItem('customer_id');
+            localStorage.removeItem('customer_phone');
+            localStorage.removeItem('customer_names');
+            localStorage.removeItem('customer_address');
+    
+            // Clear customer details from UI
+            $("#searchCustomerNow").html("");
+            $("#getnames").html("");
+            $("#getphone").html("");
+            $("#getaddress").html("");
+            
+    
+            // Call the print invoice function
+            printInvoiceFunc(response);
+        },
+        error: function (xhr, status, error) {
+            console.log("Error:", xhr.responseText, status);
+            $("#savep_sell").html("Sell Failed");
+            $("#savep_sell").css("backgroundColor", "red");
+        },
+    });
 
-  // Extract the product IDs and quantities from the cart array
-  var productIds = cart.items.map(function(item) {
-      return parseInt(item.id);
-  });
 
-  var quantities = cart.items.map(function(item) {
-      return parseFloat(item.qty);
-  });
-
-  var prices = cart.items.map(function(item) {
-      return parseFloat(item.price);
-  });
-  var paids = cart.items.map(function(item) {
-    return parseFloat(item.paid);
-});
-
-  var benes = cart.items.map(function(item) {
-      return parseFloat(item.benefit);
-  });
-
-  // Retrieve values from localStorage
-  var sales_point_id = localStorage.getItem("SptID");
-  var use_id = parseInt(localStorage.getItem("UserID"));
-  var paid_jk = localStorage.getItem("is_paid");
-  var customer_id = localStorage.getItem("customer_id");
-  var cust_name = localStorage.getItem("customer_names");
-  var phone = localStorage.getItem("customer_phone");
-  var usershift = localStorage.getItem("usershift");
-
-
-  // Start AJAX request
-  $.ajax({
-      url: "functions/sales/bulksales.php",
-      method: "POST",
-      dataType: 'json',
-      data: {
-          product_id: productIds,
-          sales_point_id: sales_point_id,
-          customer_id: customer_id,
-          cust_name: cust_name,
-          phone: phone,
-          quantity: quantities,
-          price: prices,
-          paid: paids,
-          benefit: benes,
-          sales_type: 1,
-          paid_status: paid_jk,
-          service_amount: 0,
-          user_id: use_id,
-          usershift: usershift,
- 
-          payment:payment,
-      },
-      success: function (response) {
-          console.log("response:", response);
-          initializeCart();
-          View_LastSalesRecord();
-          $("#savep_sell").html("Sell Done");
-          localStorage.setItem("is_paid", "Paid");
-
-          // var checkbox = document.getElementById("flexSwitchCheckChecked");
-          // // Toggle the checkbox's checked state
-          // checkbox.checked = false;
-
-
-          // $("#finishModal").modal('show');
-          $('#sessionid').html(response);
-          localStorage.setItem('sessionid', response);
-          
-
-          // Clear customer details from localStorage
-          localStorage.removeItem('customer_id');
-          localStorage.removeItem('customer_phone');
-          localStorage.removeItem('customer_names');
-          localStorage.removeItem('customer_address');
-
-          // Clear customer details from UI
-          $("#searchCustomerNow").html("");
-          $("#getnames").html("");
-          $("#getphone").html("");
-          $("#getaddress").html("");
-          
-
-          // Call the print invoice function
-          printInvoiceFunc(response);
-      },
-      error: function (xhr, status, error) {
-          console.log("Error:", xhr.responseText, status);
-          $("#savep_sell").html("Sell Failed");
-          $("#savep_sell").css("backgroundColor", "red");
-      },
-  });
 } 
 });
 
