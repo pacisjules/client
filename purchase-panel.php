@@ -50,6 +50,57 @@ include('getuser.php');
                 // localStorage.setItem("is_paid", "Paid");
             }
         }
+
+
+
+       
+        // Function to set today's date as the default value
+  function setTodayDate() {
+    var today = new Date();
+    var day = String(today.getDate()).padStart(2, '0');
+    var month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
+    var year = today.getFullYear();
+
+    // Format the date as YYYY-MM-DD
+    var todayDate = year + '-' + month + '-' + day;
+
+    // Set the input's default value to today's date
+    document.getElementById('duedate').value = todayDate;
+
+    // Convert and set the formatted date when the page loads
+    convertAndSetDate();
+  }
+
+  // Function to convert date format (if needed) and set it
+  function convertAndSetDate() {
+    // Get the value of the date input
+    var selectedDate = document.getElementById('duedate').value;
+
+    // Check if a valid date is selected
+    if (selectedDate) {
+        // Convert the selected date to the desired format (YYYY-MM-DD)
+        var formattedDate = convertDateFormat(selectedDate);
+
+        // Set the formatted date back to the input field
+        document.getElementById('duedate').value = formattedDate;
+    }
+  }
+
+  // Function to convert date format to YYYY-MM-DD
+  function convertDateFormat(dateString) {
+    var date = new Date(dateString);
+    var day = String(date.getDate()).padStart(2, '0');
+    var month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0
+    var year = date.getFullYear();
+
+    // Return the date in the desired format (YYYY-MM-DD)
+    return year + '-' + month + '-' + day;
+  }
+
+  // Call the function to set today's date on page load
+  window.onload = setTodayDate;
+
+
     </script>
 
 
@@ -138,6 +189,11 @@ include('getuser.php');
                                         </tfoot>
                                     </table>
                                 </div>
+
+                                <label class="form-label" style="margin-top: 12px;">Right Purchase Date</label>
+<input class="form-control" type="date" style="width:90%;" id="duedate" onchange="convertAndSetDate()" />
+
+<br />
                                 
                                  <div class="input-group mb-3" id="amadenis" style="transition: ease-in-out 0.2s; flex-direction:column;">
                                            <label>Search Supplier</label><br /><input class="form-control" style="width:90%;" type="text" placeholder="Search Supplier ....." id="searchCustomerNow">

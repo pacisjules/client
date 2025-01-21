@@ -39,10 +39,10 @@ include('getuser.php');
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Inventory Information</p>
-                            <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;" id="pickDateButton">Adding Report</button>
+                            <!-- <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;" id="pickDateButton">Adding Report</button>
                             <button class="btn btn-success" style="font-size: 15px; font-weight: bold;" id="pickeditButton">Editing Report</button>
                             <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" id="pickdeleteButton">Deleting Report</button>
-                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;" id="generateInventoryReport">Stock Report</button>
+                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;" id="generateInventoryReport">Stock Report</button> -->
                         </div>
                         
                         <input type="text" id="datepicker" style="display: none;"> 

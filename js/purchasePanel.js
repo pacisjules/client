@@ -330,6 +330,27 @@ $("#NegoPrice").on("input", function () {
 
  $("#savep_sell").click(function () {
 
+  function convertDateFormat(duedate) {
+    // Create a new Date object with the selected date
+        var dateObject = new Date(duedate);
+    
+        // Extract the year, month, and day
+        var year = dateObject.getFullYear();
+        var month = ('0' + (dateObject.getMonth() + 1)).slice(-2); // Add 1 because months are zero-based
+        var day = ('0' + dateObject.getDate()).slice(-2);
+    
+        // Combine the parts into the desired format
+        var formattedDate = year + '-' + month + '-' + day;
+    
+        return formattedDate;
+    }
+  
+  
+    var duedate = $("#duedate").val(); 
+    var convertedDate = convertDateFormat(duedate);
+
+    console.log("date",convertedDate);
+
 
   $("#savep_sell").html("Please wait..");
 
@@ -371,6 +392,7 @@ $("#NegoPrice").on("input", function () {
       sales_type: 1,
       paid_status: paid_jk,
       user_id: use_id,
+      purchase_date:convertedDate,
     },
     
     success: function (response) {

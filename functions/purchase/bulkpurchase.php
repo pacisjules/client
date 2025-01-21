@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sales_type = $_POST['sales_type'];
         $paid_status = $_POST['paid_status'];
         $user_id = $_POST['user_id'];
-        $currentDate = date("Y-m-d");
+        $currentDate = $_POST['purchase_date'];
 
 
         if (is_array($product_ids)) {
@@ -101,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     
                         // Insert sales record
-                        $sql = "INSERT INTO `purchase`(`sess_id`, `user_id`,`supplier_id`, `product_id`, `spt_id`,`company_ID`, `quantity`, `price_per_unity`, `total_price`, `paid_status`)
-                        VALUES ('$Session_sale_ID','$user_id','$supplier_id','$product_id','$sales_point_id','$company_ID','$quantity','$purchase_price','$total_amount','$paid_status')";
+                        $sql = "INSERT INTO `purchase`(`sess_id`, `user_id`,`supplier_id`, `product_id`, `spt_id`,`company_ID`, `quantity`, `price_per_unity`, `total_price`, `paid_status`,`purchase_date`)
+                        VALUES ('$Session_sale_ID','$user_id','$supplier_id','$product_id','$sales_point_id','$company_ID','$quantity','$purchase_price','$total_amount','$paid_status','$currentDate')";
     
     
     
