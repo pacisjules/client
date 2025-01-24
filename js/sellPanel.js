@@ -452,7 +452,12 @@ $("#savep_sell").click(function () {
             
     
             // Call the print invoice function
-            printInvoiceFunc(response);
+           // printInvoiceFunc(response);
+
+           $("#successmodal").modal("show");
+           setTimeout(function() {
+                 location.reload();
+             }, 1000);
         },
         error: function (xhr, status, error) {
             console.log("Error:", xhr.responseText, status);
