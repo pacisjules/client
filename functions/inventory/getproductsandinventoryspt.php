@@ -19,6 +19,7 @@ INVE.last_updated,
 PRO.status,
 PRO.sales_point_id,
 PRO.name,
+PRO.price,
 PRO.description,
 PRO.id AS product_id
 FROM
@@ -36,9 +37,19 @@ while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
 
+$sumTotalQuery = "SELECT  SUM(PRO.price * INVE.quantity) AS sumtotal
+FROM
+inventory INVE INNER JOIN products PRO ON INVE.product_id = PRO.id 
+WHERE PRO.company_ID = $comID AND 
+PRO.sales_point_id = $spt";
+$sumResult = $conn->query($sumTotalQuery);
+$sumRow = $sumResult->fetch_assoc();
+$sumtotal = $sumRow['sumtotal'];
+
 
 $response = array(
-    "data" => $data
+    "data" => $data,
+    'sumtotal' => $sumtotal,
 );
 
 echo json_encode($response);

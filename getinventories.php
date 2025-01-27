@@ -77,6 +77,11 @@
         <select id="jobTitleFilter" class="form-select" aria-label="Default select example" style="width:220px;">
             <option selected value="">All</option>
         </select> -->
+
+        <div class="col-md-4 text-left" style="margin-left: 1rem;">
+                <span style="font-size: 20px;">CURRENT STOCK VALUES:</span>
+                <span class="badge text-bg-primary" style="font-size: 17px;" id="sum_total"></span>
+            </div>
         <br/>
 
         <table id="employeeTable" class="display" style="width:100%; font-size: 12px;">
@@ -84,6 +89,7 @@
                 <tr>
                     <th>No</th>
                     <th>NAME</th>
+                    <th>PRICE</th>
                     <th>TOTAL ITEMS</th>
                     <th>ALERT QTY</th>
                     <th>ACTION</th>
@@ -119,6 +125,7 @@ $(document).ready(function() {
                 return `<p style="text-transform:uppercase; font-weight: bold;">${row.name}</p>`;
             }
          },
+         { "data": "price" },
         { "data": "quantity" },
         { "data": "alert_quantity" },
         
@@ -187,6 +194,7 @@ $(document).ready(function() {
         jobTitles.forEach(function(title) {
             $('#jobTitleFilter').append('<option value="' + title + '">' + title + '</option>');
         });
+        $('#sum_total').html(`${Intl.NumberFormat('en-US').format(json.sumtotal)} Rwf`);
         
     },
 });
