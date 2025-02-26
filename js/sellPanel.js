@@ -28,9 +28,112 @@ $(document).ready(function () {
   addCartTablet();
   //holded_carts();
   setOldCart();
-  
 
-  
+
+
+  $('#addToLocalStorageButton').hide();
+
+  // Event listener for the amount input to show the ADD button
+  $(document).on('input', '.payment-amount', function() {
+      if ($(this).val()) {
+          $('#addToLocalStorageButton').show();
+      } else {
+          $('#addToLocalStorageButton').hide();
+      }
+  });
+
+  // Add current payment method and amount to localStorage and show NEW button
+  $('#addToLocalStorageButton').on('click', function() {
+      var paymentMethod = $('.payment-method:last').val();
+      var paymentAmount = $('.payment-amount:last').val();
+
+      // Validate that both fields are filled
+      // if (!paymentMethod || !paymentAmount) {
+      //     alert('Please select a payment method and enter an amount.');
+      //     return;
+      // }
+
+      // Get the current saved payments from localStorage, or create an empty array
+      var paymentData = JSON.parse(localStorage.getItem('payments')) || [];
+
+      // Add the new payment method and amount to the array
+      paymentData.push({
+          method: paymentMethod,
+          amount: paymentAmount
+      });
+
+      // Save the updated payments array to localStorage
+      localStorage.setItem('payments', JSON.stringify(paymentData));
+
+      // Hide ADD button after adding
+      $('#addToLocalStorageButton').hide();
+
+      // Add new payment method group (reset fields)
+      
+
+      // Optionally show the NEW button if needed
+      $('#addPaymentMethodButton').show();
+  });
+
+  // Event listener for adding another payment method group
+  $('#addPaymentMethodButton').on('click', function() {
+      addPaymentMethodGroup();
+  });
+
+  // Function to add payment method group dynamically
+  function addPaymentMethodGroup() {
+      var paymentMethodGroup = $('<div/>', {
+          'class': 'payment-method-group',
+          'css': {
+              'display': 'flex',
+              'flexDirection': 'row',
+              'marginTop': '10px'
+          }
+      });
+
+      var paymentMethodSelect = $('<select/>', {
+          'class': 'form-control payment-method',
+          'name': 'PaymentMethod[]',
+          'css': {
+              'marginRight': '10px'
+          }
+      }).append(`
+          <option value="" disabled selected>Select payment method</option>
+          <option value="EQUITY">EQUITY</option>
+          <option value="ZIGAMA">ZIGAMA</option>
+          <option value="MOMO">MOMO</option>
+          <option value="CASH">CASH</option>
+          <option value="POS">POS</option>
+      `);
+
+      var paymentAmountInput = $('<input/>', {
+          'type': 'number',
+          'class': 'form-control payment-amount',
+          'name': 'PaymentAmount[]',
+          'placeholder': 'Amount',
+          'css': {
+              'marginTop': '-6px',
+              'marginRight': '10px'
+          }
+      });
+
+      var deleteButton = $('<button/>', {
+          'class': 'btn btn-danger delete-payment-method',
+          'text': 'Delete',
+          'css': {
+              'height': '40px'
+          },
+          'click': function() {
+              $(this).closest('.payment-method-group').remove();
+          }
+      });
+
+      paymentMethodGroup.append(paymentMethodSelect);
+      paymentMethodGroup.append(paymentAmountInput);
+      paymentMethodGroup.append(deleteButton);
+
+      $('#paymentMethodsContainer').append(paymentMethodGroup);
+  }
   
   
   
@@ -329,8 +432,30 @@ $("#NegoPrice").on("input", function () {
 $("#savep_sell").click(function () {
   var client = $("#getnames").html();
   console.log(" clientname", client);
-  var payment = $("#PaymentMethod").val();
+  // Retrieve payments array from localStorage and parse it
+var payments = JSON.parse(localStorage.getItem("payments")) || [];
+
+// Calculate the sum of all amounts
+var totalAmount = payments.reduce(function(sum, payment) {
+    return sum + parseFloat(payment.amount); // Ensure that amount is treated as a number
+}, 0); // Initial sum is 0
+
+console.log("totalAmount:", totalAmount);
+
+// Retrieve cart object from localStorage and parse it
+var cart = JSON.parse(localStorage.getItem("cart")) || { items: [] };
+
+// Calculate the sum of all 'paid' amounts
+var totalPaid = cart.items.reduce(function(sum, item) {
+    return sum + parseFloat(item.paid); // Ensure that 'paid' is treated as a number
+}, 0); // Initial sum is 0
+
+console.log("Total Paid:", totalPaid);
+
+
   function convertDateFormat(duedate) {
+
+
     // Create a new Date object with the selected date
         var dateObject = new Date(duedate);
     
@@ -348,15 +473,11 @@ $("#savep_sell").click(function () {
   
     var duedate = $("#duedate").val(); 
     var convertedDate = convertDateFormat(duedate);
-
-
-  if (!payment) {
-    // Show message if payment is empty
-    alert("Please select a payment method.");
-  }else if(!client){
-    alert("Please select a client.");
-
-  }else{
+  
+    if(!client){
+    alert("Please select a client.");}
+  
+  else{
 
     
     $("#savep_sell").html("Please wait...");
@@ -364,7 +485,7 @@ $("#savep_sell").click(function () {
 
   
 
-    var cart = JSON.parse(localStorage.getItem("cart")) || { items: [], total: '0.00 FRW' };
+    
     
     // Extract the product IDs and quantities from the cart array
     var productIds = cart.items.map(function(item) {
@@ -378,9 +499,11 @@ $("#savep_sell").click(function () {
     var prices = cart.items.map(function(item) {
         return parseFloat(item.price);
     });
+
     var paids = cart.items.map(function(item) {
       return parseFloat(item.paid);
-    });
+  });
+    
     
     var benes = cart.items.map(function(item) {
         return parseFloat(item.benefit);
@@ -419,7 +542,7 @@ $("#savep_sell").click(function () {
             user_id: use_id,
             usershift: usershift,
             created_time:convertedDate,
-            payment:payment,
+            payments:payments,
         },
         success: function (response) {
             console.log("response:", response);
@@ -427,6 +550,7 @@ $("#savep_sell").click(function () {
             View_LastSalesRecord();
             $("#savep_sell").html("Sell Done");
             localStorage.setItem("is_paid", "Paid");
+            localStorage.removeItem("payments");
     
             // var checkbox = document.getElementById("flexSwitchCheckChecked");
             // // Toggle the checkbox's checked state

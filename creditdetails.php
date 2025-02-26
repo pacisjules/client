@@ -47,7 +47,7 @@ include('getuser.php');
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <p class="text-primary m-0 fw-bold">Customer Information</p>
                             <div>
-                             <!-- <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button> -->
+                            <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;"  id="getcustomerhistory">Payment History</button>
                             <button class="btn btn-info" style="font-size: 15px; font-weight: bold;"  id="getcustomerdebts">Credits Report</button>   
                             </div>
                             

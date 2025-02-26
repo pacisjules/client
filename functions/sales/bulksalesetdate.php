@@ -46,7 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $service_amount = $_POST['service_amount'];
         $user_id = $_POST['user_id'];
         $usershift = $shift_rec;
-        $payment = $_POST['payment'];
+        if (isset($_POST['payments'])) {
+            $payments = $_POST['payments'];
+        } else {
+            $payments = []; // Handle the case where there are no payments
+        }
         $currentDate = $_POST['created_time'];;
 
 
@@ -112,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Perform calculations
                     
 
-                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id  SHIFT: $usershift SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount PAID: $custom_paid PAYMENT: $payment STP: $sales_type STATUS: $paid_status TB:$total_benefit";
+                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id  SHIFT: $usershift SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount PAID: $custom_paid  STP: $sales_type STATUS: $paid_status TB:$total_benefit";
                     
                     //Get product expiration time
                     $sqlExpiry = "SELECT `expired_time`, `allow_exp` FROM `products` WHERE `id` = $product_id";
@@ -121,67 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $hours_of_expiry = $rowInfos['expired_time'];
                     $allow_exp = $rowInfos['allow_exp'];
 
-                    if ($allow_exp == 1) {
-
-                        //get current time
-                        $current_now_exp = date('Y-m-d H:i:s');
-
-                        //Get current quantity, used_quantity, status in expiration_table
-                        $sql_getexp="SELECT `exp_id`,`quantity`, `used_quantity`, `status` FROM `expiration_table` WHERE `product_id` = $product_id AND `quantity` > 0 AND `due_date` > '$current_now_exp' ORDER BY `due_date` ASC LIMIT 1";
-                        $Expiryresult = $conn->query($sql_getexp);
-                        $ExpiryrowInfos = $Expiryresult->fetch_assoc();
-                        
-                        $expiry_used_quantity = $ExpiryrowInfos['used_quantity'];
-                        $expiry_status = $ExpiryrowInfos['status'];
-                        $exp_id = $ExpiryrowInfos['exp_id'];
-                        
-                        if($quantity > $ExpiryrowInfos['quantity']){
-
-                        $remain = $quantity - $ExpiryrowInfos['quantity'];
-                        $New_usedqty=$expiry_used_quantity+$ExpiryrowInfos['quantity'];
-                        
-
-                        // Update expiration table record on quantity by remove and add on used_quantity
-                        $sql_updateexp = "UPDATE `expiration_table` SET `quantity` = 0, `used_quantity` = $New_usedqty, `status` = 2 WHERE `product_id` = $product_id AND `exp_id` = $exp_id";
-                        $conn->query($sql_updateexp);
-                        
-
-                        //Second Check Get current quantity, used_quantity, status in expiration_table
-                        $sql_getexpSec="SELECT `exp_id`,`quantity`, `used_quantity`, `status` FROM `expiration_table` WHERE `product_id` = $product_id AND `quantity` > 0 AND `due_date` > '$current_now_exp' ORDER BY `due_date` ASC LIMIT 1";
-                        $ExpiryresultSec = $conn->query($sql_getexpSec);
-                        $ExpiryrowInfosSec = $ExpiryresultSec->fetch_assoc();
-
-                        $expiry_used_quantitySec = $ExpiryrowInfosSec['used_quantity'];
-                        $expiry_statusSec = $ExpiryrowInfosSec['status'];
-                        $exp_idSec = $ExpiryrowInfosSec['exp_id'];
-
-
-                        $Exp_remainSec =  $ExpiryrowInfosSec['quantity']-$remain;       
-                        $New_usedqtySec=$expiry_used_quantitySec+$remain;
-
-                        // Update expiration table record on quantity by remove and add on used_quantity
-                        $sql_updateexpSec = "UPDATE `expiration_table` SET `quantity` = $Exp_remainSec, `used_quantity` = $New_usedqtySec WHERE `product_id` = $product_id AND `exp_id` = $exp_idSec";
-                        $conn->query($sql_updateexpSec);
-
-                        }else{
-
-
-                        $Exp_remain =  $ExpiryrowInfos['quantity']-$quantity;       
-                        $New_usedqty=$expiry_used_quantity+$quantity;
-
-                        // Update expiration table record on quantity by remove and add on used_quantity
-                        $sql_updateexp = "UPDATE `expiration_table` SET `quantity` = $Exp_remain, `used_quantity` = $New_usedqty WHERE `product_id` = $product_id AND `exp_id` = $exp_id";
-                        $conn->query($sql_updateexp);  
-
-                        }
-                        
-                        
-                    }
-
+               
 
                     // Insert sales record
-                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`,`paid`, `payment`,`total_benefit`, `sales_type`, `paid_status`,`usershift_record`,`created_time`)
-                    VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$custom_paid','$payment','$total_benefit','$sales_type','$paid_status','$usershift','$currentDate')";
+                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`,`paid`,`total_benefit`, `sales_type`, `paid_status`,`usershift_record`,`created_time`)
+                    VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$custom_paid','$total_benefit','$sales_type','$paid_status','$usershift','$currentDate')";
 
 
 
@@ -234,6 +182,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // All sales records were inserted successfully
                 $response[] = "All sales records added successfully.";
+
+               // Check if the payments array has elements before proceeding
+               if (isset($payments) && is_array($payments) && count($payments) > 0) {
+                    foreach ($payments as $payment) {
+                        $method = $payment['method'];
+                        $amount = $payment['amount'];
+
+                        // Insert each payment
+                        $sqlPayment = "INSERT INTO `payments`(`sessionId`, `PaymentMethod`, `Amount`, `Status`,`spt`,`PaymentDate`) 
+                                    VALUES ('$Session_sale_ID', '$method', '$amount', 'Completed', '$sales_point_id', '$currentDate')";
+                        $conn->query($sqlPayment);
+                    }
+                } 
+
+
+
             } else {
                 $conn->rollback(); // Rollback the transaction if not all records were inserted successfully
             }

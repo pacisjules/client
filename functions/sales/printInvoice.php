@@ -27,8 +27,6 @@ $sql = "
         SL.quantity,
         SL.sales_price,
         SL.total_amount,
-        SL.paid,
-        SL.payment,
         SL.total_benefit,
         SL.paid_status,
         SL.created_time,
@@ -72,8 +70,6 @@ while ($row = $result->fetch_assoc()) {
         'sales_price' => $pic,
         'quantity' => $row['quantity'],
         'total_amount' => $row['total_amount'],
-        'paid' => $row['paid'],
-        'payment' => $row['payment'],
         'total_benefit' => $row['total_benefit'],
         'created_time' => $row['created_time'],
         'paid_status' => $row['paid_status'],
@@ -85,7 +81,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Calculate sumtotal for 'Paid' and 'Not Paid' sales
-$sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal, SUM(paid) AS sumtotal_paid FROM sales WHERE sess_id = '$sess_id'";
+$sumTotalQueryPaid = "SELECT SUM(total_amount) AS sumtotal FROM sales WHERE sess_id = '$sess_id'";
 $sumResultPaid = $conn->query($sumTotalQueryPaid);
 
 // Default values for sum totals in case the query returns NULL
@@ -95,15 +91,14 @@ $sumtotalPaid = 0;
 // Fetch the sum totals if the query succeeded
 if ($sumResultPaid && $sumResultPaid->num_rows > 0) {
     $sumRowPaid = $sumResultPaid->fetch_assoc();
-    $sumtotal = isset($sumRowPaid['sumtotal']) ? $sumRowPaid['sumtotal'] : 0; // Ensure it's not null
-    $sumtotalPaid = isset($sumRowPaid['sumtotal_paid']) ? $sumRowPaid['sumtotal_paid'] : 0; // Ensure it's not null
+    $sumtotal = $sumRowPaid['sumtotal']; // Ensure it's not null
+    // Ensure it's not null
 }
 
 // Create an array to hold the response data
 $responseData = array(
     'data' => $data,
     'sumtotal' => $sumtotal, // Total amount (corrected)
-    'sumtotal_paid' => $sumtotalPaid, // Total paid amount
 );
 
 // Convert data to JSON

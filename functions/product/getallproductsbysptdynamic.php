@@ -10,7 +10,8 @@ $spt = $_GET['spt'];
 
 
 // Retrieve all users from the database
-$sql = "SELECT  ROW_NUMBER() OVER (ORDER BY PD.id) as num,PD.id as pid,
+$sql = "SELECT  ROW_NUMBER() OVER (ORDER BY PD.id) as num,PD.id as pid,PD.eid, 
+    PD.eimage, PD.barcode, PD.price,PD.image,
        PD.name, PD.price, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
         FROM products PD
         LEFT JOIN inventory INV ON PD.id = INV.product_id

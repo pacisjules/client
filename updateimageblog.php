@@ -1,6 +1,91 @@
 <?php
 include('getuser.php');
+
+// Get the product ID from the URL
+$product_id = $_GET['pid'];
+
+// Check if the form has been submitted
+if (isset($_POST['submit'])) {
+
+    // Database connection (ensure this is correctly set up)
+    require_once 'functions/connection.php';
+
+    // Directory where images will be saved
+    $target_dir = "uploads/";
+
+    // Check if the 'uploads' directory exists, create it if not
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0755, true);
+    }
+
+    // Check if a file has been uploaded
+    if (isset($_FILES["cover_image"]["name"])) {
+        $productName = $_POST['productName']; // Product name (read-only)
+        $target_file = $target_dir . basename($_FILES["cover_image"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Check if the file is an actual image
+        $check = getimagesize($_FILES["cover_image"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+        // Check file size (limit to 5MB)
+        if ($_FILES["cover_image"]["size"] > 5000000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow specific file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // Check if there were any errors
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+        } else {
+            // Try to upload the file
+            if (move_uploaded_file($_FILES["cover_image"]["tmp_name"], $target_file)) {
+                $image_name = htmlspecialchars(basename($_FILES["cover_image"]["name"]));
+
+                // Retrieve the 'eid' from the database
+                $result = $conn->query("SELECT eid FROM products WHERE id = '$product_id'");
+                $row = $result->fetch_assoc();
+                $eid = $row['eid'];
+
+                // If 'eid' exists, update 'eimage', otherwise update 'image'
+                if (!empty($eid)) {
+                    $sql = "UPDATE products SET eimage = '$image_name' WHERE id = '$product_id'";
+                } else {
+                    $sql = "UPDATE products SET image = '$image_name' WHERE id = '$product_id'";
+                }
+
+                // Execute the SQL query
+                if ($conn->query($sql) === TRUE) {
+                    echo "Product image updated successfully.";
+                } else {
+                    echo "Error updating product image: " . $conn->error;
+                }
+
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    } else {
+        echo "No file was uploaded.";
+    }
+
+    // Close the database connection
+
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,30 +167,20 @@ include('getuser.php');
             <div id="content">
                 <?php include('navbar.php'); ?>
                 <div class="container-fluid">
-                    <div class="d-flex flex-row justify-content-between align-items-center">
+                    <!-- <div class="d-flex flex-row justify-content-between align-items-center">
                         <h3 class="text-dark mb-4" style="font-weight: 900;font-size: 22px; text-transform: uppercase;">Products</h3>
-                        <div class="d-flex flex-row justify-content-between align-items-center gap-3">
-                        <button class="btn btn-success" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase; color: white" data-bs-toggle="modal" data-bs-target="#add_category_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New category</button>
-                        <button class="btn btn-primary" type="button" style="font-size: 14px;font-weight: bold; padding: 10px; Text-Transform: uppercase;" data-bs-toggle="modal" data-bs-target="#add_product_modal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add New Product</button></div>
-                        
-                    </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center gap-3">    
+                    </div> -->
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <p class="text-primary m-0 fw-bold">Product Information</p>
+                        
                             
-                             <button class="btn btn-secondary" style="font-size: 15px; font-weight: bold;" id="pickDateButton">Adding Report</button>
-                            <button class="btn btn-success" style="font-size: 15px; font-weight: bold;" id="pickeditButton">Editing Report</button>
-                            <button class="btn btn-danger" style="font-size: 15px; font-weight: bold;" id="pickdeleteButton">Deleting Report</button>
-                            <button class="btn btn-info" style="font-size: 15px; font-weight: bold;" id="generateproductReport">Product Report</button>   
-                           
+
                             
                             
                         </div>
                         
-                        <input type="text" id="datepicker" style="display: none;"> 
-                         <input type="text" id="datepickeredit" style="display: none;"> 
-                         <input type="text" id="datepickerdelete" style="display: none;"> 
-                        
+        
                         <div class="card-body">
                             <div class="row">
                                 <!-- <div class="col-md-6 text-nowrap">
@@ -121,8 +196,73 @@ include('getuser.php');
                                 </div>
                             </div> -->
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                            <?php include('getproducts.php'); ?>
+    <div class="span9">
+        <div class="content">
+            <div class="module">
+                <div class="module-head">
+                    <h3>Update Product Image</h3>
+                </div>
+                <div class="module-body">
+                    <br />
+
+                    <form class="form-horizontal row-fluid" name="updateproductimage" method="post" enctype="multipart/form-data">
+                        <!-- Product Name (read-only) -->
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Product Name</label>
+                            <div class="controls">
+                                <input type="text" name="productName" readonly value="<?php echo htmlspecialchars($_GET['name']); ?>" class="span8 tip" required>
                             </div>
+                        </div>
+
+                        <!-- Display Current Product Image -->
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Current Product Image</label>
+                            <div class="controls">
+                                <?php
+                                // Database connection (ensure this is correctly set up)
+                                require_once 'functions/connection.php';
+                                $result = $conn->query("SELECT image, eid, eimage FROM products WHERE id = '$product_id'");
+                                $row = $result->fetch_assoc();
+
+                                // Determine which image to show: 'image' or 'eimage'
+                                $current_image = '';
+                                if (!empty($row['eid'])) {
+                                    // If 'eid' exists, use 'eimage'
+                                    $current_image = $row['eimage'];
+                                } else {
+                                    // If no 'eid', use 'image'
+                                    $current_image = $row['image'];
+                                }
+                                ?>
+                                <img src="uploads/<?php echo $current_image; ?>" width="200" height="100">
+                            </div>
+                        </div>
+
+                        <!-- Input for New Product Image -->
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">New Product Image</label>
+                            <div class="controls">
+                                <input type="file" name="cover_image" id="cover_image" class="span8 tip" required>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="control-group">
+                            <div class="controls">
+                                <button class="btn btn-primary" type="submit" name="submit" class="btn">Update</button>
+                                <a href="product" class="btn btn-danger">Back</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
                             <!-- <div class="row">
                                 <div class="col-md-6 align-self-center">
                                     <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>

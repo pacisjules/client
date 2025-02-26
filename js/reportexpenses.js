@@ -35,6 +35,7 @@ $(document).ready(function() {
             { "data": "dependon" },
             { "data": "salespoint" },
             { "data": "expense_name" },
+            { "data": "payment" },
             { "data": "doneby" },
             { "data": "created_date" },
             {
@@ -62,7 +63,7 @@ $(document).ready(function() {
                     extend:'excelHtml5',
                     text: '<i class="fas fa-file-excel"></i> Export to Excel',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8]  // Specify the columns you want to export
+                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                     }
                 },
     
@@ -70,7 +71,7 @@ $(document).ready(function() {
                     extend:'pdfHtml5',
                     text: '<i class="fas fa-file-pdf"></i> Export to Pdf',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8]  // Specify the columns you want to export
+                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                     }
                 },
     
@@ -78,7 +79,7 @@ $(document).ready(function() {
                     extend:'print',
                     text: '<i class="fas fa-print"></i> Print table',
                     exportOptions: {
-                        columns: [0, 1, 2, 3,4, 5, 6, 7, 8]  // Specify the columns you want to export
+                        columns: [0, 1, 2, 3,4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                     }
                 },
      
@@ -146,6 +147,7 @@ $(document).ready(function() {
             { "data": "dependon" },
             { "data": "salespoint" },
             { "data": "expense_name" },
+            { "data": "payment" },
             { "data": "doneby" },
             { "data": "created_date" },
             {
@@ -173,7 +175,7 @@ $(document).ready(function() {
                     extend:'excelHtml5',
                     text: '<i class="fas fa-file-excel"></i> Export to Excel',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8]  // Specify the columns you want to export
+                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                     }
                 },
     
@@ -181,7 +183,7 @@ $(document).ready(function() {
                     extend:'pdfHtml5',
                     text: '<i class="fas fa-file-pdf"></i> Export to Pdf',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8]  // Specify the columns you want to export
+                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                     }
                 },
     
@@ -189,7 +191,7 @@ $(document).ready(function() {
                     extend:'print',
                     text: '<i class="fas fa-print"></i> Print table',
                     exportOptions: {
-                        columns: [0, 1, 2, 3,4, 5, 6, 7, 8]  // Specify the columns you want to export
+                        columns: [0, 1, 2, 3,4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                     }
                 },
      
@@ -257,6 +259,7 @@ function View_DayRecord() {
         { "data": "dependon" },
         { "data": "salespoint" },
         { "data": "expense_name" },
+        { "data": "payment" },
         { "data": "doneby" },
         { "data": "created_date" },
         {
@@ -284,7 +287,7 @@ function View_DayRecord() {
                 extend:'excelHtml5',
                 text: '<i class="fas fa-file-excel"></i> Export to Excel',
                 exportOptions: {
-                    columns: [0, 1, 2,3, 4, 5, 6, 7, 8]  // Specify the columns you want to export
+                    columns: [0, 1, 2,3, 4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                 }
             },
 
@@ -292,7 +295,7 @@ function View_DayRecord() {
                 extend:'pdfHtml5',
                 text: '<i class="fas fa-file-pdf"></i> Export to Pdf',
                 exportOptions: {
-                    columns: [0, 1, 2,3, 4, 5, 6, 7, 8]  // Specify the columns you want to export
+                    columns: [0, 1, 2,3, 4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                 }
             },
 
@@ -300,7 +303,7 @@ function View_DayRecord() {
                 extend:'print',
                 text: '<i class="fas fa-print"></i> Print table',
                 exportOptions: {
-                    columns: [0, 1, 2, 3,4, 5, 6, 7, 8]  // Specify the columns you want to export
+                    columns: [0, 1, 2, 3,4, 5, 6, 7, 8,9]  // Specify the columns you want to export
                 }
             },
  

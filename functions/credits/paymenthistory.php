@@ -18,9 +18,9 @@ $sql = "SELECT
         dh.current_balance,
         dh.created_at,
         (SELECT CONCAT(first_name,' ',last_name)FROM employee WHERE user_id=dh.user_id )AS user_name,
-        (SELECT names FROM customer WHERE customer_id=dh.customer_id )AS customer_name
+         (SELECT names FROM supplier WHERE supplier_id=dh.customer_id )AS customer_name
 
-        FROM debts_history dh WHERE customer_id=$customer_id and spt=$spt";
+        FROM debts_history dh WHERE customer_id=$supplier_id and spt=$spt";
 
 
 $result = mysqli_query($conn, $sql);
@@ -52,12 +52,12 @@ while ($row = $result->fetch_assoc()) {
 $sqltot = "SELECT CST.names as cust_name , CST.phone as cust_phone, CST.address as cust_address,
                   SUM(DB.amount) as total_debtcust,
                   SUM(DB.amount_paid) as total_paidcust
-FROM debts DB, 
-     customer CST 
+FROM credits DB, 
+     supplier CST 
      WHERE 
-      DB.customer_id='$customer_id' 
+      DB.supplier_id='$supplier_id' 
      AND DB.sales_point_id=$spt 
-     AND CST.customer_id='$customer_id' 
+     AND CST.supplier_id='$supplier_id' 
      ";
         
 $sumResult = $conn->query($sqltot);

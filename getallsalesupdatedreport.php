@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="js/reportexpenses.js"></script>
+    <script src="js/reportupdatesales.js"></script>
     <!-- Buttons extension JS -->
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
@@ -74,8 +74,16 @@
                 </select>
             </div> -->
             <div class="col-md-4 text-left" style="margin-left: 1rem;">
-                <span style="font-size: 20px;">Total Expenses:</span>
+                <span style="font-size: 20px;">TOTAL SALES:</span>
                 <span class="badge text-bg-primary" style="font-size: 17px;" id="sum_total"></span>
+            </div>
+            <div class="col-md-4 text-left" style="margin-left: 1rem;">
+                <span style="font-size: 20px;">TOTAL PAID:</span>
+                <span class="badge text-bg-primary" style="font-size: 17px;" id="sum_paid"></span>
+            </div>
+            <div class="col-md-4 text-left" style="margin-left: 1rem;">
+                <span style="font-size: 20px;">TOTAL BALANCE:</span>
+                <span class="badge text-bg-primary" style="font-size: 17px;" id="sum_balance"></span>
             </div>
         </div>
         <br/>
@@ -111,16 +119,15 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Depend On</th>
-                    <th>Sales Point</th>
-                    <th>Type</th>
-                    <th>Method</th>
-                    <th>Record by</th>
+                    <th>Client Name</th>
+                    <th>Phone Number</th>
+                    <th>Total Amount</th>
+                    <th>Paid Amount</th>
+                    <th>Balance</th>
+                    <th>Done By</th>
                     <th>Date</th>
                     <th>Action</th>
+                   
                 </tr>
             </thead>
         </table>

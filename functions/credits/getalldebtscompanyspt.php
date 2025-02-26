@@ -23,6 +23,8 @@ supplier CU ON DE.supplier_id = CU.supplier_id
 WHERE
 DE.sales_point_id = $spt
 GROUP BY DE.supplier_id
+ORDER BY 
+    Amount DESC
 ";
 
 $value = "";

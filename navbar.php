@@ -74,7 +74,88 @@
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..."><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                            
                         </form>
+                                                    <!-- Add jQuery -->
+<script src="jquery-3.6.3.min.js" type="text/javascript"></script>
+
+<!-- Google Translate Widget Script -->
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<style>
+
+
+/* .skiptranslate {
+    display: none;
+    height: 0;
+    position: unset;
+    overflow: hidden;
+  } */
+
+
+.goog-te-banner-frame .skiptranslate {
+        display: none;
+    }
+
+    body {
+        top: 0px;
+    }
+
+.goog-te-gadget-simple{
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-family: 'Poppins', sans-serif ;
+    border-radius: 35px;
+    border:2px solid white;
+    padding: 5px 10px 5px 10px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.goog-te-gadget-simple span{
+    color: white;
+}
+
+</style>
+
+<!-- Div for Google Translate -->
+<div id="google_translate_element"></div>
+
+<!-- Script to Initialize Google Translate Widget -->
+<script type="text/javascript">
+    $('iframe.goog-te-banner-frame').hide();
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',  // Default language of the page
+            includedLanguages: 'en,fr',  // Define supported languages
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+    }
+
+    function changeLanguage(lang) {
+        // Use jQuery to find and select the language from Google Translate
+        setTimeout(function() {
+            var select = $('select.goog-te-combo');
+            if (select.length) {
+                select.val(lang);
+                select.trigger('change');  // Trigger the change event to switch language
+            }
+        }, 500);  // Delay to allow widget to load
+
+        //set .skiptranslate display to none
+        setTimeout(function() {
+            $('.skiptranslate').css('display', 'none');
+        }, 1000);
+
+        // Hide the Google Translate top bar
+        setTimeout(function() {
+            $('iframe.goog-te-banner-frame').hide();  // Hide the iframe that contains the bar
+            $('body').removeAttr('style');  // Remove any top margin added to the body
+        }, 1000);  // Adjust timeout if needed
+    }
+</script>
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
                                 <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">

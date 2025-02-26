@@ -59,8 +59,7 @@ include('getuser.php');
                                             <th style="font-size: 14px;">Price</th>
                                             <th style="font-size: 14px;">Quantity</th>
                                             <th style="font-size: 14px;">Total amount</th>
-                                            <th style="font-size: 14px;">Paid amount</th>
-                                            <th style="font-size: 14px;">Payment</th>
+                                            
                                             <th style="font-size: 14px;">Status</th>
                                             
                                             <th style="font-size: 14px;">Sold time</th>

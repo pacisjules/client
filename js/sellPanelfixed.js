@@ -144,7 +144,7 @@ $("#addCart").click(function() {
 // $("#printRec").click(function() {
 //  var sessid=localStorage.getItem('sessionid');
 
-//  var url = `printreceipt.php/sess?id=${sessid}`;
+//  var url = `printreceipt.php?id=${sessid}`;
 //  window.open(url, "_blank");
 // });
 
@@ -163,7 +163,7 @@ $("#shareReceipt").click(function() {
     navigator.share({
         title: 'Shared from Selleasep POS',
         text: 'Please open link below to check the receipt',
-        url: `https://selleasep.shop/client/printreceipt.php/sess?id=${sessid}`
+        url: `https://selleasep.com/client/printreceipt.php/sess?id=${sessid}`
     })
     .then(() => console.log('Shared successfully'))
     .catch((error) => console.error('Error sharing:', error));
@@ -383,7 +383,7 @@ $("#NegoPrice").on("input", function () {
       localStorage.removeItem('customer_phone');
       localStorage.removeItem('customer_names');
       localStorage.removeItem('customer_address');
-      $("#searchCustomerNow").html("");
+      $("#searchCustomerNow").val("");
       $("#getnames").html("");
       $("#getphone").html("");
       $("#getaddress").html("");
@@ -1407,9 +1407,10 @@ function proceed_tablet_sales () {
       console.log("response:", response);
       View_ProductsRecord();
       initializeCart();
-      View_LastSalesRecord();
+      
       $("#savep_sell_tablet").html("Sell Done");
       localStorage.setItem("is_paid","Paid");
+      $("#searchCustomerNow").val("");
      
       var checkbox = document.getElementById("flexSwitchCheckChecked");
       
@@ -1419,6 +1420,7 @@ function proceed_tablet_sales () {
       // $('#amadenis').hide();
       $("#finishModal").modal('show');
       $('#sessionid').html(response);
+     // printInvoiceFunc(response);
       localStorage.setItem('sessionid', response);
       localStorage.removeItem('customer_id');
       localStorage.removeItem('customer_phone');
@@ -1442,9 +1444,9 @@ function proceed_tablet_sales () {
 };
 
 
-function printInvoiceFunc() {
-  var ssess = localStorage.getItem("sessionid");
-  console.log("session id : ", ssess);
+function printInvoiceFunc(ssess) {
+  // var ssess = localStorage.getItem("sessionid");
+  //alert("session id : "+ ssess);
 
   // Check if session ID is available
   if (!ssess) {
@@ -1470,7 +1472,7 @@ function printInvoiceFunc() {
           } else {
               console.error('Empty or invalid data received from the server.');
           }
-          $("#finishModal").modal('hide');
+         // $("#finishModal").modal('hide');
       },
       error: function(xhr, status, error) {
           console.error('Error fetching daily sales data:', error);
@@ -2251,7 +2253,7 @@ for (let i = 0; i < salesdata.length; i++) {
             // Automatically print the report
             window.onload = function() {
               window.print();
-              setTimeout(function() { window.close(); }, 100);
+             
             };
           </script>
   </html>

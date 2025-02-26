@@ -311,22 +311,32 @@ include('getuser.php');
                                             <label>Customer Names : </label> <span id="getnames"></span> , Tel: <span id="getphone"></span>  , Address: <span id="getaddress"></span></div><br />
                                            <!--<div style="flex-direction:row;"> <label>Phone Number :</label> <span id="getphone"></span></div>-->
                                            <!--<div style="flex-direction:row;">  <label>Address : </label> <span id="getaddress"></span> </div> <br />  -->
-                                           <div style="display:flex;flex-direction:row; justify-content:space-between;"> 
-                                             <button class="btn btn-primary" type="button"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Customer</button> 
-                                             <div style=" ">
-    <label class="form-label" style="color:black;">Payment method: </label>
-    <select class="form-control" id="PaymentMethod" style="margin-top: -6px;">
-        <option value="" disabled selected>Select payment method</option>
-        <option value="EQUITY">EQUITY</option>
-        <option value="ZIGAMA">ZIGAMA</option>
-        <option value="MOMO">MOMO</option>
-        <option value="CASH">CASH</option>
-        <option value="POS">POS</option>
-       
-    </select>
+                                           <div style="display:flex;flex-direction:row; justify-content:space-between;">
+    <button class="btn btn-primary" type="button" data-bs-target="#add_customer_modal" data-bs-toggle="modal" style="margin-right:10px;height:40px;">CLIENT</button>
+    <div id="paymentMethodsContainer">
+        <!-- Initial Payment Method -->
+        <div class="payment-method-group" style="display:flex;flex-direction:row;">
+            <select class="form-control payment-method" name="PaymentMethod[]" style="margin-right: 10px;">
+                <option value="" disabled selected>Select payment method</option>
+                <option value="EQUITY">EQUITY</option>
+                <option value="ZIGAMA">ZIGAMA</option>
+                <option value="MOMO">MOMO</option>
+                <option value="CASH">CASH</option>
+                <option value="POS">POS</option>
+            </select>
+            <input type="number" class="form-control payment-amount" name="PaymentAmount[]" placeholder="Amount" style="margin-top: -6px; margin-right: 10px;" />
+            <button class="btn btn-danger delete-payment-method" type="button" style="height:40px;">Delete</button>
+        </div>
+    </div>
+    <!-- Button to add another payment method (initially hidden) -->
+    <button id="addToLocalStorageButton" class="btn btn-primary" type="button" style="display:none;margin-left:10px;height:40px;">ADD</button>
+    <button id="addPaymentMethodButton" class="btn btn-success" type="button" style="margin-left:10px;height:40px;">NEW</button>
 </div>
-                                            
-                                            </div> 
+
+
+
+
+
                                             
                                         </div>
 
@@ -375,7 +385,7 @@ include('getuser.php');
                                 
                             </div>
                         </div>
-                        <div style="margin-left: 31px;width: 40%;">
+                    <div style="margin-left: 31px;width: 40%;">
 
 
                             <form><label class="form-label">SEARCH PRODUCT</label><input class="form-control" type="text" placeholder="Search Product ....." id="searcProductNow">

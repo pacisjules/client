@@ -47,9 +47,13 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
             if (ch.is(':checked')) {
                 // $('#amadenis').fadeIn(2000);
                 localStorage.setItem("is_paid", "Not Paid");
+                $("#labelcheck").css("color", "red");
+                $("#labelcheck").css("font-weight", "bold");
             } else {
                 // $('#amadenis').hide();
                 localStorage.setItem("is_paid", "Paid");
+                $("#labelcheck").css("gray", "red");
+                $("#labelcheck").css("font-weight", "bold");
             }
         }
         
@@ -189,21 +193,44 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 </tbody>
 </table></div>   
         </div>
+             <div class="input-group mb-3" id="amadenis" style=" transition: ease-in-out 0.2s; flex-direction:row; margin-top: 20px;margin-bottom:20px;">
+            <input class="form-control" style="width:40%;" type="text" placeholder="Search Customer ....." id="searchCustomerNow">
+            <button class="btn btn-dark" type="button" style="width:30%;margin-left:10px;"  data-bs-target="#add_customer_modal" data-bs-toggle="modal">Add New Customer</button>
+
+            <div style="background: #ededed;box-shadow: -2px 8px 12px 0px rgba(133,135,150,0.45);padding: 6px;padding-left: 13px;width:100%;" id="getsearchCustomer">
+            
+           </div>
+           <br />
+         <div style="display: flex;align-items: center;justify-content: space-between; width:100%; margin-top: 10px;margin-bottom:20px;">
+         <div style="flex-direction:row;">
+
+          <label>Customer Names : </label> <span id="getnames"></span></div>
+        <div style="flex-direction:row;"> <label>Phone Number :</label> <span id="getphone"></span></div>
+        <div style="flex-direction:row; margin-right: 30px;">  <label>Address : </label> <span id="getaddress"></span> </div> 
+       
+         </div>  
+         <div style="flex-direction:row;margin-bottom:20px;">
+         <label id="labelcheck" class="form-check-label" for="flexSwitchCheckChecked">Click to Approve Debts</label>  <input class="form-check-input"  type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="showAmadenis()">
+         
+         </div> 
+         
+       </div>
+       
         <div class="payment">
             <div class="calc">
                 
-            <h2>Payable Amount</h2>
+            <h2>Total Amount</h2>
             <h3 style="font-weight: 900;" id="subtotal">0.00 FRW</h3>
         
         </div>
-            <div class="calc">
+            <!-- <div class="calc">
             <h2>Tax</h2>
             <h3>0.00 FRW</h3>
             </div>
             <div class="calc">
             <h2>Payable Amount</h2>
             <h3 style="font-weight: 900;" id="subtotalPayable">0.00 FRW</h3>
-            </div>
+            </div> -->
 
             <div class="calcBtns">
                 <button id="clear_sell_tablet" onclick="clean_cart()">Clear Cart</button>

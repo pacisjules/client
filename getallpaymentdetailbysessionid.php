@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="js/reportexpenses.js"></script>
+    <script src="js/paymentsession.js"></script>
+    <!-- <script src="js/sales.js"></script> -->
     <!-- Buttons extension JS -->
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
@@ -67,43 +68,19 @@
 <body>
     <div>
     <div class="row">
-            <!-- <div class="col-md-4">
-                <label for="jobTitleFilter" style="margin-left: 1rem;">Filter by Product:</label>
-                <select id="jobTitleFilter" class="form-select" aria-label="Default select example" style="width: 220px; margin-left: 1rem;">
-                    <option selected value="">All</option>
-                </select>
-            </div> -->
+            <div class="col-md-4">
+            <a class="nav-link active" href="salesgrouped">  <button  type="button" style="font-size: 15px;font-weight: bold; background-color:#040536; border-radius:10px; color:white; margin-bottom:30px;"><i class="fas fa-arrow-left"></i>
+            &nbsp;Back</button></a> 
+            </div>
             <div class="col-md-4 text-left" style="margin-left: 1rem;">
-                <span style="font-size: 20px;">Total Expenses:</span>
+                <span style="font-size: 20px;">TOTAL AMOUNT:</span>
                 <span class="badge text-bg-primary" style="font-size: 17px;" id="sum_total"></span>
             </div>
         </div>
         <br/>
 
      <!-- Date Inputs: Select Date and From/To Date Range -->
-     <div class="row">
-            <!-- Single Date Picker -->
-            <div class="col-md-4">
-                <label for="reportDate" style="margin-left: 1rem;">Select Date:</label>
-                <input type="date" id="reportDate" class="form-control" style="width: 220px;margin-left: 1rem;">
-            </div>
-
-            <!-- From/To Date Range Pickers with Inline Fetch Button -->
-            <div class="col-md-4">
-                <label for="fromDate" style="margin-left: 3rem;">From:</label>
-                <input type="date" id="fromDate" class="form-control" style="width: 150px;margin-left: 3rem;">
-            </div>
-            <div class="col-md-4 d-flex align-items-end">
-                <div>
-                    <label for="toDate" style="margin-left: -7rem;">To:</label>
-                    <input type="date" id="toDate" class="form-control" style="width: 150px; margin-left: -7rem;">
-                </div>
-                <div class="ms-2">
-                    <button id="fetchReportBtn" class="btn btn-primary" style="width: 150px; margin-left: 1.5rem">Fetch Report</button>
-                </div>
-            </div>
-        </div>
-
+     
 
         <br/>
 
@@ -111,16 +88,11 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th>Payment Method</th>
                     <th>Amount</th>
-                    <th>Depend On</th>
-                    <th>Sales Point</th>
-                    <th>Type</th>
-                    <th>Method</th>
-                    <th>Record by</th>
                     <th>Date</th>
                     <th>Action</th>
+                   
                 </tr>
             </thead>
         </table>

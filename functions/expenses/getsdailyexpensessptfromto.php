@@ -19,6 +19,7 @@ $sql = "
         SE.name,
         SE.description,
         SE.amount,
+        SE.payment,
         SE.dependon,
          (SELECT location FROM salespoint WHERE sales_point_id  = SE.sales_point_id) AS salespoint,
         (SELECT name FROM expenses_type WHERE id = SE.exp_type) AS expense_name,

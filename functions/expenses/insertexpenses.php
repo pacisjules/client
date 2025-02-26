@@ -11,9 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sales_point_id = $_POST['sales_point_id']; // Ensure it's an integer
     $user_id = $_POST['user_id'];
     $dependon = $_POST['dependon'];
+    $payment = $_POST['payment'];
 
-    $sql = "INSERT INTO shop_expenses (`name`, `description`, `amount`, `sales_point_id`, `exp_type`, `dependon`, `user_id`)
-  VALUES ('$name', '$description','$amount','$sales_point_id', '$exp_type', '$dependon', '$user_id')";
+    $sql = "INSERT INTO shop_expenses (`name`, `description`, `amount`,`payment` ,`sales_point_id`, `exp_type`, `dependon`, `user_id`)
+  VALUES ('$name', '$description','$amount','$payment','$sales_point_id', '$exp_type', '$dependon', '$user_id')";
 
 if ($conn->query($sql) === TRUE) {
     // Return a success message

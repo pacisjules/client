@@ -192,7 +192,7 @@ $(function () {
                     let iconmanager = "";
                     let msgmanager = "";
 
-                    if (item.total_amount == item.paid) {
+                    if (item.paid_status === "Paid") {
                         sts = "Active";
                         endis = "btn btn-success";
                         icon = "fa fa-check-square text-white";
@@ -219,11 +219,8 @@ $(function () {
                     style: "currency",
                     currency: "RWF",
                 }).format(parseFloat(item.total_amount))}</td>
-                <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(item.paid))}</td>
-                <td style="font-size: 12px;">${item.payment}</td>
+                
+               
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
                   
                   <td style="font-size: 12px;">${item.created_time}</td>
@@ -483,7 +480,7 @@ $(function () {
                     let iconmanager = "";
                     let msgmanager = "";
 
-                    if (item.total_amount == item.paid) {
+                    if (item.paid_status === "Paid") {
                         sts = "Active";
                         endis = "btn btn-success";
                         icon = "fa fa-check-square text-white";
@@ -1219,6 +1216,53 @@ $("#editBtnSales").on("click", function() {
       });
   });
 
+  $("#editBtnPayment").on("click", function() {
+    var pay_id = localStorage.getItem("pay_id");
+    var method = $("#editmethod").val();
+    var amount = $("#editamount").val();
+
+    // Ensure amount is not empty or invalid
+    if (!amount || isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "functions/sales/updatepayment.php", // Ensure this path is correct
+        data: {
+            pay_id: pay_id,
+            method: method,
+            amount: amount
+        },
+        success: function(response) {
+            console.log(response.message); // Log the response message
+
+            // If payment update is successful
+            if (response.message === "Payment updated successfully") {
+                $("#edit_payment_modal").modal("hide");
+                localStorage.removeItem("pay_id");
+                $("#editamount").val("");
+                setTimeout(function() {
+                    location.reload(); // Reload page after success
+                }, 1000);
+            } else {
+                alert("Error: " + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error); // Log any errors for debugging
+
+            $("#edit_payment_modal").modal("hide");
+            localStorage.removeItem("pay_id");
+            $("#editamount").val("");
+            setTimeout(function() {
+                location.reload(); // Reload the page on error
+            }, 1000);
+        }
+    });
+});
+
 
   $("#approvebtn").on("click", function() {
     var storeapproval = localStorage.getItem("storeapproval");
@@ -1454,6 +1498,47 @@ $("#deleteBtnSales").on("click", function() {
           localStorage.removeItem("saleID");
           localStorage.removeItem("sessID");
           $("#editquantity").val("");
+          setTimeout(function() {
+              location.reload();
+          }, 1000);
+
+      }
+  });
+});
+
+
+
+
+
+$("#deleteBtnPayment").on("click", function() {
+  var pay_id = localStorage.getItem("pay_id");
+
+
+  $.ajax({
+      type: "POST",
+      url: "functions/sales/deletepayment.php", // Update this with the actual path to your PHP script
+      data: {
+        pay_id: pay_id, // Corrected variable name to match the PHP script
+
+      },
+      success: function(response) {
+          if (response.message) {
+              //console.log(response.message);
+          } else {
+              //console.log("Sale product deleted successfully.");
+          }
+          $("#delete_payment_modal").modal("hide");
+          localStorage.removeItem("pay_id");
+          setTimeout(function() {
+              location.reload();
+          }, 1000);
+          
+
+      },
+      error: function(xhr, status, error) {
+          //console.log("Error: " + error);
+          $("#delete_payment_modal").modal("hide");
+          localStorage.removeItem("pay_id");
           setTimeout(function() {
               location.reload();
           }, 1000);
@@ -1749,7 +1834,7 @@ function View_DaySalesRecord() {
                   let iconmanager = "";
                   let msgmanager = "";
 
-                  if (item.paid == item.total_amount) {
+                  if (item.paid_status === "Paid") {
                       sts = "Active";
                       endis = "btn btn-success";
                       icon = "fa fa-check-square text-white";
@@ -1778,11 +1863,7 @@ function View_DaySalesRecord() {
                             style: "currency",
                             currency: "RWF",
                         }).format(parseFloat(item.total_amount))}</td>
-                        <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "RWF",
-                        }).format(parseFloat(item.paid))}</td>
-                         <td style="font-size: 12px;">${item.payment}</td>
+                        
                           <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
                 
                           <td style="font-size: 12px;">${item.created_time}</td>
@@ -1798,8 +1879,7 @@ function View_DaySalesRecord() {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
-                          <td style="font-size: 14px;"> ${parseFloat(item.paid)}</td>
-                          <td style="font-size: 14px;"> ${item.payment}</td>
+                          
                           <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
@@ -2325,7 +2405,7 @@ function View_YesterdaySalesRecord() {
                     let iconmanager = "";
                     let msgmanager = "";
 
-                    if (item.total_amount == item.paid) {
+                    if (item.paid_status === "Paid") {
                         sts = "Active";
                         endis = "btn btn-success";
                         icon = "fa fa-check-square text-white";
@@ -2354,11 +2434,7 @@ function View_YesterdaySalesRecord() {
                     style: "currency",
                     currency: "RWF",
                 }).format(parseFloat(item.total_amount))}</td>
-                <td style="font-size: 12px;"> ${new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "RWF",
-                }).format(parseFloat(item.paid))}</td>
-                <td style="font-size: 12px;">${item.payment}</td>
+                
                   <td style="font-size: 12px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 11px; font-weight=bold; ">${msg}</span></button></td>
 
                   <td style="font-size: 12px;">${item.created_time}</td>
@@ -2374,8 +2450,7 @@ function View_YesterdaySalesRecord() {
                           <td style="font-size: 14px;"> ${parseFloat(item.sales_price)}</td>
                           <td style="font-size: 14px;">${item.quantity}</td>
                           <td style="font-size: 14px;"> ${parseFloat(item.total_amount)}</td>
-                           <td style="font-size: 14px;"> ${parseFloat(item.paid)}</td>
-                            <td style="font-size: 14px;"> ${item.payment}</td>
+                           
                           <td style="font-size: 14px;"> ${parseFloat(item.total_benefit)}</td>
                           <td style="font-size: 14px;"><button class="${endis}" type="button" style="margin-left: 20px;width: 108.4531px;color: rgb(255,255,255);font-weight: bold;"><i class="${icon}"></i>&nbsp; <span style="font-size: 14px; font-weight=bold; ">${msg}</span></button></td>
                           <td style="font-size: 14px;">${item.created_time}</td>
@@ -3740,15 +3815,13 @@ table += `<tr >
   style: "currency",
   currency: "RWF",
 }).format(parseFloat(item.total_amount))}</td>
-<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "RWF",
-}).format(parseFloat(item.paid))}</td>
-<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.payment}</td>
+
+
 <td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${new Intl.NumberFormat("en-US", {
 style: "currency",
 currency: "RWF",
 }).format(parseFloat(item.total_benefit))}</td>
+<td style="font-size: 12px;font-family: 'Open Sans', sans-serif; color:${ item.paid_status == "Paid" ? "green" : "red" }; font-weight: bold;  vertical-align: top; padding: 0 0 7px;" align="center" width="150">${item.paid_status}</td>
 </tr>`;
 
 };
@@ -3931,14 +4004,12 @@ table[class=col] td { text-align: left !important; }
           Sales Amount
           </th>
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
-          Paid Amount
+          Benefit
           </th>
-          <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="150">
-          Payment
-          </th>
+          
 
           <th style="font-size: 16px; font-family: 'Open Sans', sans-serif; color: #1f0c57; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center" width="100">
-           Benefit
+           Status
           </th>
         
         
@@ -4600,6 +4671,23 @@ function getSalesID(sale_id, sess_id, product_id,qty,price, total, paid){
       //console.log("sessID ", sess_id);
   
 }
+
+
+
+function getPaymentID(pay_id, method,amount){
+  localStorage.setItem("pay_id", pay_id);
+  $("#editmethod").val(method);
+  $("#editamount").val(amount);
+
+
+
+}
+
+function getdeleteID(pay_id){
+  localStorage.setItem("pay_id", pay_id);
+}
+
+
 
 function redirectToMonthlySales() {
           // Change the window.location.href to the desired URL

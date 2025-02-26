@@ -18,11 +18,14 @@ $name = $_GET['name'];
 
 
 // Retrieve all users from the database
-$sql = "SELECT  PD.id, PD.name, PD.price, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
-        FROM products PD
-        LEFT JOIN inventory INV ON PD.id = INV.product_id
-        WHERE PD.company_ID = $comID
-        AND PD.sales_point_id = $spt AND (PD.name LIKE '%$name %' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%') LIMIT 15";
+$sql = "SELECT DISTINCT PD.id, PD.name, PD.price, PD.benefit, PD.status, PD.description, PD.created_at, 
+       IFNULL(INV.quantity, 0) AS invquantity
+FROM products PD
+LEFT JOIN inventory INV ON PD.id = INV.product_id
+WHERE PD.company_ID = $comID
+  AND PD.sales_point_id = $spt 
+  AND (PD.name LIKE '%$name %' OR PD.barcode='$name' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%')
+LIMIT 15";
 
 $value = "";
 $result = mysqli_query($conn, $sql);

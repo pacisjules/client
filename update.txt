@@ -1,0 +1,4 @@
+1. select multiple payment method (correct payments table on server
+2. get report of invoices and their detail(edit and delete and manage)
+3.add payment method to to expenses (update shop_expenses on server
+4. 

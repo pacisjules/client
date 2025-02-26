@@ -37,6 +37,7 @@ $(document).ready(function () {
                 $("#decsri").html("");
                 $("#expensesmodal").modal("hide");
                 $("#addnewtype").html("Done");
+                location.reload();
             },
             error: function (error) {
                 
@@ -57,6 +58,7 @@ $(document).ready(function () {
         var exp_type = $("#expenseTypeSelect").val();
         var amount = $("#amountnum").val();
         var dependon = $("#dependon").val();
+        var payment = $("#payment").val();
         console.log(name);
         console.log(decsr);
         // Retrieve values from localStorage
@@ -82,7 +84,8 @@ $(document).ready(function () {
                 sales_point_id: sales_point_id,
                 exp_type:exp_type,
                 user_id:user_id,
-                dependon:dependon
+                dependon:dependon,
+                payment:payment,
             },
             success: function (response) {
              

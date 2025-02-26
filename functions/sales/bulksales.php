@@ -39,14 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phone = $_POST['phone'];
         $quantities = $_POST['quantity'];
         $customer_prices = $_POST['price'];
-        $customer_paids = $_POST['paid'];
         $benefits = $_POST['benefit'];
         $sales_type = $_POST['sales_type'];
         $paid_status = $_POST['paid_status'];
         $service_amount = $_POST['service_amount'];
         $user_id = $_POST['user_id'];
         $usershift = $shift_rec;
-        $payment = $_POST['payment'];
         $currentDate = date("Y-m-d");
 
 
@@ -59,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $product_id = $product_ids[$i];
                 $quantity = $quantities[$i];
                 $custom_price = $customer_prices[$i];
-                $custom_paid = $customer_paids[$i];
                 $benefit = $benefits[$i];
                 
                 //$gresult [] = "ID: $product_id QTY: $quantity Type: $sales_type";
@@ -112,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Perform calculations
                     
 
-                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id  SHIFT: $usershift SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount PAID: $custom_paid PAYMENT: $payment STP: $sales_type STATUS: $paid_status TB:$total_benefit";
+                    $gresult [] ="ID: $product_id SESSION: $Session_sale_ID USER: $user_id  SHIFT: $usershift SPT_ID: $sales_point_id CUSTOMER_ID:$customer_id CUSTOMER: $cust_name PHONE: $phone QTY: $quantity SP: $sales_price TM: $total_amount  STP: $sales_type STATUS: $paid_status TB:$total_benefit";
                     
                     //Get product expiration time
                     $sqlExpiry = "SELECT `expired_time`, `allow_exp` FROM `products` WHERE `id` = $product_id";
@@ -180,8 +177,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                     // Insert sales record
-                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`,`paid`, `payment`,`total_benefit`, `sales_type`, `paid_status`,usershift_record)
-                    VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$custom_paid','$payment','$total_benefit','$sales_type','$paid_status','$usershift')";
+                    $sql = "INSERT INTO `sales`(`sess_id`, `user_id`,`customer_id`, `product_id`, `sales_point_id`, `cust_name`, `phone`, `quantity`, `sales_price`, `total_amount`,`total_benefit`, `sales_type`, `paid_status`,usershift_record)
+                    VALUES ('$Session_sale_ID','$user_id','$customer_id','$product_id','$sales_point_id','$cust_name','$phone','$quantity','$sales_price','$total_amount','$total_benefit','$sales_type','$paid_status','$usershift')";
 
 
 
@@ -189,10 +186,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $successCount++;
 
                         // Insert debt record if paid_status is "Not Paid"
-                        if ($total_amount > $custom_paid ) {
+                        if ($paid_status === "Not Paid") {
                             
-                            $sqldebt = "INSERT INTO debts (`sess_id`, `product_id`, `customer_id`,  `amount`, `amount_paid`, `due_date`, `sales_point_id`,  `descriptions`, `qty`, `status`) 
-                            VALUES ('$Session_sale_ID','$product_id','$customer_id','$total_amount','$custom_paid',' $currentDate','$sales_point_id','New Debit Added','$quantity',1)";
+                            $sqldebt = "INSERT INTO debts (`sess_id`, `product_id`, `customer_id`,  `amount`, `due_date`, `sales_point_id`,  `descriptions`, `qty`, `status`) 
+                            VALUES ('$Session_sale_ID','$product_id','$customer_id','$total_amount',' $currentDate','$sales_point_id','New Debit Added','$quantity',1)";
 
                             $conn->query($sqldebt);
                           

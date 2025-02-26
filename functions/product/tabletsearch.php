@@ -12,12 +12,13 @@ $name = $_GET['name'];
 
 // Retrieve all users from the database
 $sql = "
-       SELECT DISTINCT PD.id, PD.name, PD.price,PD.image, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
+       SELECT DISTINCT PD.id, PD.name,PD.eid, 
+    PD.eimage, PD.barcode, PD.price,PD.image, PD.benefit, PD.status, PD.description,PD.created_at ,IFNULL(INV.quantity, 0) AS invquantity
         FROM products PD
         LEFT JOIN inventory INV ON PD.id = INV.product_id
         WHERE PD.company_ID = $comID
         AND PD.sales_point_id = $spt
-       AND (PD.name LIKE '%$name %' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%')
+       AND (PD.name LIKE '%$name %' OR PD.barcode='$name' OR PD.name LIKE '%$name%' OR PD.name LIKE '$name%' OR PD.name LIKE '% $name%')
        ORDER BY PD.created_at DESC
         ";
 
@@ -63,12 +64,17 @@ while ($row = $result->fetch_assoc()) {
 
     $num+=1;
     $formatted_money = number_format($row['price']);
-    if(!empty($row['image'])){
-        $pro_image = "uploads/".$row['image'];
-    }else{
-        $pro_image = "uploads/noimage.jpg";
-    }
+    $pro_image="../uploads/noimage.jpg";
 
+    if(!empty($row['image'])){
+        $pro_image = "../uploads/".$row['image'];
+    }else if(!empty($row['eid'])){
+        
+        $pro_image = $row['eimage'];
+     } else{
+  
+        $pro_image = "../uploads/noimage.jpg";
+    }
     $value .= '
                 <div class="pro" onclick="addCartTablet(`'.$row['id'].'`, `'.$row['name'].'`,`'.$current_quantity.'`, `'.$row['price'].'`,`'.$row['benefit'].'`)">
                 <div class="header">

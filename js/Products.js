@@ -209,6 +209,24 @@ $(document).ready(function () {
     });
   });
 
+
+
+   // Preview the selected image before uploading
+   $("#image-input").on("change", function () {
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#preview").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+
+
+
+
   $("#searcProductNow").on("input", function (e) {
     var company_ID = localStorage.getItem("CoID");
     var sales_point_id = localStorage.getItem("SptID");
@@ -1076,6 +1094,7 @@ function DisableProductID(e, a) {
 
 function setUpdates(name, price, benefit, description, id) {
   console.log(name);
+ 
   $("#Up_name").val(name);
   $("#Up_price").val(price);
   $("#Up_benefit").val(benefit);
@@ -1088,6 +1107,11 @@ function setUpdateCategory(name, id) {
   console.log(name);
   $("#cat_name").val(name);
   localStorage.setItem("category_id", id);
+}
+
+function getProductImage(productId) {
+  // Set the product ID from localStorage into the hidden input
+  document.getElementById('product-id').value = productId;
 }
 
 function SetProductID(e, name, price, benefit, c_qty) {

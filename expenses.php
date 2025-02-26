@@ -106,6 +106,15 @@ include('getuser.php');
                     <select class="form-control" id="expenseTypeSelect"></select>
                     <label class="form-label" style="margin-top: 12px;">Amount</label>
                     <input class="form-control" type="number" id="amountnum">
+                    <label class="form-label" style="margin-top: 12px;">Payment Method</label>
+                    <select class="form-control" id="payment">
+                
+                <option value="EQUITY">EQUITY</option>
+                <option value="ZIGAMA">ZIGAMA</option>
+                <option value="MOMO">MOMO</option>
+                <option value="CASH">CASH</option>
+                <option value="POS">POS</option>
+            </select>
                 </form>
             </div>
             <div class="modal-footer">
